@@ -1,0 +1,160 @@
+
+<!-- saved from url=(0062)http://localhost/GoodTechnologyEPNSA/system/reportfacturas.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+   <meta name="theme-color" content="#000">
+   	 <script src="./IMPRIMIR_files/jquery.js.descarga"></script>
+
+  <meta name="msapplicaction-navbutton-color" content="#000">
+   <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimun-scalable=1,maximun-scalable=1">
+    <title>IMPRIMIR</title>
+	<link rel="stylesheet" href="./IMPRIMIR_files/factura.css">
+
+
+	<script>
+	 window.onload=function()
+
+		{
+			var pagina=localStorage.getItem("reporte");
+			var tipo=localStorage.getItem("tipo");
+			document.getElementById("divimpr").innerHTML=pagina
+			
+		
+          
+			
+
+    }
+
+	
+	
+		function utf8_to_b64( str ) {
+  return window.btoa(unescape(encodeURIComponent( str )));
+}
+
+function b64_to_utf8( str ) {
+  return decodeURIComponent(escape(window.atob( str )));
+}
+	function obtener_datos(datos)
+		{
+		
+   var loc = datos;
+   if (loc.indexOf('?')>0)
+   {
+   
+   var getstring = loc.split('?')[1];
+   var GET= getstring.split('&');
+   var get ={};
+  
+   for (var i =0, l = GET.length; i < l;i++)
+   {
+   var tmp = GET[i].split('=');
+   get[tmp[0]]= unescape(decodeURI(tmp[1]));
+   
+   }
+   return get;
+   }
+	}
+	
+	function buscar_datos_url_usuario(datos){
+		try{
+			valores = document.location.href;
+		 valores = obtener_datos(valores);
+		 var  datos=valores[datos];
+		 return datos;
+		}catch(error){
+		return "";
+		}
+		 
+	}
+	
+	</script>
+
+	
+</head>
+<body style="zoom: 1;">
+    <form enctype="multipart/form-data">
+	<div class="imgFondoapp"></div>
+
+	
+
+
+	
+	<div id="divimpr" class="divimpr">
+
+<div class="principalRepor">
+<p id="pNroFactura1" class="pTituloReport" style="width:95%;text-align:right;font-size:10px;float: left;margin-top: -19px;">001-001-28566</p>
+<div class="divTitulo1">
+<p class="pTituloReport" style="float:right;margin-right: 278px;">X</p>
+<p id="PfechaFactura1" class="pTituloReport" style="margin-left: 72px;margin-top: 9px;">09-02-2021</p>
+<p id="PNombreFactura1" class="pTituloReport" style="margin-top: 8px;margin-left: 107px;">ADA CAROLINA CARDOZO DE FLEITAS</p>
+<p id="PCiFactura1" class="pTituloReport" style="margin-top: 8px;margin-left: 23px;">2990799</p>
+<p id="PDireccionFactura1" class="pTituloReport" style="margin-top: 6px;margin-left: 46px;"></p>
+</div>
+<div style="height: 45px;"></div>
+<div style="height:132px" id="detalleFactura1"><table class="tableRegistroFactura"><tbody><tr><td style="text-align: center; width: 71px;">4411</td><td style="width: 86px;text-align: center;">1</td><td style="width: 294px;">CUOTA</td><td style="width: 56px;">50.000</td><td style="width: 238px;">50.000</td></tr></tbody></table><table class="tableRegistroFactura"><tbody><tr><td style="text-align: center; width: 71px;">4413</td><td style="width: 86px;text-align: center;">1</td><td style="width: 294px;">DERECHO DE EXAMEN</td><td style="width: 56px;">75.000</td><td style="width: 238px;">75.000</td></tr></tbody></table></div>
+<p id="PTotalSubFactura1" class="pTituloReport" style="margin-left: 518px;margin-top:6px;">125.000</p>
+<p id="PLetrasFactura1" class="pTituloReport" style="margin-left: 170px;margin-top: 9px;">CIENTO VEINTICINCO MIL  GUARANIES </p>
+<div style="margin-top: 8px;overflow:auto;">
+<p id="PTotalFacturaIva51" class="pTituloReport" style="margin-left: 168px;float: left;">0</p>
+<p id="PTotalFacturaIva101" class="pTituloReport" style="margin-left: 185px;float: left;">0</p>
+<p id="PTotalFacturaIva1" class="pTituloReport" style="margin-left: 177px;float: left;">0</p>
+<p id="PTotalFactura1" class="pTituloReport" style="margin-left: 130px;float: left;">125.000</p>
+</div>
+
+
+</div>
+
+<div style="height:20px"></div>
+
+<div class="principalRepor">
+<p id="pNroFactura2" class="pTituloReport" style="width:95%;text-align:right;font-size:10px;margin-top: -7px;width: 95%;text-align: right;font-size: 10px;float: left;margin-top: -19px;">001-001-28566</p>
+<div class="divTitulo1">
+<p class="pTituloReport" style="float:right;margin-right: 278px;">X</p>
+<p id="PfechaFactura2" class="pTituloReport" style="margin-left: 72px;margin-top: 9px;">09-02-2021</p>
+<p id="PNombreFactura2" class="pTituloReport" style="margin-top: 8px;margin-left: 107px;">ADA CAROLINA CARDOZO DE FLEITAS</p>
+<p id="PCiFactura2" class="pTituloReport" style="margin-top: 8px;margin-left: 23px;">2990799</p>
+<p id="PDireccionFactura2" class="pTituloReport" style="margin-top: 6px;margin-left: 46px;"></p>
+</div>
+<div style="height: 45px;"></div>
+<div style="height:132px" id="detalleFactura2"><table class="tableRegistroFactura"><tbody><tr><td style="text-align: center; width: 71px;">4411</td><td style="width: 86px;text-align: center;">1</td><td style="width: 294px;">CUOTA</td><td style="width: 56px;">50.000</td><td style="width: 238px;">50.000</td></tr></tbody></table><table class="tableRegistroFactura"><tbody><tr><td style="text-align: center; width: 71px;">4413</td><td style="width: 86px;text-align: center;">1</td><td style="width: 294px;">DERECHO DE EXAMEN</td><td style="width: 56px;">75.000</td><td style="width: 238px;">75.000</td></tr></tbody></table></div>
+<p id="PTotalSubFactura2" class="pTituloReport" style="margin-left: 518px;margin-top:6px;">125.000</p>
+<p id="PLetrasFactura2" class="pTituloReport" style="margin-left: 170px;margin-top: 9px;">CIENTO VEINTICINCO MIL  GUARANIES </p>
+<div style="margin-top: 8px;overflow:auto;">
+<p id="PTotalFacturaIva52" class="pTituloReport" style="margin-left: 168px;float: left;">0</p>
+<p id="PTotalFacturaIva102" class="pTituloReport" style="margin-left: 185px;float: left;">0</p>
+<p id="PTotalFacturaIva2" class="pTituloReport" style="margin-left: 177px;float: left;">0</p>
+<p id="PTotalFactura2" class="pTituloReport" style="margin-left: 130px;float: left;">125.000</p>
+</div>
+</div>
+
+<div style="height:20px"></div>
+
+<div class="principalRepor">
+<p id="pNroFactura3" class="pTituloReport" style="width:95%;text-align:right;font-size:10px;/* margin-bottom: -7px; */width: 95%;text-align: right;font-size: 10px;float: left;margin-top: -19px;">001-001-28566</p>
+<div class="divTitulo1">
+<p class="pTituloReport" style="float:right;margin-right: 278px;">X</p>
+<p id="PfechaFactura3" class="pTituloReport" style="margin-left: 72px;margin-top: 9px;">09-02-2021</p>
+<p id="PNombreFactura3" class="pTituloReport" style="margin-top: 8px;margin-left: 107px;">ADA CAROLINA CARDOZO DE FLEITAS</p>
+<p id="PCiFactura3" class="pTituloReport" style="margin-top: 8px;margin-left: 23px;">2990799</p>
+<p id="PDireccionFactura3" class="pTituloReport" style="margin-top: 6px;margin-left: 46px;"></p>
+</div>
+<div style="height: 45px;"></div>
+<div style="height:132px" id="detalleFactura3"><table class="tableRegistroFactura"><tbody><tr><td style="text-align: center; width: 71px;">4411</td><td style="width: 86px;text-align: center;">1</td><td style="width: 294px;">CUOTA</td><td style="width: 56px;">50.000</td><td style="width: 238px;">50.000</td></tr></tbody></table><table class="tableRegistroFactura"><tbody><tr><td style="text-align: center; width: 71px;">4413</td><td style="width: 86px;text-align: center;">1</td><td style="width: 294px;">DERECHO DE EXAMEN</td><td style="width: 56px;">75.000</td><td style="width: 238px;">75.000</td></tr></tbody></table></div>
+<p id="PTotalSubFactura3" class="pTituloReport" style="margin-left: 518px;margin-top:6px;">125.000</p>
+<p id="PLetrasFactura3" class="pTituloReport" style="margin-left: 170px;margin-top: 9px;">CIENTO VEINTICINCO MIL  GUARANIES </p>
+<div style="margin-top: 8px;overflow:auto;">
+<p id="PTotalFacturaIva53" class="pTituloReport" style="margin-left: 168px;float: left;">0</p>
+<p id="PTotalFacturaIva103" class="pTituloReport" style="margin-left: 185px;float: left;">0</p>
+<p id="PTotalFacturaIva3" class="pTituloReport" style="margin-left: 177px;float: left;">0</p>
+<p id="PTotalFactura3" class="pTituloReport" style="margin-left: 130px;float: left;">125.000</p>
+</div>
+</div>
+
+</div>
+
+	
+	  </form>
+
+
+</body></html>

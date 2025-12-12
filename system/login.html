@@ -1,0 +1,135 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+   <meta name="theme-color" content="#fff" />
+  <meta name="msapplicaction-navbutton-color" content="#fff" />
+   <meta  name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimun-scalable=1,maximun-scalable=1" />
+    <title>Good-Technology</title>
+	<link rel="stylesheet" href="/GoodTechnologyEPNSA/css/login.css?x=84989872" />
+  	 <script src="/GoodTechnologyEPNSA/js/jquery.js"></script>  
+  	 <script src="/GoodTechnologyEPNSA/js/login.js?z=84989872"></script>  
+
+	
+</head>
+<body >
+    <form enctype="multipart/form-data">
+<img src='/GoodTechnologyEPNSA/iconos/fondo.jpg'  style='width:100%;height:100%;position:absolute;left:0px;top:0px;'/>
+<div class='principal'>
+
+<table style='width:100%;height:100%;text-align:center' >
+<tr>
+<td>
+<center>
+<h1 class='h2Titulo' ><span style='color:#ff9f00'>Good</span><span style='color:#673ab7'>Technology</span><span style='color:#2682ff'>Py</span></h1>
+
+<div id='divAcceso1' class='divVentanaPreLogin ' >
+<table style='height:100%;text-align:left' >
+<tr>
+<td >
+<img src='/GoodTechnologyEPNSA/iconos/usuariologin.png' class='imgAccederSistema' />
+<br>
+<input type='Button' value='Acceder al sistema' class='btn9' onclick='verCerrarIngresar()' />
+</td>
+<td>
+</tr>
+</table>
+</div>
+
+<div id='divAcceso2' class='divVentanaLogin' style='display:none'>
+<img src='/GoodTechnologyEPNSA/iconos/usuariologin.png' class='imgAccederSistema2' />
+<br>
+<br>
+<table style='width:85%'>
+<tr>
+<td style='width:1%'>
+<img src='/GoodTechnologyEPNSA/iconos/etiquetauser.png' class='imgIconH' />
+</td>
+<td>
+<p class='pTitulo5' style='margin-left:-23px'  >Usuario :</p>
+<input type='text' placeholder='Usuario de acceso' class='input3' id='inpt_user' style='width:250px' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:85%'>
+<tr>
+<td style='width:1%'>
+<img src='/GoodTechnologyEPNSA/iconos/etiquetapass.png' class='imgIconH' />
+</td>
+<td>
+<p class='pTitulo5' style='margin-left:-23px'  >Contraseña :</p>
+<input type='password' placeholder='Contraseña de acceso' class='input3' style='width:250px' id='inpt_pass' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:85%'>
+<tr>
+<td style='width:1%'>
+<img src='/GoodTechnologyEPNSA/iconos/etiquetatexto.png' class='imgIconH' />
+</td>
+<td>
+<p class='pTitulo5' style='margin-left:-23px'  >Sede :</p>
+<input type='text' list='ListFilial' placeholder='Seleccione su local' autocomplete="off" class='input3' style='width:250px' id='inpt_filial' />
+<datalist id="ListFilial"></datalist>
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+<center>
+<input type='button' value='Ingresar' class='btnlogin' onclick='verificardatos()' id='btnAbmUsuario'  />
+</center>
+</div>
+<br>
+<br>
+<p class='pTitulo5'  >From <br>Good-Technology</p>
+</Center>
+</td>
+</tr>
+</table>
+
+</div>
+
+
+	  <div class='div_info_10' id='div_principal_info_carga' style='display:none;    background-color: #0000008f;'  >
+<center>
+
+<table class='table_info_2'>
+<tr>
+<td >
+<center>
+<img src='/GoodTechnologyEPNSA/iconos/cargando.gif' style='width:30px' />
+<br>
+<br>
+<label style='font-size: 14px; font-family: arial;color:#f9f9f9' >Cargando...</label>
+</center>
+</td>
+</tr>
+</table>
+
+</center>
+</div>
+
+	
+	<div id='capa_informativa' class='div_info_2_1' style='display:none'>
+	<div class='div_info_3' title='click para cerrar' onclick='ocultarmensaje(this)' id='vantana_info_001' style='display:none'>
+	<table style='width:100%;height:100%;padding:15px'>
+	<tr>
+	<td >
+	<label class='label_info_a'>Error en la conexión</label>
+	</td>
+	</tr>
+	</table>
+	</div>
+	</div>
+	
+
+	
+	  </form>
+</body>
+</html>
+

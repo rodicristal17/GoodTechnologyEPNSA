@@ -1,0 +1,36 @@
+[03-Jun-2025 09:32:10 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function execute() on boolean in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/abmbackup.php:96
+Stack trace:
+#0 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/abmbackup.php(27): buscar()
+#1 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/abmbackup.php(199): verificar('buscar')
+#2 {main}
+  thrown in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/abmbackup.php on line 96
+[05-Jun-2025 08:36:09 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function execute() on boolean in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMCalificaciones.php:390
+Stack trace:
+#0 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMCalificaciones.php(157): obtenerNotasAlumno('173542', '34832', '}', '', '2025', '1', '1', '')
+#1 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMCalificaciones.php(1150): verificarCalif('obtenerNotasAlu...')
+#2 {main}
+  thrown in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMCalificaciones.php on line 390
+[11-Jun-2025 14:19:58 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on boolean in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php:160
+Stack trace:
+#0 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php(70): abm('1', '4557784', 'JORGE TORRES', '123', '123', 'Inactivo', '4557784', 'editar')
+#1 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php(300): verificar('editar')
+#2 {main}
+  thrown in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php on line 160
+[11-Jun-2025 14:20:05 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function bind_param() on boolean in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php:160
+Stack trace:
+#0 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php(70): abm('1', '4557784', 'JORGE TORRES', '123', '123', 'Inactivo', '4557784', 'editar')
+#1 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php(300): verificar('editar')
+#2 {main}
+  thrown in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMListadoDocente.php on line 160
+[19-Jun-2025 13:32:32 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function execute() on boolean in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php:213
+Stack trace:
+#0 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php(107): buscarRegistro('', '', 'yam', 'Activo', '', '', '2')
+#1 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php(824): verificar('buscarRegistro')
+#2 {main}
+  thrown in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php on line 213
+[19-Jun-2025 13:33:03 America/New_York] PHP Fatal error:  Uncaught Error: Call to a member function execute() on boolean in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php:213
+Stack trace:
+#0 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php(107): buscarRegistro('', '', 'yam', 'Activo', '', '', '2')
+#1 /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php(824): verificar('buscarRegistro')
+#2 {main}
+  thrown in /home/syscvxco/public_html/GoodTechnologyEPNSA/php/ABMAlumnos.php on line 213

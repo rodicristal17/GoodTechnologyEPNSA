@@ -1,0 +1,52 @@
+ .principalRepor
+ {
+ width:748px;
+ margin-left: 30px;
+ margin-top: 27px;
+ height: 359px;
+ border: solid 2px transparent;
+ } 
+ .divTitulo1 {
+	 margin-left: 200px;
+	 margin-top: 0px;
+	}
+ .pTituloReport {
+          font-size: 11px;
+          font-family: Arial;
+          color: rgb(0 0 0);
+          /* padding: 3px; */
+          /* margin-top: 0px; */
+          margin: 0px;
+          /* margin-top: -16px; */
+}
+.tableRegistroFactura {
+width: 100%;
+font-size: 11px;
+font-family:  Arial;
+color: #000;
+
+}
+
+@page { 
+    margin-top: 0cm; 
+    margin-bottom: 0cm;
+    margin-left: 0cm;
+    margin-right: 0cm;
+}
+	@media screen {
+  @page { 
+    margin-top: 0cm; 
+    margin-bottom: 0cm;
+    margin-left: 0cm;
+    margin-right: 0cm;
+}
+}
+
+@media print {
+  @page { 
+    margin-top: 0cm; 
+    margin-bottom: 0cm;
+    margin-left: 0cm;
+    margin-right: 0cm;
+}
+}

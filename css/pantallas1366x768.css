@@ -1,0 +1,109 @@
+/*TAMANHO DE FORMULARIOS*/
+.divMenuTamnho1 {
+width: 300px; min-height: 400px;
+}
+.divMenuTamnho2 {
+width: 350px; min-height: 400px;
+}
+.divMenuTamnho3 {width: 450px;min-height: 400px;}
+.divMenuTamnho4 {
+width: 450px; min-height: 400px;
+}
+.divMenuTamnho5 {
+width: 500px; min-height: 400px;
+}
+.divMenuTamnho6 {width: 600px;min-height: 400px;}
+.divMenuTamnho7 {
+width: 600px; min-height: 400px;
+}
+.divMenuTamnho8 {
+width: 650px; min-height: 400px;
+}
+.divMenuTamnho9 {
+width: 700px; min-height: 400px;
+}
+.divMenuTamnho10 {width: 850px;min-height: 400px;}
+.divMenuTamnho11 {
+width: 800px; min-height: 400px;
+}
+.divMenuTamnho12 {width: 900px;min-height: 400px;}
+.divMenuTamnho13 {
+width: 900px; min-height: 400px;
+}
+.divMenuTamnho14 {
+width: 950px; min-height: 400px;
+}
+.divMenuTamnho15 {
+width: 1000px; min-height: 400px;
+}
+.divMenuTamnho16 {
+width: 1050px; min-height: 400px;
+}
+.divMenuTamnho17 {
+width: 1100px; min-height: 400px;
+}
+.divMenuTamnho18 {
+width: 1150px; min-height: 400px;
+}
+.divMenuTamnho19 {
+width: 1100px; min-height: 400px;
+}
+.divMenuTamnho20 {
+width: 1150px; min-height: 400px;
+}
+.divMenuTamnho21 {width: 1280px;min-height: 400px;}
+.divMenuTamnho22 {width: 1300px;min-height: 400px;}
+.divMenuTamnho23 {
+width: 1300px; min-height: 400px;
+}
+
+/*TAMANHO DE TABLES*/
+.tableTamanho1{
+	height:200px
+}
+.tableTamanho2{
+	height: 300px;
+}
+.tableTamanho3{
+	height: 350px;
+}
+.tableTamanho4{
+	height:350px
+}
+.tableTamanho5{
+	height:400px
+}
+.tableTamanho6{
+	height:450px
+}
+
+/*TAMANHO DE DIV TABLES*/
+.divTableTamanho1{
+	width:1500px
+}
+.divTableTamanho2{
+	width:1750px
+}
+.divTableTamanho3{
+	width:2000px
+}
+.divTableTamanho4{
+	width:2250px
+}
+.divTableTamanho5{
+	width:2500px
+}
+
+/*TAMANHO INPUT COBRANZAS*/
+.inputTamanho1{
+	width:224px
+}
+.inputTamanho2{
+	width:400px
+}
+.inputTamanho3{
+	width:100px
+}
+.inputTamanho4{
+	width:160px
+}
