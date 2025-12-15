@@ -728,7 +728,7 @@
 </div>
 
 
-<div class='divMenub'   title='Respaldo de base de datos' onclick='verCerrarHistorialDescargaBD(1)' id='divMenuRespaldo' >
+<div class='divMenub' style='display:none'  title='Respaldo de base de datos' onclick='verCerrarHistorialDescargaBD(1)' id='divMenuRespaldo' >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
@@ -1196,7 +1196,7 @@ NIVEL
 </center>
 </div>
 
-<div class='divAbms' id='divAbmUsuario2' style='display:none;width: 397px;'>
+<div class='divAbms_b' id='divAbmUsuario2' style='display:none;width: 397px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -1405,7 +1405,7 @@ NIVEL
 <tr>
 <td>
 <center>
-<div class='divAbms'  style='display:;width:500px;min-height:300px'>
+<div class='divAbms_b'  style='display:;width:500px;min-height:300px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%;text-align:left'>
@@ -1574,7 +1574,7 @@ NRO DE EXPEDICIÓN
 </div>
 </center>
 </div>
-<div class='divAbms' id='divAbmAbmFilial2' style='display:none;width: 397px;min-height:400px'>
+<div class='divAbms_b' id='divAbmAbmFilial2' style='display:none;width: 397px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -1744,7 +1744,7 @@ DURACION
 </div>
 </center>
 </div>
-<div class='divAbms' id='divAbmListaCarrera2' style='display:none;width: 397px;min-height:400px'>
+<div class='divAbms_b' id='divAbmListaCarrera2' style='display:none;width: 397px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -1915,7 +1915,7 @@ CORREO
 </center>
 </div>
 
-<div class='divAbms' id='divAbmListaDocente2' style='display:none;width: 397px;min-height:400px'>
+<div class='divAbms_b' id='divAbmListaDocente2' style='display:none;width: 397px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2117,11 +2117,11 @@ CARRERA.
 </div>
  
 <div class='principal2' style='display:none' id='divAbmListaAccesos'>
-<table style='width:100%;height:100%'>
+<!-- <table style='width:100%;height:100%'>
 <tr>
-<td>
+<td> -->
 <center>
-<div class='divPrincipalrepor' id='divAbmListaAccesos1' style='display:;width:750px;'>
+<div class='divPrincipalrepor' id='divAbmListaAccesos1' style='display:;;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2160,7 +2160,7 @@ NOMBRE DEL ACCESO
 </tr>
 </tbody>
 </table>
-<div class="div_cuerpo_table" id="divBuscadorListaAccesos" style='height: 230px;'></div>
+<div class="div_cuerpo_table" id="divBuscadorListaAccesos" style='height: 400px;'></div>
 <br>
 <table style='width:96%'>
 <tr>
@@ -2189,9 +2189,9 @@ NOMBRE DEL ACCESO
 </div>
 
 </center>
-</td>
+<!-- </td>
 </tr>
-</table>
+</table> -->
 </div>
 
 <div class='principal2' style='display:none' id='divAbmListaCatedra'>
@@ -2272,7 +2272,7 @@ CATEDRA
 </div>
 </center>
 </div>
-<div class='divAbms' id='divAbmListaCatedra2' style='display:none;width: 397px;min-height:400px'>
+<div class='divAbms_b' id='divAbmListaCatedra2' style='display:none;width: 397px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2533,7 +2533,7 @@ H/ SEMANAL
 </div>
 
 
-<div class='divAbms' id='divAbmAsignarDocentes2' style='display:none;width: 750px;min-height:400px'>
+<div class='divAbms_b' id='divAbmAsignarDocentes2' style='display:none;width: 750px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2942,7 +2942,7 @@ FACULTAD
 </div>
 </center>
 </div>
-<div class='divAbms' id='divAbmListaFacultad2' style='display:none;width: 397px;min-height:400px'>
+<div class='divAbms_b' id='divAbmListaFacultad2' style='display:none;width: 397px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3000,11 +3000,11 @@ FACULTAD
 </div>
 
 <div class='principal2' style='display:none' id='divAbmListaNiveles'>
-<table style='width:100%;height:100%'>
+<!-- <table style='width:100%;height:100%'>
 <tr>
-<td>
+<td> -->
 <center>
-<div class='divPrincipalrepor' id='divAbmListaNiveles1' style='display:;width: 620px;'>
+<div class='divPrincipalrepor' id='divAbmListaNiveles1' style='display:;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3059,7 +3059,7 @@ NOMBRES
 </tr>
 </tbody>
 </table>
-<div class="div_cuerpo_table" id="divBuscadorListaNiveles" style='height: 230px;'></div>
+<div class="div_cuerpo_table" id="divBuscadorListaNiveles" style='height: 400px;'></div>
 <br>
 <table style='width:96%'>
 <tr>
@@ -3080,7 +3080,7 @@ NOMBRES
 </div>
 </center>
 </div>
-<div class='divAbms' id='divAbmListaNiveles2' style='display:none;width: 397px;min-height:400px'>
+<div class='divAbms_b' id='divAbmListaNiveles2' style='display:none;width: 397px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3131,17 +3131,17 @@ NOMBRES
 </center>
 </div>
 </center>
-</td>
+<!-- </td>
 </tr>
-</table>
+</table> -->
 </div>
 
 <div class='principal2' style='display:none' id='divDetallesAccesoListaNiveles'>
-<table style='width:100%;height:100%'>
+<!-- <table style='width:100%;height:100%'>
 <tr>
-<td>
+<td> -->
 <center>
-<div class='divPrincipalrepor' style='display:;width: 620px;'>
+<div class='divPrincipalrepor' style='display:;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3183,7 +3183,7 @@ ACCION
 </tr>
 </tbody>
 </table>
-<div class="div_cuerpo_table" id="divBuscadorDetallesAccesoListaNiveles" style='height: 300px;'></div>
+<div class="div_cuerpo_table" id="divBuscadorDetallesAccesoListaNiveles" style='height: 500px;'></div>
 <br>
 </center>
 <br>
@@ -3193,9 +3193,9 @@ ACCION
 </center>
 </div>
 </center>
-</td>
+<!-- </td>
 </tr>
-</table>
+</table> -->
 </div>
 
 <div class='principal2' style='display:none' id='divAbmAsignarCarrera'>
@@ -3348,7 +3348,7 @@ NRO CAJA
 </div>
 </center>
 </div>
-<div class='divAbms' id='divAbmAsignarCarrera2' style='display:none;width: 397px;min-height:400px'>
+<div class='divAbms_b' id='divAbmAsignarCarrera2' style='display:none;width: 397px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3625,7 +3625,7 @@ CARGA HORARIA
 
 </center>
 </div>
-<div class='divAbms' id='divAbmAsignarMalla2' style='display:none;width: 800px;min-height:400px'>
+<div class='divAbms_b' id='divAbmAsignarMalla2' style='display:none;width: 800px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -5333,7 +5333,7 @@ SECCIÓN
 <tr>
 <td>
 <center>
-<div class='divAbms'  style='display:;min-height:400px;width:800px'>
+<div class='divAbms_b'  style='display:;min-height:400px;width:800px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -5877,7 +5877,7 @@ NRO CAJA
 
 </center>
 </div>
-<div class='divAbms divMenuTamnho3' id='divAbmListaCajas2' style='display:none;'>
+<div class='divAbms_b' id='divAbmListaCajas2' style='display:none;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -6282,10 +6282,10 @@ PENDIENTE
 </div>
  
 <div class='principal2 divScrollPrincipal' style='display:none' id='divAbmCobrarAranceles'>
-<table style='width:100%;height:100%;' id='tdEfectoAbmCobrarAranceles' >
+<!-- <table style='width:100%;height:100%;'  >
 <tr>
-<td>
-<center>
+<td> -->
+<center id='tdEfectoAbmCobrarAranceles'>
 <div style='width:100vw;' class='divAbms divMenuTamnho22'>
 <table class='tableMenuZ'>
 <tr>
@@ -6357,7 +6357,7 @@ PENDIENTE
 </td>
 <td style='width:10%'>
 <p class='pTitulo5' style='color:#fff'>Punto Exp. :</p>
-<select class="inputText" id="inptPuntoExpedicionCobrarAranceles" style="width: 109px;height:30px"></select>
+<select class="inputText" id="inptPuntoExpedicionCobrarAranceles" style=""></select>
 </td>
 <td style='width:10%'>
 <p class='pTitulo5' style='color:#fff'  >Factura Nro :</p>
@@ -6377,7 +6377,7 @@ PENDIENTE
 	  
 	  <td>
         <p class='pTitulo5'  style='color:#fff'>Año:</p>
-        <select id="inputyearFactura" style=" height: 30px;width: 70px;"  class="inputText" onchange='ObtenerFechaSelect()' disabled >
+        <select id="inputyearFactura" style=""  class="inputText" onchange='ObtenerFechaSelect()' disabled >
 		  <option value="2021" >2021</option>
           <option value="2022">2022</option>
           <option value="2023">2023</option>
@@ -6392,7 +6392,7 @@ PENDIENTE
 	 </td>
       <td>
         <p class='pTitulo5' style='color:#fff' >Mes:</p>
-        <select id="inputmonthFactura" style="height: 30px;width: 100px;" class="inputText" onchange='ObtenerFechaSelect()'>
+        <select id="inputmonthFactura" style="" class="inputText" onchange='ObtenerFechaSelect()'>
           <option value="1">Enero</option>
           <option value="2">Febrero</option>
           <option value="3">Marzo</option>
@@ -6409,7 +6409,7 @@ PENDIENTE
      </td>
 	 <td>
         <p class='pTitulo5' style='color:#fff' >Dia:</p>
-        <select id="inputdayFactura"  style="height: 30px;width: 50px;"  class="inputText">
+        <select id="inputdayFactura"  style=""  class="inputText">
         </select>
       </td>
 	 
@@ -6593,9 +6593,9 @@ TOTAL
 
 </div>
 </center>
-</td>				
+<!-- </td>				
 </tr>
-</table>
+</table> -->
 </div>
 
 <div class='principal2' style='display:none' id='divOpcionesImpresion'>
@@ -6779,7 +6779,7 @@ LOCAL
 <div class='principal2 divScrollPrincipal' style='display:none' id='divCambiarRazonSocial'>
  
 <center id='tdEfectoRazonSocial' >
-<div class='divAbms divMenuTamnho3'  style='display:;'>
+<div class='divAbms_b'  style='min-height:300px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -7176,7 +7176,7 @@ FECHA VENC.
 </div>
 </center>
 </div>
-<div class='divAbms divMenuTamnho3' id='divAbmHabilitarCaja2' style='display:none;'>
+<div class='divAbms_b' id='divAbmHabilitarCaja2' style='display:none;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -7378,7 +7378,7 @@ TIPO
 </div>
 </center>
 </div>
-<div class='divAbms divMenuTamnho3' id='divAbmListaAranceles2' style='display:none;'>
+<div class='divAbms_b' id='divAbmListaAranceles2' style='display:none;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -7796,11 +7796,11 @@ TOTAL
 
 </center>
 </div>
-<div class='divAbms divMenuTamnho3' id='divAbmAsignarArancel2' style='display:none;'>
+<div class='divAbms_b' id='divAbmAsignarArancel2' style='display:none;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
-<p class='pTituloB'  >Datos del Aranceles</p>
+<p class='pTituloB'  >Datos del Arancel</p>
 </td>
 <td style='width:5%'>
 <img src='/GoodTechnologyEPNSA/iconos/limpiar.png' class='iconoBtn' title='Limpiar Campos' onclick='LimpiarCamposAsignarArancel()' />
@@ -7984,11 +7984,11 @@ TOTAL
 </div>
 </center>
 </div>
-<div class='divAbms divMenuTamnho3' id='divAbmAsignarArancel3' style='display:none;'>
+<div class='divAbms_b' id='divAbmAsignarArancel3' style='display:none;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
-<p class='pTituloB'  >Datos del Arancele</p>
+<p class='pTituloB'  >Datos del Arancel</p>
 </td>
 <td style='width:5%'>
 <img src='/GoodTechnologyEPNSA/iconos/limpiar.png' class='iconoBtn' title='Limpiar Campos' onclick='LimpiarCamposAsignarArancelMasivo()' />

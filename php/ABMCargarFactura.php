@@ -1679,8 +1679,8 @@ inner join alumno alu on alu.idalumno=cur.idalumnoFk
 where fac.estado='Activo' ".$condicionsemestre.$condicioncurso.$condicionanho.$condicionestado.$condicionCarrera.$condicionFilial.$condicionConcepto.$condicionfiltro1.$condicionfiltro2.$condicionfiltro3.$condicionfecha." group by fac.idfacturaspagadas ".$oderby;
 
 
-echo($sql);
-exit;
+// echo($sql);
+// exit;
 
   $stmt = $mysqli->prepare($sql);
  if ( ! $stmt->execute()) {
