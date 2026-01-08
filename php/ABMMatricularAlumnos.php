@@ -626,12 +626,12 @@ $totales=0;
 		 
 		  	if($controlacc>0){
 			  
-			$anhoregistro="<input list='ListAnho' onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$anhoregistro' style='width: 75px;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='anhoregistro' />";
-			$anho="<input list='ListAnho'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$anho' style='width: 75px;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='anho' />";
-			$semestre="<input list='ListSemestre'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$semestre' style='width: 75px;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='semestre' />";
-			$curso="<input list='ListCurso'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$curso' style='width: 75px;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='curso' />";
-			$seccion="<input list='ListSeccion'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$seccion' style='width: 75px;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='seccion' />";
-			$turno="<input list='ListTurno' onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$turno' style='width: 75px;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='turno' />";
+			$anhoregistro="<input list='ListAnho' onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$anhoregistro' style='width: 95%;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='anhoregistro' />";
+			$anho="<input list='ListAnho'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$anho' style='width: 95%;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='anho' />";
+			$semestre="<input list='ListSemestre'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$semestre' style='width: 95%;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='semestre' />";
+			$curso="<input list='ListCurso'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$curso' style='width: 95%;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='curso' />";
+			$seccion="<input list='ListSeccion'  onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$seccion' style='width: 95%;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='seccion' />";
+			$turno="<input list='ListTurno' onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$turno' style='width: 95%;text-align: center;' type='text'  class='input3' id='$idcursosalumno' name='turno' />";
 			
 			$fechaInicio="<input   onkeyup='if(event.keyCode == 13){EditarCursoSemestreAnho(this)}' value='$fechaInicio' style='width: 90%;text-align: center;' type='Date'  class='input3' id='$idcursosalumno' name='fechaInicio' />";
 			
@@ -664,15 +664,15 @@ $totales=0;
 			}
 			    $pagina.="<table class='tableRegistroSearch' border='0' cellspacing='0' cellpadding='0'>
 			  <tr id='tbSelecRegistro' >
-			   <td  id='td_datos_1' style='width:10%' >".$nombrecarrera."</td>
-			   <td  id='td_datos_2' style='width:10%' >".$anhoregistro."</td>
+			   <td  id='td_datos_1' style='width:10%;display:none;' >".$nombrecarrera."</td>
+			   <td  id='td_datos_2' style='width:10%;display:none;' >".$anhoregistro."</td>
 			   <td  id='td_datos_2' style='width:10%' >".$anho."</td>
-			    <td  id='td_datos_3' style='width:10%'>".$semestre."</td>
+			    <td  id='td_datos_3' style='width:10%;display:none;'>".$semestre."</td>
 			    <td  id='td_datos_3' style='width:10%'>".$fechaInicio."</td>
 			   <td  id='td_datos_4' style='width:10%' >".$curso."</td>
 			   <td  id='td_datos_4' style='width:10%' >".$turno."</td>
 			    <td  id='td_datos_4' style='width:10%' >".$seccion."</td>
-			   <td  id='td_datos_7' style='width:10%' >".$convalidacion."</td>
+			   <td  id='td_datos_7' style='width:10%;display:none;' >".$convalidacion."</td>
 			   <td  id='td_datos_7' style='width:10%' >".$estado."</td>
 			  </tr>
 			  </table>";	 
@@ -1176,7 +1176,7 @@ function buscarreport($nrodocumento,$codFilial,$codCarrera,$curso,$anhoregistro,
 	 
 	 $oderby="";
 	if($ordenby=="1"){
-		$oderby="order by nombrealumno asc";
+		$oderby="order by apellido asc";
 	}
 	if($ordenby=="2"){
 		$oderby="order by nombrefilial asc";
@@ -1297,16 +1297,16 @@ $totales=0;
 			  <td id='td_id_2' style='display:none;'>".$idalumnoFk."</td>
 			  <td id='td_id_3' style='display:none;'>".$cod_carreraFK."</td>
 			  <td id='td_id_4' style='display:none;'>".$cod_filialOringFK."</td>
-			   <td  id='td_datos_10' style='width:7%;".$styleorden2."' >".$nombrefilial."</td>
-			   <td  id='td_datos_3' style='width:10%;".$styleorden3."'>".$nombrecarrera."</td>
-			   <td  id='td_datos_1' style='width:7%' >".$ci."</td>
-			   <td  id='td_datos_2' style='width:15%;".$styleorden1."' >".$nombrealumno." ".$apellido."</td>	
-   <td  id='td_datos_4' style='width:5%;".$styleorden5."' >".$curso."</td>		
-			   <td  id='td_datos_7' style='width:5%' >".$semestre."</td>
+			  <td  id='td_datos_10' style='display:none;".$styleorden2."' >".$nombrefilial."</td>
+			  <td  id='td_datos_3' style='display:none;".$styleorden3."'>".$nombrecarrera."</td>
+			  <td  id='td_datos_1' style='width:7%' >".$ci."</td>
+			  <td  id='td_datos_2' style='width:15%;".$styleorden1."' >".$apellido." ".$nombrealumno."</td>	
+  				<td  id='td_datos_4' style='width:5%;".$styleorden5."' >".$curso."</td>		
+			   <td  id='td_datos_7' style='display:none;' >".$semestre."</td>
 			    <td  id='td_datos_15' style='width:5%;".$styleorden8."' >".$seccion."</td>		  
-<td  id='td_datos_14' style='width:5%;".$styleorden7."' >".$turno."</td>	
-<td  id='td_datos_12'  style='width:5%' >".$convalidacion."</td>
-				<td  id='td_datos_13' style='width:5%;".$styleorden6."' >".$anhoregistro."</td>
+				<td  id='td_datos_14' style='width:5%;".$styleorden7."' >".$turno."</td>	
+				<td  id='td_datos_12'  style='display:none;' >".$convalidacion."</td>
+				<td  id='td_datos_13' style='display:none;".$styleorden6."' >".$anhoregistro."</td>
 				<td  id='td_datos_6' style='width:5%;".$styleorden4."' >".$anho."</td>		  		  
 			   <td  id='td_datos_5' style='display:none' >No-Definido</td>				  
 			   <td  id='td_datos_11' style='display:none' >".$estado."</td>

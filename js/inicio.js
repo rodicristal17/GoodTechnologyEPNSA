@@ -8473,7 +8473,8 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 				Respuesta=respuestaJqueryAjax(Respuesta)
 		         if (Respuesta == true) {	
 					var datos_buscados = datos[2];
-alertmensaje("DATOS EDITADOS CORRECTAMENTE")
+					BuscarReportAlumnosMatriculados()
+					alertmensaje("DATOS EDITADOS CORRECTAMENTE")
 				}
 			} catch (error) {
 				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
@@ -20619,7 +20620,7 @@ function LimpiarCamposAsignarArancel(){
 	document.getElementById("inptMontoAsignarArancel").value=""
 	document.getElementById("inptCantidadAsignarArancel").value="1"
 	document.getElementById("inptTotalAsignarArancel").value=""
-	document.getElementById("inptSemestreAsignarArancel").value=""
+	document.getElementById("inptSemestreAsignarArancel").value="1"
 	document.getElementById("inptTipoArancelAsignarArancel").value=""
 	
 	document.getElementById("inptEstadoAsignarArancel").value="Activo"

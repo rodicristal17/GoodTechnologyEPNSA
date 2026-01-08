@@ -402,14 +402,14 @@
 <tr>
 <td>
 <img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/carreras.png' />
-<p class='pTitulo3'  >Listado de carreras</p>
+<p class='pTitulo3'  >Listado de Nivel Educativo</p>
 <center><div id='divMinimizadoDeCarreras' style='display:none' class='divMinimizado'></div></center>
 </td>
 </tr>
 </table>
 </div>
-<div class='divMenub'   title='Añadir facultad' onclick='verCerrarFrmListaFacultad(1)' id='divMenuFacultad' >
-<table style='width:100%;height:100%;text-align:center'>
+<div class='divMenub' style="display: none;"  title='Añadir facultad' onclick='verCerrarFrmListaFacultad(1)' id='divMenuFacultad' >
+<table style='width:100%;height:100%;text-align:center;'>
 <tr>
 <td>
 <img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/facultad.png' />
@@ -452,12 +452,12 @@
 </tr>
 </table>
 </div>
-<div class='divMenub'   title='Carreras Habilitadas' onclick='verCerrarFrmAsignarCarrera(1)'  id='divMenuAsignarCarrera' >
+<div class='divMenub' style="display: none;"  title='Carreras Habilitadas' onclick='verCerrarFrmAsignarCarrera(1)'  id='divMenuAsignarCarrera' >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
 <img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/asignarcarreras.png' />
-<p class='pTitulo3'  >Carreras</p>
+<p class='pTitulo3'  >Nivel Educativo</p>
 <center><div id='divMinimizadoCarrera' style='display:none' class='divMinimizado'></div></center>
 </td>
 </tr>
@@ -1667,7 +1667,7 @@ NRO DE EXPEDICIÓN
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
-<p class='pTituloB'  >Lista de Carreras</p>
+<p class='pTituloB'  >Lista de Nivel Educativo</p>
 </td>
 <td style='width:5%'>
 <img src='/GoodTechnologyEPNSA/iconos/nuevo.png' class='iconoBtn' title='Añadir nuevo registro' onclick='NuevoListaCarreraFrm()' />
@@ -1703,7 +1703,7 @@ NRO DE EXPEDICIÓN
 <tbody>
 <tr>
 <td class="td_registro" style="width:60%;">
-CARRERA
+NIVEL EDUCATIVO
 </td>
 <td class="td_registro" style="width:40%;">
 DURACION
@@ -1748,7 +1748,7 @@ DURACION
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
-<p class='pTituloB'  >Datos de carreras</p>
+<p class='pTituloB'  >Datos de Nivel Educativo</p>
 </td>
 <td style='width:5%'>
 <img src='/GoodTechnologyEPNSA/iconos/limpiar.png' class='iconoBtn' title='Limpiar Campos' onclick='LimpiarCamposListaCarrera()' />
@@ -1785,6 +1785,10 @@ DURACION
 <option value="3">3</option>
 <option value="4">4</option>
 <option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option> 
 </select>
 </td>
 </tr>
@@ -2056,7 +2060,7 @@ CORREO
 <table style='width:50%'>
 <tr>
 <td>
-<p class='pTitulo5'   >CARRERA :</p>
+<p class='pTitulo5'   >Nivel educativo :</p>
 <input type='text' placeholder='Obligatorio(*)' class='inputText' id='inptCarreraDocente' />
 </td>
 </tr>
@@ -2276,7 +2280,7 @@ CATEDRA
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
-<p class='pTituloB'  >Datos de carreras</p>
+<p class='pTituloB'  >Datos de Catedras</p>
 </td>
 <td style='width:5%'>
 <img src='/GoodTechnologyEPNSA/iconos/limpiar.png' class='iconoBtn' title='Limpiar Campos' onclick='LimpiarCamposListaCatedra()' />
@@ -2378,11 +2382,11 @@ CATEDRA
 <table class="tableCabeceraRegistro" style='width:2000px;' id='tdImprimirAsignarDocente'>
 <tbody>
 <tr>
-<td class="td_registro_orden" style="width:8%;cursor:pointer" id='tdOrdAsignarDocentes1' onclick='ordenasignardocentes(1)'>
+<td class="td_registro_orden" style="width:8%;cursor:pointer;display: none;" id='tdOrdAsignarDocentes1' onclick='ordenasignardocentes(1)'>
 LOCAL
 </td>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdAsignarDocentes2' onclick='ordenasignardocentes(2)'>
-CARRERA
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;display: none;" id='tdOrdAsignarDocentes2' onclick='ordenasignardocentes(2)'>
+NIVEL EDUCATIVO
 </td>
 <td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdAsignarDocentes3' onclick='ordenasignardocentes(3)'>
 CATEDRA
@@ -2399,7 +2403,7 @@ AÑO
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdAsignarDocentes7' onclick='ordenasignardocentes(7)'>
 CURSO
 </td>
-<td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdAsignarDocentes8' onclick='ordenasignardocentes(8)'>
+<td class="td_registro_orden1" style="width:5%;cursor:pointer;display: none;" id='tdOrdAsignarDocentes8' onclick='ordenasignardocentes(8)'>
 SEMESTRE
 </td>
 <td class="td_registro_orden1" style="display:none;cursor:pointer" id='tdOrdAsignarDocentes9' onclick='ordenasignardocentes(9)'>
@@ -2427,16 +2431,16 @@ H/ SEMANAL
 <table class="tableCabeceraRegistro" style='width:2000px;'>
 <tbody>
 <tr>
-<td class="td_registro" style="width:7%;">
+<td class="td_registro" style="width:7%;display: none;">
 <input placeholder='Igual a' autocomplete="off" type='text'  class='inputfiltro' id='inptBuscarAsignarDocentes1'  style='width:95%'  list='ListFilial' onchange="CargarCarrerasEnAsignarDocente()"  onkeyup="if(event.keyCode == 13){BuscarAbmAsignarDocentes()}"  />
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsignarDocentes1')" />
 </td>
-<td class="td_registro" style="width:9%;">
+<td class="td_registro" style="width:9%;display: none;">
 <input placeholder='Igual a' autocomplete="off" type='text'  class='inputfiltro' id='inptBuscarAsignarDocentes2'  style='width:95%'  list='ListCarreras' onchange="CargarCatedrasEnAsignarDocente()"   onkeyup="if(event.keyCode == 13){BuscarAbmAsignarDocentes()}"  />
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsignarDocentes2')" />
 </td>
 <td class="td_registro" style="width:9%;">
@@ -2469,10 +2473,10 @@ H/ SEMANAL
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsignarDocentes6')" />
 </td>
-<td class="td_registro" style="width:4%;">
+<td class="td_registro" style="width:4%;display: none;">
 <input placeholder='Igual a' autocomplete="off" type='text'  class='inputfiltro' id='inptBuscarAsignarDocentes7'  style='width:95%'  list='ListSemestre'  onkeyup="if(event.keyCode == 13){BuscarAbmAsignarDocentes()}"  />
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsignarDocentes7')" />
 </td>
 <td class="td_registro" style="width:4%;">
@@ -2587,7 +2591,7 @@ H/ SEMANAL
 <tr>
 
 <td>
-<p class='pTitulo5'  >Carrera :</p>
+<p class='pTitulo5'  >Nivel educativo :</p>
 <input type='text'  class='inputTextDisable' id='inptCarreraAsignarDocente' disabled style='width:250px' />
 </td>
 </tr>
@@ -2621,13 +2625,13 @@ H/ SEMANAL
 <table style='width:100%'>
 <tr>
 <td>
-<p class='pTitulo5'  >Curso :</p>
+<p class='pTitulo5'  >Grado :</p>
 <input type='text'  class='inputTextDisable' id='inptCursoAsignarDocente' disabled style='width:150px' />
 </td>
 </tr>
 </table>
  
-<table style='width:100%'>
+<table style='width:100%;display: none;'>
 <tr>
 <td>
 <p class='pTitulo5'  >Semestre :</p>
@@ -2680,10 +2684,7 @@ H/ SEMANAL
 <select class="inputText" style='width:120px' id='inptTurnoAsignarDocente' >
 <option value="">Seleccionar</option>
 <option value="MAÑANA">MAÑANA</option>
-<option value="TARDE">TARDE</option>
-<option value="NOCHE">NOCHE</option>
-<option value="SABADO">SABADO</option>
-<option value="ROTATIVO">ROTATIVO</option>
+<option value="TARDE">TARDE</option> 
 </select>
 </td>
 </tr>
@@ -2698,21 +2699,7 @@ H/ SEMANAL
 <option value="">Seleccionar</option>
 <option value="A">A</option>
 <option value="B">B</option>
-<option value="C">C</option>
-<option value="D">D</option>
-<option value="E">E</option>
-<option value="F">F</option>
-<option value="G">G</option>
-<option value="H">H</option>
-<option value="I">I</option>
-<option value="J">J</option>
-<option value="K">K</option>
-<option value="L">L</option>
-<option value="M">M</option>
-<option value="N">N</option>
-<option value="Ñ">Ñ</option>
-<option value="O">O</option>
-<option value="P">P</option>
+<option value="C">C</option> 
 </select>
 </td>
 </tr>
@@ -2752,7 +2739,7 @@ H/ SEMANAL
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' style='display:;width:100vw;'>
+<div class='divPrincipalrepor' style='width:100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3729,12 +3716,19 @@ CARGA HORARIA
 <p class='pTitulo5' >Curso  :</p>
 <select class="inputText" style='width:130px' id='inptCursoAsignarMalla'>
 <option value="">Seleccionar</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
+<option value="Prejardín"> Prejardín</option>
+  <option value="Jardín">Jardín</option>
+  <option value="Preescolar">Preescolar</option>
+  <option value="1° Grado">1° Grado</option>
+  <option value="2° Grado">2° Grado</option>
+  <option value="3° Grado">3° Grado</option>
+  <option value="4° Grado">4° Grado</option>
+  <option value="5° Grado">5° Grado</option>
+  <option value="6° Grado">6° Grado</option>
+  <option value="7° Grado">7° Grado</option>
+  <option value="8° Grado">8° Grado</option>
+  <option value="9° Grado">9° Grado</option>
+  <option value="Culminado">Culminado</option>
 </select>
 </td>
 </tr>
@@ -3977,10 +3971,10 @@ ESTADO
 <table class="tableCabeceraRegistro" id='TdTituloImprimirAlumnosMatriculados' style='width:1500px;'>
 <tbody>
 <tr>
-<td class="td_registro_orden1" style="width:7%;cursor:pointer" id='tdOrdReportMatri2' onclick='ordenreportmatricula(2)'>
+<td class="td_registro_orden1" style="width:7%;cursor:pointer;display: none;" id='tdOrdReportMatri2' onclick='ordenreportmatricula(2)'>
 LOCAL
 </td>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdReportMatri3' onclick='ordenreportmatricula(3)'>
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;display: none;" id='tdOrdReportMatri3' onclick='ordenreportmatricula(3)'>
 CARRERA
 </td>
 <td class="td_registro" style="width:7%;">
@@ -3992,7 +3986,7 @@ ALUMNO
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportMatri5' onclick='ordenreportmatricula(5)'>
 CURSO
 </td>
-<td class="td_registro" style="width:5%;">
+<td class="td_registro" style="width:5%;display: none;">
 SEMESTRE
 </td>
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportMatri8' onclick='ordenreportmatricula(8)'>
@@ -4001,10 +3995,10 @@ SECCIÓN
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportMatri7' onclick='ordenreportmatricula(7)'>
 TURNO
 </td>
-<td class="td_registro" style="width:5%;">
+<td class="td_registro" style="width:5%;display: none;">
 CONVALIDACION
 </td>
-<td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportMatri6' onclick='ordenreportmatricula(6)'>
+<td class="td_registro_orden1" style="width:5%;cursor:pointer;display: none;" id='tdOrdReportMatri6' onclick='ordenreportmatricula(6)'>
 AÑO REG.
 </td>
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportMatri4' onclick='ordenreportmatricula(4)'>
@@ -4016,16 +4010,16 @@ AÑO ACAD.
 <table class="tableCabeceraRegistro" style='width:1500px;'>
 <tbody>
 <tr>
-<td class="td_registro" style="width:6%;" >
+<td class="td_registro" style="width:6%;display: none;" >
 <input placeholder='Igual a'  type="text" list="ListFilial" class="inputfiltro" id="inptReporAlumnoMatriculado1"  autocomplete="off"  onchange='CargarCarrerasEnBuscarMatriculados()' onkeyup="if(event.keyCode == 13){BuscarReportAlumnosMatriculados()}" >
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado1')" />
 </td>
-<td  class="td_registro"style="width:9%;" >
+<td  class="td_registro"style="width:9%;display: none;" >
 <input placeholder='Igual a'  type="text" list="ListCarreras" class="inputfiltro" id="inptReporAlumnoMatriculado2" autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportAlumnosMatriculados()}">
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado2')" />
 </td>
 <td class="td_registro" style="width:6%;">
@@ -4046,10 +4040,10 @@ AÑO ACAD.
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado6')" />
 </td>
-<td  class="td_registro" style="width:4%;">
+<td  class="td_registro" style="width:4%;display: none;">
 <input  placeholder='Igual a'  type="text"  class="inputfiltro" id="inptReporAlumnoMatriculado7" list='ListSemestre'  autocomplete="off" onkeyup="if(event.keyCode == 13){BuscarReportAlumnosMatriculados()}">
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado7')" />
 </td>
 <td  class="td_registro" style="width:4%;">
@@ -4065,20 +4059,20 @@ AÑO ACAD.
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado10')" />
 </td>
-<td  class="td_registro" style="width:4%;">
+<td  class="td_registro" style="width:4%;display: none;">
 <select class="inputfiltro"  id="inptReporAlumnoMatriculado8" style='height: 21px;'>
 <option value="">Todos</option>
 <option value="No">No</option>
 <option value="Si">Si</option>
 </select>
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado8')" />
 </td>
-<td  class="td_registro" style="width:4%;">
+<td  class="td_registro" style="width:4%;display: none;">
 <input list='ListAnho' placeholder='Igual a'  type="text"  class="inputfiltro" id="inptReporAlumnoMatriculado9"  autocomplete="off" onkeyup="if(event.keyCode == 13){BuscarReportAlumnosMatriculados()}">
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado9')" />
 </td>
 <td  class="td_registro" style="width:4%;">
@@ -4107,9 +4101,9 @@ AÑO ACAD.
 <input type='text'  class='inputTextDisable' id='inptSeleccionadoReportAlumnMatric'  style='width:230px' disabled />
 <input id='btnMasDetallesAlumnosMatriculados' type="button" value="Más Detalles" class="btn4" onclick="VerRegistroSeleccionadoReportAlumnMatric()" style='width:100px;background-color:#b5f5b7'>
 <input id='btnArhivoDetallesAlumnosMatriculados' type="button" value="Cargar Archivos" class="btn4" onclick="verCerrarOpcionesArchivoMatriculacion()" style=' background-color:#acdaff'>
-<input id='btnGenerarDiplomas1' type="button" value="Imprimir diplomas Curso" class="btn4" onclick="generarDiplomas('Curso')" style=' background-color:#acdaff'>
+<input id='btnGenerarDiplomas1' type="button" value="Imprimir diplomas Curso" class="btn4" onclick="generarDiplomas('Curso')" style=' background-color:#acdaff;display: none;'>
 
-<input id='btnGenerarDiplomas2' type="button" value="Imprimir diplomas Carrera" class="btn4" onclick="generarDiplomas('Carrera')" style=' background-color:#acdaff'>
+<input id='btnGenerarDiplomas2' type="button" value="Imprimir diplomas Carrera" class="btn4" onclick="generarDiplomas('Carrera')" style=' background-color:#acdaff;display: none;'>
 
 </td>
 
@@ -4763,7 +4757,7 @@ CALIFICAION 3
 <table style='width:100%'>
 <tr>
 <td>
-<p class='pTitulo5'   >Carrera :</p>
+<p class='pTitulo5'   >Nivel educativo :</p>
 <input type='text' list='ListCarreras' class='inputText' id='inptCarreraFilialReportAlumnMatric' style='width:260px' autocomplete='off'  />
 </td>
 </tr>
@@ -4947,16 +4941,16 @@ LOCAL
 <table class="tableCabeceraRegistro">
 <tbody>
 <tr>
-<td class="td_registro" style="width:10%;">
+<td class="td_registro" style="width:10%;display: none;">
 CARRERA
 </td>
-<td class="td_registro" style="width:10%;">
+<td class="td_registro" style="width:10%;display: none;">
 AÑO REG.
 </td>
 <td class="td_registro" style="width:10%;">
 AÑO ACAD.
 </td>
-<td class="td_registro" style="width:10%;">
+<td class="td_registro" style="width:10%;display: none;">
 SEMESTRE
 </td>
 <td class="td_registro" style="width:10%;">
@@ -4971,7 +4965,7 @@ TURNO
 <td class="td_registro" style="width:10%;">
 SECCION
 </td>
-<td class="td_registro" style="width:10%;">
+<td class="td_registro" style="width:10%;display: none;">
 CONVALIDADO
 </td>
 <td class="td_registro" style="width:10%;">
@@ -5067,7 +5061,7 @@ ESTADO
 <tr>
 
 <td>
-<p class='pTitulo5'  >Carrera :</p>
+<p class='pTitulo5'  >Nivel educativo :</p>
 <input type='text' list='ListCarrerasMatricular' class='inputText' id='inptCarreraAsignarAlumnos' style='width:250px' autocomplete='off'  />
 </td>
 </tr>
@@ -5156,22 +5150,28 @@ ESTADO
 <tr>
 
 <td>
-<p class='pTitulo5'  >Curso :</p>
-<select class="inputText" style='width:190px' id='inptCursoAsignarAlumnos' onchange='habilitarSemestrePorCursoSeleccionado(this)' disabled>
+<p class='pTitulo5'  >Grado :</p>
+<select class="inputText" style='width:190px' id='inptCursoAsignarAlumnos' onchange='habilitarSemestrePorCursoSeleccionado(this)' >
 <option value="">Seleccionar</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="CULMINADO">CULMINADO</option>
+<option value="Prejardín"> Prejardín</option>
+  <option value="Jardín">Jardín</option>
+  <option value="Preescolar">Preescolar</option>
+  <option value="1° Grado">1° Grado</option>
+  <option value="2° Grado">2° Grado</option>
+  <option value="3° Grado">3° Grado</option>
+  <option value="4° Grado">4° Grado</option>
+  <option value="5° Grado">5° Grado</option>
+  <option value="6° Grado">6° Grado</option>
+  <option value="7° Grado">7° Grado</option>
+  <option value="8° Grado">8° Grado</option>
+  <option value="9° Grado">9° Grado</option>
+  <option value="Culminado">Culminado</option>
 </select>
 </td>
 </tr>
 </table>
 
-<table style='width:100%'>
+<table style='width:100%;display:none; '>
 <tr>
 
 <td>
@@ -5192,10 +5192,7 @@ ESTADO
 <select class="inputText" style='width:190px' id='inptTurnoAsignarAlumnos' >
 <option value="">Seleccionar</option>
 <option value="MAÑANA">MAÑANA</option>
-<option value="TARDE">TARDE</option>
-<option value="NOCHE">NOCHE</option>
-<option value="SABADO">SABADO</option>
-<option value="ROTATIVO">ROTATIVO</option>
+<option value="TARDE">TARDE</option> 
 </select>
 </td>
 </tr>
@@ -5223,7 +5220,7 @@ ESTADO
 
 <div class='divMenuf' style='width:31%;margin: 1%;'>
  
-<table style='width:100%'>
+<table style='width:100%;display:none; '>
 <tr>
 
 <td>
@@ -6232,7 +6229,7 @@ PENDIENTE
 <tr>
 
 <td>
-<p class='pTitulo5'   >Carrera :</p>
+<p class='pTitulo5'   >Nivel educativo :</p>
 <input type='text'  class='inputText' id='inptCarreraDeudasAlumnos' list='ListCarreras' />
 </td>
 </tr>
@@ -6433,11 +6430,11 @@ PENDIENTE
 <input class='inputTextDisable inputTamanho1' type='text'	id='inptFilialCobrarAranceles' disabled  />
 </td>
 <td style='width:5%'>
-<p class='pTitulo5' style='color:#fff' >Carrera :</p>
+<p class='pTitulo5' style='color:#fff' >Nivel educativo :</p>
 <input class='inputTextDisable inputTamanho2' type='text' id='inptCarreraCobrarAranceles'  disabled  />
 </td>
 <td style='width:5%'>
-<p class='pTitulo5' style='color:#fff' >Curso :</p>
+<p class='pTitulo5' style='color:#fff' >Grado :</p>
 <input class='inputTextDisable' type='text' id='inptCursoCobrarAranceles' disabled  style='width:73px' />
 </td>
 <td style='width:5%'>
@@ -6966,7 +6963,7 @@ LOCAL
 <input type='text' class='inputText' id='inptAnhoAnularFacturas' style='width:80px' list='ListAnho'  />
 </td>
 <td style='width:25%' >
-<p class='pTitulo5' >Curso :</p>
+<p class='pTitulo5' >Grado :</p>
 <input type='text' class='inputText' id='inptCursoAnularFacturas' style='width:80px'  list='ListCurso' />
 </td>
 </tr>
@@ -7607,12 +7604,12 @@ TIPO
 LOCAL
 </td>
 <td class="td_registro_orden1" style="width:15%;cursor:pointer" id='tdOrdAsignarArancel2' onclick='ordenasignararancel(2)'>
-CARRERA
+NIVEL EDUCACION
 </td>
 <td class="td_registro_orden" style="width:15%;cursor:pointer" id='tdOrdAsignarArancel1' onclick='ordenasignararancel(1)'>
 CONCEPTO
 </td>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdAsignarArancel5' onclick='ordenasignararancel(5)'>
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;display: none;" id='tdOrdAsignarArancel5' onclick='ordenasignararancel(5)'>
 SEMESTRE
 </td>
 <td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdAsignarArancel6' onclick='ordenasignararancel(6)'>
@@ -7654,10 +7651,10 @@ TOTAL
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarAsignarArancel3')" />
 </td>
-<td class="td_registro" style="width:9%;">
+<td class="td_registro" style="width:9%;display: none;">
 <input type='text' autocomplete="off" class='inputfiltro' id='inptBuscarAsignarArancel4' list='ListSemestre'   style='width:95%' onkeyup="if(event.keyCode == 13){BuscarAbmAsignarArancel()}"  />
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarAsignarArancel4')" />
 </td>
 <td  class="td_registro" style="width:9%;">
@@ -7847,12 +7844,6 @@ TOTAL
 <p class='pTitulo5'  >Año :</p>
 <select class="inputText" style='width:130px' id='inptAnhoAsignarArancel'>
 <option value="">Seleccionar</option>
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
-<option value="2018">2018</option>
-<option value="2019">2019</option>
 <option value="2020">2020</option>
 <option value="2021">2021</option>
 <option value="2022">2022</option>
@@ -7872,27 +7863,13 @@ TOTAL
 <option value="NF">NF</option>
 </select></td>
 </tr>
-</table>
-<br>
-<table style='width:100%'>
+</table> 
+<table style='width:100%;display: none;'>
 <tr>
 <td>
 <p class='pTitulo5'  >Semestre :</p>
-<select class="inputText" style='width:130px' id='inptSemestreAsignarArancel'>
-<option value="">Seleccionar</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="7">7</option>
-<option value="8">8</option>
-<option value="9">9</option>
-<option value="10">10</option>
-<option value="11">11</option>
-<option value="12">12</option>
-<option value="NF">NF</option>
+<select class="inputText" style='width:130px' id='inptSemestreAsignarArancel'> 
+<option value="1">1</option> 
 </select>
 </td>
 </tr>
@@ -7901,16 +7878,22 @@ TOTAL
 <table style='width:100%'>
 <tr>
 <td>
-<p class='pTitulo5'  >Curso :</p>
+<p class='pTitulo5'  >Grado :</p>
 <select class="inputText" style='width:130px' id='inptCursoAsignarArancel'>
 <option value="">Seleccionar</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="NF">NF</option>
+<option value="Prejardín"> Prejardín</option>
+  <option value="Jardín">Jardín</option>
+  <option value="Preescolar">Preescolar</option>
+  <option value="1° Grado">1° Grado</option>
+  <option value="2° Grado">2° Grado</option>
+  <option value="3° Grado">3° Grado</option>
+  <option value="4° Grado">4° Grado</option>
+  <option value="5° Grado">5° Grado</option>
+  <option value="6° Grado">6° Grado</option>
+  <option value="7° Grado">7° Grado</option>
+  <option value="8° Grado">8° Grado</option>
+  <option value="9° Grado">9° Grado</option>
+  <option value="Culminado">Culminado</option>
 </select>
 </td>
 </tr>
@@ -7921,7 +7904,7 @@ TOTAL
 <table style='width:100%'>
 <tr>
 <td>
-<p class='pTitulo5' >Seleccionar Carrera  :</p>
+<p class='pTitulo5' >Seleccionar Nivel Educacion  :</p>
 <input type='text' list='ListCarrerasAsignarArancel' class='inputText' id='inptCarreraAsignarArancel' style='width:260px' autocomplete='off'  />
 </td>
 </tr>
@@ -7974,13 +7957,11 @@ TOTAL
 </td>
 </tr>
 </table>
-<br>
-<br>
+<br> 
 <center>
 <input type='button' value='Guardar' class='btn1' onclick='VerificarDatosAsignarArancel()' id='btnAbmPeriodoAcademico'   />
 </center>
-<br>
-<br>
+<br> 
 </div>
 </center>
 </div>
@@ -8097,15 +8078,22 @@ TOTAL
 <table style='width:100%'>
 <tr>
 <td>
-<p class='pTitulo5'  >Curso :</p>
+<p class='pTitulo5'  >Grado :</p>
 <select class="inputText" style='width:130px' id='inptCursoAsignarArancelMasivo'>
 <option value="">Seleccionar</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
+<option value="Prejardín"> Prejardín</option>
+  <option value="Jardín">Jardín</option>
+  <option value="Preescolar">Preescolar</option>
+  <option value="1° Grado">1° Grado</option>
+  <option value="2° Grado">2° Grado</option>
+  <option value="3° Grado">3° Grado</option>
+  <option value="4° Grado">4° Grado</option>
+  <option value="5° Grado">5° Grado</option>
+  <option value="6° Grado">6° Grado</option>
+  <option value="7° Grado">7° Grado</option>
+  <option value="8° Grado">8° Grado</option>
+  <option value="9° Grado">9° Grado</option>
+  <option value="Culminado">Culminado</option>
 </select>
 </td>
 </tr>
@@ -8772,7 +8760,7 @@ APELLIDO
 </td>
 
 <td style='width:20%;text-align:left'>
-<p class='pTitulo5'  >Carrera :</p>
+<p class='pTitulo5'  >Nivel educativo :</p>
 <input list='ListCarreras' type='text' autocomplete="off" placeholder='Seleccionar' class='inputText' id='inptBuscarAbmAlumnos3'  style='width:180px'  onkeyup="if(event.keyCode == 13){BuscarAbmAbmAlumnos()}"/>
 </td>
 <td style='width:40%;text-align:left'>
@@ -8985,19 +8973,9 @@ TELEF.
 </tr>
 </table>
 <br>
+
 <table style='width:100%'>
 <tr>
-
-<td>
-<p class='pTitulo5'  >Trabaja en :</p>
-<input type='text'   class='inputText' id='inptTrabajoAbmAlumnos' />
-</td>
-</tr>
-</table>
-<br>
-<table style='width:100%'>
-<tr>
-
 <td>
 <p class='pTitulo5'  >Padre, Madre o Encargado :</p>
 <input type='text'  class='inputText' id='inptEncargadoAbmAlumnos'  />
@@ -9005,6 +8983,18 @@ TELEF.
 </tr>
 </table>
 <br>
+
+
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTitulo5'  >Trabaja en :</p>
+<input type='text'   class='inputText' id='inptTrabajoAbmAlumnos' />
+</td>
+</tr>
+</table>
+<br>
+
 <table style='width:100%'>
 <tr>
 <td>
@@ -9134,7 +9124,7 @@ TELEF.
                       </td>
 
                       <td style='width:20%;text-align:left'>
-                        <p class='pTitulo5'>Carrera :</p>
+                        <p class='pTitulo5'>Nivel educativo :</p>
                         <input list='ListCarreras' type='text' autocomplete="off" placeholder='Seleccionar'
                           class='inputText' id='inptBuscarListadoNotasAlumnos3' style='width:180px'
                           onkeyup="if(event.keyCode == 13){BuscarReportCrearListadoNotasAlumnos()}" />
@@ -9737,13 +9727,7 @@ TELEF.
 <datalist id="ListArancelPorTipo"></datalist>
 
 
-<datalist id="ListAnho">
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
-<option value="2018">2018</option>
-<option value="2019">2019</option>
+<datalist id="ListAnho"> 
 <option value="2020">2020</option>
 <option value="2021">2021</option>
 <option value="2022">2022</option>
@@ -9762,22 +9746,26 @@ TELEF.
 <option value="2035">2035</option>
 </datalist>
 <datalist id="ListCurso">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option>
-<option value="6">6</option>
-<option value="Culminado">Culminado</option>
+  <option value="Prejardín"> Prejardín</option>
+  <option value="Jardín">Jardín</option>
+  <option value="Preescolar">Preescolar</option>
+  <option value="1° Grado">1° Grado</option>
+  <option value="2° Grado">2° Grado</option>
+  <option value="3° Grado">3° Grado</option>
+  <option value="4° Grado">4° Grado</option>
+  <option value="5° Grado">5° Grado</option>
+  <option value="6° Grado">6° Grado</option>
+  <option value="7° Grado">7° Grado</option>
+  <option value="8° Grado">8° Grado</option>
+  <option value="9° Grado">9° Grado</option>
+  <option value="Culminado">Culminado</option>
 </datalist>
+
 
 
 <datalist id="ListTurno">
 <option value="MAÑANA">MAÑANA</option>
-<option value="TARDE">TARDE</option>
-<option value="NOCHE">NOCHE</option>
-<option value="SABADO">SABADO</option>
-<option value="ROTATIVO">ROTATIVO</option>
+<option value="TARDE">TARDE</option> 
 </datalist>
 
 
@@ -9915,7 +9903,7 @@ style='color:#673ab7'  > Actualización</span></h1>
 <div style='width90%'>
 <img src="/GoodTechnologyEPNSA/iconos/membrete.jpg" />
 <p class='pTituloActa1'>ACTA NÚMERO <b id='bNroActa'></b> </p>
-<p class='pTituloActa2'>En la ciudad de <b id='bCiudadActa'></b>, Departamento de  <b id='bDepartamentoActa'></b> , República del Paraguay, en fecha  <b id='bFechaActa'></b>. del año  <b id='bAnhoActa'></b>, siendo las <b id='bHoraActa'></b>. horas se da inicio al Examen Final correspondiente al Periodo de Evaluación Ordinario  de la carrera de <b id='bCarreraActa'></b>..  de UV, Local <b id='bFiliaActa'></b>..., correspondiente a la asignatura de <b id='bAsignaturaActa'></b>.  del Curso Primero, Semestre Primer,  Turno Noche, en la Modalidad Presencial El mismo se realiza en presencia del/la Profesor/a <b id='bProfesorActa'></b>.. Titular de Cátedras y del/la Lic.  <b id='bInterventorActa'></b>. como Interventor/a 
+<p class='pTituloActa2'>En la ciudad de <b id='bCiudadActa'></b>, Departamento de  <b id='bDepartamentoActa'></b> , República del Paraguay, en fecha  <b id='bFechaActa'></b>. del año  <b id='bAnhoActa'></b>, siendo las <b id='bHoraActa'></b>. horas se da inicio al Examen Final correspondiente al Periodo de Evaluación Ordinario  de la carrera de <b id='bCarreraActa'></b>..  de UV, Local <b id='bFiliaActa'></b>..., correspondiente a la asignatura de <b id='bAsignaturaActa'></b>.  del Curso Primero, Semestre Primer,   en la Modalidad Presencial El mismo se realiza en presencia del/la Profesor/a <b id='bProfesorActa'></b>.. Titular de Cátedras y del/la Lic.  <b id='bInterventorActa'></b>. como Interventor/a 
 <br>
 Una vez presentado el  examen a ser suministrado para su verificación en la Dirección Académica y con la autorización correspondiente se da inicio al desarrollo del examen con la participación de los siguientes estudiantes, a saber sus respectivas calificaciones:
 </p>

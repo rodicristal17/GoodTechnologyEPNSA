@@ -28,25 +28,7 @@ echo json_encode($informacion);
 exit;
 }
 
-
-	
-	//CONTROL DE ACCESO
-// if($funt=="nuevo"){
-
-	// buscarnivel($user,"CARRERA"," anhadir='SI' ");
-// }
-// if($funt=="editar" || $funt=="eliminar"){
-	
-	// buscarnivel($user,"CARRERA"," modificar='SI' ");
-// }
-// if($funt=="buscar"){
-
-	// buscarnivel($user,"CARRERA"," buscar='SI' ");
-// }
-
-
-
-
+ 
 
 	
 if($funt=="nuevo" || $funt=="editar")
@@ -281,9 +263,8 @@ function buscar($documento,$filial,$carrera,$catedra,$docente,$anho,$curso,$seme
 			  <td>Nombre y Apellido</td>
 			  <td>Documento / Nombre y Apellido (Eliminar)</td>
 			  <td>Año</td>
-			  <td>Curso</td>
-			  <td>Semestre</td>
-			   <td>Turno</td>
+			  <td>Curso</td> 
+			  <td>Turno</td>
 			  <td>Sección</td>
 			  <td>Hora Semanal</td>
 			  <td>Importe x Hora</td>
@@ -458,15 +439,15 @@ $totales=0;
 			  <td id='td_id_1' style='display:none;'>".$iddocente_catedra."</td>
 			  <td id='td_id_2' style='display:none;'>".$idmallacurricular."</td>
 			  <td id='td_id_3' style='display:none;'>".$cod_filial."</td>
-			  <td  id='td_datos_1' style='width:8%;".$styleorden1."' >".$nombrefilial."</td>
-			  <td  id='td_datos_2' style='width:10%;".$styleorden2."' >".$nombreCarrera."</td>
+			  <td  id='td_datos_1' style='display:none;".$styleorden1."' >".$nombrefilial."</td>
+			  <td  id='td_datos_2' style='display:none;".$styleorden2."' >".$nombreCarrera."</td>
 			  <td  id='td_datos_3' style='width:10%;".$styleorden3."' >".$nombreMateria."</td>
 			  <td  id='td_datos_4' style='width:5%;".$styleorden4."' >".$nrodocumento."</td>
 			  <td  id='td_datos_5' style='width:8%;".$styleorden5."' >".$nombreapellido."</td>
 			  <td  id='td_datos_6' style='display:none' >".$nrodocumento." - ".$nombreapellido."</td>
 			  <td  id='td_datos_7' style='width:5%;".$styleorden6."' >".$anho."</td>
 			  <td  id='td_datos_8' style='width:5%;".$styleorden7."' >".$curso."</td>
-			  <td  id='td_datos_9' style='width:5%;".$styleorden8."' >".$semestre."</td>
+			  <td  id='td_datos_9' style='display:none;".$styleorden8."' >".$semestre."</td>
 			  <td  id='td_datos_14' style='width:5%;".$styleorden9."'>".$dias."</td>
 			   <td  id='td_datos_15' style='display:none;'>".$hinicio."</td>
 			   <td  id='td_datos_16' style='display:none;'>".$hfin."</td>
