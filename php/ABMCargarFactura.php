@@ -30,82 +30,6 @@ exit;
 
 
 	
-	//CONTROL DE ACCESO
-// if($funt=="nuevo"){
-
-	// buscarnivel($user,"CARGAR FACTURA"," anhadir='SI' ");
-// }
-// if($funt=="editar" || $funt=="eliminar"){
-	
-	// buscarnivel($user,"CARGAR FACTURA"," modificar='SI' ");
-// }
-// if($funt=="buscar"){
-
-	// buscarnivel($user,"CARGAR FACTURA"," buscar='SI' ");
-// }
-// if($funt=="buscarreportfacturascargadas"){
-
-	// buscarnivel($user,"FACTURAS CARGADAS"," informes='SI' ");
-	// $control=controldefilial($user,"DATOS DE OTRAS FILIAL"," accion='SI' ");
-	// if($control==0){
-		// $codFilial=$_POST['codFilial'];
-        // $codFilial = utf8_decode($codFilial);
-		// $codFilialFK=buscarmifilialFK($user);
-		// if($codFilial!=$codFilialFK){
-			// $informacion =array("1" => "FKINCO");
-            // echo json_encode($informacion);	
-            // exit;
-		// }
-		
-	// }
-// }
-
-// if($funt=="consultarporalumnos" || $funt=="consultarpornrofactura"|| $funt=="consultaindividual" ){
-
-	// buscarnivel($user,"CONSULTA INDIVIDUAL"," informes='SI' ");
-	// $control=controldefilial($user,"DATOS DE OTRAS FILIAL"," accion='SI' ");
-	// if($control==0){
-		// $codFilial=$_POST['codFilial'];
-        // $codFilial = utf8_decode($codFilial);
-		// $codFilialFK=buscarmifilialFK($user);
-		// if($codFilial!=$codFilialFK){
-			// $informacion =array("1" => "FKINCO");
-            // echo json_encode($informacion);	
-            // exit;
-		// }
-		
-	// }
-// }
-// if($funt=="ConsultaMasivo"){
-
-	// buscarnivel($user,"CONSULTA MULTIPLE"," informes='SI' ");
-	// $control=controldefilial($user,"DATOS DE OTRAS FILIAL"," accion='SI' ");
-	// if($control==0){
-		// $codFilial=$_POST['codFilial'];
-        // $codFilial = utf8_decode($codFilial);
-		// $codFilialFK=buscarmifilialFK($user);
-		// if($codFilial!=$codFilialFK){
-			// $informacion =array("1" => "FKINCO");
-            // echo json_encode($informacion);	
-            // exit;
-		// }
-		
-	// }
-// }
-// if($funt=="BuscadorMasivofacturaDetalles"){
-
-	// buscarnivel($user,"INFORMES DETALLADO POR FACTURA"," informes='SI' ");
-// }
-// if($funt=="BuscadorMasivoConsultaBalances"){
-
-	// buscarnivel($user,"INFORMES DETALLADO POR ANHO"," informes='SI' ");
-// }
-
-
-
-
-
-	
 if($funt=="nuevo" || $funt=="editar")
 {
 	
@@ -181,8 +105,6 @@ if ( ! $stmt->execute() ) {
 }
 if($funt=="cargarcobranzas")
 {
-	
-	
 	
 	$nrofactura=$_POST['nrofactura'];
     $nrofactura = utf8_decode($nrofactura);
@@ -848,6 +770,7 @@ $subtotal = quitarseparadormiles($subtotal);
 $descuento=$_POST['descuento'.$control];
 $descuento = quitarseparadormiles($descuento);
 
+$monto = $monto - $descuento;
 $estado='Activo';
 
 if($cantidad!="" || $cod_ArancelFK!=""  ){
@@ -886,10 +809,10 @@ if ( ! $stmt->execute() ) {
 	
 	
 
- $consulta="insert into facturaspagadas (tipo_comprobante,curso,anho,semestre,controlnrofactura,estadofactura,Detalles, nrofactura, cf, monto, idcursosalumnoFk, fecha, estado, cod_arancelFk, puntoexpedicionfk,cod_puntoexpedicionFK) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";	
+ $consulta="insert into facturaspagadas (tipo_comprobante,curso,anho,semestre,controlnrofactura,estadofactura,Detalles, nrofactura, cf, monto, idcursosalumnoFk, fecha, estado, cod_arancelFk, puntoexpedicionfk,cod_puntoexpedicionFK,descuento) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";	
      $stmt = $mysqli->prepare($consulta);
-    $ss='ssssssssssssssss';
-    $stmt->bind_param($ss,$tipoComprobante,$curso,$anho,$semestre,$controlnrofactura,$estadofactura, $detalles ,$nrofactura, $cf, $monto, $idcursosalumnoFk, $fecha, $estado, $cod_arancelFk, $puntoexpedicionfk, $puntoexpedicionfk); 
+    $ss='sssssssssssssssss';
+    $stmt->bind_param($ss,$tipoComprobante,$curso,$anho,$semestre,$controlnrofactura,$estadofactura, $detalles ,$nrofactura, $cf, $monto, $idcursosalumnoFk, $fecha, $estado, $cod_arancelFk, $puntoexpedicionfk, $puntoexpedicionfk,$descuento); 
 if (!$stmt->execute()) {
 echo trigger_error('The query execution failed; MySQL said ('.$stmt->errno.') '.$stmt->error, E_USER_ERROR);
 exit;
@@ -904,7 +827,7 @@ if (!$stmt->execute()) {
 echo trigger_error('The query execution failed; MySQL said ('.$stmt->errno.') '.$stmt->error, E_USER_ERROR);
 exit;
 }
-	
+
 
 }
 
@@ -916,7 +839,7 @@ $controlnrofactura=$controlnrofactura+1;
 	
 }
 
-$informacion =array("1" => "exito");
+$informacion =array("1" => "exito","2" => $nrofactura);
 echo json_encode($informacion);	
 exit;
 	
@@ -1388,7 +1311,7 @@ function buscarcuotasapagadas($idcursosalumnoFk,$cod_arancelFk,$idalumnofk,$cod_
 	 $pagina='';
 	
 	
-		$sql= "Select cur.anho, ifnull((select sum(fac.monto) from facturaspagadas fac where fac.idcursosalumnoFk='$idcursosalumnoFk' and  fac.cod_arancelFk = '$cod_arancelFk' and fac.estado='Activo' and  fac.estadofactura='Activo' ),0) as totalpagado,
+		$sql= "Select cur.anho, ifnull((select sum(fac.monto + descuento) from facturaspagadas fac where fac.idcursosalumnoFk='$idcursosalumnoFk' and  fac.cod_arancelFk = '$cod_arancelFk' and fac.estado='Activo' and  fac.estadofactura='Activo' ),0) as totalpagado,
 		(select total from aranceles where cod_arancel= '$cod_arancelFk' limit 1) as totalapagar,
 		(select cod_listadearancelesFk from aranceles where cod_arancel= '$cod_arancelFk' limit 1) as cod_listadearancelesFk,
 		(select cantidad from aranceles where cod_arancel='$cod_arancelFk' limit 1) as cantidadapagar,
@@ -1464,11 +1387,11 @@ $totalpagado="0";
 				$contadorPendiente++;	
 					$pagina.="<table class='tableRegistroSearch' border='0' cellspacing='0' cellpadding='0'>
 			  <tr id='tbSelecRegistro' >
-			   <td  id='td_datos_1' style='width:5%' ><input  onclick='selectCuotaPagarCobranzas()' style='$a' name='checkboxDerechoCuotaArancel' type='checkbox'   value='$restante'  /></td>
-			   <td  id='td_datos_2' style='width:95%' >CUOTA  ".$MES." - ".$titulop."</td>
+			   <td  id='td_datos_1' style='width:5%' ><input  onclick='selectCuotaPagarCobranzas()' style='$MES' name='checkboxDerechoCuotaArancel' type='checkbox'   value='$restante'  /></td>
+			   <td  id='td_datos_2' style='width:75%' >CUOTA  ".$MES." - ".$titulop."</td>
 			   <td  id='td_datos_3' style='display:none' >$contadorPendiente</td>
 			   <td  id='td_datos_4' style='display:none' > - ".$MES.$titulop."</td>
-			   <td  id='td_datos_5' style='display:none' >".number_format($montoapagar,'0',',','.')."</td>
+			   <td  id='td_datos_5' style='width:20%' >".number_format($montoapagar,'0',',','.')."</td>
 			  </tr>
 			  </table>";
 			  $totalpagado=$totalpagado-$montoapagar;
@@ -1665,7 +1588,7 @@ function buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$docume
 	}
 	
 		$sql= "Select fac.controlnrofactura,fac.Detalles,fac.idfacturaspagadas, fac.nrofactura, fac.cf, IFNULL(sum(fac.monto),0) as  monto, fac.idcursosalumnoFk, fac.fecha,estadofactura,fac.fecha_insercion,
-		fac.estado, fac.cod_arancelFk, fac.puntoexpedicionfk,fac.anho,fac.semestre,fac.curso
+		fac.estado, fac.cod_arancelFk, fac.puntoexpedicionfk,fac.anho,fac.semestre,fac.curso,fac.descuento
 ,alu.nombre as nombrealumno,alu.apellido,alu.ci
 ,lta.nombre as arancel
 ,fl1.nombre as nombrefilialOrigen
@@ -1700,6 +1623,7 @@ $nrodefacturasiguiente="";
 		  
 		  
 				$fecha_insercion=$valor['fecha_insercion'];
+				$descuento=$valor['descuento'];
 		      $idfacturaspagadas=$valor['idfacturaspagadas'];
 		  	  $nrofactura=utf8_encode($valor['nrofactura']);
 		  	  $cf=utf8_encode($valor['cf']);
@@ -1775,32 +1699,28 @@ $nrodefacturasiguiente="";
 			  $pagina.="<table class='tableRegistroSearch' border='0' cellspacing='0' cellpadding='0'>
 			  <tr id='tbSelecRegistro' onclick='ObtenerdatosFacturasCargadas(this)'  style='$styleSalto'>
 			  <td  id='td_id' style='display:none' >".$idfacturaspagadas."</td>
-			  <td  id='' style='width:10%;".$styleorden2."' >".$nombrefilialOrigen."</td>
-			   <td  id='' style='width:10%;".$styleorden4."' >".$arancel."</td>
-			   	<td  id='' style='width:10%' >".$Detalles."</td>
-				 <td  id='td_datos_1' style='width:10%;".$styleorden5."' >".$nrofactura."-".$cf."</td>
+			  <td  id='' style='width:10%;display:none".$styleorden2."' >".$nombrefilialOrigen."</td>
+			   
+				 <td  id='td_datos_1' style='width:5%;".$styleorden5."' >".$nrofactura."-".$cf."</td>
 			   	<td  id='' style='width:5%;".$styleorden6."' >".$anho."</td>
 			   	<td  id='' style='width:5%;".$styleorden7."' >".$curso."</td>
-			   	<td  id='' style='width:5%;".$styleorden8."' >".$semestre."</td>			  
+			   	<td  id='' style='width:5%;display:none".$styleorden8."' >".$semestre."</td>			  
 			   <td  id='' style='width:5%' >".$ci."</td>
 			   <td  id='' style='width:5%' >".$nombrealumno." ".$apellido."</td>
+
+			   <td  id='' style='width:10%;".$styleorden4."' >".$arancel."</td>
+			   	<td  id='' style='width:10%' >".$Detalles."</td>
+
 			   <td  id='' style='width:5%;display:none' >".$nombrealumno."</td>
 			   <td  id='' style='width:5%;display:none' >".$apellido."</td>
 			   <td  id='' style='width:5%;".$styleorden1."' >".$fecha."</td>			   
 			   <td  id='' style='width:5%' >". number_format($monto,'0',',','.') ."</td>		   
+			   <td  id='' style='width:5%' >". number_format($descuento,'0',',','.') ."</td>		   
 			    <td  id='' style='width:5%' >".$estadofactura."</td>
 				<td  id='' style='width:5%' >".$fecha_insercion."</td>
 			   </tr>
 			   </table>";
-			    	
-// $consulta="Update facturaspagadas set anho='".$anho."', curso='".$curso."', semestre='".$semestre."' where idfacturaspagadas='".$idfacturaspagadas."'";	
-	// $stmt = $mysqli->prepare($consulta);
-   
-// if (!$stmt->execute()) {
-// echo trigger_error('The query execution failed; MySQL said ('.$stmt->errno.') '.$stmt->error, E_USER_ERROR);
-// exit;
-// }   
-		  	
+  	
 			  
 			  
 	  }

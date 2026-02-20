@@ -4,7 +4,7 @@
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   
   
-      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Language" content="es" />
     <meta name="msapplication-TileColor" content="#2d89ef">
@@ -29,18 +29,13 @@
 <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimun-scalable=1,maximun-scalable=1" />
 
 	<title>GoodTechnologyEPNSA</title>
-	 <script src="/GoodTechnologyEPNSA/js/jquery.js"></script>
-    <script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.12"></script>
-    <script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.04"></script>
-    <script src="/GoodTechnologyEPNSA/js/excel.js"></script>
-    <script src="/GoodTechnologyEPNSA/js/jquery.table2excel.js"></script>   
-    <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>   
- 
+
+
     
     <script src="/GoodTechnologyEPNSA/js/datosUsuario.js"></script>
 	<!-- <link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/inicio.css?x=X-IOSV.04" /> -->
-	<link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.04" />
-	<link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.04" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.04" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.04" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.04" />
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -51,6 +46,20 @@
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
  
+
+  <script src="/GoodTechnologyEPNSA/js/jquery.js"></script>
+
+<!-- Plugins jQuery -->
+<script src="/GoodTechnologyEPNSA/js/jquery.table2excel.js"></script>
+
+<!-- Otros utilitarios -->
+<script src="/GoodTechnologyEPNSA/js/excel.js"></script>
+<script src="/GoodTechnologyEPNSA/js/minmizar.js"></script>
+<script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
+
+<!-- TU APP AL FINAL -->
+<script src="/GoodTechnologyEPNSA/js/inicio.js"></script>
+
  
 	
 </head>
@@ -66,10 +75,11 @@
         </a>
         <ul class="side-menu">
             <li class="active" onclick='vercerrarventanamenu("1")' > <a   class="active"> <i class='bx bxs-dashboard'></i>ACCESO DIRECTO</a></li>
-            <li onclick='vercerrarventanamenu("2")'> <a   class="active"> <i class='bx bx-store-alt'></i>LISTADOS</a></li>
-            <li onclick='vercerrarventanamenu("3")'> <a   class="active"> <i class='bx bx-analyse'></i>ADMINISTRATIVO</a></li>
+            <li onclick='vercerrarventanamenu("2")'> <a  class="active"> <i class='bx bx-store-alt'></i>LISTADOS</a></li>
+            <li onclick='vercerrarventanamenu("3")'> <a  class="active"> <i class='bx bx-analyse'></i>ADMINISTRATIVO</a></li>
             <li onclick='vercerrarventanamenu("4")'> <a  class="active"> <i class='bx bx-message-square-dots'></i>ACADEMIDO</a></li>
-            <li onclick='vercerrarventanamenu("5")' > <a   class="active"> <i class='bx bx-group'></i>SISTEMA</a></li>
+            <li onclick='vercerrarventanamenu("6")'> <a  class="active"> <i class='bx bx-objects-vertical-bottom'></i>INFORME</a></li>
+            <li onclick='vercerrarventanamenu("5")'> <a  class="active"> <i class='bx bx-group'></i>SISTEMA</a></li>
 		</ul>
         <ul class="side-menu" onclick='cerrarSesion()' >
             <li>
@@ -330,7 +340,7 @@
 <div class='insights'  >
 
  
-<div class='divMenub' title='Cobranzas'  onclick='verCerrarFrmCobrarAranceles("1")' id='divMenuCargarCobranza2' style='width:23%'  >
+<div class='divMenub' title='Cobranzas'  onclick='verCerrarFrmCobrarAranceles("1")' id='divMenuCargarCobranza2'   >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
@@ -342,7 +352,7 @@
 </table>
 </div>
  
-<div class='divMenub' title='Añadir, Modificar o Buscar alumnos' onclick='verCerrarFrmAbmAlumnos(1)' id='divMenuDatosdelAlumno2'  style='width:23%'>
+<div class='divMenub' title='Añadir, Modificar o Buscar alumnos' onclick='verCerrarFrmAbmAlumnos(1)' id='divMenuDatosdelAlumno2'   >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
@@ -354,7 +364,7 @@
 </table>
 </div>
 
-<div class='divMenub' title='Añadir, Modificar o Buscar matriculaciones' onclick='verCerrarFrmAsignarAlumnos(1)' id='divMenuMatricularAlumno2' style='width:23%' >
+<div class='divMenub' title='Añadir, Modificar o Buscar matriculaciones' onclick='verCerrarFrmAsignarAlumnos(1)' id='divMenuMatricularAlumno2'   >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
@@ -365,6 +375,32 @@
 </tr>
 </table>
 </div>
+
+
+<table class='divMenub' id='divMenuEgreso_Ingreso' onclick='verCerrarAbmGasto()' style='text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu'
+src='/GoodTechnologyEPNSA/iconos/gastos.png' />
+<p class='pTitulo3'>Gastos</p>
+<center>
+<div id='divMinimizadoEgresoIngreso' style='display:none'
+class='divMinimizado'></div>
+</center>
+</td>
+</tr>
+</table>
+
+
+<table class='divMenub' id='divMenuArqueo' onclick='verCerrarVentanaAbmAperturaCierreCaja()' style=' text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu'
+src='/GoodTechnologyEPNSA/iconos/cierredecaja.png' />
+<p class='pTitulo3' id='PTituloApCieCaja'>Apertura de Caja</p>
+</td>
+</tr>
+</table>
  
 
 
@@ -596,7 +632,7 @@
 </div>
 </div>
 
-<div  class='contenedorAccesoDirecto' id='ContenedorInforme' style='display:none' >
+<div  class='contenedorAccesoDirecto' id='ContenedorAcademico' style='display:none' >
 
 
 		<div class="header">
@@ -664,6 +700,79 @@
  
 </div>
 </div>
+
+
+
+
+<div  class='contenedorAccesoDirecto' id='ContenedorInforme' style='display:none' >
+
+
+		<div class="header">
+                <div class="left">
+                    <h1>INFORME</h1>
+                    
+                </div>
+                
+            </div>
+ 
+<div class='insights'  >
+
+
+
+<div class='divMenub'    onclick='verCerrarInformeConsultaCaja("1")' id='divMenuConsultaCaja' >
+<table style='width:100%;height:100%;text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/informedecaja.png' />
+<p class='pTitulo3'  >Consulta de cajas </p>
+<center>
+    <div id='divMinimizadoConsultarCaja' style='display:none' class='divMinimizado'></div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+
+<div class='divMenub'    onclick='verCerrarInformeGanancias("1")' id='divMenuGanancias' >
+<table style='width:100%;height:100%;text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/report.png' />
+<p class='pTitulo3'  >Ganancias </p>
+<center>
+    <div id='divMinimizadoGanancias' style='display:none' class='divMinimizado'></div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+
+<div class='divMenub'    onclick='verCerrarInformePagosFaltantes("1")' id='divMenuPagosFaltantes' >
+<table style='width:100%;height:100%;text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/report.png' />
+<p class='pTitulo3'  >Pagos Faltantes </p>
+<center>
+    <div id='divMinimizadoPagosFaltantes' style='display:none' class='divMinimizado'></div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+ 
+ 
+</div>
+</div>
+
+
+
+
+
+
 
 <div  class='contenedorAccesoDirecto' id='ContenedorSistema' style='display:none' >
 
@@ -1052,7 +1161,7 @@
 <div style='width:90%;text-align:left' >
 
 <center>
-<h1 class='h2Titulo' ><span style='color:#ff9f00'>Good</span><span style='color:#4CAF50'>Technology</span><span style='color:##673ab7'>Py</span></h1>
+<h1 class='h2Titulo' ><span style='color:#ff9f00'>Good</span><span style='color:#4CAF50'>Technology</span><span style='color:#673ab7'>Py</span></h1>
 </center>
 <table style='width:100%'>
 <tr>
@@ -1100,7 +1209,7 @@
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmUsuario1' style='display:'>
+<div class='divPrincipalrepor' id='divAbmUsuario1'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -1322,7 +1431,7 @@ NIVEL
 <tr>
 <td>
 <center>
-<div class='divAbms'  style='display:;width: 368px;min-height:400px;'>
+<div class='divAbms'  style='width: 368px;min-height:400px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -1405,7 +1514,7 @@ NIVEL
 <tr>
 <td>
 <center>
-<div class='divAbms_b'  style='display:;width:500px;min-height:300px'>
+<div class='divAbms_b'  style='width:500px;min-height:300px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%;text-align:left'>
@@ -1471,7 +1580,7 @@ ACCION
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmAbmFilial1' style='display:;'>
+<div class='divPrincipalrepor' id='divAbmAbmFilial1'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -1663,7 +1772,7 @@ NRO DE EXPEDICIÓN
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmListaCarrera1' style='display:;width: 100vw;'>
+<div class='divPrincipalrepor' id='divAbmListaCarrera1' style='width: 100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -1825,7 +1934,7 @@ DURACION
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmListaDocente1' style='display:;width:100vw;'>
+<div class='divPrincipalrepor' id='divAbmListaDocente1' style='width:100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2019,7 +2128,7 @@ CORREO
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmTituloDocente1' style='display:;width:850px;'>
+<div class='divPrincipalrepor' id='divAbmTituloDocente1' style='width:850px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2125,7 +2234,7 @@ CARRERA.
 <tr>
 <td> -->
 <center>
-<div class='divPrincipalrepor' id='divAbmListaAccesos1' style='display:;;'>
+<div class='divPrincipalrepor' id='divAbmListaAccesos1' >
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2203,7 +2312,7 @@ NOMBRE DEL ACCESO
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmListaCatedra1' style='display:;width: 100vw;'>
+<div class='divPrincipalrepor' id='divAbmListaCatedra1' style='width: 100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2336,7 +2445,7 @@ CATEDRA
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmAsignarDocentes1' style='display:;width: 100vw;'>
+<div class='divPrincipalrepor' id='divAbmAsignarDocentes1' style='width: 100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2854,7 +2963,7 @@ SEMESTRE
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmListaFacultad1' style='display:;width: 100vw;'>
+<div class='divPrincipalrepor' id='divAbmListaFacultad1' style='width: 100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -2991,7 +3100,7 @@ FACULTAD
 <tr>
 <td> -->
 <center>
-<div class='divPrincipalrepor' id='divAbmListaNiveles1' style='display:;'>
+<div class='divPrincipalrepor' id='divAbmListaNiveles1' >
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3128,7 +3237,7 @@ NOMBRES
 <tr>
 <td> -->
 <center>
-<div class='divPrincipalrepor' style='display:;'>
+<div class='divPrincipalrepor'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3425,10 +3534,702 @@ NRO CAJA
  
 </div>
 
+
+
+
+
+
+
+
+<div class='principal2' style='display:none' id='divAbmAperturaCierreCaja'> 
+<center>
+<div   class='divAbms'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'><b style='font-size: 30px;' >Apertura / Cierre</b> de Caja
+</p>
+</td>
+<td style='width:5%;text-align:center'>
+<img id='imgVolverAtrasApCieCaja'
+src='/GoodVentaAsisCap/iconos/flechaderecha.png'
+class='iconoBtn' title='Volver Atras'
+onclick='verCerrarVentanaAbmAperturaCierreCaja1("2","")' />
+<img id='imgVolverCerrarApCieCaja'
+src='/GoodVentaAsisCap/iconos/botonCerrar.png'
+class='iconoBtn' title='Cerrar Ventana'
+onclick='verCerrarVentanaAbmAperturaCierreCaja("2","")' />
+</td>
+</tr>
+</table> 
+<center>
+<div style='overflow:auto; display: flex; justify-content: center;'>
+<div class='divMenuf' style='float:left;width:20%;margin:1%;'>
+  <div class="timeline-container">
+    <h2 class="titulo" style="font-size: 1.5rem;">Resumen</h2>
+    <div class="timeline">
+      <div class="timeline-item entrada" style="padding-top: 20px;">
+        <div class="timeline-content">
+          <h3 class='taentrada' style="font-size: 0.8rem">Apertura caja</h3>
+          <input class='taentrada' id='inptResumenInicialAperturaCierre' type="text"  readonly style="font-size: 0.8rem;">
+        </div>
+      </div>
+      <div class="timeline-item salida" style="padding-top: 20px;" id="divResumenCierreAperturaCierre">
+        <div class="timeline-content">
+          <h3 class='taentrada' style="font-size: 0.8rem">Monto de cierre</h3>
+          <input class='taentrada' id='inptResumenCierreAperturaCierre' type="text"  readonly style="font-size: 0.8rem;">
+        </div>
+      </div>
+      <div class="timeline-item neutro">
+        <div class="timeline-content">
+          <h3 style="font-size: 0.8rem">Total recaudado</h3>
+          <input style='Text-align:center;' id='inptResumenTotalAperturaCierre'  type="text"  readonly style="font-size: 0.8rem">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='divMenuf' style='float:left;width:35%;margin:1%;'>
+ 
+<table style='width:100%'>
+<tr>
+<td style='width:50%'>
+<p class='pTituloC'
+>Local</p>
+<select class="inputSelect" id="inptlocalAperturaCierre"  onchange='buscarOptionCaja2(1)' disabled></select>
+</td>
+</tr>
+</table>
+<br> 
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'>Cajero :
+</p>
+<input class='inputTextDisable' type='text' placeholder='Obligatorio (*)' id='inptcajeroAperturaCierreCaja' style='width:210px' disabled />
+ 
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'
+>Monto
+Inicial :</p>
+<input class='inputText' type='text' placeholder='Obligatorio (*)' id='inptMontoAperturaCierreCaja' style='width:150px' onkeyup='separadordemiles(this)' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Fecha Apertura (Hora) :</p>
+<input class='inputText'
+type='datetime-local'
+id='inptFechaAperturaCierreCaja'
+ />
+</td>
+</tr>
+</table>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'>Fecha Cierre (Hora) :</p>
+<input class='inputText'
+type='datetime-local'
+id='inptFechaCierreAperturaCierreCaja'
+/>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'>Estado :</p>
+<select class="inputSelect"
+id="inptEstadoAperturaCierreCaja"
+ disabled>
+<option value="Activo">ACTIVO
+</option>
+<option value="Cerrado">CERRADO
+</option>
+</select>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p style="display: none;" class='pTituloC' >Movimiento de caja :</p>
+<input class='inputTextDisable'
+type='text'
+id='inptMontoRecaudadoCierreCaja'
+style='width:150px;display: none;' disabled />
+<input type='button'
+value='Ver Movimientos' class='btn5'
+onclick='ImprimirTicketDeCaja()'
+style='width:120px;display: none;'>
+</td>
+</tr>
+</table>
+<br>
+</div>
+<div class='divMenuf' style='float:left;width:35%;margin:1%;'>
+ 
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' ><b>Monto Cierre</b></p>
+<input class='inputText' type='text'
+placeholder='Obligatorio (*)'
+id='inptMontoCierreCierreCaja'
+style='width:150px; display: none;'
+onkeyup='separadordemiles(this)' />
+<div>
+  <div>
+    <p class="pTituloC">500 gs.</p>
+    <input id='inptMontoCierreCaja5' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">1.000 gs.</p>
+    <input id='inptMontoCierreCaja10' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">2.000 gs.</p>
+    <input id='inptMontoCierreCaja20' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">5.000 gs.</p>
+    <input id='inptMontoCierreCaja50' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">10.000 gs.</p>
+    <input id='inptMontoCierreCaja100' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">20.000 gs.</p>
+    <input id='inptMontoCierreCaja200' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">50.000 gs.</p>
+    <input id='inptMontoCierreCaja500' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">100.000 gs.</p>
+    <input id='inptMontoCierreCaja1000' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+</div>
+</td>
+</tr>
+</table>
+<br>
+<center>
+<input type='button' value='Guardar'class='btn1'onclick='verificarcamposaperturacierredecaja()' id='btnAbmAperturaCierreCaja' />
+</center>
+<br>
+<br>
+</div>
+
+</div>
+</center> 
+</div>
+</center>
+ 
+</div>
+
+
+
+
+
+<div class='principal2' style='display:none' id='divConsultaCaja'>
+ 
+<center>
+<div class='divPrincipalrepor' style='width: 100vw;'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Consulta de <b style='font-size: 30px;' >Caja</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaAsisCap/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarconsultacaja()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaAsisCap/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='verCerrarInformeConsultaCaja()' />
+</td>
+</tr>
+</table>
+<br>
+<center style='display:flex;justify-content:space-between;'>
+  <div style="width: 75%;">
+<div class='divMenuf' >
+
+<table style='width:100%'>
+<tr>
+<td style='width:12%'>
+<p class='pTituloC' >Caja</p>
+<input class='inputTextDisable' type='text'
+placeholder='Seleccionar una caja'
+id='inptBuscarVistaApCie1' style='width:87px'
+disabled />
+<input type='button' value='Buscar' class='btn4'
+onclick='vercerrarvistaapcie("1","1")'>
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Monto Apertura
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie3' 
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Monto Cierre
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie4' 
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Fecha Apertura
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie5' 
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Fecha Cierre
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie6' 
+disabled />
+</td>
+</tr>
+</table>
+
+<table style='width:100%'>
+<tr>
+<td style='width:20%'>
+<p class='pTituloC' >Lote</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarLoteVistaApCie' style='width:100%'
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Estado</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie7' 
+disabled />
+</td>
+<td style='width:70%'>
+<p class='pTituloC' >Usuario</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie2' style='width:100%'
+disabled />
+</td>
+
+</tr>
+</table>
+</div>
+<div class='divMenuf' >
+<table style="width:98%">
+<tbody><tr>
+<td style="width:10%;text-align:left">
+<input type="button" value="Imprimir" class="btn4" onclick='vercerraropcioneimpresionapcie("1")'  style="width:100px;background-color: rgb(58 58 58);">
+</td>
+<td style="width:90%;text-align:left">
+</td>
+</tr>
+</tbody>
+</table>
+<table class="tableCabeceraRegistro" id='tdTituloImpreConsultarCaja'>
+<tbody>
+<tr>
+<td class="td_registro" style="width:30%;">DETALLES</td>
+<td class="td_registro" style="width:20%;">MONTO</td>
+<td class="td_registro" style="width:20%;">LOCAL</td>
+</tr>
+</tbody>
+</table>
+<div class="div_cuerpo_table" id="table_Consultar_caja"
+style='height:340px;'></div>
+</div>
+<div class='divMenuf' style="display: none;">
+<table style='width:98%'>
+<tr>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Recaudado
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalEfectivoConsultarCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Deposito:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalTarjetaConsularCaja' style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Ingreso
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalIngresoConsularCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Egreso :</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalEgresoConsularCaja' style='width:95%;' />
+</td>
+<td style='width:15%;text-align:left;display:none;'>
+<p class='pTituloC' >Total Desembolso
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalDesembolsoConsularCaja'
+style='width:140px;' />
+</td>
+
+<td style='width:15%;text-align:left'>
+<p class='pTituloC' >Total Migrado:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalMigradoConsularCaja' style='width:140px;' />
+</td>
+
+<td style='width:15%;text-align:left'>
+<p class='pTituloC' >Total Recibido:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalRecibidoConsularCaja' style='width:140px;' />
+</td>
+
+
+<td style='width:15%;text-align:left'>
+<p class='pTituloC' >Total en caja:
+</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalConsularCaja' style='width:140px;' />
+</td>
+</tr>
+</table>
+</div>
+<div class='divMenuf' style='display:none' id='table_buscar_opciones_pago' >
+<table style='width:98%'>
+<tr>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Cobrado:
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalEfectivoConsultarCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Deposito:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalTarjetaConsularCaja' style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Ingreso
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalIngresoConsularCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Egreso :</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalEgresoConsularCaja' style='width:95%;' />
+</td>
+</tr>
+</table>
+</div>
+
+<div class='divMenuf' style='display:none;'>
+  <table style='width:98%'>
+    <tr>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>500 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant500ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>1.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant1000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>2.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant2000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>5.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant5000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>10.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant10000ConsultarCaja' style='width:95%;' />
+      </td>
+    </tr><tr>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>20.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant20000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>50.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant50000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>100.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant100000ConsultarCaja' style='width:95%;' />
+      </td>
+    </tr>
+  </table>
+</div>
+  </div>
+  <div style="width: 20%;">
+<div class="timeline-container">
+  <h2 class="titulo" style='font-size: 1.5rem;'>Resumen de Caja</h2>
+  <div class="timeline">
+
+    <!-- ENTRADAS -->
+	 <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Apertura Caja</h3>
+        <input class='taentrada' id='inptResumenAperturacaja' type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+	
+	 <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Total Ingreso</h3>
+        <input class='taentrada'  id='inptResumenTotalIngreso'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>	
+	
+    <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;" >Total Recaudado</h3>
+        <input class='taentrada' id='inptResumenTotalRecaudado'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+ 
+
+    <!-- SALIDAS -->
+
+
+    <div class="timeline-item salida">
+      <div class="timeline-content">
+        <h3  class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Total Egreso</h3>
+        <input class='taSalida' id='inptResumenTotalEgreso'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+	
+	<div class="timeline-item neutro">
+  <div class="timeline-content">
+    <h3>Total Operaciones</h3>
+   <input style='Text-align:center;' id='inptResumenTotalCaja'  type="text"  readonly>
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</center>
+</div>
+</center>
+ 
+</div>
+
+<div class='principal2' style='display:none' id='divAbmLimiteCaja'>
+  <table style='width:100%;height:100%' id='tdEfectoArqueoCierroCaja'>
+    <tr>
+      <td>
+        <center>
+          <div style='min-height:200px;width:400px;' class='divAbms'>
+            <table class='tableMenuZ'>
+              <tr>
+                <td style='width:100%;text-align:left'>
+                  <p class='pTituloB'>Limitador de <b style='font-size: 30px;'>Caja</b></p>
+                </td>
+                <td style='width:5%;text-align:center'>
+                  <img src='/GoodVentaAsisCap/iconos/botonCerrar.png' class='iconoBtn' title='Cerrar Ventana'
+                    onclick='verCerrarVentanaABMLimiteCaja(false)' />
+                </td>
+              </tr>
+            </table>
+            <center>
+              <div class="divmenuf">
+                <p class="pTituloC">Limite del monto para transferir a central: </p>
+                <input class="inputTextDisable" type="text" id="inptLimitecaja" style="width:90%;" onkeyup="separadordemiles(this)">
+              </div>
+              <div class="divmenuf">
+                <input type="button" value="Guardar" class="btn1" onclick="agregarLimiteCaja()">
+              </div>
+            </center>
+          </div>
+        </center>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class='principal2' style='display:none' id='divVistaArqueocierrecaja'>
+<table style='width:100%;height:100%' id='tdEfectoArqueoCierroCaja'>
+<tr>
+<td>
+<center>
+<div style='min-height:550px;width:90%;' class='divAbms'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Vista de <b style='font-size: 30px;' >Caja</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaAsisCap/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='vercerrarvistaapcie("","")' />
+</td>
+</tr>
+</table>
+<br>
+<center>
+<div class='divMenuf'>
+
+<br>
+<center>
+<table class="tableCabeceraRegistro">
+<tbody>
+<tr>
+
+<td class="td_registro" style="width:10%;">
+LOTE
+</td> 
+<td class="td_registro" style="width:10%;">
+ESTADO
+</td>
+<td class="td_registro" style="width:10%;">
+FECHA APERT.
+</td>
+<td class="td_registro" style="width:10%;">
+FECHA CIERRE
+</td>
+<td class="td_registro" style="width:10%;">
+MONTO APERT.
+</td>
+<td class="td_registro" style="width:10%;">
+MONTO CIERRE
+</td>
+<td class="td_registro" style="width:15%;">
+USUARIO
+</td>
+<td class="td_registro" style="width:10%;">
+LOCAL
+</td>
+</tr>
+</tbody>
+</table>
+<table class="tableCabeceraRegistro">
+<tbody>
+<tr>
+<td class="td_registro" style="width:10%;">
+  <input placeholder="Igual a" class="inputfiltro" type="text"
+id="inptBuscarVistaCaja6"
+onkeyup="if(event.keyCode == 13){buscarvistaaperturacierrecaja()}">
+</td>
+ 
+<td class="td_registro" style="width:10%;">
+<select class="inputfiltro" id="inptBuscarVistaCaja2">
+<option value="">TODOS</option>
+<option value="Activo">ACTIVO</option>
+<option value="Cerrado">CERRADO</option>
+</select>
+</td>
+<td class="td_registro" style="width:10%;">
+<input class="inputfiltro" type="Date" id="inptBuscarVistaCaja3"
+onkeyup="if(event.keyCode == 13){buscarvistaaperturacierrecaja()}">
+</td>
+<td class="td_registro" style="width:10%;">
+<input class="inputfiltro" type="Date" id="inptBuscarVistaCaja4"
+onkeyup="if(event.keyCode == 13){buscarvistaaperturacierrecaja()}">
+</td>
+<td class="td_registro" style="width:10%;">
+</td>
+<td class="td_registro" style="width:10%;">
+</td>
+<td class="td_registro" style="width:15%;">
+<input placeholder="Igual a" class="inputfiltro" type="text"
+id="inptBuscarVistaCaja5"
+onkeyup="if(event.keyCode == 13){buscarvistaaperturacierrecaja()}">
+</td>
+<td class="td_registro" style="width:15%;">
+<select class="inputfiltro" id="inptlocalVistaApCie"></select>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="div_cuerpo_table" id="table_vista_ap_cie" style='height:290px;'></div>
+<br>
+</center>
+</div>
+
+<div class="divMenuf">
+<table style="width:98%">
+<tbody>
+<tr>
+<td style="width:10%;text-align:left">
+<p class="pTituloC">Total Apertura:</p>
+<input class="inputTextDisable" type="text" disabled="" id="inptTotalAperturaArqueocierrecaja" style="width:140px;">
+</td>
+<td style="width:10%;text-align:left">
+<p class="pTituloC">Total Cierre:</p>
+<input class="inputTextDisable" type="text" disabled="" id="inptTotalCierreArqueocierrecaja" style="width:140px;">
+</td>
+ 
+<td style="width:10%;text-align:left">
+<p class="pTituloC">Total Cobrado:</p>
+<input class="inputTextDisable" type="text" disabled="" id="inptCobradoArqueocierrecaja" style="width:140px;">
+</td>
+
+<td style="width:10%;text-align:left">
+<p class="pTituloC">Total Ingreso:</p>
+<input class="inputTextDisable" type="text" disabled="" id="inptTotalIngresoArqueocierrecaja" style="width:140px;">
+</td>
+
+<td style="width:10%;text-align:left">
+<p class="pTituloC">Total egreso:</p>
+<input class="inputTextDisable" type="text" disabled="" id="inptTotalEgresoArqueocierrecaja" style="width:140px;">
+</td>
+
+<td style="width:50%;text-align:left"> 
+</td>
+
+<td style="width:20%;text-align:left">
+<p class="pTituloC">A Depositar:</p>
+<input class="inputTextDisable" type="text" disabled="" id="inptTotalDiferenciaArqueocierrecaja" style="width:140px;">
+</td>
+
+ </tr>
+</tbody>
+</table>
+</div>
+
+</center>
+<br>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+
 <div class='principal2' style='display:none' id='divAbmAsignarMalla'>
  
 <center>
-<div class='divPrincipalrepor' id='divAbmAsignarMalla1' style='display:;width: 100vw;'>
+<div class='divPrincipalrepor' id='divAbmAsignarMalla1' style='width: 100vw;'>
 <table class='tableMenuZ' id='tbVistarAsignarMalla1'>
 <tr>
 <td style='width:100%'>
@@ -3689,12 +4490,6 @@ CARGA HORARIA
 <p class='pTitulo5'   >Año  :</p>
 <select class="inputText" style='width:130px' id='inptAnhoAsignarMalla'>
 <option value="">Seleccionar</option>
-<option value="2020">2020</option>
-<option value="2021">2021</option>
-<option value="2022">2022</option>
-<option value="2023">2023</option>
-<option value="2024">2024</option>
-<option value="2025">2025</option>
 <option value="2026">2026</option>
 <option value="2027">2027</option>
 <option value="2028">2028</option>
@@ -3794,7 +4589,7 @@ CARGA HORARIA
 <td>
 <center>
 
-<div class='divAbms' style='display:;width: 980px;min-height:400px'>
+<div class='divAbms' style='width: 980px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -3904,7 +4699,7 @@ ESTADO
 <div class='principal2' style='display:none' id='divReportAlumMatri'>
  
 <center>
-<div class='divPrincipalrepor' style='display:;width:100vw;'>
+<div class='divPrincipalrepor' style='width:100vw;'>
 <table class='tableMenuZ' id='tbHistorialMatriculaciones1'>
 <tr>
 <td style='width:100%'>
@@ -3983,6 +4778,11 @@ C.I.
 <td class="td_registro_orden" style="width:15%;cursor:pointer" id='tdOrdReportMatri1' onclick='ordenreportmatricula(1)'>
 ALUMNO
 </td>
+
+<td class="td_registro" style="width:5%;">
+TELEFONO
+</td>
+
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportMatri5' onclick='ordenreportmatricula(5)'>
 CURSO
 </td>
@@ -4034,6 +4834,8 @@ AÑO ACAD.
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado4')" />
 </td>
+<td  class="td_registro" style="width:5%;">
+ </td>
 <td  class="td_registro" style="width:4%;">
 <input  placeholder='Igual a' type="text"  class="inputfiltro" id="inptReporAlumnoMatriculado6" list='ListCurso' autocomplete="off" onkeyup="if(event.keyCode == 13){BuscarReportAlumnosMatriculados()}" >
 </td>
@@ -4160,7 +4962,7 @@ AÑO ACAD.
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' style='display:;width:1250px'>
+<div class='divPrincipalrepor' style='width:1250px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -4327,7 +5129,7 @@ ACCION
 <div class='principal2' style='display:none' id='divCrargarExistenciaArchivos'>
  
 <center>
-<div class='divPrincipalrepor' style='display:;width:100vw;'>
+<div class='divPrincipalrepor' style='width:100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -4612,7 +5414,7 @@ ACCION
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' style='display:;width:1250px'>
+<div class='divPrincipalrepor' style='width:1250px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -4728,7 +5530,7 @@ CALIFICAION 3
 <tr>
 <td>
 <center>
-<div class='divAbms' style='display:;width: 361px;min-height:400px'>
+<div class='divAbms' style='width: 361px;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -4905,7 +5707,7 @@ LOCAL
 </div>
 </center>
 </div>
-<div class='divAbms' id='divAbmAsignarAlumnos2' style='display:;width:100vw;min-height:400px'>
+<div class='divAbms' id='divAbmAsignarAlumnos2' style='width:100vw;min-height:400px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -4991,7 +5793,7 @@ ESTADO
 <div class='principal2' style='display:none' id='divAbmMatricularAlumnos'>
  
 <center>
-<div class='divAbms'  style='display:;min-height:400px;width:100vw'>
+<div class='divAbms'  style='min-height:400px;width:100vw'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -5124,18 +5926,6 @@ ESTADO
 <p class='pTitulo5'   >Año Academico :</p>
 <select class="inputText" style='width:190px' id='inptAnhoAsignarAlumnos' disabled>
 <option value="">Seleccionar</option>
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
-<option value="2018">2018</option>
-<option value="2019">2019</option>
-<option value="2020">2020</option>
-<option value="2021">2021</option>
-<option value="2022">2022</option>
-<option value="2023">2023</option>
-<option value="2024">2024</option>
-<option value="2025">2025</option>
 <option value="2026">2026</option>
 <option value="2027">2027</option>
 <option value="2028">2028</option>
@@ -5234,6 +6024,24 @@ ESTADO
 </table>
 
 
+
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTitulo5'   >Tipo Alumno :</p>
+<select class="inputText" style='width:120px' id='inptTipoAlumnoAsignarAlumnos' >
+<option value="">Seleccionar</option>
+<option value="Nuevo">Nuevo</option>
+<option value="Antiguo">Antiguo</option>
+</select>
+</td>
+</tr>
+</table>
+
+
+ 
+
+
 <table style='width:100%'>
 <tr>
 <td>
@@ -5267,7 +6075,7 @@ ESTADO
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' style='display:;    width: 1080px;min-height: 200px;'>
+<div class='divPrincipalrepor' style=' width: 1080px;min-height: 200px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -5330,7 +6138,7 @@ SECCIÓN
 <tr>
 <td>
 <center>
-<div class='divAbms_b'  style='display:;min-height:400px;width:800px'>
+<div class='divAbms_b'  style='min-height:400px;width:800px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -5534,9 +6342,7 @@ SECCIÓN
 </div>
 
 </div>
-
-
-
+ 
 <br>
 </center>
 </div>
@@ -5546,12 +6352,582 @@ SECCIÓN
 </table>
 </div>
 
+
+
+
+
+<div class='principal2' style='display:none' id='divAbmGastos'>
+<!-- <table style='width:100%;height:100%;' id='tdEfectoAbmGasto'> -->
+<!-- <tr> -->
+<!-- <td> -->
+<!-- <center> -->
+<div id='divAbmGasto2' style='display:none;width:100%;height:100vh;' class='divAbms'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Abm <b style='font-size: 30px;' >Egreso / Ingreso</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaElectroGuai/iconos/limpiarcampos.png' class='iconoBtn'
+title='Limpiar campos' onclick='limpiarcamposGasto()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaElectroGuai/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarventanaingresoegreso()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaElectroGuai/iconos/flechaderecha.png' class='iconoBtn'
+title='Volver Atras' onclick='verCerrarVentanaAbmGasto("2","")' />
+</td>
+</tr>
+</table>
+<center>
+<div style='display:flex;align-items:flex-start;justify-content:center' >
+<div class='divMenuf' style='float:left;margin:1%; width: 30%; height: 80vh;'>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Monto :</p>
+<input class='inputText' type='text' placeholder='Obligatorio (*)'
+id='inptMontoGasto' onkeyup='separadordemiles(this)'
+style='width:200px' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Motivo :</p>
+<!-- <select class="inputSelect" id="inptMotivoMisGastos" -->
+<!-- style='width:150px'></select> -->
+<input id='inptMotivoMisGastos' list='ListMotivoMisGastos' style='width:70%' type='text' class='inputText' />
+<datalist id="ListMotivoMisGastos"></datalist>
+<input  type="button" value="Add" class="btn5" onclick="verCerrarAbmNuevoMotivo()" >
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Descripcion :</p>
+<textarea class='textarea1' placeholder='Obligatorio (*)'
+id='inptMotivoGasto' style='height:120px'></textarea>
+</td>
+</tr>
+</table>
+<table style='width:100%;display:none'>
+<tr>
+<td>
+<p class='pTituloC' >Gasto de :</p>
+<input class='inputText' type='text' placeholder='Obligatorio (*)'
+id='inptPersonalGasto' style='width:200px' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Fecha :</p>
+<input class='inputTextDisable' disabled type='Date' onchange='cambiarFechaIngresoEgreso(this)' id='inptFechaGasto'
+style='width:150px' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Local :</p>
+<select class="inputSelect" id="inptlocalMisGastos"
+style='width:150px'></select>
+</td>
+</tr>
+</table>
+<br>
+</div>
+<div class='divMenuf' style='float:left;margin:1%; width: 30%; height: 80vh;'>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Tipo :</p>
+<select class="inputSelect" id="inptTipoGasto" style='width:150px'>
+<option value="Ingreso">INGRESO</option>
+<option value="Egreso">EGRESOS</option>
+<option value="Deposito">DEPOSITO</option>
+</select>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Fecha Deposito :</p>
+<input class='inputText' type='Date' id='inptFechaDepositoGasto'  style='width:150px' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Nro de Boleta :</p>
+<input class='inputText' type='text' id='inptNroBoletaGasto' style='width:200px' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Banco :</p>
+<select class='inputSelect' id='inptBancoGasto' ></select>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Cuenta :</p>
+<input class='inputText' type='text' id='inptCuentaGasto' style='width:200px' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td style='width:80%'>
+<p class='pTituloC' >Arreglo :</p>
+<select class="inputSelect" id="inptArregloGasto" style='width:100%'> 
+</select>
+</td>
+<td style='width:20%' >
+<br>
+<input type="button" value="Add" class="btn5" onclick="verCerrarFrmDescripcionArregloGastoEgresoIngreso(1)">
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Estado :</p>
+<select class="inputSelect" id="inptEstadoGasto" style='width:200px'>
+<option value="Activo">ACTIVO</option>
+<option value="Inactivo">INACTIVO</option>
+</select>
+</td>
+</tr>
+</table>
+<br>
+<br>
+<br>
+
+</div>
+<div class='divMenuf' style='float:left;margin:1%; width: 30%; height: 80vh;'>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Cargar Imagen :</p>
+<center>
+<div id="imgFotoGastoIngresoEgreso" class="imgFotoGasto" onclick="verCerrarVisorImagen('1','abmgastos')" style="background-image: url('');">
+</div>
+<br>
+<input type="button" value="Explorar" class="btn4" onclick="ExploradorImagenGasto('file_gasto')" style="width:130px">
+<input type="file" id="file_gasto" name="file_gasto" style="display:none;" onchange="readFileGasto(this)">
+</center>
+<br><br><br><br><br>
+<center>
+<input type='button' value='Guardar datos' class='btn1' style='height:29px' onclick='verificarcamposGasto()' id='btnAbmGastos' />
+</center>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<br>
+</center>
+</div>
+<div id='divAbmGasto1' style='width:100%;height:100vh;overflow:auto;' class='divAbms'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Buscar <b style='font-size: 30px;' >Egreso / Ingreso</b> </p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaElectroGuai/iconos/add.png' class='iconoBtn' title='Añadir registro'
+onclick='verCerrarVentanaAbmGasto("1","1")' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaElectroGuai/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarventanaingresoegreso()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaElectroGuai/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='verCerrarAbmGasto()' />
+</td>
+</tr>
+</table>
+<div style='display:flex;flex-direction: column;align-items:center;'>
+<div class='divMenuf' style='width: 98%;'>
+<div style='width: 98%;height:auto'>
+<table style='width:100%'>
+<tr>
+<td style='width:20%'>
+<p class="pTituloC">Opciones de Busqueda</p>
+<table style="width:100%">
+<tbody>
+<tr>
+<td style="width:10%;text-align:left">
+<p class="pTitulo8"
+onclick="checkfiltroshistorialegresoingreso(1)"
+style="width: 135px;"> <input type="checkbox"
+id="inptCheckingresoegreso1"> Rango de
+Fechas</p>
+</td>
+<td style="width:10%;text-align:left">
+<p class="pTitulo8"
+onclick="checkfiltroshistorialegresoingreso(2)"
+style="width: 76px;"> <input type="checkbox"
+id="inptCheckingresoegreso2" checked="">
+Todos</p>
+</td>
+<td style="width:80%">
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td style='width:10%;'>
+<p class='pTituloC' >Fecha inicio :</p>
+<input class='inputText' type='Date' id='inptBuscarGastoF1' style='width:130px' />
+</td>
+<td style='width:20%;'>
+<p class='pTituloC' >Fecha fin :</p>
+<input class='inputText' type='Date' id='inptBuscarGastoF2' style='width:130px' />
+<input type='Button' value='Buscar' class='btn4' onclick='buscarabmGasto()' />
+</td>
+<td style='width:10%;'>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class='divMenuf' style='width: 98%;'>
+<table style='width:100%'>
+<tr>
+<td style='width:100%'></td>
+<td style='width:10%;text-align:left'>
+<p class='pTitulo8' onclick='checkestadoGastos(1)'> 
+<input type='checkbox' id="inptSeleccEstadoBuscarGasto1" checked>
+Activo</p>
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTitulo8' onclick='checkestadoGastos(2)'> 
+<input type='checkbox' id="inptSeleccEstadoBuscarGasto2"> Inactivo
+</p>
+</td>
+</tr>
+</table>
+<table style="width:100%;margin-bottom:3px">
+<tbody><tr>
+<td>
+<input type="button" value="Individual" class="btnSelecct4" id="btnGasto1" style='background-color:#ff9800;color: #fff;' onclick="cambiarTipoGasto(1)">
+</td>
+<td>
+<input type="button" value="Agrupados" class="btnSelecct4" id="btnGasto2"  onclick="cambiarTipoGasto(2)">
+</td>
+<td style="width:100%;text-align:right">
+<input type="button" value="Imprimir" class="btn4" onclick='ordenimpresion("gastos")' style="width:100px;background-color: rgb(58 58 58);">
+</td>
+</tr>
+</tbody>
+</table>
+<div style='overflow:auto;' class='divScrollhideen' id='TableScroollGastos1'>
+<table  class="tableCabeceraRegistro" id='tdTituloImpreGastos' style='width:100%;'>
+<tbody>
+<tr>
+<td class="td_registro" style="width:5%;">#</td>
+<td class="td_registro" style="width:10%;">MOTIVO</td>
+<td class="td_registro" style="width:5%;">MONTO</td>
+<td class="td_registro" style="width:5%;">TIPO</td>
+<td class="td_registro" style="width:10%;">FECHA</td>
+<td class="td_registro" style="width:10%;">NRO BOLETA</td>
+<td class="td_registro" style="width:10%;">LOCAL</td>
+<td class="td_registro" style="width:5%;">BANCO</td>
+<td class="td_registro" style="width:10%;">CUENTA</td>
+<td class="td_registro" style="width:5%;">ARREGLO</td>
+<td class="td_registro" style="width:10%;">USUARIO</td>
+<td class="td_registro" style="width:5%;">CONFIRMADO</td>
+<td class="td_registro" style="width:5%;">FOTO</td>
+</tr>
+</tbody>
+</table>
+<table class="tableCabeceraRegistro" id='tdTituloImpreGastos' style='width:100%;'>
+<tbody>
+<tr>
+<td class="td_registro" style="width:5%;"></td>
+<td class="td_registro" style="width:10%;">
+<!-- <select class="inputfiltro" id="inptBuscarIngresoEgreso3"></select> -->
+<input id='inptBuscarIngresoEgreso3' list='listBuscarIngresoEgreso3' style='width:70%' type='text' class='inputText' />
+<datalist id="listBuscarIngresoEgreso3"></datalist>
+
+</td>
+<td class="td_registro" style="width:5%;">
+<input class='inputfiltro' type='text'
+id='inptBuscarIngresoEgreso8'
+onkeyup="if(event.keyCode == 13){buscarabmGasto()}"
+placeholder='Parecido a' />
+</td>
+<td class="td_registro" style="width:4%;">
+<select class="inputfiltro" id="inptSeleccTipoBuscarGasto">
+<option value="">TODOS</option>
+<option value="Ingreso">INGRESO</option>
+<option value="Egreso">EGRESOS</option>
+<option value="Deposito">DEPOSITO</option>
+</select>
+</td>
+<td class="td_registro" style="width:1%;">
+<img class='inptLimpiarBP'
+src='/GoodVentaElectroGuai/iconos/limpiar.png'
+onclick="vaciar('inptSeleccTipoBuscarGasto')" />
+</td>
+<td class="td_registro" style="width:9%;">
+<input class='inputfiltro' type='Date' id='inptBuscarIngresoEgreso2' />
+</td>
+<td class="td_registro" style="width:1%;">
+<img class='inptLimpiarBP' src='/GoodVentaElectroGuai/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso2')" />
+</td>
+<td class="td_registro" style="width:9%;">
+<input class='inputfiltro' type='text'
+id='inptBuscarIngresoEgreso5'
+onkeyup="if(event.keyCode == 13){buscarabmGasto()}"
+placeholder='Parecido a' />
+</td>
+<td class="td_registro" style="width:1%;">
+<img class='inptLimpiarBP' src='/GoodVentaElectroGuai/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso5')" />
+</td>
+<td class="td_registro" style="width:10%;">
+<select class="inputfiltro"
+id="inptlocalMisGastosBusca"></select>
+</td>
+<td class="td_registro" style="width:15%;">
+<input class='inputfiltro' type='text' id='inptBuscarIngresoEgreso4' onkeyup="if(event.keyCode == 13){buscarabmGasto()}" placeholder='Parecido a' />
+<!-- <select class='inputfiltro' id='inptBuscarIngresoEgreso4'></select> -->
+</td>
+<!-- <td class="td_registro" style="width:10%;"></td> -->
+<td class="td_registro" style="width:5%;">
+<select class="inputfiltro" id="inptSeleccArregloBuscarGasto">
+<option value="">TODOS</option>
+<option value="GASTO">GASTO</option> 
+<option value="DEPOSITO">DEPOSITO</option>
+<option value="ADMINISTRACION">ADMINISTRACION</option> 
+</select>
+</td>
+<td class="td_registro" style="width:9%;">
+<input class='inputfiltro' type='text'
+id='inptBuscarIngresoEgreso1'
+onkeyup="if(event.keyCode == 13){buscarabmGasto()}"
+placeholder='Parecido a' />
+</td>
+<td class="td_registro" style="width:1%;">
+<img class='inptLimpiarBP'
+src='/GoodVentaElectroGuai/iconos/limpiar.png'
+onclick="vaciar('inptBuscarIngresoEgreso1')" />
+</td>
+<td class="td_registro" style="width:5%;">
+<select class="inputfiltro"
+id="inptConfirmadoMisGastosBusca">
+<option value=''>SELECCIONAR</option>
+<option value='SI'>SI</option>
+<option value='NO'>NO</option>
+</select>
+</td>
+<td class="td_registro" style="width:5%;">
+
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+<div class='divTablesScrool' id='TableScroollGastos2' >
+<div class="div_cuerpo_table" style='min-height:100%;width:100%;border:none;' id="table_abm_gasto"></div>
+</div>
+
+</div>
+<div class='divMenuf' style='width: 98%;'>
+<table style='width:100%'>
+<tr>
+<td style='width:15%;'>
+<p class='pTituloC' >Registros :</p>
+<input class='inputTextDisable' type='text' disabled id='inptRegistroNroGastos' style='width:150px;text-align:center' />
+</td>
+<td style='width:15%;'>
+<p class='pTituloC' >Total :</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalGasto' style='width:150px' />
+</td>
+<td style='width:70%;'>
+<p class='pTituloC' >Registro Selecc..
+</p>
+<input class='inputTextDisable' type='text' disabled id='inptRegistroSeleccGasto' style='width:200px' />
+<input id='btnEditarGastos' type="button" value="Editar" class="btn5" onclick="verVentanaEditarGasto()" style='background-color:#b7b7b7'>
+<input id='btnConfirmarGasto' type="button" value="Confirmar" class="btn5" onclick="confirmarGasto()" style='background-color:#b7b7b7'>
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+</div>
+<!-- </center> -->
+<!-- </td> -->
+<!-- </tr> -->
+<!-- </table> -->
+</div>
+<div class='principal2' style='display:none' id='divAbmDescripcionArregloGastoEgresoIngreso'>
+<table style='width:100%;height:100%'>
+<tr>
+<td>
+<center>
+<div class='divAbms_b' style='width: 500px;'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Seleccionar Descripcion</p>
+</td>
+<td style='width:5%;text-align:center'><img
+src='/GoodVentaElectroGuai/iconos/limpiarcampos.png' class='iconoBtn'
+title='Limpiar campos' onclick='LimpiarCamposDescripcionArregloGastoEgresoIngreso()' /></td>
+<td style='width:5%;text-align:center'><img
+src='/GoodVentaElectroGuai/iconos/flechaderecha.png' class='iconoBtn'
+title='Volver Atras' onclick='verCerrarFrmDescripcionArregloGastoEgresoIngreso("2","")' /></td>
+</tr>
+</table>
+<br>
+ 
+
+<center>
+<div class='divMenuf'>
+<table style='width:100%'>
+<tr>
+<td style='width:100%'>
+<p class='pTituloC' >Nombre :</p>
+<input type="text" class="inputText" id="inptNombreDescripcionArregloGastoEgresoIngreso" placeholder='Obligatorio(*)'>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td style='width:100%'>
+<p class='pTituloC' >Estado del Registro :</p>
+<select class="inputSelect" style='width:250px' id='inptEstadoDescripcionArregloGastoEgresoIngreso'>
+<option value="">Seleccionar</option>
+<option value="Activo">Activo</option>
+<option value="Inactivo">Inactivo</option>
+</select>
+</td>
+</tr>
+</table>
+
+<br>
+<center>
+<input class='btn1' type='button' value='Guardar Datos' onclick='VerificarDatosDescripcionArregloGastoEgresoIngreso()' id='btnDescripcionArregloGastoEgresoIngreso1' />
+</center>
+
+<center>
+<table style='width:100%'>
+<tr>
+<td style='width:70%;text-align:left'>
+<p class='pTituloC' >Buscar :</p>
+<input class='inputText' type='text' placeholder='Descripción' id='inptBuscarAbmDescripcionArregloGastoEgresoIngresos' onkeyup="if(event.keyCode == 13){BuscarAbmDescripcionArregloGastoEgresoIngreso()}" style='width: 100%;' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC' >Estado :</p>
+<select class="inputSelect" style='width:100%' id='inptBuscarEstadoDescripcionArregloGastoEgresoIngreso'>
+<option value="">Seleccionar</option>
+<option value="Activo">Activo</option>
+<option value="Inactivo">Inactivo</option>
+</select>
+</td>
+<td style='width:10%;text-align:left'>
+<br>
+<input type='button' value='Buscar' class='btn4' onclick='BuscarAbmDescripcionArregloGastoEgresoIngreso()'>
+</td>
+</tr>
+</table>
+<table class="tableCabeceraRegistro">
+<tbody>
+<tr>
+<td class="td_registro" style="width:100%;">
+DESCRIPCION
+</td>
+</tr>
+</tbody>
+</table>
+<div class="div_cuerpo_table" id="divBuscadorDescripcionArregloGastoEgresoIngreso" style='height:200px'>
+</div>
+<p class='pTitulo7' id="lblNroRegistroDescripcionArregloGastoEgresoIngreso"></p>
+</center>
+<center>
+<table style='width:100%'>
+<tr>
+<td style='width:100%'>
+<input class='btn2' type='button' value=':: Seleccionar Registro ::'
+onclick='SeleccionarRegistroDescripcionArregloGastoEgresoIngreso()' />
+</td>
+<td style='display:none;'>
+<input class='btn2' style='background-color:#FF5722' type='button' value='Precios'
+onclick='verCerrarFrmPrecioDescripcionArregloGastoEgresoIngreso("1","vistaDescripcionArregloGastoEgresoIngreso")' />
+</td>
+</tr>
+</table>
+</center>
+<br>
+<br>
+</div>
+</center>
+</div>
+
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class='principal2' style='display:none' id='divAbmArchivosCarrerasPosgrado'>
 <table style='width:100%;height:100%'>
 <tr>
 <td>
 <center>
-<div class='divAbms'  style='display:;min-height:400px;width:580px'>
+<div class='divAbms'  style='min-height:400px;width:580px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -5952,7 +7328,7 @@ NRO CAJA
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' style='display:;width:750px'>
+<div class='divPrincipalrepor' style='width:750px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -6022,7 +7398,7 @@ LOCAL
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' style='display:;width:750px'>
+<div class='divPrincipalrepor' style='width:750px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -6093,7 +7469,7 @@ LOCAL
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor' id='divAbmDeudasAlumnos1' style='display:;width:950px'>
+<div class='divPrincipalrepor' id='divAbmDeudasAlumnos1' style='width:950px'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -6336,7 +7712,7 @@ PENDIENTE
 
 <td style='width:23%'>
 <p class='pTitulo5' style='color:#fff'  >Alumno :</p>
-<input class='inputTextDisable inputTamanho4' type='text'	id='inptNombreAlumnoCobrarAranceles' disabled placeholder='Nombre Apellido'   />
+<input class='inputTextDisable inputTamanho4' style='width: 210px;' type='text'	id='inptNombreAlumnoCobrarAranceles' disabled placeholder='Nombre Apellido'   />
 <input type="button" value="Ir a Vista" class="btn4" onclick="verCerrarFrmVistaAsignarAlumnos('1','CobrarAranceles')"    >
 </td>
 <td style='width:20%'>
@@ -6347,16 +7723,16 @@ PENDIENTE
 <td style='width:12%'>
 <!-- <p class="pTitulo8" style='width: 154px;font-size: 14px;margin-top: 15px;margin-bottom: 15px;'> <input type="checkbox" id="checkImprimirFactura" checked>Imprimir Factura</p> -->
 <p class='pTitulo5' style='color:#fff' >Comprobante :</p>
-<select id='inptSeleccionImprimirCobranza' style='width: 90%;' onchange='limpiarPuntoExpedicion()' class='inputText'>
+<select id='inptSeleccionImprimirCobranza' style='width: 90%;' disabled onchange='limpiarPuntoExpedicion()' class='inputText'>
 <option value='FACTURA'>FACTURA</option>
-<option value='BOLETA'>BOLETA</option>
+<option value='BOLETA' selected >BOLETA</option>
 </select>
 </td>
-<td style='width:10%'>
+<td style='width:10%;display:none;'>
 <p class='pTitulo5' style='color:#fff'>Punto Exp. :</p>
-<select class="inputText" id="inptPuntoExpedicionCobrarAranceles" style=""></select>
+<select class="inputText" id="inptPuntoExpedicionCobrarAranceles"></select>
 </td>
-<td style='width:10%'>
+<td style='width:10%;display:none;'>
 <p class='pTitulo5' style='color:#fff'  >Factura Nro :</p>
 <input type="text"  autocomplete="off" class="inputText" id="inptFacturaNroCobrarAranceles" style="width:91px" onblur="controlarnrofacturaexistb()" onkeyup="if(event.keyCode == 13){cambiarFocusControlNroFacturab()}">
 <input type="text" autocomplete="off" class="inputTextDisable" id="inptControlCobrarAranceles" style="display:none" disabled="">
@@ -6374,22 +7750,18 @@ PENDIENTE
 	  
 	  <td>
         <p class='pTitulo5'  style='color:#fff'>Año:</p>
-        <select id="inputyearFactura" style=""  class="inputText" onchange='ObtenerFechaSelect()' disabled >
-		  <option value="2021" >2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-          <option value="2024" selected >2024</option>
-          <option value="2025">2025</option>
-          <option value="2026">2026</option>
+        <select id="inputyearFactura"class="inputText" onchange='ObtenerFechaSelect()' disabled >
+          <option value="2026" selected>2026</option>
           <option value="2027">2027</option>
           <option value="2028">2028</option>
           <option value="2029">2029</option>
           <option value="2030">2030</option>
         </select>
-	 </td>
+	 
+      </td>
       <td>
         <p class='pTitulo5' style='color:#fff' >Mes:</p>
-        <select id="inputmonthFactura" style="" class="inputText" onchange='ObtenerFechaSelect()'>
+        <select id="inputmonthFactura"  class="inputText" onchange='ObtenerFechaSelect()'>
           <option value="1">Enero</option>
           <option value="2">Febrero</option>
           <option value="3">Marzo</option>
@@ -6406,7 +7778,7 @@ PENDIENTE
      </td>
 	 <td>
         <p class='pTitulo5' style='color:#fff' >Dia:</p>
-        <select id="inputdayFactura"  style=""  class="inputText">
+        <select id="inputdayFactura"     class="inputText">
         </select>
       </td>
 	 
@@ -6425,7 +7797,7 @@ PENDIENTE
 
 <table  style='height:50px;width:100%' >
 <tr>
-<td style='width:7%'>
+<td style='width:7%;display: none;'>
 <p class='pTitulo5 ' style='color:#fff' >Local :</p>
 <input class='inputTextDisable inputTamanho1' type='text'	id='inptFilialCobrarAranceles' disabled  />
 </td>
@@ -6435,23 +7807,23 @@ PENDIENTE
 </td>
 <td style='width:5%'>
 <p class='pTitulo5' style='color:#fff' >Grado :</p>
-<input class='inputTextDisable' type='text' id='inptCursoCobrarAranceles' disabled  style='width:73px' />
+<input class='inputTextDisable' type='text' id='inptCursoCobrarAranceles' disabled  style='width:100px' />
 </td>
 <td style='width:5%'>
 <p class='pTitulo5'  style='color:#fff' >Año :</p>
-<input class='inputTextDisable' type='text' id='inptAnhoCobrarAranceles'  disabled style='width:50px' />
+<input class='inputTextDisable' type='text' id='inptAnhoCobrarAranceles'  disabled style='width:80px' />
 </td>
-<td style='width:5%'>
+<td style='display:none'>
 <p class='pTitulo5' style='color:#fff' >Semestre :</p>
-<input class='inputTextDisable' type='text' id='inptSemestreCobrarAranceles'  disabled style='width:73px' />
+<input class='inputTextDisable' type='text' id='inptSemestreCobrarAranceles'  disabled style='display:none' />
 </td>
 <td style='width:5%'>
 <p class='pTitulo5' style='color:#fff' >Turno :</p>
-<input class='inputTextDisable' type='text' id='inptTurnoCobrarAranceles'  disabled style='width:80px' />
+<input class='inputTextDisable' type='text' id='inptTurnoCobrarAranceles'  disabled style='width:110px' />
 </td>
-<td style='width:5%'>
+<td style='display:none'>
 <p class='pTitulo5' style='color:#fff' >Sección :</p>
-<input class='inputTextDisable' type='text' id='inptSeccionCobrarAranceles'  disabled style='width:50px' />
+<input class='inputTextDisable' type='text' id='inptSeccionCobrarAranceles'  disabled style='display:none' />
 </td>
 </tr>
 </table>
@@ -6475,10 +7847,13 @@ PAGADO
 <td class="td_registro" style="width:10%;">
 SALDO
 </td>
+<td class="td_registro" style="width:10%;">
+DESCUENTO
+</td>
 </tr>
 </tbody>
 </table>
-<div class="div_cuerpo_table" id="table_vista_aranceles_cobrar_aranceles" style='height:120px'></div>
+<div class="div_cuerpo_table" id="table_vista_aranceles_cobrar_aranceles" style='height:180px'></div>
 </td>
 <td style='width:25%'>
 <table class="tableCabeceraRegistro">
@@ -6517,6 +7892,9 @@ MONTO A COBRAR
 <select class="inputText" id="inptTipoArancelCobrarAranceles" style="width: 120px" onchange="ControlTipoArancelCobranzas(this)">
 <option value="Especificos">Especificos</option>
 <option value="Generales">Generales</option>
+<option value="Materiales Didacticos">Materiales Didacticos</option>
+<option value="Libros">Libros</option>
+<option value="Interes">Interes</option>
 </select>
 </td>
 <td style='width:38%;'>
@@ -6525,11 +7903,11 @@ MONTO A COBRAR
 <input id='btnAddToDetalleVenta' type='button' value='Add' class='btn4'  onclick='anhadirAranacelEnDetalleVenta()' style='background-color: #cccccc;width:50px;' >
 <input id='btnMasDetalleVenta' type='button' value='Detalles' class='btn4'  onclick='verCuotasPagadasDesdeCobranzas()' style='display:none;width:100px;' >
 </td>
-<td style='width:15%;display:none'>
+<td style='width:15%; '>
 <p class='pTitulo5'>Descuento</p>
-<input class='inputText' type='text' placeholder='' id='inptDescuentoArancelCobrarAranceles'  style='width:100px' onkeyup="if(event.keyCode == 13){cargarfocusbtnaddDetalleVenta()}else{calcularTotalCobranzasCosto()}"	 />
+<input class='inputText' type='text' placeholder='' id='inptDescuentoArancelCobrarAranceles'  style='width:100px' onkeyup="if(event.keyCode == 13){cargarfocusbtnaddDetalleVenta()}else{separadordemiles(this); calcularTotalCobranzasCosto()}"	 />
 </td>
-<td style='width:13%;display:none'>
+<td style='width:13%; '>
 <p class='pTitulo5'>Total </p>
 <input class='inputTextDisable' type='text' placeholder='0 Gs' id='inptTotalArancelCobrarAranceles' style='width:115px' disabled />
 </td>
@@ -6544,6 +7922,9 @@ ARANCEL
 </td>
 <td class="td_registro" style="width:10%;">
 COSTO
+</td>
+<td class="td_registro" style="width:10%;">
+DESC.
 </td>
 <td class="td_registro" style="width:5%;">
 CANT.
@@ -6651,7 +8032,7 @@ onclick="imprimirDivticketFactura()">
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor divMenuTamnho1' style='display:;'>
+<div class='divPrincipalrepor divMenuTamnho1' >
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -6685,7 +8066,7 @@ onclick="imprimirDivticketFactura()">
 <div class='principal2' style='display:none' id='divVistaAsignarAlumnos'>
  
 <center>
-<div class='divPrincipalrepor' style='display:;width:100vw;'>
+<div class='divPrincipalrepor' style='width:100vw;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -6723,10 +8104,10 @@ CURSO
 <td class="td_registro_orden1" style="width:7%;cursor:pointer" id='tdOrdReportAsignarAlumnos5' onclick='ordenreportasignaralumnos(5)'>
 AÑO
 </td>
-<td class="td_registro" style="width:7%;">
+<td class="td_registro" style="display: none;">
 SEMESTRE
 </td>
-<td class="td_registro_orden1" style="width:7%;cursor:pointer" id='tdOrdReportAsignarAlumnos6' onclick='ordenreportasignaralumnos(6)'>
+<td class="td_registro_orden1" style="display: none;cursor:pointer" id='tdOrdReportAsignarAlumnos6' onclick='ordenreportasignaralumnos(6)'>
 LOCAL
 </td>
 </tr>
@@ -6750,10 +8131,10 @@ LOCAL
 <td class="td_registro" style="width:7%;">
 <input list='ListAnho' placeholder='Igual a' type='text' autocomplete="off" class='inputfiltro' id='inptBuscarVistaAsignarAlumnos5'  style='width:95%'   onkeyup="if(event.keyCode == 13){BuscarVistaAsignarAlumnos()}"  />
 </td>
-<td class="td_registro" style="width:7%;">
+<td class="td_registro" style="display: none;">
 <input placeholder='Igual a' type='text' autocomplete="off" class='inputfiltro' id='inptBuscarVistaAsignarAlumnos6'  style='width:95%'   onkeyup="if(event.keyCode == 13){BuscarVistaAsignarAlumnos()}"  />
 </td>
-<td class="td_registro" style="width:7%;">
+<td class="td_registro" style="display: none;">
 <input placeholder='Igual a' type='text' autocomplete="off" list='ListFilial'   class='inputfiltro' id='inptBuscarVistaAsignarAlumnos7'  style='width:95%'   onkeyup="if(event.keyCode == 13){BuscarVistaAsignarAlumnos()}"  />
 </td>
 </tr>
@@ -6888,7 +8269,7 @@ LOCAL
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor divMenuTamnho2' style='display:;'>
+<div class='divPrincipalrepor divMenuTamnho2'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -6996,12 +8377,16 @@ LOCAL
 </table>
 </div>
 
+
+
+
+
 <div class='principal2 divScrollPrincipal' style='display:none' id='divVistaArancelesCobrar'>
 <table style='width:100%;height:100%'>
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor divMenuTamnho8' style='display:;'>
+<div class='divPrincipalVista divMenuTamnho8' >
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -7012,8 +8397,7 @@ LOCAL
 </td>
 </tr>
 </table>
-<br>
-<br>
+<br> 
 
 <center>
 <div class='divMenuf'>
@@ -7031,7 +8415,7 @@ DESCRIPCION
 </tr>
 </tbody>
 </table>
-<div class="div_cuerpo_table tableTamanho2" id="divBuscadorVistaArancelesCobrar">
+<div class="div_cuerpo_table tableTamanho2" style="height: 65vh;" id="divBuscadorVistaArancelesCobrar">
 </div>
 </center>
 
@@ -7424,6 +8808,9 @@ TIPO
 <select class="inputText" style='width:250px' id='inptTipoListaAranceles'>
 <option value="Especificos">Especificos</option>
 <option value="Generales">Generales</option>
+<option value="Materiales Didacticos">Materiales Didacticos</option>
+<option value="Libros">Libros</option>
+<option value="Interes">Interes</option>
 </select>
 </td>
 </tr>
@@ -7462,7 +8849,7 @@ TIPO
 <tr>
 <td>
 <center>
-<div class='divAbms divMenuTamnho3' style='display:;'>
+<div class='divAbms divMenuTamnho3' >
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -7566,7 +8953,7 @@ TIPO
 <tr>
 <td style='width:99%;text-align:left'>
 <p class='pTitulo5'  >Tipo de Arancel :</p>
-<table style='width:100%;margin-top:5px'>
+<table style='display: none;'>
 <tr>
 <td style='width:10%;text-align:left'>
 <p class='pTitulo8'   onclick='inptSeleccTipoAsignarArancel(1)' > <input type='checkbox' id="inptSeleccTipoAsignarArancel1" checked > Especificos</p>
@@ -7600,7 +8987,7 @@ TIPO
 <table class="tableCabeceraRegistro" id='tdTituloImprimirTipoArancel1'>
 <tbody>
 <tr>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdAsignarArancel3' onclick='ordenasignararancel(3)'>
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;display:none;" id='tdOrdAsignarArancel3' onclick='ordenasignararancel(3)'>
 LOCAL
 </td>
 <td class="td_registro_orden1" style="width:15%;cursor:pointer" id='tdOrdAsignarArancel2' onclick='ordenasignararancel(2)'>
@@ -7633,10 +9020,10 @@ TOTAL
 <table class="tableCabeceraRegistro">
 <tbody>
 <tr>
-<td class="td_registro" style="width:9%;" >
+<td class="td_registro" style="width:9%;display:none;" >
 <input type='text' autocomplete="off" class='inputfiltro' id='inptBuscarAsignarArancel1'  style='width:95%'  list="ListFilial"   onchange="CargarCarrerasEnBuscarArancel()" onkeyup="if(event.keyCode == 13){BuscarAbmAsignarArancel()}"  />
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display:none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarAsignarArancel1')" />
 </td>
 <td  class="td_registro"style="width:14%;">
@@ -7793,7 +9180,7 @@ TOTAL
 
 </center>
 </div>
-<div class='divAbms_b' id='divAbmAsignarArancel2' style='display:none;'>
+<div class='divAbms_b' id='divAbmAsignarArancel2' style='display:none;width: 900px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -7812,17 +9199,17 @@ TOTAL
 </table>
 <br>
 <center>
-<div class='divMenuf'>
+<div  style=" width: 100%; display: flex;" >
+<div class='divMenuf' style=" margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;"> 
 <br>
-<table style='width:100%'>
+<table style='width:100%;display:none;'>
 <tr>
 <td>
 <p class='pTitulo5'  >Local :</p>
 <input type='text' list='ListFilial' class='inputText' id='inptFilialAsignarArancel' style='width:260px' onkeyup='CargarCarrerasAsingarArancel()' autocomplete='off' />
 </td>
 </tr>
-</table>
-<br>
+</table> 
 <table style='width:100%'>
 <tr>
 <td>
@@ -7831,6 +9218,9 @@ TOTAL
 <option value="">Seleccionar</option>
 <option value="Especificos">Especificos</option>
 <option value="Generales">Generales</option>
+<option value="Materiales Didacticos">Materiales Didacticos</option>
+<option value="Libros">Libros</option>
+<option value="Interes">Interes</option>
 </select>
 </td>
 </tr>
@@ -7844,12 +9234,6 @@ TOTAL
 <p class='pTitulo5'  >Año :</p>
 <select class="inputText" style='width:130px' id='inptAnhoAsignarArancel'>
 <option value="">Seleccionar</option>
-<option value="2020">2020</option>
-<option value="2021">2021</option>
-<option value="2022">2022</option>
-<option value="2023">2023</option>
-<option value="2024">2024</option>
-<option value="2025">2025</option>
 <option value="2026">2026</option>
 <option value="2027">2027</option>
 <option value="2028">2028</option>
@@ -7918,6 +9302,21 @@ TOTAL
 </td>
 </tr>
 </table>
+
+</div>
+<div class='divMenuf' style="  margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;"> 
+
+
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTitulo5'  >Costo :</p>
+<input type='text' placeholder='Obligatorio(*)' class='inputText' id='inptCostoAsignarArancel' onkeyup="separadordemiles(this)" style='width:180px'/>
+</td>
+</tr>
+</table>
+
 <br>
 <table style='width:100%'>
 <tr>
@@ -7927,6 +9326,8 @@ TOTAL
 </td>
 </tr>
 </table>
+
+
 <br>
 <table style='width:100%'>
 <tr>
@@ -7957,14 +9358,22 @@ TOTAL
 </td>
 </tr>
 </table>
-<br> 
-<center>
+
+</div>
+</div>
+
+<br>  
 <input type='button' value='Guardar' class='btn1' onclick='VerificarDatosAsignarArancel()' id='btnAbmPeriodoAcademico'   />
-</center>
+ 
 <br> 
-</div>
+
 </center>
 </div>
+
+
+
+
+
 <div class='divAbms_b' id='divAbmAsignarArancel3' style='display:none;'>
 <table class='tableMenuZ'>
 <tr>
@@ -7995,6 +9404,9 @@ TOTAL
 <option value="">Seleccionar</option>
 <option value="Especificos">Especificos</option>
 <option value="Generales">Generales</option>
+<option value="Materiales Didacticos">Materiales Didacticos</option>
+<option value="Libros">Libros</option>
+<option value="Interes">Interes</option>
 </select>
 </td>
 </tr>
@@ -8025,18 +9437,6 @@ TOTAL
 <p class='pTitulo5'  >Año :</p>
 <select class="inputText" style='width:130px' id='inptAnhoAsignarArancelMasivo'>
 <option value="">Seleccionar</option>
-<option value="2014">2014</option>
-<option value="2015">2015</option>
-<option value="2016">2016</option>
-<option value="2017">2017</option>
-<option value="2018">2018</option>
-<option value="2019">2019</option>
-<option value="2020">2020</option>
-<option value="2021">2021</option>
-<option value="2022">2022</option>
-<option value="2023">2023</option>
-<option value="2024">2024</option>
-<option value="2025">2025</option>
 <option value="2026">2026</option>
 <option value="2027">2027</option>
 <option value="2028">2028</option>
@@ -8217,48 +9617,42 @@ TOTAL
 <table class="tableCabeceraRegistro divTableTamanho5"   id='tdTituloPrintFacturaCargada'>
 <tbody>
 <tr id='trBuscadorConsultasIndividuales'>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdReportFacturaCargada2' onclick='ordenreportfacturacargada(2)'>LOCAL</td>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer;" id='tdOrdReportFacturaCargada3' onclick='ordenreportfacturacargada(3)'>CARRERA</td>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdReportFacturaCargada4' onclick='ordenreportfacturacargada(4)'>CONCEPTO</td>
-<td class="td_registro" style="width:10%;cursor:pointer"  >DETALLE</td>
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;display:none;" id='tdOrdReportFacturaCargada2' onclick='ordenreportfacturacargada(2)'>LOCAL</td>
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;display:none;" id='tdOrdReportFacturaCargada3' onclick='ordenreportfacturacargada(3)'>CARRERA</td>
+
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportFacturaCargada5' onclick='ordenreportfacturacargada(5)'>NRO FACTURA</td>
 <td class="td_registro_orden1" style="width:5%;cursor:pointer"  id='tdOrdReportFacturaCargada6' onclick='ordenreportfacturacargada(6)'>AÑO</td>
-<td class="td_registro_orden1" style="width:5%;cursor:pointer"   id='tdOrdReportFacturaCargada7'onclick='ordenreportfacturacargada(7)'>CURSO</td>
-<td  class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportFacturaCargada8'  onclick='ordenreportfacturacargada(8)' >SEMESTRE</td>
+<td class="td_registro_orden1" style="width:5%;cursor:pointer"   id='tdOrdReportFacturaCargada7'onclick='ordenreportfacturacargada(7)'>GRADO</td>
+<td  class="td_registro_orden1" style="width:5%;cursor:pointer;display:none;" id='tdOrdReportFacturaCargada8'  onclick='ordenreportfacturacargada(8)' >SEMESTRE</td>
 <td class="td_registro" style="width:5%;">DOCUMENTO </td>
 <td class="td_registro" style="width:5%;">ALUMNO</td>
+<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdReportFacturaCargada4' onclick='ordenreportfacturacargada(4)'>CONCEPTO</td>
+<td class="td_registro" style="width:10%;cursor:pointer"  >DETALLE</td>
+
 <td  class="td_registro_orden" style="width:5%;cursor:pointer" id='tdOrdReportFacturaCargada1' onclick='ordenreportfacturacargada(1)'>FECHA</td>
 <td class="td_registro" style="width:5%;">MONTO</td>
-<!-- <td class="td_registro" style="width:5%;">TIPO</td> -->
+<td class="td_registro" style="width:5%;">DESCUENTO</td>
 <td class="td_registro" style="width:5%;">ESTADO</td>
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportFacturaCargada9' onclick='ordenreportfacturacargada(9)'>FECHA INSERT.</td>
-<!-- <td class="td_registro" style="width:5%;">USUARIO</td> -->
 </tr>
 </tbody>
 </table>
 <table class="tableCabeceraRegistro divTableTamanho5" >
 <tbody>
 <tr>
-<td class="td_registro" style="width:9%;">
+<td class="td_registro" style="width:9%;display:none;">
 <input placeholder='Igual a '  list='ListFilial' type="text" style='width: 100%;' class="inputfiltro" id="inptBuscarFacturasCargadas1"  autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportFacturasCargadas()}" onchange='CargarCarrerasEnBuscarFacturasCargadas()' >
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display:none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas1')" />
 </td>
-<td class="td_registro" style="width:9%;">
+<td class="td_registro" style="width:9%;display:none;">
 <input placeholder='Igual a '  list='ListCarreras'  type="text" style='width: 100%;' class="inputfiltro" id="inptBuscarFacturasCargadas2"  autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportFacturasCargadas()}" >
 </td>
 <td class="td_registro" style="width:1%;display:none">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas2')" />
 </td>
-<td class="td_registro" style="width:9%;">
-<input placeholder='Igual a '  list='ListArancel' type="text" style='width: 100%;' class="inputfiltro" id="inptBuscarFacturasCargadas6"  autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportFacturasCargadas()}" >
-</td>
-<td class="td_registro" style="width:1%;">
-<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas6')" />
-</td>
-<td class="td_registro" style="width:10%;">
-</td>
+
 <td class="td_registro" style="width:4%;">
 <input placeholder='Parecido a '  type="text" class="inputfiltro" style='width: 100%;' id="inptBuscarFacturasCargadas3"  autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportFacturasCargadas()}" >
 </td>
@@ -8277,10 +9671,10 @@ TOTAL
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas11')" />
 </td>
-<td class="td_registro" style="width:4%;">
+<td class="td_registro" style="width:4%;display:none;">
 <input placeholder='Igual a '  type="text" class="inputfiltro"  style='width: 100%;' id="inptBuscarFacturasCargadas12"  list='ListSemestre' autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportFacturasCargadas()}" >
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display:none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas12')" />
 </td>
 <td class="td_registro" style="width:4%;">
@@ -8295,6 +9689,17 @@ TOTAL
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas5')" />
 </td>
+
+<td class="td_registro" style="width:9%;">
+<input placeholder='Igual a '  list='ListArancel' type="text" style='width: 100%;' class="inputfiltro" id="inptBuscarFacturasCargadas6"  autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportFacturasCargadas()}" >
+</td>
+<td class="td_registro" style="width:1%;">
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas6')" />
+</td>
+<td class="td_registro" style="width:10%;">
+</td>
+
+
 <td class="td_registro" style="width:5%;">
 </td>
 <td class="td_registro" style="width:5%;">
@@ -8308,6 +9713,9 @@ TOTAL
 </td>
 <td class="td_registro" style="width:1%;display:none">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarFacturasCargadas13')" />
+</td>
+
+<td class="td_registro" style="width:5%;">
 </td>
 
 <td class="td_registro" style="width:4%;">
@@ -8325,7 +9733,7 @@ TOTAL
 </tbody>
 </table>
 </div>
-<div class='divTablesScrool tableTamanho3' id='TableScroollFacturasCargadas2' style=''>
+<div class='divTablesScrool tableTamanho3' id='TableScroollFacturasCargadas2' >
 
 <div class="div_cuerpo_table divTableTamanho5" id="divBuscadorReportFacturasCargadas" style='min-height:170px;height:auto;border:none;'>
 </div>
@@ -8512,7 +9920,7 @@ TOTAL
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor divMenuTamnho6' id='divAbmArancelesEspeciales1' style='display:;'>
+<div class='divPrincipalrepor divMenuTamnho6' id='divAbmArancelesEspeciales1'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -8729,7 +10137,7 @@ APELLIDO
 <div class='principal2' style='display:none' id='divAbmAbmAlumnos'>
  
 <center>
-<div class='divPrincipalrepor' id='divAbmAbmAlumnos1' style='display:;  '>
+<div class='divPrincipalrepor' id='divAbmAbmAlumnos1'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -8798,6 +10206,9 @@ APELLIDO
 <td class="td_registro" style="width:20%;">
 TELEF.
 </td>
+<td class="td_registro" style="width:20%;">
+ENCARGADO
+</td>
 </tr>
 </tbody>
 </table>
@@ -8816,6 +10227,10 @@ TELEF.
 </td>
 <td class="td_registro" style="width:20%;" >
 </td>
+<td class="td_registro" style="width:20%;" >
+  <input placeholder='Parecido a' type='text' autocomplete="off" class='inputfiltro' id='inptBuscarAbmAlumnos6'  style='width:95%'  onkeyup="if(event.keyCode == 13){BuscarAbmAbmAlumnos()}"  />
+</td>
+
 </tr>
 </tbody>
 </table>
@@ -9092,7 +10507,7 @@ TELEF.
     <tr>
       <td>
         <center>
-          <div class='divPrincipalrepor' style='display:; '>
+          <div class='divPrincipalrepor' >
             <table class='tableMenuZ'>
               <tr>
                 <td style='width:100%'>
@@ -9253,7 +10668,7 @@ TELEF.
     <tr>
       <td>
         <center>
-          <div class='divPrincipalrepor' style='display:;width:100vw;'>
+          <div class='divPrincipalrepor' style='width:100vw;'>
             <table class='tableMenuZ'>
               <tr>
                 <td style='width:100%'>
@@ -9535,7 +10950,7 @@ TELEF.
 <tr>
 <td>
 <center>
-<div class='divPrincipalrepor'  style='display:;width:527px;min-height: 380px;'>
+<div class='divPrincipalrepor'  style='width:527px;min-height: 380px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -9728,12 +11143,6 @@ TELEF.
 
 
 <datalist id="ListAnho"> 
-<option value="2020">2020</option>
-<option value="2021">2021</option>
-<option value="2022">2022</option>
-<option value="2023">2023</option>
-<option value="2024">2024</option>
-<option value="2025">2025</option>
 <option value="2026">2026</option>
 <option value="2027">2027</option>
 <option value="2028">2028</option>
@@ -9900,7 +11309,7 @@ style='color:#673ab7'  > Actualización</span></h1>
 <div class='principal2' style='background-color:#fff;display:none' id='divreportActas' >
 
 <center>
-<div style='width90%'>
+<div style='width:90%'>
 <img src="/GoodTechnologyEPNSA/iconos/membrete.jpg" />
 <p class='pTituloActa1'>ACTA NÚMERO <b id='bNroActa'></b> </p>
 <p class='pTituloActa2'>En la ciudad de <b id='bCiudadActa'></b>, Departamento de  <b id='bDepartamentoActa'></b> , República del Paraguay, en fecha  <b id='bFechaActa'></b>. del año  <b id='bAnhoActa'></b>, siendo las <b id='bHoraActa'></b>. horas se da inicio al Examen Final correspondiente al Periodo de Evaluación Ordinario  de la carrera de <b id='bCarreraActa'></b>..  de UV, Local <b id='bFiliaActa'></b>..., correspondiente a la asignatura de <b id='bAsignaturaActa'></b>.  del Curso Primero, Semestre Primer,   en la Modalidad Presencial El mismo se realiza en presencia del/la Profesor/a <b id='bProfesorActa'></b>.. Titular de Cátedras y del/la Lic.  <b id='bInterventorActa'></b>. como Interventor/a 

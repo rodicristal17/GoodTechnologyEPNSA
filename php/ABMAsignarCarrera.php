@@ -825,7 +825,7 @@ function buscarcarreraporfilial3($cod_filialFK,$codFacultad)
         from carrera cr inner join filial fl1 on fl1.cod_filial=cr.cod_filialOringFK 
 		inner join listadecarreras lt on lt.Cod_listadecarreras=cr.Cod_listadecarrerasFK
 		inner join listafacultad ldf on ldf.cod_listafacultad=cr.cod_listafacultadFk
-		where cr.cod_filialOringFK ='$cod_filialFK'  and cr.estado='Activo' ".$condicionfacultad." order by lt.nombre asc";
+		where cr.cod_filialOringFK ='$cod_filialFK'  and cr.estado='Activo'  order by lt.nombre asc";
 		 
 // echo($sql);
 // exit;

@@ -89,7 +89,6 @@ function vercerrarventanactualizacion(d){
 var codigodeactualizacion="X-GT-1-JMTG-V1.00"
 function controldeactualizacion(codigopc) {	
 
-// alert(userid)
 	obtener_datos_user()
 	var datos = new FormData();
 	datos.append("useru", userid)
@@ -446,12 +445,7 @@ toggler.addEventListener('change', function () {
     }
 });
 
-
-
-
-
-
-
+ 
     if (typeof history.pushState === "function") {
         history.pushState("jibberish", null, null);
         window.onpopstate = function () {
@@ -513,14 +507,10 @@ if (codigopc == "undefined" || codigopc == "" || codigopc == "Null" || codigopc 
 
 				}
 			controlMensaje=controlMensaje+1;
-			
-			
-			
+			 
 			
 			}
-
-
-
+ 
 }
 function eventoScrollTable(elemento){
 
@@ -1742,6 +1732,8 @@ alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
 function BuscarFilialSelect() {
 	document.getElementById("ListFilial").innerHTML = ""
 	document.getElementById("inptFilialUsuario").innerHTML = "" 
+	document.getElementById("inptlocalAperturaCierre").innerHTML = "" 
+	document.getElementById("inptlocalVistaApCie").innerHTML = "" 
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
@@ -1778,16 +1770,12 @@ function BuscarFilialSelect() {
 
 		},
 		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("ListFilial").innerHTML = ''
-			document.getElementById("inptFilialUsuario").innerHTML = ''			
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana") 		
 		},
 		success: function (responseText) {
 
 			var Respuesta = responseText;
-			console.log(Respuesta)
-			document.getElementById("ListFilial").innerHTML = ''
-			document.getElementById("inptFilialUsuario").innerHTML = ''
+			console.log(Respuesta) 
 					
 			try {
 				var datos = $.parseJSON(Respuesta);
@@ -1799,9 +1787,9 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 					var datos_buscados = datos[2];
 					document.getElementById("ListFilial").innerHTML=datos_buscados
 					document.getElementById("inptFilialUsuario").innerHTML=datos[3]
-				
-					
-
+					document.getElementById("inptlocalAperturaCierre").innerHTML=datos[3]
+					document.getElementById("inptlocalVistaApCie").innerHTML=datos[3]
+				 
 				}
 			} catch (error) {
 alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
@@ -6784,6 +6772,7 @@ function BuscarAbmAbmAlumnos() {
 	var documento = document.getElementById('inptBuscarAbmAlumnos1').value
 	var nombre = document.getElementById('inptBuscarAbmAlumnos4').value
 	var apellido = document.getElementById('inptBuscarAbmAlumnos5').value
+	var Encargado = document.getElementById('inptBuscarAbmAlumnos6').value
 	var estado = ""
 	if(document.getElementById('inptSeleccEstadoAlumnos1').checked==true){
 	estado = "Activo"
@@ -6837,6 +6826,7 @@ $("input[id=inptBuscarAbmAlumnos3]").each(function (i, Elemento) {
 		"codFilialFk": codFilialFk,
 		"codCarreraFk": codCarreraFk,
 		"ordenby": controlordenAlumnoabm,
+		"Encargado": Encargado,
 		"funt": "buscarRegistro"
 	};
 	$.ajax({
@@ -7207,9 +7197,7 @@ var ControlVistaMatriculados="";
 function verCerrarFrmVistaAsignarAlumnos(d,v){
 	
 	// if(controlacceso("BUSCARMATRICULACION","accion")==false){ return;		}
-		
-		
-		
+		 
 	if(d=="1"){
 		var f = new Date();
 	   // document.getElementById('inptBuscarVistaAsignarAlumnos8').value = f.getFullYear();
@@ -8090,8 +8078,14 @@ function VerificarDatosAsignarAlumnos(){
 	var inptInicioClaseAsignarAlumnos=document.getElementById("inptInicioClaseAsignarAlumnos").value
 	var inptFechaMatriculacionAsignarAlumnos=document.getElementById("inptFechaMatriculacionAsignarAlumnos").value
 	var inptNroMatriculaAsignarAlumnos=document.getElementById("inptNroMatriculaAsignarAlumnos").value
+	var inptTipoAlumnoAsignarAlumnos=document.getElementById("inptTipoAlumnoAsignarAlumnos").value
 	
 	
+
+	if(inptTipoAlumnoAsignarAlumnos==""){
+		alertmensaje("Falto Seleccionar el tipo de cliente")
+		return
+	}
 
 	if(inptAnhoAsignarAlumnos==""){
 		alertmensaje("Falto Seleccionar el año académico")
@@ -8159,9 +8153,9 @@ if(CodCarreraFkAsignarAlumnos==""){
 	var accion = "nuevo";
 		// if(controlacceso("INSERTARMATRICULACION","accion")==false){ return;		}
 	
-	AbmAsignarAlumnos(inptNroMatriculaAsignarAlumnos,inptFechaMatriculacionAsignarAlumnos,inptInicioClaseAsignarAlumnos,inptEstadoAsignarAlumnos,inptConvalidacionAsignarAlumnos,inptSeccionAsignarAlumnos,inptTurnoAsignarAlumnos,inptAnhoAsignarAlumnos,inptAnhoAsignarRegistroAlumnos,inptSemestreAsignarAlumnos,inptCursoAsignarAlumnos,CodCarreraFkAsignarAlumnos,idAlumnoFkAsignar, accion)
+	AbmAsignarAlumnos(inptTipoAlumnoAsignarAlumnos,inptNroMatriculaAsignarAlumnos,inptFechaMatriculacionAsignarAlumnos,inptInicioClaseAsignarAlumnos,inptEstadoAsignarAlumnos,inptConvalidacionAsignarAlumnos,inptSeccionAsignarAlumnos,inptTurnoAsignarAlumnos,inptAnhoAsignarAlumnos,inptAnhoAsignarRegistroAlumnos,inptSemestreAsignarAlumnos,inptCursoAsignarAlumnos,CodCarreraFkAsignarAlumnos,idAlumnoFkAsignar, accion)
 }
-function AbmAsignarAlumnos(nroMatriculacion,fechaMatriculacion,fechaInicio,estado,convalidacion,seccion,turno,anho,anhoregistro,semestre,curso,cod_carreraFK,idalumnoFk, accion){
+function AbmAsignarAlumnos(tipo,nroMatriculacion,fechaMatriculacion,fechaInicio,estado,convalidacion,seccion,turno,anho,anhoregistro,semestre,curso,cod_carreraFK,idalumnoFk, accion){
 	var datos = new FormData();
 	verCerrarEfectoCargando("1")
 	obtener_datos_user();
@@ -8183,6 +8177,7 @@ function AbmAsignarAlumnos(nroMatriculacion,fechaMatriculacion,fechaInicio,estad
 	datos.append("fechaInicio", fechaInicio)
 	datos.append("fechaMatriculacion", fechaMatriculacion)
 	datos.append("nroMatriculacion", nroMatriculacion)
+	datos.append("tipo", tipo)
 	var OpAjax = $.ajax({
 		data: datos,
 		url: "/GoodTechnologyEPNSA/php/ABMMatricularAlumnos.php",
@@ -8766,117 +8761,6 @@ if(mes2!=mes1){
 	
 }
 var duracioncarreracargarcobranzas="";
-// function ObtenerdatosVistaAsignarAlumnos(datostr) {
-	// $("tr[id=tbSelecRegistro]").each(function (i, td) {
-		// td.className = ''
-	// });
-	// datostr.className = 'tableRegistroSelec'
-	// if(ControlVistaMatriculados=="CargarFacturas"){
-	// idAsignarAlumnosFk = $(datostr).children('td[id="td_id_1"]').html();
-		// idAlumnosFacturaFk = $(datostr).children('td[id="td_id_2"]').html();
-	// idFilialFactura = $(datostr).children('td[id="td_id_4"]').html();
-	// idCarreraFactura = $(datostr).children('td[id="td_id_3"]').html();
-	// document.getElementById('inptDocumentoCargarFacturas').value = $(datostr).children('td[id="td_datos_1"]').html();
-	// document.getElementById('inptNombreAlumnoCargarFacturas').value = $(datostr).children('td[id="td_datos_2"]').html();
-	// document.getElementById('inptCarreraCargarFacturas').value = $(datostr).children('td[id="td_datos_3"]').html();
-	// document.getElementById('inptSemestreCargarFacturas').value = $(datostr).children('td[id="td_datos_7"]').html();
-	// document.getElementById('inptCursoCargarFacturas').value = $(datostr).children('td[id="td_datos_4"]').html();
-	// if(document.getElementById('inptCursoCargarFacturas').value=="CULMINADO"){
-		// document.getElementById("checkBuscarTipoArancelCargarFactura1").checked=false
-		// document.getElementById("checkBuscarTipoArancelCargarFactura2").checked=true
-		// document.getElementById("checkBuscarTipoArancelCargarFactura1").disabled=true
-		// document.getElementById("checkBuscarTipoArancelCargarFactura2").disabled=true
-	// }else{
-		// document.getElementById("checkBuscarTipoArancelCargarFactura1").disabled=false
-		// document.getElementById("checkBuscarTipoArancelCargarFactura2").disabled=false
-	// }
-	// document.getElementById('inptAnhoCargarFacturas').value = $(datostr).children('td[id="td_datos_6"]').html();
-	// document.getElementById('inptTurnoCargarFacturas').value = $(datostr).children('td[id="td_datos_5"]').html();
-	// document.getElementById('inptSeccionCargarFacturas').value = $(datostr).children('td[id="td_datos_12"]').html();
-	// document.getElementById('inptFilialCargarFacturas').value = $(datostr).children('td[id="td_datos_10"]').html();
-	// duracioncarreracargarcobranzas= $(datostr).children('td[id="td_datos_14"]').html();
-	// anhoarancel=document.getElementById("inptAnhoCargarFacturas").value;
-        // cursoarancel=document.getElementById("inptCursoCargarFacturas").value;
-		// semestrearancel=document.getElementById("inptSemestreCargarFacturas").value;
-	// var f = new Date();
-	// var dia =f.getDate()
-	// if(dia<10){
-		// dia="0"+dia;
-	// }
-	// var mes =f.getMonth()+1
-	// if(mes<10){
-		// mes="0"+mes;
-	// }
-	// var hora =f.getHours()
-	// if(hora<10){
-		// hora="0"+hora;
-	// }
-	// var min =f.getMinutes()
-	// if(min<10){
-		// min="0"+min;
-	// }
-    // document.getElementById('inptFechaCargarFacturas').value=f.getFullYear()+"-"+mes+"-"+dia;
-	// buscarnroexpedicion()
-	// buscarhistorialpagodesdefactura()
-	 // BuscarArancelesAPagarList()
-    // }
-	// if(ControlVistaMatriculados=="CobrarAranceles"){
-	// idAsignarAlumnosFk = $(datostr).children('td[id="td_id_1"]').html();
-	// idAlumnosFacturaFk = $(datostr).children('td[id="td_id_2"]').html();
-	// idFilialFactura = $(datostr).children('td[id="td_id_4"]').html();
-	// idCarreraFactura = $(datostr).children('td[id="td_id_3"]').html();
-	// document.getElementById('inptDocAlumnosCobrarAranceles').value = $(datostr).children('td[id="td_datos_1"]').html();
-	// document.getElementById('inptNombreAlumnoCobrarAranceles').value = $(datostr).children('td[id="td_datos_2"]').html();
-	// document.getElementById('inptCarreraCobrarAranceles').value = $(datostr).children('td[id="td_datos_3"]').html();
-	// document.getElementById('inptSemestreCobrarAranceles').value = $(datostr).children('td[id="td_datos_7"]').html();
-	// document.getElementById('inptCursoCobrarAranceles').value = $(datostr).children('td[id="td_datos_4"]').html();
-	
-		// if(document.getElementById('inptCursoCobrarAranceles').value=="CULMINADO"){
-		
-		// document.getElementById("inptTipoArancelCobrarAranceles").disabled=true
-		// document.getElementById("inptTipoArancelCobrarAranceles").value="Generales"
-	// }else{
-		
-		// document.getElementById("inptTipoArancelCobrarAranceles").disabled=false
-	// }
-	// document.getElementById('inptAnhoCobrarAranceles').value = $(datostr).children('td[id="td_datos_6"]').html();
-	// document.getElementById('inptTurnoCobrarAranceles').value = $(datostr).children('td[id="td_datos_5"]').html();
-	// document.getElementById('inptSeccionCobrarAranceles').value = $(datostr).children('td[id="td_datos_12"]').html();
-	// document.getElementById('inptFilialCobrarAranceles').value = $(datostr).children('td[id="td_datos_10"]').html();
-	// CursoCobrarArancel=document.getElementById("inptCursoCobrarAranceles").value
-	// anhoCobrarArancel=document.getElementById("inptAnhoCobrarAranceles").value
-	// semestreCobrarArancel=document.getElementById("inptSemestreCobrarAranceles").value
-	// duracioncarreracobrarcobranzas= $(datostr).children('td[id="td_datos_14"]').html();
-	// document.getElementById('inptCodArancelCobrarAranceles').value=""
-// document.getElementById('inptNomArancelCobrarAranceles').value=""
-// document.getElementById('inptCantArancelCobrarAranceles').value=""
-// document.getElementById('inptPrecioArancelCobrarAranceles').value=""
-// document.getElementById('inptDescuentoArancelCobrarAranceles').value=""
-// document.getElementById('inptTotalArancelCobrarAranceles').value=""
-// document.getElementById('btnAddToDetalleVenta').style.backgroundColor='#cccccc';
-// document.getElementById('btnMasDetalleVenta').style.display='none';
-	// document.getElementById("btnMasInfoAlumnosCobranzas").style="background-color: #f45145;"
-	// buscarnroexpedicionb()
-	// BuscarArancelesCobrarAranceles()
-	
-	// facturaNombreAlumno=$(datostr).children('td[id="td_datos_2"]').html();
- // facturaCiAlumno=$(datostr).children('td[id="td_datos_1"]').html();
- // facturaTelefAlumno=$(datostr).children('td[id="td_datos_12"]').html();
-
-    // }
-	
-	// if(ControlVistaMatriculados=="ConsultaIndiFacturas"){
-	// idAlumnosFkConsultaIndi = $(datostr).children('td[id="td_id_2"]').html();
-	// document.getElementById('inptCiAlumnoConsultaIndi').value = $(datostr).children('td[id="td_datos_1"]').html();
-	// document.getElementById('inptNombreApellidoIndi').value = $(datostr).children('td[id="td_datos_2"]').html();
-
-    // }
-// document.getElementById('divVistaAsignarAlumnos').style.display="none";
-// document.getElementById('divVistaAsignarAlumnosInformes').style.display="none";
-
-
-// }
-
 
 function ObtenerdatosVistaAsignarAlumnos(datostr) {
 	$("tr[id=tbSelecRegistro]").each(function (i, td) {
@@ -8893,6 +8777,7 @@ function ObtenerdatosVistaAsignarAlumnos(datostr) {
 	document.getElementById('inptCarreraCargarFacturas').value = $(datostr).children('td[id="td_datos_3"]').html();
 	document.getElementById('inptSemestreCargarFacturas').value = $(datostr).children('td[id="td_datos_7"]').html();
 	document.getElementById('inptCursoCargarFacturas').value = $(datostr).children('td[id="td_datos_4"]').html();
+	
 	if(document.getElementById('inptCursoCargarFacturas').value=="CULMINADO"){
 		document.getElementById("checkBuscarTipoArancelCargarFactura1").checked=false
 		document.getElementById("checkBuscarTipoArancelCargarFactura2").checked=true
@@ -8937,15 +8822,22 @@ function ObtenerdatosVistaAsignarAlumnos(datostr) {
 	buscarhistorialpagodesdefactura()
 	 BuscarArancelesAPagarList()
     }
+
+
 	if(ControlVistaMatriculados=="CobrarAranceles"){
+
+
+		document.getElementById('inptNombreApellidoRazonSocial').value = $(datostr).children('td[id="td_datos_16"]').html();
+		document.getElementById('inptRucRazonSocial').value = $(datostr).children('td[id="td_datos_17"]').html();
+
+
+
 	idAsignarAlumnosFk = $(datostr).children('td[id="td_id_1"]').html();
 	idAlumnosFacturaFk = $(datostr).children('td[id="td_id_2"]').html();
 	idFilialFactura = $(datostr).children('td[id="td_id_4"]').html();
 	idCarreraFactura = $(datostr).children('td[id="td_id_3"]').html();
 	document.getElementById('inptDocAlumnosCobrarAranceles').value = $(datostr).children('td[id="td_datos_1"]').html();
-	document.getElementById('inptRucRazonSocial').value = $(datostr).children('td[id="td_datos_1"]').html();
 	document.getElementById('inptNombreAlumnoCobrarAranceles').value = $(datostr).children('td[id="td_datos_2"]').html();
-	document.getElementById('inptNombreApellidoRazonSocial').value = $(datostr).children('td[id="td_datos_2"]').html();
 	document.getElementById('inptCarreraCobrarAranceles').value = $(datostr).children('td[id="td_datos_3"]').html();
 	document.getElementById('inptSemestreCobrarAranceles').value = $(datostr).children('td[id="td_datos_7"]').html();
 	document.getElementById('inptCursoCobrarAranceles').value = $(datostr).children('td[id="td_datos_4"]').html();
@@ -9368,6 +9260,23 @@ document.getElementById('inptSeleccionadoReportAlumnMatric').value="";
 
 
 }
+
+
+function ExporarAAlumnosMatriculados() {
+
+    if (!$.fn.table2excel) {
+        console.error("Plugin table2excel no cargado");
+        return;
+    }
+
+    $("#divBuscadorReportAlumnosMatriculados").table2excel({
+        exclude: ".noExl",
+        name: "Alumnos Matriculados",
+        filename: "Alumnos_Matriculados"
+    });
+}
+
+
 
 function inptSeleccCarpetasHistorialMatriculaciones(d){
 	if(d=="1"){
@@ -15398,14 +15307,14 @@ i=i.toString().replace(/\./g,'');
 
 	
 }
-function QuitarSeparadorMilValor(inputs){
-	var i=inputs;
-  i=i.toString().replace(/\./g,'');
-	i=i.replace(',','.')
-	return i;
-
-	
+function QuitarSeparadorMilValor(inputs) {
+    if (!inputs) return 0; // vacíos, null o undefined se convierten a 0
+    var i = inputs.toString().trim(); // eliminar espacios al inicio/final
+    i = i.replace(/\./g,'');          // quitar separador de miles
+    i = i.replace(',', '.');          // convertir coma decimal a punto
+    return i;
 }
+
 function separadordemiles(input){
 	
 	var num=input.value.replace(/\./g,'');
@@ -16986,23 +16895,18 @@ function verCerrarCambiarRazonSocial(d){
 	
 	}
 	if(d=="2"){
-	//document.getElementById("divAbmCobrarAranceles").style.display="none";
-document.getElementById("tdEfectoRazonSocial").className="magictime slideRight"
+	document.getElementById("tdEfectoRazonSocial").className="magictime slideRight"
 	$("div[id=divCambiarRazonSocial]").fadeOut(500);	
 	document.getElementById("btnCambiarRazonSocial").style.backgroundColor="#1766ed";
 	}
 	if(d=="3"){
-	//document.getElementById("divAbmCobrarAranceles").style.display="none";
-document.getElementById("tdEfectoRazonSocial").className="magictime slideRight"
+	document.getElementById("tdEfectoRazonSocial").className="magictime slideRight"
 	$("div[id=divCambiarRazonSocial]").fadeOut(500);	
-	document.getElementById("inptRucRazonSocial").value=document.getElementById("inptDocAlumnosCobrarAranceles").value
-	document.getElementById("inptNombreApellidoRazonSocial").value=document.getElementById("inptNombreAlumnoCobrarAranceles").value
 	document.getElementById("btnCambiarRazonSocial").style.backgroundColor="#afafaf";
 	}
 }
 function MinimizarVentanaCobranzas(){
-	//document.getElementById("divAbmCobrarAranceles").style.display="none";
-document.getElementById("tdEfectoAbmCobrarAranceles").className="magictime slideDown"
+	document.getElementById("tdEfectoAbmCobrarAranceles").className="magictime slideDown"
 	$("div[id=divAbmCobrarAranceles]").fadeOut(500);	
 
 	document.getElementById("divMinimizadoCobranzas").style.display="";
@@ -17431,6 +17335,7 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 var anhoCobrarArancel="";
 var CursoCobrarArancel="";
 var semestreCobrarArancel="";
+var TipoCobrarArancel="";
 function ObtenerdatosVistaCargarArancelCobrar(datostr) {
 
 	$("tr[id=tbSelecRegistro]").each(function (i, td) {
@@ -17442,6 +17347,7 @@ function ObtenerdatosVistaCargarArancelCobrar(datostr) {
 	controlNombreArancelCobranza = $(datostr).children('td[id="td_datos_1"]').html();
 	montopagadoArancel = $(datostr).children('td[id="td_datos_12"]').html();
 	tituloDescuentoFactura = $(datostr).children('td[id="td_datos_13"]').html();
+	TipoCobrarArancel = $(datostr).children('td[id="td_datos_14"]').html();
 	document.getElementById('inptCantArancelCobrarAranceles').value = "1";
 	document.getElementById('inptPrecioArancelCobrarAranceles').value = "0";
 		document.getElementById('inptPrecioArancelCobrarAranceles').disabled=false
@@ -17523,6 +17429,7 @@ function ObtenerdatosVistaCargarArancelCobrarCuota(datostr) {
 	montounitariodelarancel= $(datostr).children('td[id="td_datos_6"]').html();
 	tituloDescuentoFactura= $(datostr).children('td[id="td_datos_13"]').html();
 	cantidaddelarancel= $(datostr).children('td[id="td_datos_7"]').html();
+	TipoCobrarArancel= $(datostr).children('td[id="td_datos_14"]').html();
 	document.getElementById('inptCantArancelCobrarAranceles').value = "1";
 	document.getElementById('inptPrecioArancelCobrarAranceles').value = "0";
     document.getElementById('inptPrecioArancelCobrarAranceles').disabled=false
@@ -17539,7 +17446,7 @@ function ObtenerdatosVistaCargarArancelCobrarCuota(datostr) {
 					document.getElementById("inptCursoCobrarAranceles").value=CursoCobrarArancel
 				document.getElementById("inptAnhoCobrarAranceles").value=anhoCobrarArancel
 				document.getElementById("inptSemestreCobrarAranceles").value=semestreCobrarArancel
-				document.getElementById('divVistaArancelesCobrar').style.display='';
+				document.getElementById('divVistaArancelesCobrar').style.display='flex';
 				document.getElementById("inptTipoArancelNombreAranceles").value=""
 				document.getElementById("tdArancelesDeudasAnterior").style.display="none"
 	buscarCuotasaranceles2()
@@ -17556,15 +17463,16 @@ function ObtenerdatosVistaCargarArancelCobrarDerecho(datostr) {
 	controlNombreArancelCobranza = $(datostr).children('td[id="td_datos_1"]').html();
 	tituloDescuentoFactura = $(datostr).children('td[id="td_datos_13"]').html();
 	document.getElementById('inptCantArancelCobrarAranceles').value = "1";
-	document.getElementById('inptPrecioArancelCobrarAranceles').value = "0";
+	document.getElementById('inptPrecioArancelCobrarAranceles').value = $(datostr).children('td[id="td_datos_12"]').html(); 
+	document.getElementById('inptTotalArancelCobrarAranceles').value = $(datostr).children('td[id="td_datos_12"]').html(); 
 	document.getElementById('inptPrecioArancelCobrarAranceles').disabled=true
-	document.getElementById('inptTotalArancelCobrarAranceles').value = "0";
+  
 	document.getElementById('inptDescuentoArancelCobrarAranceles').value = "0";
 	document.getElementById('btnAddToDetalleVenta').style.backgroundColor='#1490f2';
 	document.getElementById('btnMasDetalleVenta').style.display='';
 	document.getElementById('divVistaArancelesCobrar').style.display='';
 	montopagadoArancel=0;
-	buscarmateriasderechoexamenaranceles2()
+	// buscarmateriasderechoexamenaranceles2()
 		document.getElementById('btnMasDetalleVenta').style.display='none';
 			document.getElementById("inptCursoCobrarAranceles").style.backgroundColor=""
 				document.getElementById("inptCursoCobrarAranceles").style.color=""
@@ -17572,13 +17480,20 @@ function ObtenerdatosVistaCargarArancelCobrarDerecho(datostr) {
 				document.getElementById("inptAnhoCobrarAranceles").style.color=""
 				document.getElementById("inptSemestreCobrarAranceles").style.backgroundColor=""
 				document.getElementById("inptSemestreCobrarAranceles").style.color=""
-					document.getElementById("inptCursoCobrarAranceles").value=CursoCobrarArancel
+				document.getElementById("inptCursoCobrarAranceles").value=CursoCobrarArancel
 				document.getElementById("inptAnhoCobrarAranceles").value=anhoCobrarArancel
 				document.getElementById("inptSemestreCobrarAranceles").value=semestreCobrarArancel
 				document.getElementById("inptTipoArancelNombreAranceles").value=""
 				document.getElementById("tdArancelesDeudasAnterior").style.display="none"
 	
 }
+
+
+
+
+
+
+
 function verCuotasPagadasDesdeCobranzas(){
 
 	document.getElementById('divVistaArancelesCobrar').style.display='';
@@ -17586,16 +17501,29 @@ function verCuotasPagadasDesdeCobranzas(){
 }
 function verCerrarFrmVistaArancelesCobrar(d){
 	if(d=="1"){
-		document.getElementById('divVistaArancelesCobrar').style.display='';
+		document.getElementById('divVistaArancelesCobrar').style.display='flex';
 	}else{
 		document.getElementById('divVistaArancelesCobrar').style.display='none';
 	}
 }
-function calcularTotalCobranzasCosto(){
-	var totalcobrar=document.getElementById("inptPrecioArancelCobrarAranceles").value
-	document.getElementById("inptPrecioArancelCobrarAranceles").value=separadordemilesnumero(totalcobrar)
-	document.getElementById("inptTotalArancelCobrarAranceles").value=separadordemilesnumero(totalcobrar)
+function calcularTotalCobranzasCosto() {
+    // Obtener valores
+    var totalcobrar = document.getElementById("inptPrecioArancelCobrarAranceles").value || 0;
+    var descuento = document.getElementById("inptDescuentoArancelCobrarAranceles").value || 0;
+	if(descuento==""){descuento=0;}
+    // Quitar separadores de miles y convertir a número, si está vacío se toma 0
+    totalcobrar = Number(QuitarSeparadorMilValor(totalcobrar)) ;
+    descuento = Number(QuitarSeparadorMilValor(descuento)) ;
+
+    // Calcular resultado
+    var resultado = totalcobrar - descuento;
+
+    // Asignar valores con separador de miles
+    document.getElementById("inptPrecioArancelCobrarAranceles").value = separadordemilesnumero(totalcobrar);
+    document.getElementById("inptTotalArancelCobrarAranceles").value = separadordemilesnumero(resultado);
 }
+
+
 function obtenerTotalPagarFacturaDerechos(d){
 	
 	var precio=$(d).attr("value")
@@ -17603,41 +17531,7 @@ function obtenerTotalPagarFacturaDerechos(d){
 	var codListaCatedra=$(d).attr("id")
 	d.disabled=false
 	anhadirAranacelEnDetalleFacturaDerechoExamen(titulo,precio,codListaCatedra);
-	
-	// var controlcod=0;
-	// var total=0;
-		// $("input[name=checkboxDerechoExamenArancel1]").each(function(i, elementohtml){
-// if ($(elementohtml).is(':checked') ){
-	// var t=$(elementohtml).attr("value")
-	// total=Number(total)+Number(t)
-	// controlcod=controlcod+1;
-// }
-	   // });
-	   
-	   // if(document.getElementById("divAbmCargarFacturas").style.display==""){
-	   
-	   // if(controlcod>0){
-		   // document.getElementById("inptMontoCargarFacturas").disabled=true
-		   // document.getElementById("inptMontoCargarFacturas").value=separadordemilesnumero(total)
-	   // }else{
-		   // document.getElementById("inptMontoCargarFacturas").disabled=false 
-		   // document.getElementById("inptMontoCargarFacturas").value=0
-	   // }
-	   // }
-	    // if(document.getElementById("divAbmCobrarAranceles").style.display==""){
-		 // if(controlcod>0){
-		   // document.getElementById("inptPrecioArancelCobrarAranceles").disabled=true
-		   // document.getElementById("inptPrecioArancelCobrarAranceles").value=separadordemilesnumero(total)
-		   // document.getElementById("inptTotalArancelCobrarAranceles").value=separadordemilesnumero(total)
-		   // document.getElementById("inptTotalCobrarAranceles2").innerHTML=separadordemilesnumero(total)
-	   // }else{
-		   // document.getElementById("inptPrecioArancelCobrarAranceles").disabled=false 
-		   // document.getElementById("inptPrecioArancelCobrarAranceles").value=0
-		   // document.getElementById("inptTotalArancelCobrarAranceles").value=0
-		   // document.getElementById("inptTotalCobrarAranceles2").innerHTML=0
-	   // }   
-		   
-	   // }
+ 
 }
 
 
@@ -17807,11 +17701,7 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 
 					var datos_buscados = datos[2];
 					ControlNroFactura = datos[3];	
-// if(ControlNroFactura=="facturarepetida"){
-						// document.getElementById("inptFacturaNroCargarFacturas").value=""
-						// alertmensaje("NRO DE FACTURA YA ESTA UTILIZADO")
-						// return
-					// }					
+ 					
 					if(ControlNroFactura!=""){
 					alertmensaje("NRO DE FACTURA FUERA DE RANGO")
 					document.getElementById("inptFacturaNroCargarFacturas").style.backgroundColor="#FF5722"
@@ -17847,177 +17737,7 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 }
 
 
-
-
-
-
-
-function LlevarCobroaVenta(){
-	
-	
-	
-	var contadorPendoente = 0;
-	$("tr[name=tdcuotapendiente]").each(function (i, elementohtml) {
-		contadorPendoente = contadorPendoente + 1;
-		
-		if (document.getElementById('Chk'+contadorPendoente).checked == true) {
-		
-		
-		var apagar = $(elementohtml).children('td[id="td_datos_5"]').html();
-		apagar=QuitarSeparadorMilValor(apagar)
-		
-		var Descuento = document.getElementById('inputDescuentoArancel').value
-		Descuento=QuitarSeparadorMilValor(Descuento)
-		
-		
-		var resultado =  Number(apagar) - Number(Descuento);
-		resultado=separadordemilesnumero(resultado)
-		
-		document.getElementById('inptCostoProductoVenta').value = resultado
-		document.getElementById("inpTotalCostoVenta").value = resultado
-		Descuento=separadordemilesnumero(Descuento)
-		document.getElementById('inptDescuentoProductoVenta').value = Descuento
-		
-		document.getElementById('divVistaArancelesCobrar').style.display='none';
-				
-		if(apagar!="" || apagar!="0" ){
-			
-			
-			
-			var ContadoranhadirVenta = 0;
-			$("tr[name=tdDetalleVenta]").each(function (i, elementohtml) {
-				ContadoranhadirVenta = ContadoranhadirVenta + 1;
-			});
-
-			if (ContadoranhadirVenta != 0) {
-				alertmensaje("NO ES POSIBLE AGREGAR UN PRODUCTO A UNA VENTA FINALIZADO", "#")
-
-				return false;
-			}
-
-			if (idabmAperturacierrecaja == "") {
-				alertmensaje("FALTO INICIAR UNA CAJA", "#")
-				verCerrarVentanaAbmAperturaCierreCaja1()
-				return
-			}
-			DatosAutoCompleteCredito = new Array();
-			var inptTotalPagado = document.getElementById('inptTotalPagado').value
-			if (inptTotalPagado > 0) {
-				alertmensaje("NO SE PUEDE AÑADIR DETALLE A LA VENTA POR QUE ESTE YA CUENTA CON UN PAGO", "#")
-				return false;
-			}
-
-
-
-			var inptCodProductoVenta = document.getElementById('inptCodProductoVenta').value
-			var inptProductoVenta = document.getElementById('inptProductoVenta').value +"-"+$(elementohtml).children('td[id="td_datos_4"]').html();
-			var inptCantProductoVenta = 1
-			var inpTotalCostoVenta = document.getElementById('inpTotalCostoVenta').value
-			var inptCostoProductoVenta = document.getElementById('inptCostoProductoVenta').value
-			var inptComisionVenta = document.getElementById('inptComisionVenta').value
-			var inptlocalVenta = document.getElementById('inptlocalVenta').value
-			var inptObservacionDetalleVenta = document.getElementById('inptObservacionDetalleVenta').value
-			var inptDescuentoProductoVenta = document.getElementById('inptDescuentoProductoVenta').value
-			var inptDetallesVentaProductos = document.getElementById('inptDetallesVentaProductos').value
-
-			if (inptCostoProductoVenta =="") {
-				return false;
-			}
-
-			
-
-			var resultado = Number(StockVenta) - Number(inptCantProductoVenta)
-
-
-			if (inptCostoProductoVenta <= 0 && inptProductoVenta!="ANULADO") {
-				alertmensaje("FAVOR AGREGAR EL MONTO A COBRAR")
-				return false;
-			}
-
-
-
-			inptDetallesVentaProductos = inptDetallesVentaProductos.replace(new RegExp("\n", "g"), "<br>")
-			var CuotaNro = $("select[id=inpTSeleccCosto]").children(":selected").attr("id")
-			if (idFkProducto == "") {
-				alertmensaje("FALTO SELECCIONAR UN PRODUCTO", "#")
-				return false;
-			}
-			var nroid = Math.floor((Math.random() * 1000) + 1);
-			var pagina = "<table id='tdDetalleVenta_" + nroid + "' class='tableRegistroSearch' border='1' cellspacing='1' cellpadding='5'>"
-				+ "<tr id='tbSelecRegistro' onclick='SeleccionarProductoVentaOffline(this)'  name='tdDetalleVentaOffline'>"
-				+ "<td id='td_id_1' style='display:none'>" + idFkProducto + "</td>"
-				+ "<td id='td_id_2' style='display:none'>" + nroid + "</td>"
-				+ "<td  id='td_datos_8' style='display:none'>" + inptCodProductoVenta + "</td>"
-				+ "<td  id='td_datos_1' style='width:20%;'>" + inptProductoVenta + "</td>"
-				+ "<td  id='td_datos_6' style='display:none'>" + inptDetallesVentaProductos + "</td>"
-				+ "<td  id='td_datos_3' style='width:10%'>" + inptCostoProductoVenta + "</td>"
-				+ "<td  id='td_datos_4' style='display:none'>" + inptCantProductoVenta + "</td>"
-				+ "<td  id='td_datos_9' style='display:none'>" + inptDescuentoProductoVenta + "</td>"
-				+ "<td  id='td_datos_5' style='width:10%'>" + inpTotalCostoVenta + "</td>"
-				+ "<td  id='td_datos_7' style='display:none'>" + inptComisionVenta + "</td>"
-				+ "<td  id='td_datos_10' style='display:none'>" + CuotaNro + "</td>"
-				+ "</tr>"
-				+ "</table>"
-			document.getElementById("table_abm_detalle_venta").innerHTML += pagina;
-			var totalVenta = 0;
-			var SubtotalVenta = 0;
-			var totaldescuento = 0;
-			var control = 0;
-			$("tr[name=tdDetalleVentaOffline]").each(function (i, elementohtml) {
-				var total = $(elementohtml).children('td[id="td_datos_5"]').html();
-				var totaldescuentos = $(elementohtml).children('td[id="td_datos_9"]').html();
-				totaldescuentos = QuitarSeparadorMilValor(totaldescuentos)
-				total = QuitarSeparadorMilValor(total)
-				totalVenta = Number(totalVenta) + Number(total)
-				totaldescuento = Number(totaldescuento) + Number(totaldescuentos)
-				SubtotalVenta = Number(totalVenta) + Number(totaldescuento)
-				control = control + 1;
-			});
-
-			if (control == "1") {
-				DatosAutoCompleteCredito.push(CuotaNro)
-			}
-
-
-			document.getElementById("inptSubTotalVenta").value = separadordemilesnumero(SubtotalVenta);
-			document.getElementById("inptTotalVenta").value = separadordemilesnumero(totalVenta);
-			document.getElementById("inptTotalVenta2").innerHTML = separadordemilesnumero(totalVenta);
-			document.getElementById("inptTotalDescuento").value = separadordemilesnumero(totaldescuento);
-			OpcionesTipoVenta();
-			document.getElementById("btnFinalizarVenta").style.display = ""
-			document.getElementById("btnCancelarVenta").style.display = ""
-
-			document.getElementById('inptCantProductoVenta').value = ""
-			document.getElementById('inpTotalCostoVenta').value = ""
-			document.getElementById('inptCostoProductoVenta').value = ""
-			document.getElementById('inptDescuentoProductoVenta').value = "0"
-			document.getElementById('inptObservacionDetalleVenta').value = ""
-			document.getElementById('inptComisionVenta').value = ""
-			document.getElementById('inpTSeleccCosto').innerHTML = ""
-			document.getElementById('inptObservacionDetalleVenta').value = ""
-			
-			document.getElementById('inptDetallesVentaProductos').value = ""
-			document.getElementById('btnAbmVenta').style.display = "none"
-			document.getElementById('btnAddDetallesaVenta').style.backgroundColor = "#b7b7b7";
-						
-			
-		}
-		
-		} 
-		
-		
-		
-	});
-	
-	
-	idFkProducto = ""
-	document.getElementById('inptProductoVenta').value = ""
-	
-	
-}
-
-
-
+ 
 
 function anhadirAranacelEnDetalleVenta(){
 	
@@ -18047,19 +17767,21 @@ function anhadirAranacelEnDetalleVenta(){
 		controlcuota=1;
 		var totalCuota=0;
 		var montopagar=document.getElementById("inptPrecioArancelCobrarAranceles").value;
+		var descuento=document.getElementById("inptDescuentoArancelCobrarAranceles").value;
 		
 		montopagar=QuitarSeparadorMilValor(montopagar);
+		descuento=QuitarSeparadorMilValor(descuento);
 		$("input[name=checkboxDerechoCuotaArancel]").each(function(i, elementohtml){
 			if ($(elementohtml).is(':checked') ){
 			if(montopagar>0){
        var apagar=elementohtml.value;
        var cuotanro=$(elementohtml).attr("style");
 	   
-	   if(Number(apagar)<=Number(montopagar)){
+	   if((Number(apagar) - Number(descuento))<=Number(montopagar)){
 		   if(titulodetalle==""){
-			   titulodetalle+=" NRO "+cuotanro
+			   titulodetalle+=" "+cuotanro
 		   }else{
-			  titulodetalle+=", NRO "+cuotanro 
+			  titulodetalle+=" / "+cuotanro 
 		   }
 		   totalCuota=Number(totalCuota)+Number(apagar);
 		   montopagar=montopagar-apagar;
@@ -18067,9 +17789,9 @@ function anhadirAranacelEnDetalleVenta(){
 	   }else{
 		   
 		  if(titulodetalle==""){
-			   titulodetalle+="  PARCIAL CUOTA NRO  "+cuotanro
+			   titulodetalle+=" PARCIAL CUOTA  "+cuotanro
 		   }else{
-			 titulodetalle+=", PARCIAL CUOTA NRO "+cuotanro
+			 titulodetalle+=" / PARCIAL CUOTA "+cuotanro
 		   }
 		   
 		  		   totalCuota=Number(totalCuota)+Number(apagar);
@@ -18082,10 +17804,9 @@ function anhadirAranacelEnDetalleVenta(){
 			}
 	   });
 	  
-		 var montopagar=document.getElementById("inptPrecioArancelCobrarAranceles").value;
+		var montopagar=document.getElementById("inptPrecioArancelCobrarAranceles").value;
 		montopagar=QuitarSeparadorMilValor(montopagar);
-	
-	   if(Number(montopagar)>Number(totalCuota)){
+	   if(Number(montopagar)>Number(totalCuota) && TipoCobrarArancel!="Interes"){
 		   alertmensaje("EL monto supera a la deuda")
 		   return;
 	   }
@@ -18097,7 +17818,7 @@ function anhadirAranacelEnDetalleVenta(){
 		var montopagar=document.getElementById("inptPrecioArancelCobrarAranceles").value;
 		montopagar=QuitarSeparadorMilValor(montopagar);
 	
-	   if(Number(montopagar)>Number(totalcobranza)){
+	   if(Number(montopagar)>Number(totalcobranza)  && TipoCobrarArancel!="Interes" ){
 		   alertmensaje("EL monto supera a la deuda")
 		   return;
 	   }
@@ -18114,18 +17835,7 @@ function anhadirAranacelEnDetalleVenta(){
 		}
 		titulodetalle="("+titulodetalle+")"
 	}
-	/*
-if(inptCodArancelCobrarAranceles=="0"){
-	if($("select[id=inptTipoArancelNombreAranceles]").children(":selected").text()==""){
-		alertmensaje("Falto seleccionar el arancles")
-		document.getElementById("inptTipoArancelNombreAranceles").focus();
-		
-		return;
-	}else{
-		titulodetalle+=" - "+$("select[id=inptTipoArancelNombreAranceles]").children(":selected").text()
-	}
-}
-	*/
+ 
 	if(tituloDescuentoFactura!=""){
 		// tituloDescuentoFactura="*"+tituloDescuentoFactura+"*"
 	}
@@ -18134,8 +17844,8 @@ var pagina="<table class='tableRegistroSearch' border='0' cellspacing='0' cellpa
 +"<td id='td_id_1' style='display:none'>"+inptCodArancelCobrarAranceles+"</td>"
 +"<td  id='td_datos_1' style='width:20%;'>"+inptNomArancelCobrarAranceles+titulodetalle+"</td>"
 +"<td  id='td_datos_3' style='width:10%'>"+inptPrecioArancelCobrarAranceles+"</td>"
++"<td  id='td_datos_9' style='width:5%'>"+inptDescuentoArancelCobrarAranceles+"</td>"
 +"<td  id='td_datos_4' style='width:5%'>"+inptCantArancelCobrarAranceles+"</td>"
-+"<td  id='td_datos_9' style='display:none'>"+inptDescuentoArancelCobrarAranceles+"</td>"
 +"<td  id='td_datos_5' style='width:10%'>"+inptTotalArancelCobrarAranceles+"</td>"
 +"<td  id='td_datos_6' style='display:none'></td>"
 +"<td  id='td_datos_7' style='display:none'></td>"
@@ -18206,9 +17916,7 @@ function cambiarFocusControlNroFacturab(){
 	document.getElementById("inptNomArancelCobrarAranceles").focus();
 }
 function controlarnrofacturaexistb() {
-	
-	
-	
+	 
 	var	valor=$("select[id=inptPuntoExpedicionCobrarAranceles]").children(":selected").text()
 	//var	valor=document.getElementById("inptPuntoExpedicionCobrarAranceles").value
 	var codPuntoExpe=$("select[id=inptPuntoExpedicionCobrarAranceles]").children(":selected").attr("id")
@@ -18473,7 +18181,7 @@ function anhadirAranacelEnDetalleFacturaDerechoExamen(titulo,precio,codListaCate
 	var inptNomArancelCobrarAranceles = controlNombreArancelCobranza + " - "+titulo
 	var inptCantArancelCobrarAranceles = 1
 	var inptPrecioArancelCobrarAranceles = separadordemilesnumero(precio)
-	var inptDescuentoArancelCobrarAranceles = 0
+	var inptDescuentoArancelCobrarAranceles = document.getElementById('inptDescuentoArancelCobrarAranceles').value
 	var inptTotalArancelCobrarAranceles = separadordemilesnumero(precio)
 	if (inptCodArancelCobrarAranceles == "") {
 		alertmensaje("FALTO SELECCIONAR EL ARANCEL", "#")
@@ -18551,16 +18259,19 @@ function obtenertituloArancelCuota1(Control){
 	}
 	return titulo;
 }
+
+
+
+var totalPagarRecibo='0'
 function selectCuotaPagarCobranzas(){
 	  var apagar=0;
 	$("input[name=checkboxDerechoCuotaArancel]").each(function(i, elementohtml){
 			if ($(elementohtml).is(':checked') ){
 		
         apagar=Number(apagar)+Number(elementohtml.value);
-      
+      	totalPagarRecibo=apagar
 	   }
-			
-		
+			 
 	   });
 	   apagar=separadordemilesnumero(apagar)
 	   document.getElementById("inptPrecioArancelCobrarAranceles").value=apagar
@@ -18568,8 +18279,7 @@ function selectCuotaPagarCobranzas(){
 }
 var controlNombreArancelCobranza="";
 
-
-
+ 
 
 
 var elementodetalleFactura=""
@@ -18637,6 +18347,7 @@ document.getElementById('btnMasDetalleVenta').style.display='none';
 document.getElementById('inptCodArancelCobrarAranceles').value=""
 document.getElementById('inptNomArancelCobrarAranceles').value=""
 controlNombreArancelCobranza="";
+paginaRecibo="";
 document.getElementById('inptCantArancelCobrarAranceles').value=""
 document.getElementById('inptPrecioArancelCobrarAranceles').value=""
 document.getElementById('inptDescuentoArancelCobrarAranceles').value=""
@@ -18717,7 +18428,11 @@ function guardarDatosCobranzas(){
 	alertmensaje("Falto seleccionar el año")
 		return
 	}
-	inptFechaCobrarAranceles=inputyearFactura+"-"+inputmonthFactura+"-"+inputdayFactura;
+	inptFechaCobrarAranceles =
+    inputyearFactura + "-" +
+    String(inputmonthFactura).padStart(2, '0') + "-" +
+    String(inputdayFactura).padStart(2, '0');
+
 	var inptTotalCobrarAranceles = document.getElementById("inptTotalCobrarAranceles").value
 	var inptControlCobrarAranceles = document.getElementById("inptControlCobrarAranceles").value
 	var nrofactura = document.getElementById("inptFacturaNroCobrarAranceles").value
@@ -18725,11 +18440,7 @@ function guardarDatosCobranzas(){
 	
 	var inptPuntoExpedicionCobrarAranceles = document.getElementById("inptPuntoExpedicionCobrarAranceles").value
 	
-		// if(nrofactura==""){
-			// document.getElementById("inptFacturaNroCobrarAranceles").focus()
-		// alertmensaje("Nro de Factura inválido")
-		// return
-		// }
+	 
 		
 	 var nrofactura="";	
 		
@@ -18836,7 +18547,8 @@ function abmguardarcobranzas(tipoComprobante,nombrerazonsocial,rucrazonsocial,co
 	datos.append("cf", cf)
 	datos.append("fecha", fecha)
 	datos.append("TipoPago", "Corrido")
-	datos.append("puntoexpedicionfk", puntoexpedicionfk)
+	// datos.append("puntoexpedicionfk", puntoexpedicionfk)
+	datos.append("puntoexpedicionfk", "1")
 	datos.append("nrototal", control)
 	datos.append("idcursosalumnoFk", idcursosalumnoFk)
 	datos.append("estadofactura", estadofactura)
@@ -18881,7 +18593,6 @@ function abmguardarcobranzas(tipoComprobante,nombrerazonsocial,rucrazonsocial,co
         }, false);
         return xhr;
     },
-		
 		error: function (jqXHR, textstatus, errorThrowm) {
 			console.error(jqXHR, textstatus, errorThrowm);
 			verCerrarEfectoCargando("")
@@ -18900,9 +18611,9 @@ function abmguardarcobranzas(tipoComprobante,nombrerazonsocial,rucrazonsocial,co
 				   
 					facturaFecha=fecha			
 					facturaTotal=totalcobranzas	
-					facturanros=nrofactura	
+					facturanros=datos["2"]
 					
-					var CursoFactura=" - CURSO: "+ document.getElementById("inptCursoCobrarAranceles").value ;
+					var CursoFactura=" - GRADO: "+ document.getElementById("inptCursoCobrarAranceles").value ;
 					var SemestreFactura=" - SEMESTRE: "+ document.getElementById("inptSemestreCobrarAranceles").value ;
 					
 					var facturaCarreraAlumno=document.getElementById("inptCarreraCobrarAranceles").value ;
@@ -18926,7 +18637,15 @@ $("tr[name=tdDetalleCobranzasOffline]").each(function(i, elementohtml){
 		+"<td style='width: 50%;'>"+$(elementohtml).children('td[id="td_datos_5"]').html()+"</td>"
 		+"</tr>"
 		+"</tbody>";
-	
+
+	paginaRecibo+="<table class='tableRegistroFactura' style='width:100%' ><tbody><tr>"
+	+"<td style='text-align: left; width: 60%;'>"+$(elementohtml).children('td[id="td_datos_1"]').html()+"</td>"
+	+"<td style='text-align: left; width: 20%;'>"+$(elementohtml).children('td[id="td_datos_9"]').html()+"</td>"
+	+"<td style='text-align: left; width: 20%;'>"+$(elementohtml).children('td[id="td_datos_5"]').html()+"</td>"
+	+"</tr>"
+	 +"</tbody></table>";
+
+	 descuentofactura = Number(descuentofactura)+Number(QuitarSeparadorMilValor($(elementohtml).children('td[id="td_datos_9"]').html())) 
 });
 
  paginaDetalle+="<table class='tableRegistroFactura'><tbody><tr>"
@@ -18937,17 +18656,7 @@ $("tr[name=tdDetalleCobranzasOffline]").each(function(i, elementohtml){
 +"<td style='width: 50%;'></td>"
 +"</tr>"
 +"</tbody>"
-
-// var f = new Date();
-	// var dia = f.getDate()
-	// if (dia < 10) {
-		// dia = "0" + dia;
-	// }
-	// var mes = f.getMonth() + 1
-	// if (mes < 10) {
-		// mes = "0" + mes;
-	// }
-	// facturaFecha= dia+ "-" + mes + "-" +  f.getFullYear() ;
+ 
 facturaDetalles=paginaDetalle
 
 
@@ -18955,8 +18664,19 @@ facturaDetalles=paginaDetalle
 if(document.getElementById('inptSeleccionImprimirCobranza').value === 'FACTURA'){
 	imprimirFactura()
 }else{
-
-	imprimirBoleta()
+  var Cajero = document.getElementById("lblUser").innerHTML
+  var NroRecibo = facturanros
+  var NombreAlumno = facturaNombreAlumno
+  var CiAlumno = facturaCiAlumno
+  var facTotal = facturaTotal
+  var Fecha = fecha
+  var paginaticket = paginaRecibo
+  var grado = document.getElementById("inptCursoCobrarAranceles").value
+  var turno = document.getElementById("inptTurnoCobrarAranceles").value
+  var TotalLetras = facturaTotalLetras
+  var descuento = separadordemilesnumero(descuentofactura)
+  var tutor = document.getElementById("inptNombreApellidoRazonSocial").value 
+	imprimirBoleta(descuento, tutor, NroRecibo, NombreAlumno , CiAlumno, Fecha, Cajero,  paginaticket, facTotal,grado,turno,TotalLetras)
 }
 
 
@@ -18990,17 +18710,12 @@ var facturaTotal="";
 var facturaTotalLetras="";
 var facturaDetalles="";
 var facturanros="";
+var paginaRecibo="";
+var descuentofactura="";
+var TutorFactura="";
 function imprimirFactura(){
 	
-	
-	
-	// if(document.getElementById('checkImprimirFactura').checked==false){
-		// return
-	// }
-	
-	
-	
-	
+
 	document.getElementById("pNroFactura1").innerHTML=facturanros
 	document.getElementById("PfechaFactura1").innerHTML=facturaFecha
 	document.getElementById("PNombreFactura1").innerHTML=facturaNombreAlumno
@@ -19023,17 +18738,7 @@ function imprimirFactura(){
 	document.getElementById("PLetrasFactura2").innerHTML=facturaTotalLetras
 	document.getElementById("PAlumnoRazonFactura2").innerHTML=""
 	
-	
-	// document.getElementById("pNroFactura3").innerHTML=facturanros
-	// document.getElementById("PfechaFactura3").innerHTML=facturaFecha
-	// document.getElementById("PNombreFactura3").innerHTML=facturaNombreAlumno
-	// document.getElementById("PCiFactura3").innerHTML=facturaCiAlumno
-	// document.getElementById("PDireccionFactura3").innerHTML=facturaDireccionAlumno
-	// document.getElementById("detalleFactura3").innerHTML=facturaDetalles
-	// document.getElementById("PTotalSubFactura3").innerHTML=facturaTotal
-	// document.getElementById("PTotalFactura3").innerHTML=facturaTotal
-	// document.getElementById("PLetrasFactura3").innerHTML=facturaTotalLetras
-    // document.getElementById("PAlumnoRazonFactura3").innerHTML=""
+	 
 	
 	if(document.getElementById("inptRucRazonSocial").value!=document.getElementById("inptDocAlumnosCobrarAranceles").value){
 		document.getElementById("PNombreFactura1").innerHTML=document.getElementById("inptNombreApellidoRazonSocial").value
@@ -19043,10 +18748,7 @@ function imprimirFactura(){
 		document.getElementById("PAlumnoRazonFactura1").innerHTML="*"+facturaCiAlumno+" - "+facturaNombreAlumno+"*"
 	    document.getElementById("PAlumnoRazonFactura2").innerHTML="*"+facturaCiAlumno+" - "+facturaNombreAlumno+"*"
 		
-		// document.getElementById("PNombreFactura3").innerHTML=document.getElementById("inptNombreApellidoRazonSocial").value
-	    // document.getElementById("PCiFactura3").innerHTML=document.getElementById("inptNombreApellidoRazonSocial").value	   
-	    // document.getElementById("PAlumnoRazonFactura3").innerHTML="*"+facturaCiAlumno+" - "+facturaNombreAlumno+"*"
-	}
+	 }
 	
 
  var documento= document.getElementById("divreportfactura").innerHTML;
@@ -19143,108 +18845,103 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 
 }
 
-
+ 
 let paginaDetalleTicket= ""
-function imprimirBoleta(){
-	pagina="<div  style='background-color:#fff;'>"
-		+"<center>"
-		+"<div class='divTicket' >"
-		+"<p class='pTituloTicket1' >UV INTERNACIONAL</p>"
-		+"<p class='pTituloTicket2'>"
-		+"RUC: <br>"
-		+"Cel: <br>"
-		+ filialNombreuser + " - Paraguay "
-		+"</p>"
-		+"<div class='divSeparadorTicket' style='margin-bottom:5px'></div>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:110px'><b>Nro de Venta:</b></td>"
-		+"<td style=''>"+facturanros+"</td>"
-		+"</tr>"
-		+"</table>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:60px'><b>Fecha:</b></td>"
-		+"<td style=''>"+facturaFecha+"</td>"
-		+"</tr>"
-		+"</table>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:60px'><b>Alumno:</b></td>"
-		+"<td style=''>"+facturaNombreAlumno+"</td>"
-		+"</tr>"
-		+"</table>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:100px'><b>RUC o C.I.:</b></td>"
-		+"<td style=''>"+facturaCiAlumno+"</td>"
-		+"</tr>"
-		+"</table>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:100px'><b>Tipo Venta:</b></td>"
-		+"<td style=''>CONTADO</td>"
-		+"</tr>"
-		+"</table>"
-		+"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:10%'><b>Cant.</b></td>"
-		+"<td style='width:50%'><b>Descripcion</b></td>"
-		+"<td style='width:20%'><b>Costo</b></td>"
-		+"<td style='width:20%'><b>Total</b></td>"
-		+"</tr>"
-		+"</table>"
-		+paginaDetalleTicket
-		+"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:110px'><b>Exenta:</b></td>"
-		+"<td style=''>"+ facturaTotal +" Gs.</td>"
-		+"</tr>"
-		+"<tr>"
-		+"<td style='width:110px'><b>5%:</b></td>"
-		+"<td style=''>0 Gs.</td>"
-		+"</tr>"
-		+"<tr>"
-		+"<td style='width:110px'><b>10%:</b></td>"
-		+"<td style=''>0 Gs.</td>"
-		+"</tr>"
-		+"</table>"
-		+"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:110px'><b>Total :</b></td>"
-		+"<td style=''>"+facturaTotal+"</td>"
-		+"</tr>"
-		+"</table>"
-		+"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
-		+"<table class='tableTicket'>"
-		+"<tr>"
-		+"<td style='width:60px'><b>Cajero :</b></td>"
-		+"<td style=''>"+document.getElementById("lblUser").innerHTML+"</td>"
-		+"</tr>"
-		+"</table>"
-		+"</div>"
-		+"</center>"
-		"</div>"
+ 
+function imprimirBoleta( descuento, tutor,  NroRecibo, facturaNombreAlumno, CiAlumno, Fecha, Cajero,  paginaticket, facturaTotal,grado,turno,TotalLetras){
+   
+    var pagina =   `
+    <div class="ticket-container">
+ 
+     <div class="imgmenbrete"></div>
 
-	document.getElementById("divreportfactura").innerHTML=pagina;
+		
+<div class="ticket-titulo-documento">
+    RECIBO DE DINERO
+</div>
+
+      <div class='ticket-section' style="display: flex; width: 90%; margin: 10px;gap: 10px;">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <div style="width: 50%;">
+        <table class="ticket-table">
+            <tr><td><b>Recibi(mos)de:</b></td><td>${tutor}</td></tr>
+            <tr><td><b>Alumno:</b></td><td>${facturaNombreAlumno}</td></tr>
+            <tr><td><b>CI / RUC:</b></td><td>${CiAlumno}</td></tr>
+            <tr><td><b>Grado:</b></td><td>${grado}</td></tr>
+            <tr><td><b>Turno:</b></td><td>${turno}</td></tr>
+        </table>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div style="width: 50%;">
+        <table class="ticket-table">
+            <tr><td><b>N° Recibo:</b></td><td>${NroRecibo}</td></tr>	
+            <tr><td><b>Fecha:</b></td><td>${Fecha}</td></tr>
+            <tr><td><b>Cajero:</b></td><td>${Cajero}</td></tr> 
+        </table>
+    </div>
+
+</div>
+
+
+        <h4 style="text-align:center;margin-top:0px;margin:0px;font-size:15px;">Detalle de Operación</h4>
+
+        <!-- LISTA DE CONCEPTOS -->
+        <table class="ticket-table">
+            <tr>
+                <th style="width:60%">DESCRIPCION</th> 
+                <th style="width:20%">DESCUENTO</th> 
+                <th style="width:20%">IMPORTE</th> 
+            </tr>
+        </table>
+
+        ${paginaticket}
+  
+        <!-- TOTALES -->
+        <div class="ticket-section" style='margin: 10px;'>
+            <table class="ticket-table ticket-totales">
+                <tr>
+				 <td  style="width:80%"><b>TOTAL LETRAS:</b> ${TotalLetras}</td> 
+                 <td  style="width:20%" ><b>TOTAL:</b> ${facturaTotal} Gs.</td>
+				 </tr> 
+				 <tr>
+				 <td  style="width:80%"> </td> 
+                 <td  style="width:20%" ><b>DESC.:</b> ${descuento} Gs.</td>
+				 </tr> 
+            </table>
+        </div>
+
+		<br><br><br>
+
+<div class="ticket-firma">
+    _______________________________<br>
+    FIRMA
+</div>
+
+  
+    </div>
+    `;
+
+document.getElementById("divreportfactura").innerHTML =
+    pagina +
+    "<div class='marcaFactura original'>ORIGINAL</div>" +
+    "<div class='separador'></div>" +
+    pagina +
+    "<div class='marcaFactura duplicado'>DUPLICADO</div>";
+
+	
 	var documento= document.getElementById("divreportfactura").innerHTML;
 	localStorage.setItem("reporte", documento);
 	localStorage.setItem("tipo", "ticket");
-
-	 // if(filiaruser=="11" ){
+ 
 		var URL= "/GoodTechnologyEPNSA/system/reportTicket.html"
-	// }else{
-		// var URL= "/GoodTechnologyEPNSA/system/reportfacturas.html"
-	// }
+ 
 	window.open(URL, 'Imprimir', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,left = 0');
-	
+
 }
 
-
-
+ 
 /*
 ASIGNAR NRO FACTURA
 */
@@ -20526,6 +20223,7 @@ function NuevoAsignarArancelMasivoFrm(){
 		document.getElementById("divAbmAsignarArancel2").style.display="none"
 		document.getElementById("divAbmAsignarArancel3").style.display=""
 		LimpiarCamposAsignarArancel()
+		
 }
 function EditarAsignarArancelFrm(){
 	// if(controlacceso("EDITARASIGNARARANCELES","accion")==false){	  return;		}
@@ -20622,6 +20320,7 @@ function LimpiarCamposAsignarArancel(){
 	document.getElementById("inptTotalAsignarArancel").value=""
 	document.getElementById("inptSemestreAsignarArancel").value="1"
 	document.getElementById("inptTipoArancelAsignarArancel").value=""
+	document.getElementById("inptCostoAsignarArancel").value=""
 	
 	document.getElementById("inptEstadoAsignarArancel").value="Activo"
 	document.getElementById("inptRegistroSeleccionadoAsignarArancel").value=""
@@ -20630,6 +20329,8 @@ function LimpiarCamposAsignarArancel(){
 	 CodCarreraAsignarArancel="";
  idAbmAsignarArancel="";
  ControlVistaAsignarArancel=""
+
+ CargarCarrerasAsingarArancel()
 	document.getElementById("btnAbmAsignarArancel").value="Guardar Datos"
 }
 function LimpiarCamposBusquedaAsignarArancel(){
@@ -20659,7 +20360,7 @@ function LimpiarCamposAsignarArancelMasivo(){
 	document.getElementById("ListArancelTipos").innerHTML=""
 }
 function ControlTipoArancel(d){
-	if(d.value=="Especificos"){
+	if(d.value=="Especificos" || d.value=="Libros" || d.value=="Materiales Didacticos"){
 		document.getElementById("divTipoAranceles").style.display=""
 	}else{
 		document.getElementById("divTipoAranceles").style.display="none"
@@ -20699,6 +20400,7 @@ function ObtenerdatosAbmAsignarArancel(datostr) {
 	document.getElementById('inptTotalAsignarArancel').value = $(datostr).children('td[id="td_datos_8"]').html();
 	document.getElementById('inptEstadoAsignarArancel').value = $(datostr).children('td[id="td_datos_10"]').html();
 	document.getElementById('inptTipoArancelAsignarArancel').value = $(datostr).children('td[id="td_datos_12"]').html();
+	document.getElementById('inptCostoAsignarArancel').value = $(datostr).children('td[id="td_datos_13"]').html();
      document.getElementById("btnAbmAsignarArancel").value="Editar Datos"
      document.getElementById("btneditarDatosAsignarCarrera").style.backgroundColor="#4CAF50"
      document.getElementById("btneliminarDatosAsignarCarrera").style.backgroundColor="red"
@@ -20759,29 +20461,7 @@ function EliminarRegitroAsingarArancel(){
 }
 
 function CargarCarrerasAsingarArancel(){
-	
-	
-		var codFilial="";
-$("input[id=inptFilialAsignarArancel]").each(function (i, Elemento) {
-      var $input = $(this),
-          val = $input.val();
-		 
-          list = $input.attr('list'),
-          match = $('#'+list + ' option').filter(function() {
-              return ($(this).val() === val);			 
-          });
-
-       if(match.length > 0) {
-         codFilial=$(match).attr("id")
-       } else {
-           // value is not in list
-       }
-});
-
-if(codFilial==""){
-		return
-	}
-	
+  
 	document.getElementById("ListCarrerasAsignarArancel").innerHTML=""
 	
 	verCerrarEfectoCargando("1")
@@ -20790,7 +20470,7 @@ if(codFilial==""){
 		"useru": userid,
 		"passu": passuser,
 		"navegador": navegador,
-		"codFilial": codFilial,
+		"codFilial": filiaruser,
 		"codFacultad": "",
 		"funt": "buscarcarreraporfilial3"
 	};
@@ -20862,6 +20542,9 @@ function VerificarDatosAsignarArancel(){
 	var inptEstadoAsignarArancel=document.getElementById("inptEstadoAsignarArancel").value;
 	var inptTipoArancelAsignarArancel=document.getElementById("inptTipoArancelAsignarArancel").value;
 	var inptNombreAsignarArancel=document.getElementById("inptNombreAsignarArancel").value;
+	var inptCostoAsignarArancel=document.getElementById("inptCostoAsignarArancel").value;
+
+
 	if(inptTipoArancelAsignarArancel=="Especificos"){
 	if(inptAnhoAsignarArancel==""){
 		alertmensaje("Falto Seleccionar el año")
@@ -20878,13 +20561,14 @@ function VerificarDatosAsignarArancel(){
 	if(inptCantidadAsignarArancel==""){
 		alertmensaje("Falto ingresar la cantidad")
 		return;
-	}
-	if(inptSemestreAsignarArancel==""){
-		alertmensaje("Falto seleccionar el semestre")
-		return;
-	}
+	} 
 	if(inptEstadoAsignarArancel==""){
 		alertmensaje("Falto seleccionar el estado del registro")
+		return;
+	}
+	
+	if(inptCostoAsignarArancel==""){
+		alertmensaje("Falto Ingresar el Costo")
 		return;
 	}
 	
@@ -20939,7 +20623,6 @@ $("input[id=inptCarreraAsignarArancel]").each(function (i, Elemento) {
        }
 });
 
-// alert(CodCarreraAsignarArancel)
 if(CodCarreraAsignarArancel==""){
 		alertmensaje("Falto Seleccionar la carrera")
 		return
@@ -20948,31 +20631,8 @@ if(CodCarreraAsignarArancel==""){
 	}
 	
 	
-var codFilial="";
-$("input[id=inptFilialAsignarArancel]").each(function (i, Elemento) {
-      var $input = $(this),
-          val = $input.val();
-		 
-          list = $input.attr('list'),
-          match = $('#'+list + ' option').filter(function() {
-              return ($(this).val() === val);			 
-          });
-
-       if(match.length > 0) {
-         codFilial=$(match).attr("id")
-       } else {
-           // value is not in list
-       }
-});
-
-if(codFilial==""){
-		alertmensaje("Falto Seleccionar un filial")
-		return
-	}
-	
-	
-
-
+var codFilial=filiaruser;
+  
 	var codConcepto="";
 $("input[id=inptNombreAsignarArancel]").each(function (i, Elemento) {
       var $input = $(this),
@@ -21005,9 +20665,9 @@ if(codConcepto==""){
 		// if(controlacceso("EDITARASIGNARARANCELES","accion")==false){	  return;		}
 	}
 	
-	AbmAsignarArancel(inptNombreAsignarArancel,inptTipoArancelAsignarArancel,inptEstadoAsignarArancel,inptAnhoAsignarArancel,inptCursoAsignarArancel,inptMontoAsignarArancel,inptCantidadAsignarArancel,inptTotalAsignarArancel,inptSemestreAsignarArancel,codFilial,CodCarreraAsignarArancel,codConcepto,idAbmAsignarArancel, accion)
+	AbmAsignarArancel(inptCostoAsignarArancel,inptNombreAsignarArancel,inptTipoArancelAsignarArancel,inptEstadoAsignarArancel,inptAnhoAsignarArancel,inptCursoAsignarArancel,inptMontoAsignarArancel,inptCantidadAsignarArancel,inptTotalAsignarArancel,inptSemestreAsignarArancel,codFilial,CodCarreraAsignarArancel,codConcepto,idAbmAsignarArancel, accion)
 }
-function AbmAsignarArancel(arancelname,tipo,estado,anho,curso,monto,cantidad,total,semestre,codFilialFk,cod_carreraFK,cod_listadearancelesFk,idAbm, accion) {
+function AbmAsignarArancel(costo,arancelname,tipo,estado,anho,curso,monto,cantidad,total,semestre,codFilialFk,cod_carreraFK,cod_listadearancelesFk,idAbm, accion) {
 	var datos = new FormData();
 	 verCerrarEfectoCargando("1")
 	obtener_datos_user();
@@ -21028,6 +20688,7 @@ function AbmAsignarArancel(arancelname,tipo,estado,anho,curso,monto,cantidad,tot
 	datos.append("tipo", tipo)
 	datos.append("codFilialFk", codFilialFk)
 	datos.append("arancelname", arancelname)
+	datos.append("costo", costo)
 	var OpAjax = $.ajax({
 		data: datos,
 		url: "/GoodTechnologyEPNSA/php/ABMAsignarArancles.php",
@@ -24671,6 +24332,7 @@ function vercerrarventanamenu(nro){
 		document.getElementById("ContenedorListado").style.display="none";
 		document.getElementById("ContenedorAdministrativo").style.display="none";
 		document.getElementById("ContenedorInforme").style.display="none";
+		document.getElementById("ContenedorAcademico").style.display="none";
 		document.getElementById("ContenedorSistema").style.display="none";
 	}
 	
@@ -24680,6 +24342,7 @@ function vercerrarventanamenu(nro){
 		document.getElementById("ContenedorListado").style.display="";
 		document.getElementById("ContenedorAdministrativo").style.display="none";
 		document.getElementById("ContenedorInforme").style.display="none";
+		document.getElementById("ContenedorAcademico").style.display="none";
 		document.getElementById("ContenedorSistema").style.display="none";
 	}
 	
@@ -24689,6 +24352,7 @@ function vercerrarventanamenu(nro){
 		document.getElementById("ContenedorListado").style.display="none";
 		document.getElementById("ContenedorAdministrativo").style.display="";
 		document.getElementById("ContenedorInforme").style.display="none";
+		document.getElementById("ContenedorAcademico").style.display="none";
 		document.getElementById("ContenedorSistema").style.display="none";
 	}
 	
@@ -24697,7 +24361,8 @@ function vercerrarventanamenu(nro){
 		document.getElementById("ContenedorAccesoDirecto").style.display="none";
 		document.getElementById("ContenedorListado").style.display="none";
 		document.getElementById("ContenedorAdministrativo").style.display="none";
-		document.getElementById("ContenedorInforme").style.display="";
+		document.getElementById("ContenedorAcademico").style.display="";
+		document.getElementById("ContenedorInforme").style.display="none";
 		document.getElementById("ContenedorSistema").style.display="none";
 	}
 	
@@ -24707,7 +24372,18 @@ function vercerrarventanamenu(nro){
 		document.getElementById("ContenedorListado").style.display="none";
 		document.getElementById("ContenedorAdministrativo").style.display="none";
 		document.getElementById("ContenedorInforme").style.display="none";
+		document.getElementById("ContenedorAcademico").style.display="none";
 		document.getElementById("ContenedorSistema").style.display="";
+	}
+
+
+	if(nro=="6"){
+		document.getElementById("ContenedorAccesoDirecto").style.display="none";
+		document.getElementById("ContenedorListado").style.display="none";
+		document.getElementById("ContenedorAdministrativo").style.display="none";
+		document.getElementById("ContenedorAcademico").style.display="none";
+		document.getElementById("ContenedorSistema").style.display="none";
+		document.getElementById("ContenedorInforme").style.display="";
 	}
 	
 	
@@ -24786,4 +24462,2044 @@ function getCurrentDate() {
     let day = now.getDate();
     day = day < 10 ? '0' + day : day;
     return year + '-' + month + '-' + day;
+}
+
+
+
+
+
+
+
+/*
+ABM APERTURA CIERRE CAJA
+*/
+function verCerrarVentanaAbmAperturaCierreCaja(){
+	if(document.getElementById("divAbmAperturaCierreCaja").style.display==""){ 
+	$("div[id=divAbmAperturaCierreCaja]").fadeOut(500);	
+		
+	}else{	
+      if(controlacceso(controlaperturacierrecaja,"accion")==false){
+			//SIN PERMISO
+	  return;
+		}
+		
+		var f = new Date();
+	
+	var anho = f.getFullYear()
+	
+	var dia = f.getDate()
+	if (dia < 10) {
+		dia = "0" + dia;
+	}
+	var mes = f.getMonth() + 1
+	if (mes < 10) {
+		mes = "0" + mes;
+	}
+	var hora = f.getHours()
+	if (hora < 10) {
+		hora = "0" + hora;
+	}
+    var minuto = f.getMinutes()
+	if (minuto < 10) {
+		minuto = "0" + minuto;
+	}
+    var segundo = f.getSeconds()
+	if (segundo < 10) {
+		segundo = "0" + segundo;
+	}
+     
+	  if(controlaperturacierrecaja!="ABRIRCERRARCAJA"){
+	  document.getElementById('inptFechaCierreAperturaCierreCaja').value =  anho+"-" + mes + "-" +dia +"T"+hora+":"+minuto;
+		  
+	  }else{
+		  document.getElementById('inptFechaAperturaCierreCaja').value =  anho+"-" + mes + "-" +dia +"T"+hora+":"+minuto;
+		  
+	  }		
+		document.getElementById("divAbmAperturaCierreCaja").style.display="" 
+		document.getElementById("imgVolverCerrarApCieCaja").style.display=""
+		document.getElementById("imgVolverAtrasApCieCaja").style.display="none"
+		 buscartotalmovimientos()
+		
+		
+	}
+}
+function verCerrarVentanaAbmAperturaCierreCaja1(){
+	if(document.getElementById("divAbmAperturaCierreCaja").style.display==""){ 
+	$("div[id=divAbmAperturaCierreCaja]").fadeOut(500);	
+	}else{		
+	if(controlacceso(controlaperturacierrecaja,"accion")==false){
+			//SIN PERMISO
+	  return;
+		}
+		document.getElementById("divAbmAperturaCierreCaja").style.display="" 
+		document.getElementById("imgVolverCerrarApCieCaja").style.display="none"
+		document.getElementById("imgVolverAtrasApCieCaja").style.display=""
+	
+			var f = new Date();
+	
+	var anho = f.getFullYear()
+	
+	var dia = f.getDate()
+	if (dia < 10) {
+		dia = "0" + dia;
+	}
+	var mes = f.getMonth() + 1
+	if (mes < 10) {
+		mes = "0" + mes;
+	}
+	var hora = f.getHours()
+	if (hora < 10) {
+		hora = "0" + hora;
+	}
+    var minuto = f.getMinutes()
+	if (minuto < 10) {
+		minuto = "0" + minuto;
+	}
+    var segundo = f.getSeconds()
+	if (segundo < 10) {
+		segundo = "0" + segundo;
+	}
+     
+	  if(controlaperturacierrecaja!="ABRIRCERRARCAJA"){
+	  document.getElementById('inptFechaCierreAperturaCierreCaja').value =  anho+"-" + mes + "-" +dia +"T"+hora+":"+minuto;
+		  
+	  }else{
+		  document.getElementById('inptFechaAperturaCierreCaja').value =  anho+"-" + mes + "-" +dia +"T"+hora+":"+minuto;
+		  
+	  }		
+		
+	}
+}
+var controlaperturacierrecaja="ABRIRCERRARCAJA";
+var codCajeroapertura="";
+function controldecaja() {
+	var caja = document.getElementById('inptcajaAperturaCierreCaja').value
+	var codlocal = document.getElementById('inptlocalAperturaCierre').value
+	document.getElementById('PTituloApCieCaja').innerHTML="Cargando datos de caja...";
+	document.getElementById('btnAbmAperturaCierreCaja').value="Cargando...";
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"cod_local": codlocal,
+		"buscar": caja,
+		"Usuario": userid,
+		"funt": "controldecaja"
+	};
+	$.ajax({
+
+		data: datos,
+		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		type: "post",
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+		var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		beforeSend: function () {
+
+
+		},
+		
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					if(datos[2]=="1"){
+						document.getElementById("inptEstadoAperturaCierreCaja").value="Cerrado"
+						document.getElementById('inptMontoCierreCaja5').disabled= false;
+						document.getElementById('inptMontoCierreCaja10').disabled= false;
+						document.getElementById('inptMontoCierreCaja20').disabled= false;
+						document.getElementById('inptMontoCierreCaja50').disabled= false;
+						document.getElementById('inptMontoCierreCaja100').disabled= false;
+						document.getElementById('inptMontoCierreCaja200').disabled= false;
+						document.getElementById('inptMontoCierreCaja500').disabled= false;
+						document.getElementById('inptMontoCierreCaja1000').disabled= false;
+						document.getElementById('inptFechaCierreAperturaCierreCaja').disabled=true
+						document.getElementById('inptFechaAperturaCierreCaja').disabled=true
+						document.getElementById('inptMontoAperturaCierreCaja').disabled=true						
+						idabmAperturacierrecaja=datos[3];
+						$("input[id=inptFechaAperturaCierreCaja]").attr("type","text")
+						document.getElementById('inptFechaAperturaCierreCaja').value=datos[7];
+						document.getElementById('inptMontoAperturaCierreCaja').value=datos[5];
+						document.getElementById('inptResumenInicialAperturaCierre').value=datos[5];
+						document.getElementById('inptMontoRecaudadoCierreCaja').value=datos[10];
+						document.getElementById('inptcajeroAperturaCierreCaja').value=datos[12];
+						codCajeroapertura=datos[11];
+						document.getElementById('btnAbmAperturaCierreCaja').value="Cerrar caja";
+						document.getElementById('PTituloApCieCaja').innerHTML="Cerrar caja";
+                        controlaperturacierrecaja="CERRARCERRARCAJA"						
+					}else{
+						document.getElementById("inptEstadoAperturaCierreCaja").value="Activo"
+						document.getElementById('inptMontoCierreCaja5').disabled= true;
+						document.getElementById('inptMontoCierreCaja10').disabled= true;
+						document.getElementById('inptMontoCierreCaja20').disabled= true;
+						document.getElementById('inptMontoCierreCaja50').disabled= true;
+						document.getElementById('inptMontoCierreCaja100').disabled= true;
+						document.getElementById('inptMontoCierreCaja200').disabled= true;
+						document.getElementById('inptMontoCierreCaja500').disabled= true;
+						document.getElementById('inptMontoCierreCaja1000').disabled= true;
+						document.getElementById('inptFechaCierreAperturaCierreCaja').disabled=true
+						document.getElementById('inptFechaAperturaCierreCaja').disabled=true
+						document.getElementById('inptMontoAperturaCierreCaja').disabled=false
+							 if(accesosuser["CAMBIARMONTOAPERTURA"]["accion"]=="NO"){
+	         document.getElementById('inptMontoAperturaCierreCaja').disabled=true
+	         }
+						document.getElementById('inptMontoAperturaCierreCaja').value=datos[3];
+						document.getElementById('inptResumenInicialAperturaCierre').value=datos[3];
+						document.getElementById('inptFechaCierreAperturaCierreCaja').value="";
+						$("input[id=inptFechaAperturaCierreCaja]").attr("type","datetime-local")
+						document.getElementById('inptMontoCierreCaja5').value= 0;
+						document.getElementById('inptMontoCierreCaja10').value= 0;
+						document.getElementById('inptMontoCierreCaja20').value= 0;
+						document.getElementById('inptMontoCierreCaja50').value= 0;
+						document.getElementById('inptMontoCierreCaja100').value= 0;
+						document.getElementById('inptMontoCierreCaja200').value= 0;
+						document.getElementById('inptMontoCierreCaja500').value= 0;
+						document.getElementById('inptMontoCierreCaja1000').value= 0;
+						document.getElementById('inptMontoRecaudadoCierreCaja').value="0";
+						document.getElementById('inptcajeroAperturaCierreCaja').value=document.getElementById("lblUser").innerHTML;
+						 controlaperturacierrecaja="ABRIRCERRARCAJA"	
+						 codCajeroapertura=userid
+						 document.getElementById('btnAbmAperturaCierreCaja').value="Iniciar caja";
+						 document.getElementById('PTituloApCieCaja').innerHTML="Apertura de caja";
+						 idabmAperturacierrecaja="";
+
+					}
+					calcularMontoMovimientoAperturaCierreCaja();
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+						var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+function buscartotalmovimientos() {
+	if(idabmAperturacierrecaja==""){
+		return
+	}
+	document.getElementById('inptMontoRecaudadoCierreCaja').value="...."
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"idArqeoFk": idabmAperturacierrecaja,
+		"funt": "buscarmoviemientocaja"
+	};
+	$.ajax({
+
+		data: datos,
+		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		type: "post",
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+		var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		beforeSend: function () {
+
+
+		},
+		
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+				
+				  document.getElementById('inptMontoRecaudadoCierreCaja').value=datos[2];
+				  DetalleticketCaja=datos[3];
+						
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+						var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+
+function calcularMontoMovimientoAperturaCierreCaja() {
+	let total= 0;
+	// Obtiene las cantidades de tipos de monedas y valida
+	const inptMontoCierreCaja5= parseInt(document.getElementById('inptMontoCierreCaja5').value || 0)*500;
+	const inptMontoCierreCaja10= parseInt(document.getElementById('inptMontoCierreCaja10').value || 0)*1000;
+	const inptMontoCierreCaja20= parseInt(document.getElementById('inptMontoCierreCaja20').value || 0)*2000;
+	const inptMontoCierreCaja50= parseInt(document.getElementById('inptMontoCierreCaja50').value || 0)*5000;
+	const inptMontoCierreCaja100= parseInt(document.getElementById('inptMontoCierreCaja100').value || 0)*10000;
+	const inptMontoCierreCaja200= parseInt(document.getElementById('inptMontoCierreCaja200').value || 0)*20000;
+	const inptMontoCierreCaja500= parseInt(document.getElementById('inptMontoCierreCaja500').value || 0)*50000;
+	const inptMontoCierreCaja1000= parseInt(document.getElementById('inptMontoCierreCaja1000').value || 0)*100000;
+
+	total= inptMontoCierreCaja5+inptMontoCierreCaja10+inptMontoCierreCaja20+inptMontoCierreCaja50+inptMontoCierreCaja100+inptMontoCierreCaja200+inptMontoCierreCaja500+inptMontoCierreCaja1000;
+	document.getElementById('inptResumenCierreAperturaCierre').value= total.toString();
+	separadordemiles(document.getElementById('inptResumenCierreAperturaCierre'));
+
+	document.getElementById('inptMontoCierreCierreCaja').value= total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+	var movimiento = document.getElementById("inptMontoRecaudadoCierreCaja").value
+	movimiento= movimiento.replace('.', '');
+	if(movimiento=="...." || movimiento==""){
+		movimiento = 0;
+	}
+	movimiento= parseInt(movimiento)
+
+	let montoApertura = document.getElementById("inptResumenInicialAperturaCierre").value.replace(/\./g, '');
+	montoApertura= parseInt(montoApertura);
+
+	document.getElementById('inptResumenTotalAperturaCierre').value= (total - montoApertura).toString();
+	separadordemiles(document.getElementById('inptResumenTotalAperturaCierre'));
+}
+
+var idabmAperturacierrecaja="";
+function verificarcamposaperturacierredecaja() {
+	
+	var movimiento = document.getElementById("inptMontoRecaudadoCierreCaja").value
+	movimiento= movimiento.replace('.', '');
+	if(movimiento=="...." || movimiento==""){
+		return;
+	}
+
+	// Obtiene las cantidades de tipos de monedas y valida
+	const inptMontoCierreCaja5= document.getElementById('inptMontoCierreCaja5').value || 0;
+	const inptMontoCierreCaja10= document.getElementById('inptMontoCierreCaja10').value || 0;
+	const inptMontoCierreCaja20= document.getElementById('inptMontoCierreCaja20').value || 0;
+	const inptMontoCierreCaja50= document.getElementById('inptMontoCierreCaja50').value || 0;
+	const inptMontoCierreCaja100= document.getElementById('inptMontoCierreCaja100').value || 0;
+	const inptMontoCierreCaja200= document.getElementById('inptMontoCierreCaja200').value || 0;
+	const inptMontoCierreCaja500= document.getElementById('inptMontoCierreCaja500').value || 0;
+	const inptMontoCierreCaja1000= document.getElementById('inptMontoCierreCaja1000').value || 0;
+	
+	//var inptlocalAperturaCierre = document.getElementById('inptlocalAperturaCierre').value
+	var inptlocalAperturaCierre = cod_localFKUSer
+	var inptcajaAperturaCierreCaja = document.getElementById('inptcajaAperturaCierreCaja').value
+	var inptMontoAperturaCierreCaja = document.getElementById('inptMontoAperturaCierreCaja').value
+	var inptFechaAperturaCierreCaja = document.getElementById('inptFechaAperturaCierreCaja').value
+	var inptFechaCierreAperturaCierreCaja = document.getElementById('inptFechaCierreAperturaCierreCaja').value
+	var inptMontoCierreCierreCaja = document.getElementById('inptMontoCierreCierreCaja').value;
+	var inptEstadoAperturaCierreCaja = document.getElementById('inptEstadoAperturaCierreCaja').value
+	if (inptlocalAperturaCierre == "") {
+		ver_vetana_informativa("FALTO SELECCIONAR UN LOCAL")
+		return false;
+	}
+	if (codCajeroapertura == "") {
+		ver_vetana_informativa("FALTO SELECCIONAR UN COBRADOR")
+		return false;
+	}
+
+  if(controlacceso(controlaperturacierrecaja,"accion")==false){
+			//SIN PERMISO
+	  return;
+		}
+  
+	var accion = "";
+	if (idabmAperturacierrecaja != "") {
+		accion = "editar";
+
+		if(inptFechaCierreAperturaCierreCaja==""){
+			
+			ver_vetana_informativa("FALTO INGRESAR EL MONTO APERTURA")
+		return false;
+		}
+	} else {
+		accion = "nuevo";
+		if(inptMontoAperturaCierreCaja==""){
+			ver_vetana_informativa("FALTO INGRESAR EL MONTO APERTURA")
+		return false;
+		}
+		
+		if(inptFechaAperturaCierreCaja==""){
+			ver_vetana_informativa("FALTO SELECCIONAR LA APERTURA")
+		return false;
+		}
+	}
+	abmaperturacierrecaja(codCajeroapertura,inptlocalAperturaCierre, inptcajaAperturaCierreCaja, inptMontoAperturaCierreCaja,inptFechaAperturaCierreCaja,inptMontoCierreCierreCaja,inptFechaCierreAperturaCierreCaja,inptEstadoAperturaCierreCaja,idabmAperturacierrecaja,inptMontoCierreCaja5,inptMontoCierreCaja10,inptMontoCierreCaja20,inptMontoCierreCaja50,inptMontoCierreCaja100,inptMontoCierreCaja200,inptMontoCierreCaja500,inptMontoCierreCaja1000,accion);
+}
+
+var loteCaja="";
+
+
+function abmaperturacierrecaja(codusuarioap,cod_local, caja_idcaja, montoapertura,fechaapertura,montocierre,fechacierre,estado,idarqueocaja,cantMoneda5,cantMoneda10,cantMoneda20,cantMoneda50,cantMoneda100,cantMoneda200,cantMoneda500,cantMoneda1000,accion){
+verCerrarEfectoCargando("1")
+	var datos = new FormData();
+	obtener_datos_user();
+	datos.append("useru", userid)
+	datos.append("passu", passuser)
+	datos.append("navegador", navegador)
+	datos.append("funt", accion)
+	datos.append("idarqueocaja", idarqueocaja)
+	datos.append("cod_local", cod_local)
+	datos.append("caja_idcaja", caja_idcaja)
+	datos.append("montoapertura", montoapertura)
+	datos.append("montocierre", montocierre)
+	datos.append("fechaapertura", fechaapertura)
+	datos.append("fechacierre", fechacierre)
+	datos.append("estado", estado)
+	datos.append("cant500", cantMoneda5);
+	datos.append("cant1000", cantMoneda10);
+	datos.append("cant2000", cantMoneda20);
+	datos.append("cant5000", cantMoneda50);
+	datos.append("cant10000", cantMoneda100);
+	datos.append("cant20000", cantMoneda200);
+	datos.append("cant50000", cantMoneda500);
+	datos.append("cant100000", cantMoneda1000);
+	datos.append("codusuarioap", codusuarioap)
+	var OpAjax = $.ajax({
+		data: datos,
+		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		type: "post",
+		cache: false,
+		contentType: false,
+		processData: false,
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+        var porce= ~~((evt.loaded / evt.total) * 100); 
+		if(porce>90){
+		porce=Number(porce)-7				
+		}
+		document.getElementById("lbltitulomensaje_b").innerHTML="Cargando<br>("+porce+"%)";
+		var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		error: function (jqXHR, textstatus, errorThrowm) {
+			verCerrarEfectoCargando("")
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+
+			return false;
+		},
+		success: function (responseText) {
+			verCerrarEfectoCargando("")
+			Respuesta = responseText;
+			console.log(Respuesta)
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				 Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					montocierre= parseInt(montocierre.replace('.', ''));
+
+					let limite= document.getElementById('inptLimitecaja').value;
+					limite= parseInt(limite.replace('.', ''));
+
+					if (montocierre > limite) {
+						ver_vetana_informativa("SE RECOMIENDA DEPOSITAR EN LA CENTRAL PARA EVITAR EXCESOS.");
+					} else {
+						ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
+					}
+					
+					loteCaja=datos[2];
+					if(estado=="Activo"){
+						ImprimirTicketReportCaja()
+					}else{
+						ImprimirTicketReportCierreCaja()
+					}
+					controldecaja()
+				} else {
+					ver_vetana_informativa(datos[2], datos[3]);
+					return false;
+				}
+			} catch (error) {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+
+
+		}
+	});
+
+}
+function vercerraropcioneimpresionapcie(d,v){
+	if(d=="1"){
+		document.getElementById("divOpcionesImpresionArpeturacierre").style.display=""
+	}else{
+		document.getElementById("divOpcionesImpresionArpeturacierre").style.display="none"
+	}
+}
+function vercerrarvistaapcie(d,v){
+	if(d=="1"){
+		document.getElementById("divVistaArqueocierrecaja").style.display=""
+		document.getElementById("tdEfectoArqueoCierroCaja").className="magictime slideLeftReturn"
+	}else{
+		//document.getElementById("divVistaArqueocierrecaja").style.display="none"
+		document.getElementById("tdEfectoArqueoCierroCaja").className="magictime slideRight"
+$("div[id=divVistaArqueocierrecaja]").fadeOut(500);	
+	}
+}
+
+function vercerrarfiltrosBuscarVistaAperturaCierre(d,v){
+	if(d=="1"){
+		document.getElementById("divFiltrosAperturaCierreCaja").style.display=""
+	
+		if(v=="1"){
+			bloquearBuscarVistaAperturaCaja("1")
+		}
+		if(v=="2"){
+			bloquearBuscarVistaAperturaCaja("2")
+		}
+	}else{
+		document.getElementById("divFiltrosAperturaCierreCaja").style.display="none"
+	}
+}
+
+function buscarvistaaperturacierrecaja() {
+	var caja = document.getElementById('inptBuscarVistaCaja1').value
+	var estado = document.getElementById('inptBuscarVistaCaja2').value
+	var local = document.getElementById('inptlocalVistaApCie').value
+	var fechaapertura = document.getElementById('inptBuscarVistaCaja3').value
+	var fechafin = document.getElementById('inptBuscarVistaCaja4').value
+	var usuario = document.getElementById('inptBuscarVistaCaja5').value
+	const lote= document.getElementById('inptBuscarVistaCaja6').value;
+	
+	document.getElementById("inptTotalAperturaArqueocierrecaja").value = ""
+	document.getElementById("inptTotalCierreArqueocierrecaja").value = ""
+	document.getElementById("inptCobradoArqueocierrecaja").value = ''
+	document.getElementById("inptTotalIngresoArqueocierrecaja").value = ''
+	document.getElementById("inptTotalEgresoArqueocierrecaja").value = ''
+	document.getElementById("inptTotalDiferenciaArqueocierrecaja").value = ''
+	
+	vercerrarfiltrosBuscarVistaAperturaCierre("2","2")
+	document.getElementById("table_vista_ap_cie").innerHTML = paginacargando
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"caja": caja,
+		"estado": estado,
+		"local": local,
+		"fechaapertura": fechaapertura,
+		"fechafin": fechafin,
+		"usuario": usuario,
+		"lote": lote,
+		"funt": "buscarvista"
+	};
+	$.ajax({
+
+		data: datos,
+		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		type: "post",
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("table_vista_ap_cie").innerHTML = ''
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("table_vista_ap_cie").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+                Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {	
+					var datos_buscados = datos[2];
+					document.getElementById("table_vista_ap_cie").innerHTML = datos_buscados
+					
+					document.getElementById("inptTotalAperturaArqueocierrecaja").value = datos[5];
+					document.getElementById("inptTotalCierreArqueocierrecaja").value = datos[6];
+					
+					document.getElementById("inptCobradoArqueocierrecaja").value = datos[9];
+					document.getElementById("inptTotalIngresoArqueocierrecaja").value = datos[7];
+					document.getElementById("inptTotalEgresoArqueocierrecaja").value = datos[8];
+					document.getElementById("inptTotalDiferenciaArqueocierrecaja").value = datos[4];
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+var idArqeoFk="";
+function obtenerdatosaperturacierrecaja(datostr) {
+	$("tr[id=tbSelecRegistro]").each(function (i, td) {
+		td.className = ''
+	});
+	datostr.className = 'tableRegistroSelec'
+	document.getElementById('inptBuscarVistaApCie1').value = $(datostr).children('td[id="td_datos_1"]').html();
+	document.getElementById('inptBuscarVistaApCie2').value = $(datostr).children('td[id="td_datos_5"]').html();
+	document.getElementById('inptBuscarVistaApCie3').value = $(datostr).children('td[id="td_datos_7"]').html();
+	document.getElementById('inptBuscarVistaApCie4').value = $(datostr).children('td[id="td_datos_8"]').html();
+	document.getElementById('inptBuscarVistaApCie5').value = $(datostr).children('td[id="td_datos_3"]').html();
+	document.getElementById('inptBuscarVistaApCie6').value = $(datostr).children('td[id="td_datos_4"]').html();
+	document.getElementById('inptBuscarVistaApCie7').value = $(datostr).children('td[id="td_datos_9"]').html();
+	document.getElementById('inptResumenAperturacaja').value = $(datostr).children('td[id="td_datos_7"]').html();
+	document.getElementById('inptBuscarLoteVistaApCie').value = $(datostr).children('td[id="td_datos_10"]').html();
+
+	document.getElementById('inptTotalCant500ConsultarCaja').value= $(datostr).children('td[id="td_datos_11"]').html();
+	document.getElementById('inptTotalCant1000ConsultarCaja').value= $(datostr).children('td[id="td_datos_12"]').html();
+	document.getElementById('inptTotalCant2000ConsultarCaja').value= $(datostr).children('td[id="td_datos_13"]').html();
+	document.getElementById('inptTotalCant5000ConsultarCaja').value= $(datostr).children('td[id="td_datos_14"]').html();
+	document.getElementById('inptTotalCant10000ConsultarCaja').value= $(datostr).children('td[id="td_datos_15"]').html();
+	document.getElementById('inptTotalCant20000ConsultarCaja').value= $(datostr).children('td[id="td_datos_16"]').html();
+	document.getElementById('inptTotalCant50000ConsultarCaja').value= $(datostr).children('td[id="td_datos_17"]').html();
+	document.getElementById('inptTotalCant100000ConsultarCaja').value= $(datostr).children('td[id="td_datos_18"]').html();
+
+	idArqeoFk = $(datostr).children('td[id="td_id_1"]').html();
+	buscarinformecaja()
+	document.getElementById("divVistaArqueocierrecaja").style.display="none"
+}
+function ImprimirTicketDeCaja(){
+	var f = new Date();
+	var dia =f.getDate()
+	if(dia<10){
+		dia="0"+dia;
+	}
+	var mes =f.getMonth()+1
+	if(mes<10){
+		mes="0"+mes;
+	}
+	var hora =f.getHours()
+	if(hora<10){
+		hora="0"+hora;
+	}
+	var min =f.getMinutes()
+	if(min<10){
+		min="0"+min;
+	}
+if(idabmAperturacierrecaja==""){
+	ver_vetana_informativa("NO TIENES UNA CAJA ABIERTA")
+		return
+	}
+pagina="<div  style='background-color:#fff;'>"
++"<center>"
++"<div class='divTicket' >"
++"<p class='pTituloTicket1' >REPORTE DE CAJA</p>"
++"<div class='divSeparadorTicket' style='margin-bottom:5px'></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Imp.:</b></td>"
++"<td style=''>"+f.getFullYear()+"-"+mes+"-"+dia+" "+hora+":"+min+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Local:</b></td>"
++"<td style=''>"+ $("select[id=inptlocalAperturaCierre]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Caja:</b></td>"
++"<td style=''>"+ $("select[id=inptcajaAperturaCierreCaja]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Inicio :</b></td>"
++"<td style=''>"+ document.getElementById("inptFechaAperturaCierreCaja").value+"</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Monto Inicio:</b></td>"
++"<td style=''>"+document.getElementById("inptMontoAperturaCierreCaja").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Total en caja:</b></td>"
++"<td style=''>"+document.getElementById("inptMontoRecaudadoCierreCaja").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:75%'><b>Descripción</b></td>"
++"<td style='width:25%'><b>Monto</b></td>"
++"</tr>"
++"</table>"
++DetalleticketCaja
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Cajero :</b></td>"
++"<td style=''>"+document.getElementById("lblUser").innerHTML+"</td>"
++"</tr>"
++"</table>"
++"</div>"
++"</center>"
++"</div>"
+
+
+var ficha=pagina;
+document.getElementById("DivImprimir").innerHTML=ficha;
+   var documento= document.getElementById("DivImprimir").innerHTML;
+     localStorage.setItem("reporte", documento);
+	   localStorage.setItem("tipo", "ticket");
+	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 document.getElementById("DivImprimir").innerHTML = "";
+//buscarDatosVentaticket(idabmVenta)
+     
+}
+
+function ImprimirTicketReportCaja(){
+	var f = new Date();
+	var dia =f.getDate()
+	if(dia<10){
+		dia="0"+dia;
+	}
+	var mes =f.getMonth()+1
+	if(mes<10){
+		mes="0"+mes;
+	}
+	var hora =f.getHours()
+	if(hora<10){
+		hora="0"+hora;
+	}
+	var min =f.getMinutes()
+	if(min<10){
+		min="0"+min;
+	}
+pagina="<div  style='background-color:#fff;'>"
++"<center>"
++"<div class='divTicket' >"
++"<p class='pTituloTicket1' >REPORTE DE CAJA</p>"
++"<div class='divSeparadorTicket' style='margin-bottom:5px'></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Lote:</b></td>"
++"<td style=''>"+loteCaja+"</td>"
++"</tr>"
++"</table>"
+
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Imp.:</b></td>"
++"<td style=''>"+f.getFullYear()+"-"+mes+"-"+dia+" "+hora+":"+min+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Local:</b></td>"
++"<td style=''>"+ $("select[id=inptlocalAperturaCierre]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Caja:</b></td>"
++"<td style=''>"+ $("select[id=inptcajaAperturaCierreCaja]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Inicio :</b></td>"
++"<td style=''>"+ document.getElementById("inptFechaAperturaCierreCaja").value+"</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Monto Inicio:</b></td>"
++"<td style=''>"+document.getElementById("inptMontoAperturaCierreCaja").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Cajero :</b></td>"
++"<td style=''>"+document.getElementById("lblUser").innerHTML+"</td>"
++"</tr>"
++"</table>"
++"</div>"
++"</center>"
++"</div>"
+
+
+var ficha=pagina;
+document.getElementById("DivImprimir").innerHTML=ficha;
+   var documento= document.getElementById("DivImprimir").innerHTML;
+     localStorage.setItem("reporte", documento);
+	   localStorage.setItem("tipo", "ticket");
+	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 document.getElementById("DivImprimir").innerHTML = "";
+//buscarDatosVentaticket(idabmVenta)
+     
+}
+
+function ImprimirTicketDespacho(){
+	var f = new Date();
+	var dia =f.getDate()
+	if(dia<10){
+		dia="0"+dia;
+	}
+	var mes =f.getMonth()+1
+	if(mes<10){
+		mes="0"+mes;
+	}
+	var hora =f.getHours()
+	if(hora<10){
+		hora="0"+hora;
+	}
+	var min =f.getMinutes()
+	if(min<10){
+		min="0"+min;
+	}
+pagina="<div  style='background-color:#fff;'>"
++"<div class='divTicket' >"
++"<p class='pTituloTicket1' >DESPACHO DE PRODUCTO</p>"
++"<div class='divSeparadorTicket' style='margin-bottom:5px'></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Imp.:</b></td>"
++"<td style=''>"+f.getFullYear()+"-"+mes+"-"+dia+" "+hora+":"+min+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Producto :</b></td>"
++"<td style=''>"+ document.getElementById("inptNombreProducto").value+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:150px'><b>Enviado de (Local):</b></td>"
++"<td style=''>"+ $("select[id=inptlocalProducto]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:150px'><b>Enviado a (Local):</b></td>"
++"<td style=''>"+ $("select[id=inptLocalProductoEnviarA]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Stock :</b></td>"
++"<td style=''>"+ document.getElementById("inptStockProductoEnviarA").value+"</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Usuario Responsable :</b></td>"
++"<td style=''>"+document.getElementById("lblUser").innerHTML+"</td>"
++"</tr>"
++"</table>"
++"</div>"
++"</div>"
+
+
+var ficha=pagina;
+document.getElementById("DivImprimir").innerHTML=ficha;
+   var documento= document.getElementById("DivImprimir").innerHTML;
+     localStorage.setItem("reporte", documento);
+	   localStorage.setItem("tipo", "ticket");
+	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 document.getElementById("DivImprimir").innerHTML = "";
+//buscarDatosVentaticket(idabmVenta)
+     
+}
+
+function ImprimirListadoDespacho(){
+	
+var pagina=""
+		var f = new Date();
+	var dia =f.getDate()
+	if(dia<10){
+		dia="0"+dia;
+	}
+	var mes =f.getMonth()+1
+	if(mes<10){
+		mes="0"+mes;
+	}
+	var hora =f.getHours()
+	if(hora<10){
+		hora="0"+hora;
+	}
+	var min =f.getMinutes()
+	if(min<10){
+		min="0"+min;
+	}
+  var fechaimpresion=f.getFullYear()+"-"+mes+"-"+dia;
+  document.getElementById("divCabeceraImpresiones").innerHTML=""
+document.getElementById("divPieImpresiones").innerHTML=""
+document.getElementById("tbTitulosImpresiones").innerHTML=""
+document.getElementById("tbDatosImpresiones").innerHTML=""
+	pagina =
+"<table class='TableRepor0' style='width:100%'>"
++"<tr>"
++"<td style='width:20%;text-align:left'>"
++"<p class='pTituloC'><b>Encargado</b></p>"
++"<p class='pTituloC' >"+document.getElementById("ptituloUser2").innerHTML+"</p>"
++"</td>"
++"<td style='width:20%;text-align:left'>"
++"<p class='pTituloC'><b>Local de Carga</b></p>"
++"<p class='pTituloC' >"+ $("select[id=inptlocaluser]").children(":selected").text()+"</p>"
++"</td>"
++"<td style='width:20%;text-align:left'>"
++"<p class='pTituloC'><b>Fecha de impresión</b></p>"
++"<p class='pTituloC' >"+fechaimpresion+"</p>"
++"</td>"
++"</tr>"
++"</table>"
++"<br><br><center><h1 class='pTituloD' >LISTADO DE PRODUCTOS DESPACHADOS</h1><br></center>"
++"<br><br><br><table style='width:100%'>"
++"<tr>"
++"<td style='width:40%;text-align:center'>"
++"<p class='pTituloC'><b>Firma del Responsable</b></p>"
++"</td>"
++"<td style='width:40%;text-align:center'>"
++"<p class='pTituloC'><b>Firma del Repositor</b></p>"
++"</td>"
++"</tr>"
++"</table><br><br><br>"
+paginaPie =
+"<br><br><table class='TableRepor0' style='width:100%'>"
++"<tr>"
++"<td style='width:20%;text-align:left'>"
++"<p class='pTituloC'><b>Total Registro</b></p>"
++"<p class='pTituloC' >"+ document.getElementById("inptRegistroNroListadoDespacho").value+"</p>"
++"</td>"
++"</tr>"
++"</table>"
+
+document.getElementById("divCabeceraImpresiones").innerHTML=pagina
+document.getElementById("divPieImpresiones").innerHTML=paginaPie
+document.getElementById("tbTitulosImpresiones").innerHTML=document.getElementById("tdImpresionDespachadoZ").innerHTML
+document.getElementById("tbDatosImpresiones").innerHTML=document.getElementById("table_abm_listado_despacho").innerHTML
+
+	var documento=document.getElementById("DivImpresiones").innerHTML;
+
+	 localStorage.setItem("reporte", documento);
+	   localStorage.setItem("tipo", "reporte");
+	 window.open("/GoodVentaAsisCap/system/reportInformes.html");
+
+     
+}
+
+function ImprimirTicketReportCierreCaja(){
+	// Obtiene el total
+	const inptMontoCierreCaja5= parseInt(document.getElementById('inptMontoCierreCaja5').value);
+	const inptMontoCierreCaja10= parseInt(document.getElementById('inptMontoCierreCaja10').value);
+	const inptMontoCierreCaja20= parseInt(document.getElementById('inptMontoCierreCaja20').value);
+	const inptMontoCierreCaja50= parseInt(document.getElementById('inptMontoCierreCaja50').value);
+	const inptMontoCierreCaja100= parseInt(document.getElementById('inptMontoCierreCaja100').value);
+	const inptMontoCierreCaja200= parseInt(document.getElementById('inptMontoCierreCaja200').value);
+	const inptMontoCierreCaja500= parseInt(document.getElementById('inptMontoCierreCaja500').value);
+	const inptMontoCierreCaja1000= parseInt(document.getElementById('inptMontoCierreCaja1000').value);
+	const total= inptMontoCierreCaja5+inptMontoCierreCaja10+inptMontoCierreCaja20+inptMontoCierreCaja50+inptMontoCierreCaja100+inptMontoCierreCaja200+inptMontoCierreCaja500+inptMontoCierreCaja1000;
+
+	var f = new Date();
+	var dia =f.getDate()
+	if(dia<10){
+		dia="0"+dia;
+	}
+	var mes =f.getMonth()+1
+	if(mes<10){
+		mes="0"+mes;
+	}
+	var hora =f.getHours()
+	if(hora<10){
+		hora="0"+hora;
+	}
+	var min =f.getMinutes()
+	if(min<10){
+		min="0"+min;
+	}
+pagina="<div  style='background-color:#fff;'>"
++"<center>"
++"<div class='divTicket' >"
++"<p class='pTituloTicket1' >REPORTE DE CAJA</p>"
++"<div class='divSeparadorTicket' style='margin-bottom:5px'></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Lote:</b></td>"
++"<td style=''>"+loteCaja+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Imp.:</b></td>"
++"<td style=''>"+f.getFullYear()+"-"+mes+"-"+dia+" "+hora+":"+min+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Local:</b></td>"
++"<td style=''>"+ $("select[id=inptlocalAperturaCierre]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Caja:</b></td>"
++"<td style=''>"+ $("select[id=inptcajaAperturaCierreCaja]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Inicio :</b></td>"
++"<td style=''>"+ document.getElementById("inptFechaAperturaCierreCaja").value+"</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Monto Inicio:</b></td>"
++"<td style=''>"+document.getElementById("inptMontoAperturaCierreCaja").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Monto Cierre:</b></td>"
++"<td style=''>"+total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+" Gs.</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Total en caja:</b></td>"
++"<td style=''>"+document.getElementById("inptMontoRecaudadoCierreCaja").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Cajero :</b></td>"
++"<td style=''>"+document.getElementById("lblUser").innerHTML+"</td>"
++"</tr>"
++"</table>"
++"</div>"
++"</center>"
++"</div>"
+
+
+var ficha=pagina;
+document.getElementById("DivImprimir").innerHTML=ficha;
+   var documento= document.getElementById("DivImprimir").innerHTML;
+     localStorage.setItem("reporte", documento);
+	   localStorage.setItem("tipo", "ticket");
+	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 document.getElementById("DivImprimir").innerHTML = "";
+//buscarDatosVentaticket(idabmVenta)
+     
+}
+
+function ImprimirTicketReportCaja2(){
+	var f = new Date();
+	var dia =f.getDate()
+	if(dia<10){
+		dia="0"+dia;
+	}
+	var mes =f.getMonth()+1
+	if(mes<10){
+		mes="0"+mes;
+	}
+	var hora =f.getHours()
+	if(hora<10){
+		hora="0"+hora;
+	}
+	var min =f.getMinutes()
+	if(min<10){
+		min="0"+min;
+	}
+pagina="<div  style='background-color:#fff;'>"
++"<center>"
++"<div class='divTicket' >"
++"<p class='pTituloTicket1' > RE-IMPRESION CAJA</p>"
++"<div class='divSeparadorTicket' style='margin-bottom:5px'></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Imp.:</b></td>"
++"<td style=''>"+f.getFullYear()+"-"+mes+"-"+dia+" "+hora+":"+min+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Local:</b></td>"
++"<td style=''>"+ $("select[id=inptlocalVistaApCie]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Caja:</b></td>"
++"<td style=''>"+ document.getElementById("inptBuscarVistaApCie1").value +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Apertura :</b></td>"
++"<td style=''>"+ document.getElementById("inptBuscarVistaApCie5").value+"</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Monto Apertura:</b></td>"
++"<td style=''>"+document.getElementById("inptBuscarVistaApCie3").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Monto Cierre:</b></td>"
++"<td style=''>"+document.getElementById("inptBuscarVistaApCie4").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Total en caja:</b></td>"
++"<td style=''>"+document.getElementById("inptTotalConsularCaja").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<div class='divSeparadorTicket' style='margin-top:5px;margin-bottom:5px' ></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Cajero :</b></td>"
++"<td style=''>"+document.getElementById("inptBuscarVistaApCie2").value+"</td>"
++"</tr>"
++"</table>"
++"</div>"
++"</center>"
++"</div>"
+
+
+var ficha=pagina;
+document.getElementById("DivImprimir").innerHTML=ficha;
+   var documento= document.getElementById("DivImprimir").innerHTML;
+     localStorage.setItem("reporte", documento);
+	   localStorage.setItem("tipo", "ticket");
+	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 document.getElementById("DivImprimir").innerHTML = "";
+//buscarDatosVentaticket(idabmVenta)
+     
+}
+
+
+
+
+/*
+CONSULTA DE CAJA
+*/
+function verCerrarInformeConsultaCaja(){
+	if(document.getElementById("divConsultaCaja").style.display==""){
+		document.getElementById("divMinimizadoConsultarCaja").style.display="none"
+			limpiarcamposbuscadorConsultarCaja() 
+	$("div[id=divConsultaCaja]").fadeOut(500);			
+	}else{		
+	if(controlacceso("VERCONSULTADECAJA","accion")==false){return;}
+		document.getElementById("divConsultaCaja").style.display="" 
+	}
+}
+function limpiarcamposbuscadorConsultarCaja(){
+	document.getElementById("inptTotalIngresoConsularCaja").value = ""
+					document.getElementById("inptTotalEgresoConsularCaja").value = ""
+					document.getElementById("inptTotalDesembolsoConsularCaja").value = ""
+					document.getElementById("inptTotalConsularCaja").value = ""
+					document.getElementById("inptTotalEfectivoConsultarCaja").value = ""
+					document.getElementById("inptTotalTarjetaConsularCaja").value = ""
+					
+					document.getElementById("inptTotalMigradoConsularCaja").value = ""
+					document.getElementById("inptTotalRecibidoConsularCaja").value = ""
+					
+					document.getElementById("inptResumenAperturacaja").value = ""
+					document.getElementById("inptResumenTotalIngreso").value = ""
+					document.getElementById("inptResumenTotalRecaudado").value = ""
+					// document.getElementById("inptResumenCajaRecibido").value = ""
+					// document.getElementById("inptResumenCajaMigrado").value = ""
+					document.getElementById("inptResumenTotalEgreso").value = "" 
+					// document.getElementById("inptResumenTransferencia").value = ""
+					document.getElementById("inptResumenTotalCaja").value = ""
+					
+					document.getElementById("inptBuscarVistaApCie1").value = ""
+					document.getElementById("inptBuscarVistaApCie7").value = ""
+					document.getElementById("inptBuscarVistaApCie2").value = ""
+					document.getElementById("inptBuscarVistaApCie3").value = ""
+					document.getElementById("inptBuscarVistaApCie4").value = ""
+					document.getElementById("inptBuscarVistaApCie5").value = ""
+					document.getElementById("inptBuscarVistaApCie6").value = ""
+					document.getElementById("table_Consultar_caja").innerHTML = ""
+					document.getElementById('table_buscar_opciones_pago').innerHTML = "";
+					document.getElementById('table_buscar_opciones_pago').style.display = "none";
+}
+function minimizarconsultacaja(){ 
+	$("div[id=divConsultaCaja]").fadeOut(500);	
+	document.getElementById("divMinimizadoConsultarCaja").style.display=""
+}
+var cobradorarqueo = "";var elemento="";
+function buscarinformecaja() {
+	if(controlacceso("VERCONSULTADECAJA","accion")==false){return;}
+	document.getElementById("inptTotalIngresoConsularCaja").value = "..."
+	document.getElementById("inptTotalDesembolsoConsularCaja").value = "..."
+					document.getElementById("inptTotalEgresoConsularCaja").value = "..."
+					document.getElementById("inptTotalConsularCaja").value = "..."
+					document.getElementById("inptTotalEfectivoConsultarCaja").value = "..."
+					document.getElementById("inptTotalTarjetaConsularCaja").value = "..."
+					document.getElementById("inptTotalMigradoConsularCaja").value = "..."
+					document.getElementById("inptTotalRecibidoConsularCaja").value = "..."
+					 
+					document.getElementById("inptResumenTotalIngreso").value = "..."
+					document.getElementById("inptResumenTotalRecaudado").value = "..."
+					document.getElementById("inptResumenCajaRecibido").value = "..."
+					document.getElementById("inptResumenCajaMigrado").value = "..."
+					document.getElementById("inptResumenTotalEgreso").value = "..."  
+					document.getElementById("inptResumenTotalCaja").value = "..."  
+					
+	document.getElementById("table_Consultar_caja").innerHTML = paginacargando
+	obtener_datos_user();
+	
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"idArqeoFk1": idArqeoFk,
+		"funt": "buscarinformecaja"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodVentaAsisCap/php_system/abminforemcaja.php",
+		type: "post",
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+		var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		beforeSend: function () {
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("table_Consultar_caja").innerHTML = ''
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("table_Consultar_caja").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+			   if (Respuesta == true) {				   
+					var datos_buscados = datos[2];
+					document.getElementById("table_Consultar_caja").innerHTML = datos_buscados
+					document.getElementById("inptTotalEfectivoConsultarCaja").value = datos[7]
+					document.getElementById("inptTotalTarjetaConsularCaja").value = datos[6]
+					document.getElementById("inptTotalIngresoConsularCaja").value = datos[3]
+					document.getElementById("inptTotalEgresoConsularCaja").value = datos[4]
+					document.getElementById("inptTotalConsularCaja").value = datos[5]
+					document.getElementById("inptTotalDesembolsoConsularCaja").value = datos[8]
+					document.getElementById("inptTotalMigradoConsularCaja").value = datos[9]
+					document.getElementById("inptTotalRecibidoConsularCaja").value = datos[10]
+					
+					 
+					document.getElementById("inptResumenTotalCaja").value =  datos[5]
+					document.getElementById("inptResumenTotalIngreso").value =  datos[3]
+					document.getElementById("inptResumenTotalRecaudado").value = datos[7]
+					document.getElementById("inptResumenCajaRecibido").value = datos[10]
+					document.getElementById("inptResumenCajaMigrado").value = datos[9]
+					document.getElementById("inptResumenTotalEgreso").value = datos[4]
+					
+					buscar_recaudo_opciones_pago()
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+function buscar_recaudo_opciones_pago() {
+	document.getElementById("table_buscar_opciones_pago").innerHTML = paginacargando
+	obtener_datos_user();
+	
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"idArqeoFk1": idArqeoFk,
+		"funt": "buscar_recaudo_opciones_pago"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		type: "post",
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+		var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		beforeSend: function () {
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("table_buscar_opciones_pago").innerHTML = ''
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("table_buscar_opciones_pago").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+			   if (Respuesta == true) {				   
+					var datos_buscados = datos[2];
+					document.getElementById("table_buscar_opciones_pago").innerHTML = datos_buscados
+					document.getElementById("inptResumenTransferencia").value = datos[3];
+					document.getElementById("table_buscar_opciones_pago").style.display = '';
+					
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+
+
+
+
+
+
+/*
+ABM GASTO
+*/
+function verCerrarAbmGasto(){
+	document.getElementById("divSegundoPlano").style.display="none";
+	if(document.getElementById("divAbmGastos").style.display==""){
+	document.getElementById("divMinimizadoEgresoIngreso").style.display="none"
+     //  
+	$("div[id=divAbmGastos]").fadeOut(500);	
+	limpiarcamposGasto()
+	limpiarcamposbuscadoregresoingreso()
+	}else{	
+// if(controlacceso("VERLISTADOEGRESOINGRESO","accion")==false){return;}	
+ 		
+		document.getElementById("divAbmGastos").style.display=""
+       //  
+	
+	}
+}
+function limpiarcamposbuscadoregresoingreso(){
+	document.getElementById("inptBuscarIngresoEgreso1").value=""
+	document.getElementById("inptBuscarIngresoEgreso2").value=""
+	document.getElementById("inptBuscarGastoF1").value=""
+	document.getElementById("inptBuscarGastoF2").value=""
+	document.getElementById("inptRegistroNroGastos").value=""
+	document.getElementById("inptTotalGasto").value=""
+	document.getElementById("inptRegistroSeleccGasto").value=""
+	document.getElementById("table_abm_gasto").innerHTML=""
+}
+function minimizarventanaingresoegreso(){
+	document.getElementById("divMinimizadoEgresoIngreso").style.display="" 
+	$("div[id=divAbmGastos]").fadeOut(500);
+}
+function verCerrarVentanaAbmGasto(d, l) {
+	if (d == "1") {
+		if(idabmAperturacierrecaja==""){
+			document.getElementById("divAbmGastos").style.display="none"
+		   ver_vetana_informativa("FALTO INICIAR UNA CAJA")
+		   verCerrarVentanaAbmAperturaCierreCaja1()
+		   return
+	   }
+		
+		if (l == "1") {
+			limpiarcamposGasto()
+			// if(controlacceso("INSERTARLISTADOEGRESOINGRESO","accion")==false){return;}	
+		}
+		$("div[id=divAbmGasto2]").fadeIn(250)
+		document.getElementById('divAbmGasto1').style.display = "none"
+	} else {
+		$("div[id=divAbmGasto1]").fadeIn(250)
+		document.getElementById('divAbmGasto2').style.display = "none"
+	}
+}
+function verVentanaEditarGasto() {
+		// if(controlacceso("EDITARLISTADOEGRESOINGRESO","accion")==false){return;}	
+		if(idabmAperturacierrecaja==""){
+			document.getElementById("divAbmGastos").style.display="none"
+		   ver_vetana_informativa("FALTO INICIAR UNA CAJA")
+		   verCerrarVentanaAbmAperturaCierreCaja1()
+		   return
+	   }
+	if (idAbmGasto == "") {
+		ver_vetana_informativa("FALTO SELECCIONAR UN REGISTRO")
+		return;
+	}
+	verCerrarVentanaAbmGasto("1", "2")
+}
+var idAbmGasto = ""
+function obtenerdatosabmGasto(datostr) {
+	$("tr[id=tbSelecRegistro]").each(function (i, td) {
+		td.className = ''
+	});
+	
+	datostr.className = 'tableRegistroSelec'
+	document.getElementById('inptMontoGasto').value = $(datostr).children('td[id="td_datos_1"]').html();
+	document.getElementById('inptRegistroSeleccGasto').value = $(datostr).children('td[id="td_datos_1"]').html();
+	document.getElementById('inptMotivoGasto').value = $(datostr).children('td[id="td_datos_13"]').html();
+	document.getElementById('inptFechaGasto').value = $(datostr).children('td[id="td_datos_3"]').html();
+	document.getElementById('inptEstadoGasto').value = $(datostr).children('td[id="td_datos_5"]').html();
+	document.getElementById('inptlocalMisGastos').value = $(datostr).children('td[id="td_datos_7"]').html();
+	document.getElementById('inptNroBoletaGasto').value = $(datostr).children('td[id="td_datos_14"]').html();
+	document.getElementById('inptBancoGasto').value = $(datostr).children('td[id="td_datos_9"]').html();
+	
+	
+	document.getElementById('inptCuentaGasto').value = $(datostr).children('td[id="td_datos_10"]').html();
+	document.getElementById('inptTipoGasto').value = $(datostr).children('td[id="td_datos_6"]').html();
+	document.getElementById('inptArregloGasto').value = $(datostr).children('td[id="td_datos_11"]').html();
+	document.getElementById('inptMotivoMisGastos').value = $(datostr).children('td[id="td_datos_12"]').html();
+	document.getElementById('inptFechaDepositoGasto').value = $(datostr).children('td[id="td_datos_18"]').html();
+	document.getElementById('btnAbmGastos').value = "Editar datos";
+	document.getElementById('btnEditarGastos').style.backgroundColor="";
+	document.getElementById('btnConfirmarGasto').style.backgroundColor="#4caf50";
+	idAbmGasto = $(datostr).children('td[id="td_id"]').html();
+	$("div[id=imgFotoGastoIngresoEgreso]").css({"background-image":"url("+$(datostr).children('td[id="td_datos_15"]').html()+")"});
+	fotogasto = $(datostr).children('td[id="td_datos_16"]').html() + "."+ $(datostr).children('td[id="td_datos_17"]').html()
+	extgasto = $(datostr).children('td[id="td_datos_17"]').html()
+	
+}
+function verificarcamposGasto() {
+	var inptMotivoMisGastos = '';
+	
+	$("input[id=inptMotivoMisGastos]").each(function (i, Elemento) {
+      var $input = $(this),
+          val = $input.val();
+		 
+          list = $input.attr('list'),
+          match = $('#'+list + ' option').filter(function() {
+              return ($(this).val() === val);			 
+          });
+
+       if(match.length > 0) {
+         inptMotivoMisGastos=$(match).attr("id")
+       } else {
+           // value is not in list
+       }
+});
+	
+	var inptMontoGasto = document.getElementById('inptMontoGasto').value
+	var inptMotivoGasto = document.getElementById('inptMotivoGasto').value
+	var inptFechaGasto = document.getElementById('inptFechaGasto').value
+	var inptEstadoGasto = document.getElementById('inptEstadoGasto').value
+	var inptArregloGasto = document.getElementById('inptArregloGasto').value
+	var inptlocalMisGastos = document.getElementById('inptlocalMisGastos').value
+	var inptTipoGasto = document.getElementById('inptTipoGasto').value
+	var inptNroBoletaGasto = document.getElementById('inptNroBoletaGasto').value
+	var inptBancoGasto = document.getElementById('inptBancoGasto') 
+	var inptFechaDepositoGasto = document.getElementById('inptFechaDepositoGasto').value
+    inptBancoGasto = inptBancoGasto.options[inptBancoGasto.selectedIndex].text;
+	if(inptBancoGasto == 'SELECCIONAR'){
+		inptBancoGasto = '';
+	}
+	
+	
+	if (inptArregloGasto == "" && inptTipoGasto=="Egreso") {
+		ver_vetana_informativa("FALTO SELECCIONAR UN ARREGLO")
+		return false;
+	}
+	
+	
+	var inptCuentaGasto = document.getElementById('inptCuentaGasto').value
+	if (inptFechaDepositoGasto == "" && inptTipoGasto=="Deposito") {
+		ver_vetana_informativa("FALTO SELECCIONAR UNA FECHA DE DEPOSITO")
+		return false;
+	}
+	
+	
+	if (inptMontoGasto == "") {
+		ver_vetana_informativa("FALTO INGRESAR EL MONTO DEL GASTO")
+		return false;
+	}
+	if (inptMotivoMisGastos == "") {
+		ver_vetana_informativa("FALTO SELECCIONAR EL MOTIVO")
+		return false;
+	}
+	if (inptMotivoGasto == "") {
+		ver_vetana_informativa("FALTO INGRESAR EL MOTIVO DEL GASTO")
+		return false;
+	}
+	if (inptFechaGasto == "") {
+		ver_vetana_informativa("FALTO SELECCIONAR LA FECHA DEL GASTO")
+		return false;
+	}
+	
+	if(inptTipoGasto == 'Deposito'){
+		if(fotogasto == ''){
+			ver_vetana_informativa("FALTO CARGAR UNA IMAGEN")
+			return false;
+		}
+	}
+	
+	var accion = "";
+	if (idAbmGasto != "") {
+		accion = "editar";
+		if(controlacceso("EDITARLISTADOEGRESOINGRESO","accion")==false){return;}	
+	} else {
+		if(controlacceso("INSERTARLISTADOEGRESOINGRESO","accion")==false){return;}	
+		accion = "nuevo";
+	}
+	
+	abmgastos(inptFechaDepositoGasto,inptMotivoMisGastos,inptArregloGasto,inptNroBoletaGasto, inptBancoGasto , inptCuentaGasto ,inptMontoGasto, inptMotivoGasto, inptFechaGasto, inptEstadoGasto, idAbmGasto, inptTipoGasto, inptlocalMisGastos, accion);
+}
+function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,banco ,nrocuenta,monto, motivo, fecha, estado, idgastos, tipo, cod_local, accion) {
+	verCerrarEfectoCargando("1")
+	var datos = new FormData();
+	obtener_datos_user();
+	datos.append("useru", userid)
+	datos.append("passu", passuser)
+	datos.append("navegador", navegador)
+	datos.append("funt", accion)
+	datos.append("idgastos", idgastos)
+	datos.append("monto", monto)
+	datos.append("motivo", motivo)
+	datos.append("fecha", fecha)
+	datos.append("estado", estado)
+	datos.append("tipo", tipo)
+	datos.append("cod_local", cod_local)
+	datos.append("codcaja", cajapredeterminada)
+	datos.append("idaperturacierrecaja", idabmAperturacierrecaja)
+	datos.append("nroboleta", nroboleta)
+	datos.append("banco", banco)
+	datos.append("Arreglo", Arreglo)
+	datos.append("nrocuenta", nrocuenta)
+	datos.append("cod_motivo", cod_motivo)
+	datos.append("foto", fotogasto)
+	datos.append("ext", extgasto)
+	datos.append("fechaDeposito", fechaDeposito)
+	var OpAjax = $.ajax({
+		data: datos,
+		url: "/GoodVentaElectroGuai/php_system/abmgasto.php",
+		type: "post",
+		cache: false,
+		contentType: false,
+		processData: false,
+ 
+		error: function (jqXHR, textstatus, errorThrowm) {
+			verCerrarEfectoCargando("")
+		manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			return false;
+		},
+		success: function (responseText) {
+			verCerrarEfectoCargando("")
+			Respuesta = responseText;
+			console.log(Respuesta)
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+			   if (Respuesta == true) {
+				//    if(accion=="nuevo"){
+				// 		ImprimirTicketEgreso()
+				// 	}
+					limpiarcamposGasto()
+					ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
+					idAbmGasto = ""
+					buscarabmGasto()
+					
+				}				
+			} catch (error) {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+					var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+function cambiarFechaIngresoEgreso(datos){
+	let fecha = obtenerFechaActual();
+	if(controlacceso("CAMBIARFECHAINGRESOEGRESO","accion")==false){
+		datos.value = fecha;
+	return;
+	}	
+}
+function confirmarGasto() {
+	if(controlacceso("CONFIRMAREGRESOINGRESO","accion")==false){return;}
+	if(idAbmGasto == ""){
+		ver_vetana_informativa("FALTÓ SELECCIONAR EL GASTO A CONFIRMAR")
+		return;
+	}
+	
+	verCerrarEfectoCargando("1")
+	var datos = new FormData();
+	obtener_datos_user();
+	datos.append("useru", userid)
+	datos.append("passu", passuser)
+	datos.append("navegador", navegador)
+	datos.append("funt", "confirmarEgresoIngreso")
+	datos.append("idgastos", idAbmGasto)
+	var OpAjax = $.ajax({
+		data: datos,
+		url: "/GoodVentaElectroGuai/php_system/abmgasto.php",
+		type: "post",
+		cache: false,
+		contentType: false,
+		processData: false,
+			 
+		
+		error: function (jqXHR, textstatus, errorThrowm) {
+			verCerrarEfectoCargando("")
+		manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			return false;
+		},
+		success: function (responseText) {
+			verCerrarEfectoCargando("")
+			Respuesta = responseText;
+			console.log(Respuesta)
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+			   if (Respuesta == true) {
+					ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
+					idAbmGasto = ""
+					buscarabmGasto()
+					
+				}				
+			} catch (error) {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+					var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+
+function ImprimirTicketEgreso(){
+	var f = new Date();
+	var dia =f.getDate()
+	if(dia<10){
+		dia="0"+dia;
+	}
+	var mes =f.getMonth()+1
+	if(mes<10){
+		mes="0"+mes;
+	}
+	var hora =f.getHours()
+	if(hora<10){
+		hora="0"+hora;
+	}
+	var min =f.getMinutes()
+	if(min<10){
+		min="0"+min;
+	}
+
+pagina="<div  style='background-color:#fff;'>"
++"<center>"
++"<div class='divTicket' >"
++"<p class='pTituloTicket1' >BOLETA DE CONTROL</p>"
++"<div class='divSeparadorTicket' style='margin-bottom:5px'></div>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Fecha Imp.:</b></td>"
++"<td style=''>"+f.getFullYear()+"-"+mes+"-"+dia+" "+hora+":"+min+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Usuario :</b></td>"
++"<td style=''>"+ document.getElementById("ptituloUser2").innerHTML+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Local:</b></td>"
++"<td style=''>"+ $("select[id=inptlocalMisGastos]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<br>"
++"<br>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:60px'><b>Caja:</b></td>"
++"<td style=''>"+ $("select[id=inptcajaAperturaCierreCaja]").children(":selected").text() +"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:100px'><b>Tipo :</b></td>"
++"<td style=''>"+ document.getElementById("inptTipoGasto").value+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Monto :</b></td>"
++"<td style=''>"+document.getElementById("inptMontoGasto").value+" Gs.</td>"
++"</tr>"
++"</table>"
++"<br>"
++"<br>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Motivo :</b></td>"
++"<td style=''>"+document.getElementById("inptMotivoGasto").value+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Boleta Nro :</b></td>"
++"<td style=''>"+document.getElementById("inptNroBoletaGasto").value+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Banco :</b></td>"
++"<td style=''>"+document.getElementById("inptBancoGasto").value+"</td>"
++"</tr>"
++"</table>"
++"<table class='tableTicket'>"
++"<tr>"
++"<td style='width:110px'><b>Cuenta :</b></td>"
++"<td style=''>"+document.getElementById("inptCuentaGasto").value+"</td>"
++"</tr>"
++"</table>"
++"</center>"
++"</div>"
+
+
+var ficha=pagina;
+document.getElementById("DivImprimir").innerHTML=ficha;
+   var documento= document.getElementById("DivImprimir").innerHTML;
+     localStorage.setItem("reporte", documento);
+	   localStorage.setItem("tipo", "ticket");
+	 window.open("/GoodVentaElectroGuai/system/reportTicket.html");
+	 document.getElementById("DivImprimir").innerHTML = "";
+//buscarDatosVentaticket(idabmVenta)
+     
+}
+
+function checkestadoGastos(d){
+	if(d=="1"){
+	document.getElementById('inptSeleccEstadoBuscarGasto1').checked=true
+		document.getElementById('inptSeleccEstadoBuscarGasto2').checked=false	
+	}else{
+		
+		document.getElementById('inptSeleccEstadoBuscarGasto1').checked=false
+		document.getElementById('inptSeleccEstadoBuscarGasto2').checked=true
+	}
+}
+function checkfiltroshistorialegresoingreso(d){
+	if(d=="1"){
+	document.getElementById('inptCheckingresoegreso1').checked=true
+	document.getElementById('inptCheckingresoegreso2').checked=false	
+     
+	 	var f = new Date();
+	var dia = f.getDate()
+	if (dia < 10) {
+		dia = "0" + dia;
+	}
+	var mes = f.getMonth() + 1
+	if (mes < 10) {
+		mes = "0" + mes;
+	}
+	document.getElementById('inptBuscarGastoF1').value = f.getFullYear() + "-" + mes + "-" + "01";
+	document.getElementById('inptBuscarGastoF2').value = f.getFullYear() + "-" + mes + "-" + dia;
+	 
+	}else{		
+		document.getElementById('inptCheckingresoegreso1').checked=false
+		document.getElementById('inptCheckingresoegreso2').checked=true
+		document.getElementById('inptBuscarGastoF1').value="";
+		document.getElementById('inptBuscarGastoF2').value="";
+	}
+}
+function buscarabmGasto() {
+// if(controlacceso("BUSCARLISTADOEGRESOINGRESO","accion")==false){return;}	
+	var fecha1 = document.getElementById('inptBuscarGastoF1').value
+	var fecha2 = document.getElementById('inptBuscarGastoF2').value
+	var estado =""
+	if(document.getElementById('inptSeleccEstadoBuscarGasto1').checked==true){
+		estado="Activo"
+	}else{
+		estado="Inactivo"
+	}
+	var tipo = document.getElementById('inptSeleccTipoBuscarGasto').value
+	var arreglo = document.getElementById('inptSeleccArregloBuscarGasto').value
+	var cod_local = document.getElementById('inptlocalMisGastosBusca').value
+	var fecha = document.getElementById('inptBuscarIngresoEgreso2').value
+	var usuario = document.getElementById('inptBuscarIngresoEgreso1').value
+	var motivo = '';
+	
+	$("input[id=inptBuscarIngresoEgreso3]").each(function (i, Elemento) {
+      var $input = $(this),
+          val = $input.val();
+		 
+          list = $input.attr('list'),
+          match = $('#'+list + ' option').filter(function() {
+              return ($(this).val() === val);			 
+          });
+
+       if(match.length > 0) {
+         motivo=$(match).attr("id")
+       } else {
+           // value is not in list
+       }
+});
+	
+	var nroboleta = document.getElementById('inptBuscarIngresoEgreso5').value
+	var monto = document.getElementById('inptBuscarIngresoEgreso8').value
+	var confirmado = document.getElementById('inptConfirmadoMisGastosBusca').value
+	var banco = document.getElementById('inptBuscarIngresoEgreso4').value
+	// var banco = $('#inptBuscarIngresoEgreso4').find('option:selected').text();
+	// if(banco == 'SELECCIONAR'){
+		// banco = '';
+	// }
+	
+	// var permisover='NO';
+	// if(controlacceso2("VERTODOSEGRESOINGRESO","accion")!=false){permisover="SI"}
+	 
+	document.getElementById("table_abm_gasto").innerHTML = paginacargando
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"fecha1": fecha1,
+		"fecha2": fecha2,
+		"estado": estado,
+		"cod_local": cod_local,
+		"tipo": tipo,
+		"usuario": usuario,
+		"fecha": fecha,
+		"arreglo": arreglo,
+		"motivo": motivo,
+		"confirmado": confirmado,
+		"banco": banco,
+		"nroboleta": nroboleta,
+		"monto": monto,
+		"agrupacionformulariogasto": agrupacionformulariogasto,
+		"permisover": permisover,
+		"funt": "buscar"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodVentaElectroGuai/php_system/abmgasto.php",
+		type: "post",
+		 
+		
+		beforeSend: function () {
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("table_abm_gasto").innerHTML = ''
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("table_abm_gasto").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				if (Respuesta == "UI") {
+					ir_a_login()
+					ver_vetana_informativa("USUARIO INCORRECTO VUELVA A INICIAR SESION...")
+					return false;
+				}
+				if (Respuesta == "NI") {
+					ver_vetana_informativa("NO TIENES PERMISO PARA CONTINUA")
+					return false;
+                  }
+				if (Respuesta == "exito") {
+					var datos_buscados = datos[2];
+					document.getElementById("table_abm_gasto").innerHTML = datos_buscados
+					document.getElementById("inptTotalGasto").value = datos[4];
+					document.getElementById("inptRegistroNroGastos").value = datos[3];
+					document.getElementById('btnEditarGastos').style.backgroundColor="#b7b7b7";
+					document.getElementById('btnConfirmarGasto').style.backgroundColor="#b7b7b7";
+				}
+			} catch (error) {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+function limpiarcamposGasto() {
+	var f = new Date();
+	var dia = f.getDate()
+	if (dia < 10) {
+		dia = "0" + dia;
+	}
+	var mes = f.getMonth() + 1
+	if (mes < 10) {
+		mes = "0" + mes;
+	}
+	document.getElementById('inptFechaGasto').value = f.getFullYear() + "-" + mes + "-" + dia;
+	document.getElementById('inptFechaDepositoGasto').value ="";
+	document.getElementById('inptMotivoMisGastos').value ="";
+	document.getElementById('inptMontoGasto').value = "";
+	document.getElementById('inptRegistroSeleccGasto').value = "";
+	document.getElementById('inptMotivoGasto').value = "";
+	document.getElementById('inptPersonalGasto').value = "";
+	document.getElementById('inptNroBoletaGasto').value = "";
+	document.getElementById('inptBancoGasto').value = "";
+	document.getElementById('inptCuentaGasto').value = "";
+	document.getElementById('inptArregloGasto').value = "";
+	document.getElementById('btnEditarGastos').style.backgroundColor="#b7b7b7";
+	document.getElementById('btnConfirmarGasto').style.backgroundColor="#b7b7b7";
+	document.getElementById('inptEstadoGasto').value = "Activo";
+	document.getElementById('btnAbmGastos').value = "Guardar datos";
+	idAbmGasto = "";
+	seleccionarLocalUSer()
+	
+	$("div[id=imgFotoGastoIngresoEgreso]").css({"background-image":"url()"});
+	fotogasto="";
+	extgasto="";
+}
+var agrupacionformulariogasto = "1"
+function cambiarTipoGasto(d){
+document.getElementById("btnGasto1").style=""
+document.getElementById("btnGasto2").style=""
+if(d=="1"){
+	document.getElementById("btnGasto1").style="background-color:#ff9800;color:#fff"
+	agrupacionformulariogasto="1";
+}else{
+	document.getElementById("btnGasto2").style="background-color:#ff9800;color:#fff"
+	agrupacionformulariogasto="2";
+}
+}
+// CARGAR FOTO GASTO
+function ExploradorImagenGasto(File){	
+$("input[name="+File+"]").click();
+}
+var fotogasto="";
+var extgasto="";
+function readFileGasto(input){		
+var file=$("input[name="+input.name+"]")[0].files[0];
+var filename= file.name;
+var tamanho = file.size;
+if (tamanho > 5000000){
+ver_vetana_informativa("LA FOTO NO PUEDE EXCEDER LOS 5Mb")
+return false
+}
+file_extension=filename.substring(filename.lastIndexOf('.')+1).toLowerCase();
+if ((file_extension=="jpeg") || (file_extension=="jpg") || (file_extension=="png") ){
+}else{
+ver_vetana_informativa("LA FOTO SELECCIONADO NO ES JPEG")
+return false;
+}
+var reader = new FileReader();
+reader.onload = function(e){
+	extgasto=file_extension;
+fotogasto=e.target.result;
+ $("div[id=imgFotoGastoIngresoEgreso]").css({"background-image":"url("+fotogasto+")"})
+}
+reader.readAsDataURL(input.files[0]);
 }

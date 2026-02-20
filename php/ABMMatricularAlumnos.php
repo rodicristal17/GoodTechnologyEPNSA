@@ -28,58 +28,7 @@ echo json_encode($informacion);
 exit;
 }
 
-
-	
-	//CONTROL DE ACCESO
-// if($funt=="nuevo"){
-
-	// buscarnivel($user,"MATRICULACION"," anhadir='SI' ");
-// }
-// if($funt=="editar" || $funt=="eliminar"){
-	
-	// buscarnivel($user,"MATRICULACION"," modificar='SI' ");
-// }
-// if($funt=="buscar"){
-
-	// buscarnivel($user,"MATRICULACION"," buscar='SI' ");
-// }
-// if($funt=="buscarreport"){
-
-	// buscarnivel($user,"CONSULTA ALUMNOS MATRICULADOS"," informes='SI' ");
-	// $control=controldefilial($user,"DATOS DE OTRAS FILIAL"," accion='SI' ");
-	// if($control==0){
-		// $codFilial=$_POST['codFilial'];
-        // $codFilial = utf8_decode($codFilial);
-		// $codFilialFK=buscarmifilialFK($user);
-		// if($codFilial!=$codFilialFK){
-			// $informacion =array("1" => "FKINCO");
-            // echo json_encode($informacion);	
-            // exit;
-		// }
-		
-	// }
-// }
-
-// if($funt=="buscarvista"){
-
-	// $control=controldefilial($user,"DATOS DE OTRAS FILIAL"," accion='SI' ");
-	// if($control==0){
-		// $codFilial=$_POST['codFilial'];
-        // $codFilial = utf8_decode($codFilial);
-		// $codFilialFK=buscarmifilialFK($user);
-		// if($codFilial!=$codFilialFK){
-			// $informacion =array("1" => "FKINCO");
-            // echo json_encode($informacion);	
-            // exit;
-		// }
-		
-	// }
-// }
-
-
-
-
-
+  
 
 	
 if($funt=="nuevo" || $funt=="editar")
@@ -118,15 +67,17 @@ if($funt=="nuevo" || $funt=="editar")
 	
 	$nroMatriculacion=$_POST['nroMatriculacion'];
     $nroMatriculacion = utf8_decode($nroMatriculacion);
+
 	
-	abm($nroMatriculacion,$fechaMatriculacion,$fechaInicio,$idcursosalumno,$idalumnoFk,$cod_carreraFK,$estado,$anho,$anhoregistro,$semestre,$curso,$turno,$seccion,$convalidacion,$funt);
+	$tipo=$_POST['tipo'];
+    $tipo = utf8_decode($tipo);
+	
+	abm($tipo,$nroMatriculacion,$fechaMatriculacion,$fechaInicio,$idcursosalumno,$idalumnoFk,$cod_carreraFK,$estado,$anho,$anhoregistro,$semestre,$curso,$turno,$seccion,$convalidacion,$funt);
 
 }
 if($funt=="editamatriculacion" )
 {
-	
-	
-	
+	 
 	$idcursosalumno=$_POST['idAbm'];
     $idcursosalumno = utf8_decode($idcursosalumno);
 	$controledit=$_POST['controledit'];
@@ -435,7 +386,7 @@ if($funt=="buscaranhosql")
 
 
 
-function abm($nroMatriculacion,$fechaMatriculacion,$fechaInicio,$idcursosalumno,$idalumnoFk,$cod_carreraFK,$estado,$anho,$anhoregistro,$semestre,$curso,$turno,$seccion,$convalidacion,$funt)
+function abm($tipo,$nroMatriculacion,$fechaMatriculacion,$fechaInicio,$idcursosalumno,$idalumnoFk,$cod_carreraFK,$estado,$anho,$anhoregistro,$semestre,$curso,$turno,$seccion,$convalidacion,$funt)
 {
 	
 	if($idalumnoFk=="" && $cod_carreraFK==""&& $anho==""&& $anhoregistro==""&& $semestre==""&& $curso=="" && $turno==""&& $seccion=="" ){
@@ -480,18 +431,12 @@ if($valor>0)
 	if($funt=="nuevo")
 	{
 	
-    $consulta="insert into cursosalumno ( idalumnoFk, cod_carreraFK, estado, anho,anhoregistro, semestre, curso,turno,seccion,convalidacion,fechaInicio,codigomatriculacion,fechaMatriculacion) values ($idalumnoFk,$cod_carreraFK,'$estado','$anho','$anhoregistro','$semestre','$curso','$turno','$seccion','$convalidacion','$fechaInicio','$nroMatriculacion','$fechaMatriculacion')";	
-	
-	// echo($consulta);
-	// exit;
-	
-	
-     $stmt = $mysqli->prepare($consulta);
-  
+    $consulta="insert into cursosalumno ( idalumnoFk, cod_carreraFK, estado, anho,anhoregistro, semestre, curso,turno,seccion,convalidacion,fechaInicio,codigomatriculacion,fechaMatriculacion,tipo_alumno) values ($idalumnoFk,$cod_carreraFK,'$estado','$anho','$anhoregistro','$semestre','$curso','$turno','$seccion','$convalidacion','$fechaInicio','$nroMatriculacion','$fechaMatriculacion','$tipo')";	
  
+     $stmt = $mysqli->prepare($consulta);
+   
 	}
-	
-	
+	 
 if ( ! $stmt->execute() ) {
 	$informacion =array("1" => "error");
 	echo json_encode($informacion);	
@@ -827,14 +772,18 @@ function buscarvista($documento,$alumno,$curso,$anho,$semestre,$codCarrera,$codF
 	 
 		$sql= "SELECT cur.idcursosalumno, cur.idalumnoFk, cur.cod_carreraFK, cur.estado, cur.anho, cur.semestre, cur.curso,cur.seccion,cur.turno,
 alu.nombre as nombrealumno,alu.apellido,alu.ci,car.cod_filialOringFK,alu.telef,cur.anhoregistro,
-		ltc.nombre as nombrecarrera,ltc.anhos as duracion,
+		ltc.nombre as nombrecarrera,ltc.anhos as duracion, alu.encargado , alu.ruc ,
 		fil.nombre as nombrefilial
- FROM cursosalumno cur inner join alumno alu on alu.idalumno=cur.idalumnoFk
+ FROM cursosalumno cur 
+ inner join alumno alu on alu.idalumno=cur.idalumnoFk
  inner join carrera car on car.cod_carrera=cur.cod_carreraFK 
  inner join listadecarreras ltc on ltc.Cod_listadecarreras=car.Cod_listadecarrerasFK
  inner join filial fil on fil.cod_filial=car.cod_filialOringFK
 where cur.estado='Activo' ".$condicionCarrera.$condicionFilial.$condiciondocumento.$condicionalumno.$condicioncurso.$condicionanho.$condicionsemestre.$oderby." limit 250";
 
+
+// echo($sql);
+// exit;
 
    $stmt = $mysqli->prepare($sql);
 if ( ! $stmt->execute()) {
@@ -872,6 +821,8 @@ $totales=0;
 		  	  $seccion=utf8_encode($valor['seccion']);
 		  	  $anhoregistro=utf8_encode($valor['anhoregistro']);
 		  	  $duracion=utf8_encode($valor['duracion']);
+		  	  $encargado=utf8_encode($valor['encargado']);
+		  	  $ruc=utf8_encode($valor['ruc']);
 		  	
 		  	$styleorden1="";
 			  $styleorden2="";
@@ -911,16 +862,18 @@ $totales=0;
 			   <td  id='td_datos_1' style='width:10%;".$styleorden1."' >".$ci."</td>
 			   <td  id='td_datos_2' style='width:15%;".$styleorden2."' >".$nombrealumno." ".$apellido."</td>
 			    <td  id='td_datos_3' style='width:10%;".$styleorden3."'>".$nombrecarrera."</td>
-			   <td  id='td_datos_15' style='width:7%;".$styleorden7."' >".$anhoregistro."</td>
-			   <td  id='td_datos_6' style='width:7%;".$styleorden5."' >".$anho."</td>
-			   			   <td  id='td_datos_4' style='width:7%;".$styleorden4."' >".$curso."</td>
-			   <td  id='td_datos_7' style='width:7%;' >".$semestre."</td>		  
+			   <td  id='td_datos_15' style='display:none".$styleorden7."' >".$anhoregistro."</td>			   
+			   	<td  id='td_datos_4' style='width:7%;".$styleorden4."' >".$curso."</td>
+				<td  id='td_datos_6' style='width:7%;".$styleorden5."' >".$anho."</td>
+			   <td  id='td_datos_7' style='display:none' >".$semestre."</td>		  
 			  <td  id='td_datos_5' style='display:none' >".$turno."</td>		  
 			   <td  id='td_datos_12' style='display:none' >".$seccion."</td>		  
-			   <td  id='td_datos_10' style='width:7%;".$styleorden6."' >".$nombrefilial."</td>
+			   <td  id='td_datos_10' style='display:none".$styleorden6."' >".$nombrefilial."</td>
 			   <td  id='td_datos_11' style='display:none' >".$estado."</td>
 			   <td  id='td_datos_13' style='display:none' >".$telef."</td>
 			   <td  id='td_datos_14' style='display:none' >".$duracion."</td>
+			   <td  id='td_datos_16' style='display:none' >".$encargado."</td>
+			   <td  id='td_datos_17' style='display:none' >".$ruc."</td>
 			  </tr>
 			  </table>";
 			    	 
@@ -1096,7 +1049,7 @@ $totales=0;
 			   <td  id='td_datos_6' style='display:none' >".$anho."</td>
 			   <td  id='td_datos_7' style='display:none' >".$semestre."</td>		  
 			   <td  id='td_datos_5' style='display:none' >No-Definido</td>		  
-			   <td  id='td_datos_10' style='width:7%' >".$nombrefilial."</td>
+			   <td  id='td_datos_10' style='display:none' >".$nombrefilial."</td>
 			   <td  id='td_datos_11' style='display:none' >".$estado."</td>
 			  </tr>
 			  </table>";
@@ -1202,7 +1155,7 @@ function buscarreport($nrodocumento,$codFilial,$codCarrera,$curso,$anhoregistro,
 	 
 	
 		$sql= "SELECT cur.anhoregistro,cur.idcursosalumno, cur.idalumnoFk, cur.cod_carreraFK, cur.estado, cur.anho, cur.semestre, cur.curso,cur.convalidacion,cur.turno,cur.seccion,car.Cod_listadecarrerasFK,
-alu.nombre as nombrealumno,alu.apellido,alu.ci,car.cod_filialOringFK,
+alu.nombre as nombrealumno,alu.apellido,alu.ci,car.cod_filialOringFK, whatsapp,
 		ltc.nombre as nombrecarrera,
 		fil.nombre as nombrefilial
  FROM cursosalumno cur inner join alumno alu on alu.idalumno=cur.idalumnoFk
@@ -1234,6 +1187,7 @@ $totales=0;
 		  
 		  
 		  $idcursosalumno=$valor['idcursosalumno'];
+		  $whatsapp=$valor['whatsapp'];
 		      $idalumnoFk=$valor['idalumnoFk'];
 		      $cod_carreraFK=$valor['cod_carreraFK'];
 		  	  $estado=utf8_encode($valor['estado']);
@@ -1301,6 +1255,7 @@ $totales=0;
 			  <td  id='td_datos_3' style='display:none;".$styleorden3."'>".$nombrecarrera."</td>
 			  <td  id='td_datos_1' style='width:7%' >".$ci."</td>
 			  <td  id='td_datos_2' style='width:15%;".$styleorden1."' >".$apellido." ".$nombrealumno."</td>	
+			  <td  id='td_datos_20' style='width:5%;'>".$whatsapp."</td>	
   				<td  id='td_datos_4' style='width:5%;".$styleorden5."' >".$curso."</td>		
 			   <td  id='td_datos_7' style='display:none;' >".$semestre."</td>
 			    <td  id='td_datos_15' style='width:5%;".$styleorden8."' >".$seccion."</td>		  

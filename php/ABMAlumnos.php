@@ -95,6 +95,10 @@ $codFilialFk=$_POST['codFilialFk'];
 $codFilialFk = utf8_decode($codFilialFk);
 $codCarreraFk=$_POST['codCarreraFk'];
 $codCarreraFk = utf8_decode($codCarreraFk);
+
+$Encargado=$_POST['Encargado'];
+$Encargado = utf8_decode($Encargado);
+
 $ordenby=$_POST['ordenby'];
 $ordenby = utf8_decode($ordenby);
 // if($codFilialFk==""){
@@ -102,9 +106,8 @@ $ordenby = utf8_decode($ordenby);
 	// if($control==0){
 		// $codFilialFk=buscarmifilialFK($user);
 	// }
-// }
-	  
-buscarRegistro($documento,$apellido,$nombre,$estado,$codFilialFk,$codCarreraFk,$ordenby);
+// }	  
+buscarRegistro($Encargado,$documento,$apellido,$nombre,$estado,$codFilialFk,$codCarreraFk,$ordenby);
 
 }
 
@@ -162,7 +165,7 @@ buscarmatriculacion($buscar);
 
 
 
-function buscarRegistro($documento,$apellido,$nombre,$estado,$codFilialFk,$codCarreraFk,$ordenby)
+function buscarRegistro($Encargado,$documento,$apellido,$nombre,$estado,$codFilialFk,$codCarreraFk,$ordenby)
 {
 	$mysqli=conectar_al_servidor();
 	 $pagina='';
@@ -191,6 +194,7 @@ $oderby="";
 	$condicionDocumento="";
 	$condicionNombre="";
 	$condicionApellido="";
+	$condicionEncargado="";
 	if($documento!=""){
 		$condicionDocumento=" and ci = '".$documento."'";
 	}
@@ -201,11 +205,15 @@ $oderby="";
 		$condicionApellido=" and apellido like '%".$apellido."%'";
 	}
 	
+	if($Encargado!=""){
+		$condicionEncargado=" and encargado like '%".$Encargado."%'";
+	}
+	
 	 
 
-$sql= "Select  idalumno,ci, nombre, apellido, email, telef, whatsapp, al.estado , al.dir_domicilio , ruc, celpadre , tipodoc , al.trabajo,al.encargado, al.estud_cursa,al.premio,al.observacion,al.fechanac  
+$sql= "Select  idalumno,ci, nombre,encargado, apellido, email, telef, whatsapp, al.estado , al.dir_domicilio , ruc, celpadre , tipodoc , al.trabajo,al.encargado, al.estud_cursa,al.premio,al.observacion,al.fechanac  
         from alumno  al  
-		where  al.estado='".$estado."'  ".$condicionNombre.$condicionApellido.$condicionDocumento." ".$oderby." limit 1000";
+		where  al.estado='".$estado."'  ".$condicionNombre.$condicionApellido.$condicionDocumento.$condicionEncargado." ".$oderby." limit 1000";
  
 		 
  $stmt = $mysqli->prepare($sql);
@@ -246,7 +254,7 @@ $totales=0;
 			$estud_cursa=utf8_encode($valor['estud_cursa']);
 			$premio=utf8_encode($valor['premio']);
 			$observacion=utf8_encode($valor['observacion']);
-			$fechanac=utf8_encode($valor['fechanac']); 
+			$fechanac=utf8_encode($valor['fechanac']);  
 		  	
 		  	  $styleorden1="";
 			  $styleorden2="";
@@ -267,18 +275,18 @@ $totales=0;
 			  $pagina.="<table class='tableRegistroSearch' border='0' cellspacing='0' cellpadding='0'>
 			  <tr id='tbSelecRegistro' onclick='ObtenerdatosAbmAbmAlumnos(this)'>
 			  <td id='td_id' style='display:none;'>".$idalumno."</td>
-			   <td  id='td_datos_1' style='width:15%;".$styleorden1."' >".$ci."</td>
-			   <td  id='td_datos_2' style='width:15%;".$styleorden2."' >".$nombre."</td>
-			   <td  id='td_datos_3'style='width:15%;".$styleorden3."' >".$apellido."</td>
+			   <td  id='td_datos_1' style='width:20%;".$styleorden1."' >".$ci."</td>
+			   <td  id='td_datos_2' style='width:20%;".$styleorden2."' >".$nombre."</td>
+			   <td  id='td_datos_3'style='width:20%;".$styleorden3."' >".$apellido."</td>
 			   <td  id='td_datos_4' style='display:none' >".$email."</td>
-			    <td  id='td_datos_5' style='width:15%' >".$telef."</td> 
+			    <td  id='td_datos_5' style='width:20%' >".$telef."</td> 
 			  
 			   <td  id='td_datos_6' style='display:none' >".$whatsapp."</td>
 			   <td  id='td_datos_7' style='display:none' >".$estado."</td>
 			   
 			   <td  id='td_datos_8' style='display:none' >".$dir_domicilio."</td>
 			   <td  id='td_datos_9' style='display:none' >".$trabajo."</td>
-			   <td  id='td_datos_10' style='display:none' >".$encargado."</td>
+			   <td  id='td_datos_10' style='width:20%' >".$encargado."</td>
 			   <td  id='td_datos_11' style='display:none' >".$estud_cursa."</td>
 			   <td  id='td_datos_12' style='display:none' >".$premio."</td>
 			   <td  id='td_datos_13' style='display:none' >".$observacion."</td>
