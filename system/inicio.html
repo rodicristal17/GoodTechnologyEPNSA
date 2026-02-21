@@ -39,13 +39,13 @@
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.04" />
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
- 
+  <script src="https://unpkg.com/nextjs-toast-notify@1.47.0/dist/nextjs-toast-notify.js"></script>
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
- 
+ <link rel="stylesheet" href="/GoodTechnologyEPNSA/css/magic.css" />
 
   <script src="/GoodTechnologyEPNSA/js/jquery.js"></script>
 
@@ -433,6 +433,23 @@ src='/GoodTechnologyEPNSA/iconos/cierredecaja.png' />
 </tr>
 </table>
 </div>
+
+<table class='divMenub' id='divMenuAbmCobradores'
+onclick='verCerrarAbmCobrador()' style='text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu'
+src='/GoodTechnologyEPNSA/iconos/cobrador.png' />
+<p class='pTitulo4'>Listado de Cobradores</p>
+<center>
+<div id='divMinimizadoListadoCobradores'
+style='display:none' class='divMinimizado'></div>
+</center>
+</td>
+</tr>
+</table>
+
+
 <div class='divMenub'   title='Añadir carreras' onclick='verCerrarFrmListaCarrera(1)' id='divMenuCarrera' >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
@@ -3541,7 +3558,7 @@ NRO CAJA
 
 
 
-<div class='principal2' style='display:none' id='divAbmAperturaCierreCaja'> 
+<!-- <div class='principal2' style='display:none' id='divAbmAperturaCierreCaja'> 
 <center>
 <div   class='divAbms'>
 <table class='tableMenuZ'>
@@ -3552,11 +3569,11 @@ NRO CAJA
 </td>
 <td style='width:5%;text-align:center'>
 <img id='imgVolverAtrasApCieCaja'
-src='/GoodVentaAsisCap/iconos/flechaderecha.png'
+src='/GoodTechnologyEPNSA/iconos/flechaderecha.png'
 class='iconoBtn' title='Volver Atras'
 onclick='verCerrarVentanaAbmAperturaCierreCaja1("2","")' />
 <img id='imgVolverCerrarApCieCaja'
-src='/GoodVentaAsisCap/iconos/botonCerrar.png'
+src='/GoodTechnologyEPNSA/iconos/botonCerrar.png'
 class='iconoBtn' title='Cerrar Ventana'
 onclick='verCerrarVentanaAbmAperturaCierreCaja("2","")' />
 </td>
@@ -3742,9 +3759,301 @@ onkeyup='separadordemiles(this)' />
  
 </div>
 
+ -->
 
+<div class='principal2' style='display:none' id='divAbmAperturaCierreCaja'>
+<table style='width:100%;height:100%;' id='tdEfectoAbmAperturaCierreCaja'>
+<tr>
+<td>
+<center>
+<div style='' class='divAbms'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'><b style='font-size: 30px;' >Apertura / Cierre</b> de Caja
+</p>
+</td>
+<td style='width:5%;text-align:center'>
+<img id='imgVolverAtrasApCieCaja'
+src='/GoodTechnologyEPNSA/iconos/flechaderecha.png'
+class='iconoBtn' title='Volver Atras'
+onclick='verCerrarVentanaAbmAperturaCierreCaja1("2","")' />
+<img id='imgVolverCerrarApCieCaja'
+src='/GoodTechnologyEPNSA/iconos/botonCerrar.png'
+class='iconoBtn' title='Cerrar Ventana'
+onclick='verCerrarVentanaAbmAperturaCierreCaja("2","")' />
+</td>
+</tr>
+</table>
+<br>
+<center>
+<div style='overflow:auto; display: flex; justify-content: center;'>
+<div class='divMenuf' style='float:left;width:20%;margin:1%;'>
+  <div class="timeline-container">
+    <h2 class="titulo" style="font-size: 1.5rem;">Resumen</h2>
+    <div class="timeline">
+      <div class="timeline-item entrada" style="padding-top: 20px;">
+        <div class="timeline-content">
+          <h3 class='taentrada' style="font-size: 0.8rem">Apertura caja</h3>
+          <input class='taentrada' id='inptResumenInicialAperturaCierre' type="text"  readonly style="font-size: 0.8rem;">
+        </div>
+      </div>
+      <div class="timeline-item salida" style="padding-top: 20px;" id="divResumenCierreAperturaCierre">
+        <div class="timeline-content">
+          <h3 class='taentrada' style="font-size: 0.8rem">Monto de cierre</h3>
+          <input class='taentrada' id='inptResumenCierreAperturaCierre' type="text"  readonly style="font-size: 0.8rem;">
+        </div>
+      </div>
+      <div class="timeline-item neutro">
+        <div class="timeline-content">
+          <h3 style="font-size: 0.8rem">Total recaudado</h3>
+          <input style='Text-align:center;' id='inptResumenTotalAperturaCierre'  type="text"  readonly style="font-size: 0.8rem">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='divMenuf' style='float:left;width:35%;margin:1%;'>
+<br>
+<table style='width:100%'>
+<tr>
+<td style='width:50%'>
+<p class='pTituloC'
+>Local</p>
+<select class="inputSelect" id="inptlocalAperturaCierre"  onchange='buscarOptionCaja2(1)' disabled></select>
+</td>
+</tr>
+</table>
+<table style='width:100%;display:none'>
+<tr>
+<td>
+<p class='pTituloC' >Caja :</p>
+<select class="input3" id="inptcajaAperturaCierreCaja" style='width:150px'onchange='controldecaja()'></select> 
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'>Cajero :
+</p>
+<input class='inputTextDisable'
+type='text' placeholder='Obligatorio (*)' id='inptcajeroAperturaCierreCaja' style='width:210px' disabled />
+<input type='button' value='Ir A Vista' class='btn4' onclick='vercerrarvistacobrador("1","aperturacierre")'
+style='width:100px'>
 
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'
+>Monto
+Inicial :</p>
+<input class='inputText' type='text' placeholder='Obligatorio (*)' id='inptMontoAperturaCierreCaja' style='width:150px' onkeyup='separadordemiles(this)' />
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' >Fecha Apertura (Hora) :</p>
+<input class='inputText'
+type='datetime-local'
+id='inptFechaAperturaCierreCaja'
+ />
+</td>
+</tr>
+</table>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'>Fecha Cierre (Hora) :</p>
+<input class='inputText'
+type='datetime-local'
+id='inptFechaCierreAperturaCierreCaja'
+/>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC'>Estado :</p>
+<select class="inputSelect"
+id="inptEstadoAperturaCierreCaja"
+ disabled>
+<option value="Activo">ACTIVO
+</option>
+<option value="Cerrado">CERRADO
+</option>
+</select>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p style="display: none;" class='pTituloC' >Movimiento de caja :</p>
+<input class='inputTextDisable'
+type='text'
+id='inptMontoRecaudadoCierreCaja'
+style='width:150px;display: none;' disabled />
+<input type='button'
+value='Ver Movimientos' class='btn5'
+onclick='ImprimirTicketDeCaja()'
+style='width:120px;display: none;'>
+</td>
+</tr>
+</table>
+<br>
+</div>
+<div class='divMenuf' style='float:left;width:35%;margin:1%;'>
+<br>
+<table style='width:100%'>
+<tr>
+<td>
+<p class='pTituloC' ><b>Monto Cierre</b></p>
+<input class='inputText' type='text'
+placeholder='Obligatorio (*)'
+id='inptMontoCierreCierreCaja'
+style='width:150px; display: none;'
+onkeyup='separadordemiles(this)' />
+<div>
+  <div>
+    <p class="pTituloC">500 gs.</p>
+    <input id='inptMontoCierreCaja5' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">1.000 gs.</p>
+    <input id='inptMontoCierreCaja10' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">2.000 gs.</p>
+    <input id='inptMontoCierreCaja20' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">5.000 gs.</p>
+    <input id='inptMontoCierreCaja50' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">10.000 gs.</p>
+    <input id='inptMontoCierreCaja100' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">20.000 gs.</p>
+    <input id='inptMontoCierreCaja200' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">50.000 gs.</p>
+    <input id='inptMontoCierreCaja500' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+  <div>
+    <p class="pTituloC">100.000 gs.</p>
+    <input id='inptMontoCierreCaja1000' class="inputText" type="number" disabled onkeyup="calcularMontoMovimientoAperturaCierreCaja()" onchange="calcularMontoMovimientoAperturaCierreCaja()"/>
+  </div>
+</div>
+</td>
+</tr>
+</table>
+<br>
+<center>
+<input type='button' value='Guardar'class='btn1'onclick='verificarcamposaperturacierredecaja()' id='btnAbmAperturaCierreCaja' />
+</center>
+<br>
+<br>
+</div>
 
+</div>
+</center>
+<br><br>
+</div>
+</center> 
+</td>
+</tr>
+</table>
+</div>
+
+<div class='principal2' style='display:none' id='divVistaCobrador'>
+<table style='width:100%;height:100%' id='tdEfectoVistaCobrador'>
+<tr>
+<td>
+<center>
+<div style='min-height:500px;width:600px;display:'
+class='divAbms'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Buscar <b style='font-size: 30px;' >Cobrador</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/add.png'
+class='iconoBtn' title='Nuevo Registro'
+onclick='verCerrarVentanaAbmVistaCobrador("1")' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png'
+class='iconoBtn' title='Cerrar Ventana'
+onclick='vercerrarvistacobrador("","")' />
+</td>
+</tr>
+</table>
+<br>
+<center>
+<div class='divMenuf'>
+
+<table style='width:95%'>
+<tr>
+<td style='width:99%'>
+<p class='pTituloC'
+>Buscar :
+</p>
+<input style='width:250px'
+class='inputText' type='text'
+placeholder='Buscar Cobrador'
+id='inptBuscarVistaCobrador'
+onkeyup="if(event.keyCode == 13){buscarvistacobrador()}" />
+<input type='button' value='Buscar'
+class='btn4'
+onclick='buscarvistacobrador()'>
+</td>
+</tr>
+</table>
+<br>
+<center>
+<table class="tableCabeceraRegistro">
+<tbody>
+<tr>
+<td class="td_registro"
+style="width:30%;">
+COBRADOR
+</td>
+<td class="td_registro"
+style="width:30%;">
+NRO. TELEF.
+</td>
+</tr>
+</tbody>
+</table>
+<div class="div_cuerpo_table"
+id="table_vista_cobrador"></div>
+<br>
+</center>
+</div>
+</center>
+<br>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
 
 <div class='principal2' style='display:none' id='divConsultaCaja'>
  
@@ -3756,11 +4065,11 @@ onkeyup='separadordemiles(this)' />
 <p class='pTituloB'>Consulta de <b style='font-size: 30px;' >Caja</b></p>
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaAsisCap/iconos/minimizar2.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
 title='Minimizar Ventana' onclick='minimizarconsultacaja()' />
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaAsisCap/iconos/botonCerrar.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
 title='Cerrar Ventana' onclick='verCerrarInformeConsultaCaja()' />
 </td>
 </tr>
@@ -4049,7 +4358,7 @@ style='width:95%;' />
                   <p class='pTituloB'>Limitador de <b style='font-size: 30px;'>Caja</b></p>
                 </td>
                 <td style='width:5%;text-align:center'>
-                  <img src='/GoodVentaAsisCap/iconos/botonCerrar.png' class='iconoBtn' title='Cerrar Ventana'
+                  <img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn' title='Cerrar Ventana'
                     onclick='verCerrarVentanaABMLimiteCaja(false)' />
                 </td>
               </tr>
@@ -4082,7 +4391,7 @@ style='width:95%;' />
 <p class='pTituloB'>Vista de <b style='font-size: 30px;' >Caja</b></p>
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaAsisCap/iconos/botonCerrar.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
 title='Cerrar Ventana' onclick='vercerrarvistaapcie("","")' />
 </td>
 </tr>

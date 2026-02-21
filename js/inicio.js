@@ -1734,6 +1734,7 @@ function BuscarFilialSelect() {
 	document.getElementById("inptFilialUsuario").innerHTML = "" 
 	document.getElementById("inptlocalAperturaCierre").innerHTML = "" 
 	document.getElementById("inptlocalVistaApCie").innerHTML = "" 
+	document.getElementById("inptlocalMisGastosBusca").innerHTML = "" 
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
@@ -1789,6 +1790,7 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 					document.getElementById("inptFilialUsuario").innerHTML=datos[3]
 					document.getElementById("inptlocalAperturaCierre").innerHTML=datos[3]
 					document.getElementById("inptlocalVistaApCie").innerHTML=datos[3]
+					document.getElementById("inptlocalMisGastosBusca").innerHTML=datos[3]
 				 
 				}
 			} catch (error) {
@@ -24474,7 +24476,8 @@ function getCurrentDate() {
 ABM APERTURA CIERRE CAJA
 */
 function verCerrarVentanaAbmAperturaCierreCaja(){
-	if(document.getElementById("divAbmAperturaCierreCaja").style.display==""){ 
+	if(document.getElementById("divAbmAperturaCierreCaja").style.display==""){
+		document.getElementById("tdEfectoAbmAperturaCierreCaja").className="magictime vanishOut"
 	$("div[id=divAbmAperturaCierreCaja]").fadeOut(500);	
 		
 	}else{	
@@ -24515,7 +24518,8 @@ function verCerrarVentanaAbmAperturaCierreCaja(){
 		  document.getElementById('inptFechaAperturaCierreCaja').value =  anho+"-" + mes + "-" +dia +"T"+hora+":"+minuto;
 		  
 	  }		
-		document.getElementById("divAbmAperturaCierreCaja").style.display="" 
+		document.getElementById("divAbmAperturaCierreCaja").style.display=""
+		 document.getElementById("tdEfectoAbmAperturaCierreCaja").className="magictime slideDownReturn"
 		document.getElementById("imgVolverCerrarApCieCaja").style.display=""
 		document.getElementById("imgVolverAtrasApCieCaja").style.display="none"
 		 buscartotalmovimientos()
@@ -24524,14 +24528,17 @@ function verCerrarVentanaAbmAperturaCierreCaja(){
 	}
 }
 function verCerrarVentanaAbmAperturaCierreCaja1(){
-	if(document.getElementById("divAbmAperturaCierreCaja").style.display==""){ 
+	if(document.getElementById("divAbmAperturaCierreCaja").style.display==""){
+		//document.getElementById("divAbmAperturaCierreCaja").style.display="none"
+		document.getElementById("tdEfectoAbmAperturaCierreCaja").className="magictime vanishOut"
 	$("div[id=divAbmAperturaCierreCaja]").fadeOut(500);	
 	}else{		
 	if(controlacceso(controlaperturacierrecaja,"accion")==false){
 			//SIN PERMISO
 	  return;
 		}
-		document.getElementById("divAbmAperturaCierreCaja").style.display="" 
+		document.getElementById("divAbmAperturaCierreCaja").style.display=""
+		 document.getElementById("tdEfectoAbmAperturaCierreCaja").className="magictime slideDownReturn"
 		document.getElementById("imgVolverCerrarApCieCaja").style.display="none"
 		document.getElementById("imgVolverAtrasApCieCaja").style.display=""
 	
@@ -24590,7 +24597,7 @@ function controldecaja() {
 	$.ajax({
 
 		data: datos,
-		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		url: "/GoodTechnologyEPNSA/php/abmaperturacierrecaja.php",
 		type: "post",
 		xhr: function () {
         var xhr = new window.XMLHttpRequest();
@@ -24668,9 +24675,9 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 						document.getElementById('inptFechaCierreAperturaCierreCaja').disabled=true
 						document.getElementById('inptFechaAperturaCierreCaja').disabled=true
 						document.getElementById('inptMontoAperturaCierreCaja').disabled=false
-							 if(accesosuser["CAMBIARMONTOAPERTURA"]["accion"]=="NO"){
-	         document.getElementById('inptMontoAperturaCierreCaja').disabled=true
-	         }
+							 // if(accesosuser["CAMBIARMONTOAPERTURA"]["accion"]=="NO"){
+	         // document.getElementById('inptMontoAperturaCierreCaja').disabled=true
+	         // }
 						document.getElementById('inptMontoAperturaCierreCaja').value=datos[3];
 						document.getElementById('inptResumenInicialAperturaCierre').value=datos[3];
 						document.getElementById('inptFechaCierreAperturaCierreCaja').value="";
@@ -24718,7 +24725,7 @@ function buscartotalmovimientos() {
 	$.ajax({
 
 		data: datos,
-		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		url: "/GoodTechnologyEPNSA/php/abmaperturacierrecaja.php",
 		type: "post",
 		xhr: function () {
         var xhr = new window.XMLHttpRequest();
@@ -24899,7 +24906,7 @@ verCerrarEfectoCargando("1")
 	datos.append("codusuarioap", codusuarioap)
 	var OpAjax = $.ajax({
 		data: datos,
-		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		url: "/GoodTechnologyEPNSA/php/abmaperturacierrecaja.php",
 		type: "post",
 		cache: false,
 		contentType: false,
@@ -25046,7 +25053,7 @@ function buscarvistaaperturacierrecaja() {
 	$.ajax({
 
 		data: datos,
-		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		url: "/GoodTechnologyEPNSA/php/abmaperturacierrecaja.php",
 		type: "post",
 		xhr: function () {
         var xhr = new window.XMLHttpRequest();
@@ -25219,7 +25226,7 @@ document.getElementById("DivImprimir").innerHTML=ficha;
    var documento= document.getElementById("DivImprimir").innerHTML;
      localStorage.setItem("reporte", documento);
 	   localStorage.setItem("tipo", "ticket");
-	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 window.open("/GoodTechnologyEPNSA/system/reportTicket.html");
 	 document.getElementById("DivImprimir").innerHTML = "";
 //buscarDatosVentaticket(idabmVenta)
      
@@ -25303,7 +25310,7 @@ document.getElementById("DivImprimir").innerHTML=ficha;
    var documento= document.getElementById("DivImprimir").innerHTML;
      localStorage.setItem("reporte", documento);
 	   localStorage.setItem("tipo", "ticket");
-	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 window.open("/GoodTechnologyEPNSA/system/reportTicket.html");
 	 document.getElementById("DivImprimir").innerHTML = "";
 //buscarDatosVentaticket(idabmVenta)
      
@@ -25377,7 +25384,7 @@ document.getElementById("DivImprimir").innerHTML=ficha;
    var documento= document.getElementById("DivImprimir").innerHTML;
      localStorage.setItem("reporte", documento);
 	   localStorage.setItem("tipo", "ticket");
-	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 window.open("/GoodTechnologyEPNSA/system/reportTicket.html");
 	 document.getElementById("DivImprimir").innerHTML = "";
 //buscarDatosVentaticket(idabmVenta)
      
@@ -25455,7 +25462,7 @@ document.getElementById("tbDatosImpresiones").innerHTML=document.getElementById(
 
 	 localStorage.setItem("reporte", documento);
 	   localStorage.setItem("tipo", "reporte");
-	 window.open("/GoodVentaAsisCap/system/reportInformes.html");
+	 window.open("/GoodTechnologyEPNSA/system/reportInformes.html");
 
      
 }
@@ -25560,7 +25567,7 @@ document.getElementById("DivImprimir").innerHTML=ficha;
    var documento= document.getElementById("DivImprimir").innerHTML;
      localStorage.setItem("reporte", documento);
 	   localStorage.setItem("tipo", "ticket");
-	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 window.open("/GoodTechnologyEPNSA/system/reportTicket.html");
 	 document.getElementById("DivImprimir").innerHTML = "";
 //buscarDatosVentaticket(idabmVenta)
      
@@ -25649,13 +25656,11 @@ document.getElementById("DivImprimir").innerHTML=ficha;
    var documento= document.getElementById("DivImprimir").innerHTML;
      localStorage.setItem("reporte", documento);
 	   localStorage.setItem("tipo", "ticket");
-	 window.open("/GoodVentaAsisCap/system/reportTicket.html");
+	 window.open("/GoodTechnologyEPNSA/system/reportTicket.html");
 	 document.getElementById("DivImprimir").innerHTML = "";
 //buscarDatosVentaticket(idabmVenta)
      
 }
-
-
 
 
 /*
@@ -25737,7 +25742,7 @@ function buscarinformecaja() {
 	};
 	$.ajax({
 		data: datos,
-		url: "/GoodVentaAsisCap/php_system/abminforemcaja.php",
+		url: "/GoodTechnologyEPNSA/php/abminforemcaja.php",
 		type: "post",
 		xhr: function () {
         var xhr = new window.XMLHttpRequest();
@@ -25818,7 +25823,7 @@ function buscar_recaudo_opciones_pago() {
 	};
 	$.ajax({
 		data: datos,
-		url: "/GoodVentaAsisCap/php_system/abmaperturacierrecaja.php",
+		url: "/GoodTechnologyEPNSA/php/abmaperturacierrecaja.php",
 		type: "post",
 		xhr: function () {
         var xhr = new window.XMLHttpRequest();
@@ -26085,7 +26090,7 @@ function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,banco ,nrocuenta,
 	datos.append("fechaDeposito", fechaDeposito)
 	var OpAjax = $.ajax({
 		data: datos,
-		url: "/GoodVentaElectroGuai/php_system/abmgasto.php",
+		url: "/GoodVentaElectroGuai/php/abmgasto.php",
 		type: "post",
 		cache: false,
 		contentType: false,
@@ -26146,7 +26151,7 @@ function confirmarGasto() {
 	datos.append("idgastos", idAbmGasto)
 	var OpAjax = $.ajax({
 		data: datos,
-		url: "/GoodVentaElectroGuai/php_system/abmgasto.php",
+		url: "/GoodVentaElectroGuai/php/abmgasto.php",
 		type: "post",
 		cache: false,
 		contentType: false,
@@ -26388,7 +26393,7 @@ function buscarabmGasto() {
 	};
 	$.ajax({
 		data: datos,
-		url: "/GoodVentaElectroGuai/php_system/abmgasto.php",
+		url: "/GoodVentaElectroGuai/php/abmgasto.php",
 		type: "post",
 		 
 		
@@ -26502,4 +26507,162 @@ fotogasto=e.target.result;
  $("div[id=imgFotoGastoIngresoEgreso]").css({"background-image":"url("+fotogasto+")"})
 }
 reader.readAsDataURL(input.files[0]);
+}
+
+function ver_vetana_informativa(titulo) {
+
+    const errores = [
+        "FALTO INGRESAR",
+        "LO SENTIMOS HA OCURRIDO UN ERROR",
+        "FALTO SELECCIONAR",
+        "CANCELE LA BUSQUEDA ACTUAL PARA CONTINUAR",
+        "ERROR",
+        "INVALIDO",
+        "NO SE PUDO"
+    ];
+
+ 
+    const texto = titulo.toUpperCase(); 
+    const esError = errores.some(patron => texto.includes(patron));
+
+ 
+    if (!esError) { 
+        showToast.success(titulo, {
+            duration: 5000,
+            progress: true,
+            position: "top-left",
+            transition: "bounceInDown",
+            icon: "",
+            sound: true,
+        });
+    } else { 
+        showToast.error(titulo, {
+            duration: 5000,
+            progress: true,
+            position: "top-left",
+            transition: "slideInUp",
+            icon: "",
+            sound: true,
+        });
+    }
+}
+
+
+
+/* COBRADOR EN CAJA */
+var idFkCobrador = ""
+var idFkVendedor = ""
+var controlseleccvistaCobrador = ""
+function vercerrarvistacobrador(d, ventana) {
+	if (d == "1") {
+			document.getElementById("divVistaCobrador").style.display = ""
+			 document.getElementById("tdEfectoVistaCobrador").className="magictime slideLeftReturn"
+		controlseleccvistaCobrador = ventana
+		buscarvistacobrador();
+	} else {
+		document.getElementById("tdEfectoVistaCobrador").className="magictime slideRight"
+		$("div[id=divVistaCobrador]").fadeOut(500)
+	}
+}
+function buscarvistacobrador() {
+	var buscador = document.getElementById('inptBuscarVistaCobrador').value
+	document.getElementById("table_vista_cobrador").innerHTML = paginacargando
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"buscar": buscador,
+		"funt": "buscarvista"
+	};
+	$.ajax({
+
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmcobrador.php",
+		type: "post",
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+		var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		beforeSend: function () {
+
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("table_vista_cobrador").innerHTML = ''
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("table_vista_cobrador").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					var datos_buscados = datos[2];
+					document.getElementById("table_vista_cobrador").innerHTML = datos_buscados
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+						var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+function obtenerdatosvistacobrador(datostr) {
+	$("tr[id=tbSelecRegistro]").each(function (i, td) {
+		td.className = ''
+
+	});
+	datostr.className = 'tableRegistroSelec'
+	if (controlseleccvistaCobrador == "ventacobrador") {
+		idFkCobrador = $(datostr).children('td[id="td_id"]').html();
+		cobradorcredito = $(datostr).children('td[id="td_id"]').html();
+		document.getElementById('inptCobradorVenta').value = $(datostr).children('td[id="td_datos_1"]').html();
+		document.getElementById('inptCobradorCargarPago').value = $(datostr).children('td[id="td_datos_1"]').html();
+		document.getElementById('inptCobradorConfirmar').value = $(datostr).children('td[id="td_datos_1"]').html();
+
+	}
+	if (controlseleccvistaCobrador == "confimarpago") {
+		cobradorcredito = $(datostr).children('td[id="td_id"]').html();
+		document.getElementById('inptCobradorConfirmar').value = $(datostr).children('td[id="td_datos_1"]').html();
+
+	}
+	if (controlseleccvistaCobrador == "cargarpago") {
+		cobradorcargarpagos = $(datostr).children('td[id="td_id"]').html();
+		document.getElementById('inptCobradorCargarPago').value = $(datostr).children('td[id="td_datos_1"]').html();
+
+	}
+	if (controlseleccvistaCobrador == "arqueo") {
+		cobradorarqueo = $(datostr).children('td[id="td_id"]').html();
+		document.getElementById('inptCobradorArqueo').value = $(datostr).children('td[id="td_datos_1"]').html();
+
+	}
+	if (controlseleccvistaCobrador == "comision") {
+		codCobradorComision = $(datostr).children('td[id="td_id"]').html();
+		document.getElementById('inptCobradorComision').value = $(datostr).children('td[id="td_datos_1"]').html();
+
+	}
+	
+	document.getElementById("divVistaCobrador").style.display = "none"
 }
