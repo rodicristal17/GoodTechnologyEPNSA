@@ -587,6 +587,7 @@ function buscar_datos_del_usuario(){
           accesosuser=datos["3"];  
           filiaruser=datos["6"];  
           filialNombreuser=datos["9"];  
+		  
 		  BuscarFilialSelect()
 		  BuscarCarreraSelect()
 		  BuscarFacultadlSelect()
@@ -596,11 +597,12 @@ function buscar_datos_del_usuario(){
  removeToMenuCheckt()
  removeToBtn()
  BuscarNivelesSelect()
- 
- 
+buscarOptionCaja() 
+
+ buscaroptionMotivoEgresoIngreso()
  BuscarListCajaSelectNroFactura()
  BuscarSeleccListaAranceles()
- 
+ BuscarSelecDescripcionArregloGastoEgresoIngreso()
  ObtenerFechaSelect()
 fechaActualSelect()	
 ObtenerFechaSelectHistoricos()
@@ -619,6 +621,7 @@ if (codigopc == "undefined" || codigopc == "" || codigopc == "Null" || codigopc 
 				document.getElementById('lblUser').innerHTML=nombre
 				document.getElementById('spNombreLogin').innerHTML=nombre
 				// document.getElementById('ptituloUser2').innerHTML=nombre
+				controldecaja()
 			}
 				try {	
 			 }catch(error){
@@ -1735,6 +1738,7 @@ function BuscarFilialSelect() {
 	document.getElementById("inptlocalAperturaCierre").innerHTML = "" 
 	document.getElementById("inptlocalVistaApCie").innerHTML = "" 
 	document.getElementById("inptlocalMisGastosBusca").innerHTML = "" 
+	document.getElementById("inptlocalMisGastos").innerHTML = "" 
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
@@ -1791,6 +1795,7 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 					document.getElementById("inptlocalAperturaCierre").innerHTML=datos[3]
 					document.getElementById("inptlocalVistaApCie").innerHTML=datos[3]
 					document.getElementById("inptlocalMisGastosBusca").innerHTML=datos[3]
+					document.getElementById("inptlocalMisGastos").innerHTML=datos[3]
 				 
 				}
 			} catch (error) {
@@ -24095,6 +24100,86 @@ alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
 
 }
 
+function buscarOptionCaja() {	
+	document.getElementById("inptcajaAperturaCierreCaja").innerHTML = ""
+	// document.getElementById("inptSeleccPuntoExpedicionVenta").innerHTML = ""
+	//document.getElementById("inptCajalNroFactura").innerHTML = ""
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"cod_local": filiaruser,
+		"funt": "buscaroption"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmCaja.php",
+		type: "post",
+		xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+		var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+         cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+		kb=0.1;
+		}
+        cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		
+		beforeSend: function () {
+
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("inptcajaAperturaCierreCaja").innerHTML = ''
+			// document.getElementById("inptSeleccPuntoExpedicionVenta").innerHTML = ''
+			//document.getElementById("inptCajalNroFactura").innerHTML = ''
+		},
+		success: function (responseText) {
+
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("inptcajaAperturaCierreCaja").innerHTML = ''
+			// document.getElementById("inptSeleccPuntoExpedicionVenta").innerHTML = ''
+			//document.getElementById("inptCajalNroFactura").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				 Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					var datos_buscados = datos[2];
+					var datos_expedicion = datos[4];
+					document.getElementById("inptcajaAperturaCierreCaja").innerHTML = datos_buscados
+					// document.getElementById("inptSeleccPuntoExpedicionVenta").innerHTML = datos_expedicion
+					//document.getElementById("inptCajalNroFactura").innerHTML = datos_expedicion
+					// document.getElementById("inptSeleccPuntoExpedicionVenta").value="";
+					// seleccionarcaja()
+					
+					controldecaja()
+					
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+
+
+}
 
 
 //HISTORIAL DE DESCARGA DE BASE DATOS
@@ -24577,6 +24662,7 @@ function verCerrarVentanaAbmAperturaCierreCaja1(){
 		
 	}
 }
+var cajapredeterminada = '';
 var controlaperturacierrecaja="ABRIRCERRARCAJA";
 var codCajeroapertura="";
 function controldecaja() {
@@ -24661,7 +24747,8 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 						codCajeroapertura=datos[11];
 						document.getElementById('btnAbmAperturaCierreCaja').value="Cerrar caja";
 						document.getElementById('PTituloApCieCaja').innerHTML="Cerrar caja";
-                        controlaperturacierrecaja="CERRARCERRARCAJA"						
+                        controlaperturacierrecaja="CERRARCERRARCAJA"
+						cajapredeterminada = datos[4]			
 					}else{
 						document.getElementById("inptEstadoAperturaCierreCaja").value="Activo"
 						document.getElementById('inptMontoCierreCaja5').disabled= true;
@@ -24697,7 +24784,7 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 						 document.getElementById('btnAbmAperturaCierreCaja').value="Iniciar caja";
 						 document.getElementById('PTituloApCieCaja').innerHTML="Apertura de caja";
 						 idabmAperturacierrecaja="";
-
+						cajapredeterminada = '';
 					}
 					calcularMontoMovimientoAperturaCierreCaja();
 				}
@@ -24831,7 +24918,7 @@ function verificarcamposaperturacierredecaja() {
 	const inptMontoCierreCaja1000= document.getElementById('inptMontoCierreCaja1000').value || 0;
 	
 	//var inptlocalAperturaCierre = document.getElementById('inptlocalAperturaCierre').value
-	var inptlocalAperturaCierre = cod_localFKUSer
+	var inptlocalAperturaCierre = filiaruser
 	var inptcajaAperturaCierreCaja = document.getElementById('inptcajaAperturaCierreCaja').value
 	var inptMontoAperturaCierreCaja = document.getElementById('inptMontoAperturaCierreCaja').value
 	var inptFechaAperturaCierreCaja = document.getElementById('inptFechaAperturaCierreCaja').value
@@ -25035,7 +25122,7 @@ function buscarvistaaperturacierrecaja() {
 	document.getElementById("inptTotalDiferenciaArqueocierrecaja").value = ''
 	
 	vercerrarfiltrosBuscarVistaAperturaCierre("2","2")
-	document.getElementById("table_vista_ap_cie").innerHTML = paginacargando
+	document.getElementById("table_vista_ap_cie").innerHTML = imgCargandoA
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
@@ -25730,7 +25817,7 @@ function buscarinformecaja() {
 					document.getElementById("inptResumenTotalEgreso").value = "..."  
 					document.getElementById("inptResumenTotalCaja").value = "..."  
 					
-	document.getElementById("table_Consultar_caja").innerHTML = paginacargando
+	document.getElementById("table_Consultar_caja").innerHTML = imgCargandoA
 	obtener_datos_user();
 	
 	var datos = {
@@ -25800,7 +25887,7 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 					document.getElementById("inptResumenCajaMigrado").value = datos[9]
 					document.getElementById("inptResumenTotalEgreso").value = datos[4]
 					
-					buscar_recaudo_opciones_pago()
+					// buscar_recaudo_opciones_pago()
 				}
 			} catch (error) {
 ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
@@ -25811,7 +25898,7 @@ ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
 	});
 }
 function buscar_recaudo_opciones_pago() {
-	document.getElementById("table_buscar_opciones_pago").innerHTML = paginacargando
+	document.getElementById("table_buscar_opciones_pago").innerHTML = imgCargandoA
 	obtener_datos_user();
 	
 	var datos = {
@@ -25882,9 +25969,7 @@ ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
 
 
 
-/*
-ABM GASTO
-*/
+/* ABM GASTO */
 function verCerrarAbmGasto(){
 	document.getElementById("divSegundoPlano").style.display="none";
 	if(document.getElementById("divAbmGastos").style.display==""){
@@ -25963,7 +26048,7 @@ function obtenerdatosabmGasto(datostr) {
 	document.getElementById('inptEstadoGasto').value = $(datostr).children('td[id="td_datos_5"]').html();
 	document.getElementById('inptlocalMisGastos').value = $(datostr).children('td[id="td_datos_7"]').html();
 	document.getElementById('inptNroBoletaGasto').value = $(datostr).children('td[id="td_datos_14"]').html();
-	document.getElementById('inptBancoGasto').value = $(datostr).children('td[id="td_datos_9"]').html();
+	// document.getElementById('inptBancoGasto').value = $(datostr).children('td[id="td_datos_9"]').html();
 	
 	
 	document.getElementById('inptCuentaGasto').value = $(datostr).children('td[id="td_datos_10"]').html();
@@ -26007,12 +26092,12 @@ function verificarcamposGasto() {
 	var inptlocalMisGastos = document.getElementById('inptlocalMisGastos').value
 	var inptTipoGasto = document.getElementById('inptTipoGasto').value
 	var inptNroBoletaGasto = document.getElementById('inptNroBoletaGasto').value
-	var inptBancoGasto = document.getElementById('inptBancoGasto') 
+	// var inptBancoGasto = document.getElementById('inptBancoGasto') 
 	var inptFechaDepositoGasto = document.getElementById('inptFechaDepositoGasto').value
-    inptBancoGasto = inptBancoGasto.options[inptBancoGasto.selectedIndex].text;
-	if(inptBancoGasto == 'SELECCIONAR'){
-		inptBancoGasto = '';
-	}
+    // inptBancoGasto = inptBancoGasto.options[inptBancoGasto.selectedIndex].text;
+	// if(inptBancoGasto == 'SELECCIONAR'){
+		// inptBancoGasto = '';
+	// }
 	
 	
 	if (inptArregloGasto == "" && inptTipoGasto=="Egreso") {
@@ -26061,9 +26146,9 @@ function verificarcamposGasto() {
 		accion = "nuevo";
 	}
 	
-	abmgastos(inptFechaDepositoGasto,inptMotivoMisGastos,inptArregloGasto,inptNroBoletaGasto, inptBancoGasto , inptCuentaGasto ,inptMontoGasto, inptMotivoGasto, inptFechaGasto, inptEstadoGasto, idAbmGasto, inptTipoGasto, inptlocalMisGastos, accion);
+	abmgastos(inptFechaDepositoGasto,inptMotivoMisGastos,inptArregloGasto,inptNroBoletaGasto , inptCuentaGasto ,inptMontoGasto, inptMotivoGasto, inptFechaGasto, inptEstadoGasto, idAbmGasto, inptTipoGasto, inptlocalMisGastos, accion);
 }
-function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,banco ,nrocuenta,monto, motivo, fecha, estado, idgastos, tipo, cod_local, accion) {
+function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,nrocuenta,monto, motivo, fecha, estado, idgastos, tipo, cod_local, accion) {
 	verCerrarEfectoCargando("1")
 	var datos = new FormData();
 	obtener_datos_user();
@@ -26081,7 +26166,6 @@ function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,banco ,nrocuenta,
 	datos.append("codcaja", cajapredeterminada)
 	datos.append("idaperturacierrecaja", idabmAperturacierrecaja)
 	datos.append("nroboleta", nroboleta)
-	datos.append("banco", banco)
 	datos.append("Arreglo", Arreglo)
 	datos.append("nrocuenta", nrocuenta)
 	datos.append("cod_motivo", cod_motivo)
@@ -26090,7 +26174,7 @@ function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,banco ,nrocuenta,
 	datos.append("fechaDeposito", fechaDeposito)
 	var OpAjax = $.ajax({
 		data: datos,
-		url: "/GoodVentaElectroGuai/php/abmgasto.php",
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
 		type: "post",
 		cache: false,
 		contentType: false,
@@ -26151,7 +26235,7 @@ function confirmarGasto() {
 	datos.append("idgastos", idAbmGasto)
 	var OpAjax = $.ajax({
 		data: datos,
-		url: "/GoodVentaElectroGuai/php/abmgasto.php",
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
 		type: "post",
 		cache: false,
 		contentType: false,
@@ -26264,12 +26348,6 @@ pagina="<div  style='background-color:#fff;'>"
 +"</table>"
 +"<table class='tableTicket'>"
 +"<tr>"
-+"<td style='width:110px'><b>Banco :</b></td>"
-+"<td style=''>"+document.getElementById("inptBancoGasto").value+"</td>"
-+"</tr>"
-+"</table>"
-+"<table class='tableTicket'>"
-+"<tr>"
 +"<td style='width:110px'><b>Cuenta :</b></td>"
 +"<td style=''>"+document.getElementById("inptCuentaGasto").value+"</td>"
 +"</tr>"
@@ -26283,7 +26361,7 @@ document.getElementById("DivImprimir").innerHTML=ficha;
    var documento= document.getElementById("DivImprimir").innerHTML;
      localStorage.setItem("reporte", documento);
 	   localStorage.setItem("tipo", "ticket");
-	 window.open("/GoodVentaElectroGuai/system/reportTicket.html");
+	 window.open("/GoodTechnologyEPNSA/system/reportTicket.html");
 	 document.getElementById("DivImprimir").innerHTML = "";
 //buscarDatosVentaticket(idabmVenta)
      
@@ -26359,16 +26437,16 @@ function buscarabmGasto() {
 	var nroboleta = document.getElementById('inptBuscarIngresoEgreso5').value
 	var monto = document.getElementById('inptBuscarIngresoEgreso8').value
 	var confirmado = document.getElementById('inptConfirmadoMisGastosBusca').value
-	var banco = document.getElementById('inptBuscarIngresoEgreso4').value
+	// var banco = document.getElementById('inptBuscarIngresoEgreso4').value
 	// var banco = $('#inptBuscarIngresoEgreso4').find('option:selected').text();
 	// if(banco == 'SELECCIONAR'){
 		// banco = '';
 	// }
 	
-	// var permisover='NO';
+	var permisover='SI';
 	// if(controlacceso2("VERTODOSEGRESOINGRESO","accion")!=false){permisover="SI"}
 	 
-	document.getElementById("table_abm_gasto").innerHTML = paginacargando
+	document.getElementById("table_abm_gasto").innerHTML = imgCargandoA
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
@@ -26384,7 +26462,6 @@ function buscarabmGasto() {
 		"arreglo": arreglo,
 		"motivo": motivo,
 		"confirmado": confirmado,
-		"banco": banco,
 		"nroboleta": nroboleta,
 		"monto": monto,
 		"agrupacionformulariogasto": agrupacionformulariogasto,
@@ -26393,7 +26470,7 @@ function buscarabmGasto() {
 	};
 	$.ajax({
 		data: datos,
-		url: "/GoodVentaElectroGuai/php/abmgasto.php",
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
 		type: "post",
 		 
 		
@@ -26454,7 +26531,7 @@ function limpiarcamposGasto() {
 	document.getElementById('inptMotivoGasto').value = "";
 	document.getElementById('inptPersonalGasto').value = "";
 	document.getElementById('inptNroBoletaGasto').value = "";
-	document.getElementById('inptBancoGasto').value = "";
+	// document.getElementById('inptBancoGasto').value = "";
 	document.getElementById('inptCuentaGasto').value = "";
 	document.getElementById('inptArregloGasto').value = "";
 	document.getElementById('btnEditarGastos').style.backgroundColor="#b7b7b7";
@@ -26462,7 +26539,7 @@ function limpiarcamposGasto() {
 	document.getElementById('inptEstadoGasto').value = "Activo";
 	document.getElementById('btnAbmGastos').value = "Guardar datos";
 	idAbmGasto = "";
-	seleccionarLocalUSer()
+	// seleccionarLocalUSer()
 	
 	$("div[id=imgFotoGastoIngresoEgreso]").css({"background-image":"url()"});
 	fotogasto="";
@@ -26549,57 +26626,112 @@ function ver_vetana_informativa(titulo) {
 
 
 
-/* COBRADOR EN CAJA */
-var idFkCobrador = ""
-var idFkVendedor = ""
-var controlseleccvistaCobrador = ""
-function vercerrarvistacobrador(d, ventana) {
-	if (d == "1") {
-			document.getElementById("divVistaCobrador").style.display = ""
-			 document.getElementById("tdEfectoVistaCobrador").className="magictime slideLeftReturn"
-		controlseleccvistaCobrador = ventana
-		buscarvistacobrador();
-	} else {
-		document.getElementById("tdEfectoVistaCobrador").className="magictime slideRight"
-		$("div[id=divVistaCobrador]").fadeOut(500)
+/* ABM MOTIVO EN EGRESO/INGRESO */
+function verCerrarAbmNuevoMotivo(){
+	// if(controlacceso("CREARNUEVOMOTIVO","accion")==false){return;}
+	if(document.getElementById("divAbmNuevoMotivo").style.display==""){
+		
+		$("div[id=divAbmNuevoMotivo]").fadeOut(500);	
+		
+	}else{		
+	
+		document.getElementById("divAbmNuevoMotivo").style.display=""
+BuscarAbmMotivoEgresoIngreso()
 	}
 }
-function buscarvistacobrador() {
-	var buscador = document.getElementById('inptBuscarVistaCobrador').value
-	document.getElementById("table_vista_cobrador").innerHTML = paginacargando
+function VerificarDatosMotivoEgresoIngreso() {
+	var inptNuevoMotivo = document.getElementById('inptNuevoMotivoEgresoIngreso').value
+	var inptEstadoMotivoEgresoIngreso = document.getElementById('inptEstadoMotivoEgresoIngreso').value
+	
+	if (inptNuevoMotivo == "") {
+		ver_vetana_informativa("FALTO AGREGAR NUEVO MOTIVO")
+		return false;
+	}	
+
+
+	if(idAbmMotivoEgresoIngreso != ''){
+		accion = "editarMotivo";
+	}else{
+		accion = "NuevoMotivo";
+	}
+		
+	
+	abmNuevoMotivo(inptNuevoMotivo,inptEstadoMotivoEgresoIngreso, accion);
+}
+function abmNuevoMotivo(motivo, estado , accion) {
+	verCerrarEfectoCargando("1")
+	var datos = new FormData();
+	obtener_datos_user();
+	datos.append("useru", userid)
+	datos.append("passu", passuser)
+	datos.append("navegador", navegador)
+	datos.append("funt", accion)
+	datos.append("motivo", motivo)
+	datos.append("estado", estado)
+	datos.append("idabm", idAbmMotivoEgresoIngreso)
+
+
+	var OpAjax = $.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
+		type: "post",
+		cache: false,
+		contentType: false,
+		processData: false,
+		error: function (jqXHR, textstatus, errorThrowm) {
+			verCerrarEfectoCargando("")
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+
+			return false;
+		},
+		success: function (responseText) {
+			verCerrarEfectoCargando("")
+			Respuesta = responseText;
+			console.log(Respuesta)
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				 Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					
+					ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
+					buscaroptionMotivoEgresoIngreso()
+					// verCerrarAbmNuevoMotivo()
+					BuscarAbmMotivoEgresoIngreso()
+					limpiarcamposmotivoegresoingreso()
+				}
+			} catch (error) {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+
+
+		}
+	});
+
+
+}
+function buscaroptionMotivoEgresoIngreso() {
+
+	document.getElementById("ListMotivoMisGastos").innerHTML = ""
+	// document.getElementById("inptMotivoEgresoIngresoCobrador").innerHTML = ""
+	// document.getElementById("inptBuscarIngresoEgreso3").innerHTML = ""
+	// document.getElementById("inptBuscarEgresoIngresoCobradores3").innerHTML = ""
+	document.getElementById("listBuscarIngresoEgreso3").innerHTML = ""
+
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
 		"passu": passuser,
 		"navegador": navegador,
-		"buscar": buscador,
-		"funt": "buscarvista"
+		"funt": "buscaroption"
 	};
 	$.ajax({
 
 		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmcobrador.php",
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
 		type: "post",
-		xhr: function () {
-        var xhr = new window.XMLHttpRequest();
-        //Uload progress
-        xhr.upload.addEventListener("progress" ,function (evt) {
-		var kb=((evt.loaded*1)/1000).toFixed(1)
-		if(kb=="0.0"){
-		kb=0.1;
-		}
-         cargarConectividad("enviado",kb,"0")           
-        }, false);
- //Download progress
-		xhr.addEventListener("progress", function (evt) {
-        var kb=((evt.loaded*1)/1000).toFixed(1)
-		if(kb=="0.0"){
-		kb=0.1;
-		}
-        cargarConectividad("recibido","0",kb)  
-        }, false);
-        return xhr;
-    },
 		
 		beforeSend: function () {
 
@@ -26607,62 +26739,324 @@ function buscarvistacobrador() {
 		},
 		error: function (jqXHR, textstatus, errorThrowm) {
 manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("table_vista_cobrador").innerHTML = ''
+			document.getElementById("ListMotivoMisGastos").innerHTML = ''
+			// document.getElementById("inptMotivoEgresoIngresoCobrador").innerHTML = ''
+			// document.getElementById("inptBuscarIngresoEgreso3").innerHTML = ""
+			// document.getElementById("inptBuscarEgresoIngresoCobradores3").innerHTML = ""
+			document.getElementById("listBuscarIngresoEgreso3").innerHTML = ""
+		},
+		success: function (responseText) {
+
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("ListMotivoMisGastos").innerHTML = ''
+			// document.getElementById("inptMotivoEgresoIngresoCobrador").innerHTML = ''
+			// document.getElementById("inptBuscarIngresoEgreso3").innerHTML = ""
+			// document.getElementById("inptBuscarEgresoIngresoCobradores3").innerHTML = ""
+			document.getElementById("listBuscarIngresoEgreso3").innerHTML = ""
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+				   var datos_buscados = datos[2];
+					document.getElementById("ListMotivoMisGastos").innerHTML = datos[4]
+					// document.getElementById("inptMotivoEgresoIngresoCobrador").innerHTML = datos_buscados
+					// document.getElementById("inptBuscarIngresoEgreso3").innerHTML = datos_buscados
+					// document.getElementById("inptBuscarEgresoIngresoCobradores3").innerHTML = datos_buscados
+					document.getElementById("listBuscarIngresoEgreso3").innerHTML = datos[4]
+
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+					var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+
+
+}
+function BuscarAbmMotivoEgresoIngreso() {
+	var buscador = document.getElementById("inptBuscarAbmMotivoEgresoIngreso").value
+	var estado = "Activo"
+	document.getElementById("divBuscadorMotivoEgresoIngreso").innerHTML = imgCargandoA
+    document.getElementById("lblNroRegistroMotivoEgresoIngreso").innerHTML="";
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"buscar": buscador,
+		"estado": estado,
+		"funt": "buscarabmmotivoingresoegreso"
+	};
+	$.ajax({
+		data: datos,
+        url: "/GoodTechnologyEPNSA/php/abmgasto.php",
+		type: "post",
+		 
+		
+		beforeSend: function () {
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("divBuscadorMotivoEgresoIngreso").innerHTML = ''
+			document.getElementById("lblNroRegistroMotivoEgresoIngreso").innerHTML = ''
 		},
 		success: function (responseText) {
 			var Respuesta = responseText;
 			console.log(Respuesta)
-			document.getElementById("table_vista_cobrador").innerHTML = ''
+			document.getElementById("divBuscadorMotivoEgresoIngreso").innerHTML = ''
+			document.getElementById("lblNroRegistroMotivoEgresoIngreso").innerHTML = ''
 			try {
 				var datos = $.parseJSON(Respuesta);
 				Respuesta = datos["1"];
 				Respuesta=respuestaJqueryAjax(Respuesta)
 				if (Respuesta == true) {
 					var datos_buscados = datos[2];
-					document.getElementById("table_vista_cobrador").innerHTML = datos_buscados
+					document.getElementById("divBuscadorMotivoEgresoIngreso").innerHTML = datos_buscados
+                   document.getElementById("lblNroRegistroMotivoEgresoIngreso").innerHTML="Se encontraron "+datos[3]+" registro(s)";
+				   buscaroptionMotivoEgresoIngreso()
 				}
 			} catch (error) {
 ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+					var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+	}
+
+var idAbmMotivoEgresoIngreso = "";
+function ObtenerdatosAbmMotivoEgresoIngreso(datostr) {
+	$("tr[id=tbSelecRegistro]").each(function (i, td) {
+		td.className = ''
+	});
+	ElementoSeleccMarca=datostr
+	datostr.className = 'tableRegistroSelec'
+    document.getElementById("inptNuevoMotivoEgresoIngreso").value = $(datostr).children('td[id="td_datos_1"]').html();
+    document.getElementById("inptEstadoMotivoEgresoIngreso").value = $(datostr).children('td[id="td_datos_2"]').html();
+	idAbmMotivoEgresoIngreso= $(datostr).children('td[id="td_id"]').html();
+     document.getElementById("btnMotivoIngresoEgreso").value="Editar Datos"
+}
+
+function limpiarcamposmotivoegresoingreso(){
+	  document.getElementById("inptNuevoMotivoEgresoIngreso").value = ''
+    document.getElementById("inptEstadoMotivoEgresoIngreso").value = 'Activo'
+	idAbmMotivoEgresoIngreso=''
+     document.getElementById("btnMotivoIngresoEgreso").value="Guardar"
+}
+
+
+/* ABM DESCRIPCION ARREGLO INGRESO EGRESO */
+var idAbmDescripcionArregloGastoEgresoIngreso="";
+var ElementoSeleccDescripcionArregloGastoEgresoIngreso="";
+function verCerrarFrmDescripcionArregloGastoEgresoIngreso(d){
+	if(d=="1"){
+		// if(controlacceso("CREARNUEVADESCRIPCIONARREGLOEGRESOINGRESO","accion")==false){return;}	
+		$("div[id=divAbmDescripcionArregloGastoEgresoIngreso]").fadeIn(500);
+		BuscarAbmDescripcionArregloGastoEgresoIngreso()
+	}else{
+		$("div[id=divAbmDescripcionArregloGastoEgresoIngreso]").fadeOut(500);
+	}
+}
+function LimpiarCamposDescripcionArregloGastoEgresoIngreso(){
+	document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").value="";
+	document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").value="";
+	document.getElementById("btnDescripcionArregloGastoEgresoIngreso1").value="Guardar Datos"
+	idAbmDescripcionArregloGastoEgresoIngreso="";
+	ElementoSeleccDescripcionArregloGastoEgresoIngreso="";
+}
+function ObtenerdatosAbmDescripcionArregloGastoEgresoIngreso(datostr) {
+	$("tr[id=tbSelecRegistro]").each(function (i, td) {
+		td.className = ''
+	});		
+	ElementoSeleccDescripcionArregloGastoEgresoIngreso=datostr
+	datostr.className = 'tableRegistroSelec'
+    document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").value = $(datostr).children('td[id="td_datos_1"]').html();
+    document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").value = $(datostr).children('td[id="td_datos_2"]').html();
+	
+
+	
+	idAbmDescripcionArregloGastoEgresoIngreso = $(datostr).children('td[id="td_id"]').html();
+     document.getElementById("btnDescripcionArregloGastoEgresoIngreso1").value="Editar Datos"
+}
+function SeleccionarRegistroDescripcionArregloGastoEgresoIngreso(){
+	if(ElementoSeleccDescripcionArregloGastoEgresoIngreso==""){
+		ver_vetana_informativa("Falto Seleccionar un registro")
+		return;
+	}
+    
+	 document.getElementById("divAbmDescripcionArregloGastoEgresoIngreso").style.display="none";
+	 LimpiarCamposDescripcionArregloGastoEgresoIngreso()
+}
+function VerificarDatosDescripcionArregloGastoEgresoIngreso(){
+	var inptNombreDescripcionArregloGastoEgresoIngreso = document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").value
+	var inptEstadoDescripcionArregloGastoEgresoIngreso = document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").value	
+	if(inptNombreDescripcionArregloGastoEgresoIngreso==""){
+		document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").focus()
+		ver_vetana_informativa("Falto Ingresar el nombre")
+		return
+	}
+	if(inptEstadoDescripcionArregloGastoEgresoIngreso==""){
+		document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").focus()
+		ver_vetana_informativa("Falto seleccionar el estado del registro")
+		return
+	}	
+	var accion = "";
+	if (idAbmDescripcionArregloGastoEgresoIngreso != "") {		
+		accion = "editar";
+	} else {		
+		accion = "nuevo";
+	}
+	AbmDescripcionArregloGastoEgresoIngreso(inptNombreDescripcionArregloGastoEgresoIngreso,inptEstadoDescripcionArregloGastoEgresoIngreso,idAbmDescripcionArregloGastoEgresoIngreso,accion)
+}
+function AbmDescripcionArregloGastoEgresoIngreso(descripcion,Estado,idabm,accion) {
+	verCerrarEfectoCargando("1")
+	var datos = new FormData();
+	obtener_datos_user();
+	datos.append("useru", userid)
+	datos.append("passu", passuser)
+	datos.append("navegador", navegador)
+	datos.append("funt", accion)
+	datos.append("idabm", idabm)
+	datos.append("descripcion", descripcion)
+	datos.append("Estado", Estado)
+	var OpAjax = $.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmDescripcionArregloGastoEgresoIngreso.php",
+		type: "post",
+		cache: false,
+		contentType: false,
+		processData: false,
+		  
+		
+		error: function (jqXHR, textstatus, errorThrowm) {
+			verCerrarEfectoCargando("")
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			return false;
+		},
+		success: function (responseText) {
+			verCerrarEfectoCargando("")
+			Respuesta = responseText;
+			console.log(Respuesta)
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				 Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+				LimpiarCamposDescripcionArregloGastoEgresoIngreso()
+				ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
+				BuscarAbmDescripcionArregloGastoEgresoIngreso()
+				BuscarSelecDescripcionArregloGastoEgresoIngreso()
+				}
+				else {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR")
+				}
+			} catch (error) {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
 						var titulo="Error: "+error+" \r\n Consola: "+responseText
 				GuardarArchivosLog(titulo)
 			}
 		}
 	});
 }
-function obtenerdatosvistacobrador(datostr) {
-	$("tr[id=tbSelecRegistro]").each(function (i, td) {
-		td.className = ''
-
+function BuscarAbmDescripcionArregloGastoEgresoIngreso() {
+	var buscador = document.getElementById("inptBuscarAbmDescripcionArregloGastoEgresoIngresos").value
+	var estado = document.getElementById("inptBuscarEstadoDescripcionArregloGastoEgresoIngreso").value
+	if(estado == ''){
+		estado = 'Activo';
+	}
+	document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = imgCargandoA
+    document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML="";
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"buscar": buscador,
+		"estado": estado,
+		"funt": "buscar"
+	};
+	$.ajax({
+		data: datos,
+        url: "/GoodTechnologyEPNSA/php/abmDescripcionArregloGastoEgresoIngreso.php",
+		type: "post",
+		 
+		
+		beforeSend: function () {
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = ''
+			document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML = ''
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = ''
+			document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					var datos_buscados = datos[2];
+					document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = datos_buscados
+                   document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML="Se encontraron "+datos[3]+" registro(s)";
+				   
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+					var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
 	});
-	datostr.className = 'tableRegistroSelec'
-	if (controlseleccvistaCobrador == "ventacobrador") {
-		idFkCobrador = $(datostr).children('td[id="td_id"]').html();
-		cobradorcredito = $(datostr).children('td[id="td_id"]').html();
-		document.getElementById('inptCobradorVenta').value = $(datostr).children('td[id="td_datos_1"]').html();
-		document.getElementById('inptCobradorCargarPago').value = $(datostr).children('td[id="td_datos_1"]').html();
-		document.getElementById('inptCobradorConfirmar').value = $(datostr).children('td[id="td_datos_1"]').html();
-
-	}
-	if (controlseleccvistaCobrador == "confimarpago") {
-		cobradorcredito = $(datostr).children('td[id="td_id"]').html();
-		document.getElementById('inptCobradorConfirmar').value = $(datostr).children('td[id="td_datos_1"]').html();
-
-	}
-	if (controlseleccvistaCobrador == "cargarpago") {
-		cobradorcargarpagos = $(datostr).children('td[id="td_id"]').html();
-		document.getElementById('inptCobradorCargarPago').value = $(datostr).children('td[id="td_datos_1"]').html();
-
-	}
-	if (controlseleccvistaCobrador == "arqueo") {
-		cobradorarqueo = $(datostr).children('td[id="td_id"]').html();
-		document.getElementById('inptCobradorArqueo').value = $(datostr).children('td[id="td_datos_1"]').html();
-
-	}
-	if (controlseleccvistaCobrador == "comision") {
-		codCobradorComision = $(datostr).children('td[id="td_id"]').html();
-		document.getElementById('inptCobradorComision').value = $(datostr).children('td[id="td_datos_1"]').html();
-
-	}
-	
-	document.getElementById("divVistaCobrador").style.display = "none"
 }
+function BuscarSelecDescripcionArregloGastoEgresoIngreso() {
+	document.getElementById("inptArregloGasto").innerHTML = ""
+	document.getElementById("inptSeleccArregloBuscarGasto").innerHTML = ""
+	
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"funt": "buscarOption"
+	};
+	$.ajax({
+		data: datos,
+        url: "/GoodTechnologyEPNSA/php/abmDescripcionArregloGastoEgresoIngreso.php",
+		type: "post",
+		
+		beforeSend: function () {
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+		 
+						},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			 
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					var datos_buscados = datos[2];
+					document.getElementById("inptArregloGasto").innerHTML = "<option value=''>SELECCIONAR</option>"+datos_buscados
+				document.getElementById("inptSeleccArregloBuscarGasto").innerHTML ="<option value=''>TODOS</option>"+ datos_buscados
+					
+				}
+			} catch (error) {
+ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+					var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+

@@ -19,7 +19,7 @@
 	
 
 	
-   <!-- <link id='cssTema' rel="stylesheet" href="/GoodVentaElectroGuai/css_system/style.css?x=x-ios10v1" /> -->
+   <!-- <link id='cssTema' rel="stylesheet" href="/GoodTechnologyEPNSA/css_system/style.css?x=x-ios10v1" /> -->
     <title>GOOD - TECHNOLOGY PY</title>
 
  
@@ -3824,7 +3824,7 @@ onclick='verCerrarVentanaAbmAperturaCierreCaja("2","")' />
 </td>
 </tr>
 </table>
-<table style='width:100%;display:none'>
+<table style='width:100%;'>
 <tr>
 <td>
 <p class='pTituloC' >Caja :</p>
@@ -3841,7 +3841,7 @@ onclick='verCerrarVentanaAbmAperturaCierreCaja("2","")' />
 <input class='inputTextDisable'
 type='text' placeholder='Obligatorio (*)' id='inptcajeroAperturaCierreCaja' style='width:210px' disabled />
 <input type='button' value='Ir A Vista' class='btn4' onclick='vercerrarvistacobrador("1","aperturacierre")'
-style='width:100px'>
+style='width:100px;display:none'>
 
 </td>
 </tr>
@@ -4054,8 +4054,323 @@ id="table_vista_cobrador"></div>
 </tr>
 </table>
 </div>
-
 <div class='principal2' style='display:none' id='divConsultaCaja'>
+<table style='width:100%;height:100%' id='tdEfectoConsultaCaja'>
+<tr>
+<td>
+<center>
+<div class='divPrincipalrepor' style='width:1200px;margin-left:40px'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Consulta de <b style='font-size: 30px;' >Caja</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarconsultacaja()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='verCerrarInformeConsultaCaja()' />
+</td>
+</tr>
+</table>
+<br>
+<center style='display:flex;justify-content:space-between;'>
+  <div style="width: 75%;">
+<div class='divMenuf' >
+
+<table style='width:100%'>
+<tr>
+<td style='width:12%'>
+<p class='pTituloC' >Caja</p>
+<input class='inputTextDisable' type='text'
+placeholder='Seleccionar una caja'
+id='inptBuscarVistaApCie1' style='width:87px'
+disabled />
+<input type='button' value='Buscar' class='btn4'
+onclick='vercerrarvistaapcie("1","1")'>
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Monto Apertura
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie3' 
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Monto Cierre
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie4' 
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Fecha Apertura
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie5' 
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Fecha Cierre
+</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie6' 
+disabled />
+</td>
+</tr>
+</table>
+
+<table style='width:100%'>
+<tr>
+<td style='width:20%'>
+<p class='pTituloC' >Lote</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarLoteVistaApCie' style='width:100%'
+disabled />
+</td>
+<td style='width:10%'>
+<p class='pTituloC' >Estado</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie7' 
+disabled />
+</td>
+<td style='width:70%'>
+<p class='pTituloC' >Usuario</p>
+<input class='inputTextDisable' type='text' placeholder=''
+id='inptBuscarVistaApCie2' style='width:100%'
+disabled />
+</td>
+
+</tr>
+</table>
+</div>
+<div class='divMenuf' >
+<table style="width:98%">
+<tbody><tr>
+<td style="width:10%;text-align:left">
+<input type="button" value="Imprimir" class="btn4" onclick='vercerraropcioneimpresionapcie("1")'  style="width:100px;background-color: rgb(58 58 58);">
+</td>
+<td style="width:80%;text-align:left">
+</td>
+<td style="width:10%;text-align:left">
+<input type="button" value="Editar limite" class="btn4" onclick='verCerrarVentanaABMLimiteCaja(true)'  style="width:100px;background-color: rgb(58 58 58);">
+</td>
+</tr>
+</tbody>
+</table>
+<table class="tableCabeceraRegistro" id='tdTituloImpreConsultarCaja'>
+<tbody>
+<tr>
+<td class="td_registro" style="width:30%;">DETALLES</td>
+<td class="td_registro" style="width:20%;">MONTO</td>
+<td class="td_registro" style="width:20%;">LOCAL</td>
+</tr>
+</tbody>
+</table>
+<div class="div_cuerpo_table" id="table_Consultar_caja"
+style='height:400px;'></div>
+</div>
+<div class='divMenuf' style="display: none;">
+<table style='width:98%'>
+<tr>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Recaudado
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalEfectivoConsultarCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Deposito:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalTarjetaConsularCaja' style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Ingreso
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalIngresoConsularCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Egreso :</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalEgresoConsularCaja' style='width:95%;' />
+</td>
+<td style='width:15%;text-align:left;display:none;'>
+<p class='pTituloC' >Total Desembolso
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalDesembolsoConsularCaja'
+style='width:140px;' />
+</td>
+
+<td style='width:15%;text-align:left'>
+<p class='pTituloC' >Total Migrado:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalMigradoConsularCaja' style='width:140px;' />
+</td>
+
+<td style='width:15%;text-align:left'>
+<p class='pTituloC' >Total Recibido:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalRecibidoConsularCaja' style='width:140px;' />
+</td>
+
+
+<td style='width:15%;text-align:left'>
+<p class='pTituloC' >Total en caja:
+</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalConsularCaja' style='width:140px;' />
+</td>
+</tr>
+</table>
+</div>
+<div class='divMenuf' style='display:none' id='table_buscar_opciones_pago' >
+<table style='width:98%'>
+<tr>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Cobrado:
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalEfectivoConsultarCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Deposito:</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalTarjetaConsularCaja' style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Ingreso
+:</p>
+<input class='inputTextDisable' type='text' disabled
+id='inptTotalIngresoConsularCaja'
+style='width:95%;' />
+</td>
+<td style='width:10%;text-align:left'>
+<p class='pTituloC' >Total Egreso :</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalEgresoConsularCaja' style='width:95%;' />
+</td>
+</tr>
+</table>
+</div>
+
+<div class='divMenuf' style='display:none;'>
+  <table style='width:98%'>
+    <tr>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>500 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant500ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>1.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant1000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>2.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant2000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>5.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant5000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>10.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant10000ConsultarCaja' style='width:95%;' />
+      </td>
+    </tr><tr>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>20.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant20000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>50.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant50000ConsultarCaja' style='width:95%;' />
+      </td>
+      <td style='width:10%;text-align:left'>
+        <p class='pTituloC'>100.000 gs.:</p>
+        <input class='inputTextDisable' type='text' disabled id='inptTotalCant100000ConsultarCaja' style='width:95%;' />
+      </td>
+    </tr>
+  </table>
+</div>
+  </div>
+  <div style="width: 20%;">
+<div class="timeline-container">
+  <h2 class="titulo" style='font-size: 1.5rem;'>Resumen de Caja</h2>
+  <div class="timeline">
+
+    <!-- ENTRADAS -->
+	 <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Apertura Caja</h3>
+        <input class='taentrada' id='inptResumenAperturacaja' type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+	
+	 <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Total Ingreso</h3>
+        <input class='taentrada'  id='inptResumenTotalIngreso'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>	
+	
+    <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;" >Total Recaudado</h3>
+        <input class='taentrada' id='inptResumenTotalRecaudado'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+	
+	    <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Caja Recibido</h3>
+        <input class='taentrada'  id='inptResumenCajaRecibido' type="text" readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+
+    <div class="timeline-item entrada">
+      <div class="timeline-content">
+        <h3 class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Transferencia</h3>
+        <input class='taSalida' id='inptResumenTransferencia'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+
+    <!-- SALIDAS -->
+    <div class="timeline-item salida">
+      <div class="timeline-content">
+        <h3 class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Caja Migrado</h3>
+        <input class='taSalida' id='inptResumenCajaMigrado'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+
+    <div class="timeline-item salida">
+      <div class="timeline-content">
+        <h3  class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Total Egreso</h3>
+        <input class='taSalida' id='inptResumenTotalEgreso'  type="text"  readonly style="font-size: 0.8rem;">
+      </div>
+    </div>
+	
+	<div class="timeline-item neutro">
+  <div class="timeline-content">
+    <h3>Total Operaciones</h3>
+   <input style='Text-align:center;' id='inptResumenTotalCaja'  type="text"  readonly>
+  </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</center>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+<!-- <div class='principal2' style='display:none' id='divConsultaCaja'>
  
 <center>
 <div class='divPrincipalrepor' style='width: 100vw;'>
@@ -4296,55 +4611,57 @@ style='width:95%;' />
   <div class="timeline">
 
     <!-- ENTRADAS -->
-	 <div class="timeline-item entrada">
-      <div class="timeline-content">
-        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Apertura Caja</h3>
-        <input class='taentrada' id='inptResumenAperturacaja' type="text"  readonly style="font-size: 0.8rem;">
-      </div>
-    </div>
+	 <!-- <div class="timeline-item entrada"> -->
+      <!-- <div class="timeline-content"> -->
+        <!-- <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Apertura Caja</h3> -->
+        <!-- <input class='taentrada' id='inptResumenAperturacaja' type="text"  readonly style="font-size: 0.8rem;"> -->
+      <!-- </div> -->
+    <!-- </div> -->
 	
-	 <div class="timeline-item entrada">
-      <div class="timeline-content">
-        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Total Ingreso</h3>
-        <input class='taentrada'  id='inptResumenTotalIngreso'  type="text"  readonly style="font-size: 0.8rem;">
-      </div>
-    </div>	
+	 <!-- <div class="timeline-item entrada"> -->
+      <!-- <div class="timeline-content"> -->
+        <!-- <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Total Ingreso</h3> -->
+        <!-- <input class='taentrada'  id='inptResumenTotalIngreso'  type="text"  readonly style="font-size: 0.8rem;"> -->
+      <!-- </div> -->
+    <!-- </div>	 -->
 	
-    <div class="timeline-item entrada">
-      <div class="timeline-content">
-        <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;" >Total Recaudado</h3>
-        <input class='taentrada' id='inptResumenTotalRecaudado'  type="text"  readonly style="font-size: 0.8rem;">
-      </div>
-    </div>
+    <!-- <div class="timeline-item entrada"> -->
+      <!-- <div class="timeline-content"> -->
+        <!-- <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;" >Total Recaudado</h3> -->
+        <!-- <input class='taentrada' id='inptResumenTotalRecaudado'  type="text"  readonly style="font-size: 0.8rem;"> -->
+      <!-- </div> -->
+    <!-- </div> -->
  
 
     <!-- SALIDAS -->
 
 
-    <div class="timeline-item salida">
-      <div class="timeline-content">
-        <h3  class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Total Egreso</h3>
-        <input class='taSalida' id='inptResumenTotalEgreso'  type="text"  readonly style="font-size: 0.8rem;">
-      </div>
-    </div>
+    <!-- <div class="timeline-item salida"> -->
+      <!-- <div class="timeline-content"> -->
+        <!-- <h3  class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Total Egreso</h3> -->
+        <!-- <input class='taSalida' id='inptResumenTotalEgreso'  type="text"  readonly style="font-size: 0.8rem;"> -->
+      <!-- </div> -->
+    <!-- </div> -->
 	
-	<div class="timeline-item neutro">
-  <div class="timeline-content">
-    <h3>Total Operaciones</h3>
-   <input style='Text-align:center;' id='inptResumenTotalCaja'  type="text"  readonly>
-  </div>
-</div>
+	<!-- <div class="timeline-item neutro"> -->
+  <!-- <div class="timeline-content"> -->
+    <!-- <h3>Total Operaciones</h3> -->
+   <!-- <input style='Text-align:center;' id='inptResumenTotalCaja'  type="text"  readonly> -->
+  <!-- </div> -->
+<!-- </div> -->
 
-</div>
+<!-- </div> -->
 
-</div>
-</div>
+<!-- </div> -->
+<!-- </div> -->
 
-</center>
-</div>
-</center>
+<!-- </center> -->
+<!-- </div> -->
+<!-- </center> -->
  
-</div>
+<!-- </div> -->
+
+
 
 <div class='principal2' style='display:none' id='divAbmLimiteCaja'>
   <table style='width:100%;height:100%' id='tdEfectoArqueoCierroCaja'>
@@ -6677,15 +6994,15 @@ SECCIÓN
 <p class='pTituloB'>Abm <b style='font-size: 30px;' >Egreso / Ingreso</b></p>
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaElectroGuai/iconos/limpiarcampos.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/limpiarcampos.png' class='iconoBtn'
 title='Limpiar campos' onclick='limpiarcamposGasto()' />
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaElectroGuai/iconos/minimizar2.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
 title='Minimizar Ventana' onclick='minimizarventanaingresoegreso()' />
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaElectroGuai/iconos/flechaderecha.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/flechaderecha.png' class='iconoBtn'
 title='Volver Atras' onclick='verCerrarVentanaAbmGasto("2","")' />
 </td>
 </tr>
@@ -6790,15 +7107,15 @@ style='width:150px'></select>
 </td>
 </tr>
 </table>
-<br>
-<table style='width:100%'>
-<tr>
-<td>
-<p class='pTituloC' >Banco :</p>
-<select class='inputSelect' id='inptBancoGasto' ></select>
-</td>
-</tr>
-</table>
+<!-- <br> -->
+<!-- <table style='width:100%'> -->
+<!-- <tr> -->
+<!-- <td> -->
+<!-- <p class='pTituloC' >Banco :</p> -->
+<!-- <select class='inputSelect' id='inptBancoGasto' ></select> -->
+<!-- </td> -->
+<!-- </tr> -->
+<!-- </table> -->
 <br>
 <table style='width:100%'>
 <tr>
@@ -6871,15 +7188,15 @@ style='width:150px'></select>
 <p class='pTituloB'>Buscar <b style='font-size: 30px;' >Egreso / Ingreso</b> </p>
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaElectroGuai/iconos/add.png' class='iconoBtn' title='Añadir registro'
+<img src='/GoodTechnologyEPNSA/iconos/add.png' class='iconoBtn' title='Añadir registro'
 onclick='verCerrarVentanaAbmGasto("1","1")' />
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaElectroGuai/iconos/minimizar2.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
 title='Minimizar Ventana' onclick='minimizarventanaingresoegreso()' />
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodVentaElectroGuai/iconos/botonCerrar.png' class='iconoBtn'
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
 title='Cerrar Ventana' onclick='verCerrarAbmGasto()' />
 </td>
 </tr>
@@ -6970,7 +7287,6 @@ Activo</p>
 <td class="td_registro" style="width:10%;">FECHA</td>
 <td class="td_registro" style="width:10%;">NRO BOLETA</td>
 <td class="td_registro" style="width:10%;">LOCAL</td>
-<td class="td_registro" style="width:5%;">BANCO</td>
 <td class="td_registro" style="width:10%;">CUENTA</td>
 <td class="td_registro" style="width:5%;">ARREGLO</td>
 <td class="td_registro" style="width:10%;">USUARIO</td>
@@ -7005,14 +7321,14 @@ placeholder='Parecido a' />
 </td>
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP'
-src='/GoodVentaElectroGuai/iconos/limpiar.png'
+src='/GoodTechnologyEPNSA/iconos/limpiar.png'
 onclick="vaciar('inptSeleccTipoBuscarGasto')" />
 </td>
 <td class="td_registro" style="width:9%;">
 <input class='inputfiltro' type='Date' id='inptBuscarIngresoEgreso2' />
 </td>
 <td class="td_registro" style="width:1%;">
-<img class='inptLimpiarBP' src='/GoodVentaElectroGuai/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso2')" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso2')" />
 </td>
 <td class="td_registro" style="width:9%;">
 <input class='inputfiltro' type='text'
@@ -7021,16 +7337,16 @@ onkeyup="if(event.keyCode == 13){buscarabmGasto()}"
 placeholder='Parecido a' />
 </td>
 <td class="td_registro" style="width:1%;">
-<img class='inptLimpiarBP' src='/GoodVentaElectroGuai/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso5')" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso5')" />
 </td>
 <td class="td_registro" style="width:10%;">
 <select class="inputfiltro"
 id="inptlocalMisGastosBusca"></select>
 </td>
-<td class="td_registro" style="width:15%;">
-<input class='inputfiltro' type='text' id='inptBuscarIngresoEgreso4' onkeyup="if(event.keyCode == 13){buscarabmGasto()}" placeholder='Parecido a' />
+<!-- <td class="td_registro" style="width:15%;"> -->
+<!-- <input class='inputfiltro' type='text' id='inptBuscarIngresoEgreso4' onkeyup="if(event.keyCode == 13){buscarabmGasto()}" placeholder='Parecido a' /> -->
 <!-- <select class='inputfiltro' id='inptBuscarIngresoEgreso4'></select> -->
-</td>
+<!-- </td> -->
 <!-- <td class="td_registro" style="width:10%;"></td> -->
 <td class="td_registro" style="width:5%;">
 <select class="inputfiltro" id="inptSeleccArregloBuscarGasto">
@@ -7048,7 +7364,7 @@ placeholder='Parecido a' />
 </td>
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP'
-src='/GoodVentaElectroGuai/iconos/limpiar.png'
+src='/GoodTechnologyEPNSA/iconos/limpiar.png'
 onclick="vaciar('inptBuscarIngresoEgreso1')" />
 </td>
 <td class="td_registro" style="width:5%;">
@@ -7114,10 +7430,10 @@ id="inptConfirmadoMisGastosBusca">
 <p class='pTituloB'>Seleccionar Descripcion</p>
 </td>
 <td style='width:5%;text-align:center'><img
-src='/GoodVentaElectroGuai/iconos/limpiarcampos.png' class='iconoBtn'
+src='/GoodTechnologyEPNSA/iconos/limpiarcampos.png' class='iconoBtn'
 title='Limpiar campos' onclick='LimpiarCamposDescripcionArregloGastoEgresoIngreso()' /></td>
 <td style='width:5%;text-align:center'><img
-src='/GoodVentaElectroGuai/iconos/flechaderecha.png' class='iconoBtn'
+src='/GoodTechnologyEPNSA/iconos/flechaderecha.png' class='iconoBtn'
 title='Volver Atras' onclick='verCerrarFrmDescripcionArregloGastoEgresoIngreso("2","")' /></td>
 </tr>
 </table>
@@ -8297,7 +8613,7 @@ TOTAL
 									<p class='pTituloB'>Opciones de Impresión</p>
 								</td>
 								<td style='width:5%'>
-									<img src='/GoodVentaFleyKoop/iconos/botonCerrar.png' class='iconoBtn'
+									<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
 										title='Cerrar Ventana' onclick='vercerrarOpcionesImpresion("2")' />
 								</td>
 							</tr>
@@ -8335,6 +8651,347 @@ onclick="imprimirDivticketFactura()">
 		</tr>
 	</table>
 </div>
+ <div class='principal2' style='display:none' id='divAbmNuevoMotivo'>
+<table style='width:100%;height:100%'>
+<tr>
+<td>
+<center>
+<div class='divAbms_b' style='width: 500px;'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Crear Motivo Egreso / Ingreso</p>
+</td>
+<td style='width:5%;text-align:center'><img
+src='/GoodTechnologyEPNSA/iconos/limpiarcampos.png' class='iconoBtn'
+title='Limpiar campos' onclick='limpiarcamposmotivoegresoingreso()' /></td>
+<td style='width:5%;text-align:center'><img
+src='/GoodTechnologyEPNSA/iconos/flechaderecha.png' class='iconoBtn'
+title='Volver Atras' onclick='verCerrarAbmNuevoMotivo("2","")' /></td>
+</tr>
+</table>
+<br>
+<br>
+
+<center>
+<div class='divMenuf'>
+
+<table style='width:100%'>
+<tr>
+<td style='width:100%'>
+<p class='pTituloC' >Nombre :</p>
+<input type="text" class="inputText" id="inptNuevoMotivoEgresoIngreso"
+placeholder='Obligatorio(*)'>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td style='width:100%'>
+<p class='pTituloC' >Estado del Registro :</p>
+<select class="inputSelect" style='width:250px' id='inptEstadoMotivoEgresoIngreso'>
+<option value="Activo">Activo</option>
+<option value="Inactivo">Inactivo</option>
+</select>
+</td>
+</tr>
+</table>
+
+<br>
+<center>
+<input class='btn1' type='button' value='Guardar Datos'
+onclick='VerificarDatosMotivoEgresoIngreso()' id='btnMotivoIngresoEgreso' />
+</center>
+
+<center>
+<table style='width:100%'>
+<tr>
+<td style='width:99%;text-align:left'>
+<p class='pTituloC' >Buscar :</p>
+<input class='inputText' type='text' placeholder='Descripción'
+id='inptBuscarAbmMotivoEgresoIngreso'
+onkeyup="if(event.keyCode == 13){BuscarAbmMotivoEgresoIngreso()}"
+style='width: 322px;' />
+<input type='button' value='Buscar' class='btn4'
+onclick='BuscarAbmMotivoEgresoIngreso()'>
+</td>
+<td>
+</td>
+</tr>
+</table>
+<table class="tableCabeceraRegistro">
+<tbody>
+<tr>
+<td class="td_registro" style="width:100%;">
+DESCRIPCION
+</td>
+</tr>
+</tbody>
+</table>
+<div class="div_cuerpo_table" id="divBuscadorMotivoEgresoIngreso" style='height:200px'></div>
+<p class='pTitulo7' id="lblNroRegistroMotivoEgresoIngreso"></p>
+</center>
+</div>
+</center>
+</div>
+
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+<div class='principal2' style='display:none' id='divVistaCajaApp'>
+<table style='width:100%;height:100%' id='tdEfectoVistaCajaApp'>
+<tr>
+<td>
+<center>
+<div class='divAbms_b' style='width:780px;'>
+<table class='tableMenuZ' >
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Caja de <b style='font-size: 30px;' >Cobradores</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png'class='iconoBtn' title='Cerrar Ventana' onclick='verCerrarVistaCajaApp()' /></td>
+</tr>
+</table>
+<br>
+<center>
+<div >
+<table class="divMenuF" ><tr>
+<td style='width:98%;'>
+<p class='pTituloC' >Opciones de Busqueda</p>
+<table style='width:100%'>
+<tr>
+<td style='width:10%;text-align:left'>
+<p class="pTitulo8" onclick="checkHistorialVistadeCaja(2)"  style='width: 120px;'> <input type="checkbox" id="checkHistorialVistadeCaja2" > Rango de Fecha </p>
+</td>
+<td style='width:10%;text-align:left'>
+<p class="pTitulo8" onclick="checkHistorialVistadeCaja(1)" style='width: 100px;'> <input type="checkbox" id="checkHistorialVistadeCaja1"  checked > Todos</p>
+</td>
+
+<td style='width:5%;' >
+</td>
+<td style='width:10%;' >
+<p class='pTituloC' >Fecha inicio</p>
+<input class='inputText' type='Date' id='inptBuscarVistaCajaF1' style='width:135px' />
+</td>
+<td style='width:3%;' >
+</td>
+<td style='width:10%;' >
+<p class='pTituloC'  >Fecha Fin</p>
+<input class='inputText' type='Date' id='inptBuscarVistaCajaF2' style='width:135px' />
+
+</td>
+<td style='width:3%;' >
+</td>
+<td style='width:25%;' >
+<input type="button" style='margin-top: 17px;' value="Buscar" class="btn4" onclick='buscarvistacajaapp()' >
+</td>
+</tr>
+</table>
+</td>
+<td style='width:10%'></td>
+</tr>
+
+</table>
+
+<center>
+<div class="divMenuF"  >
+<table class="tableCabeceraRegistro" >
+<tbody>
+<tr>
+<td class="td_registro" style="width:10%;">
+COBRADOR
+</td>
+<td class="td_registro" style="width:10%;">
+FECHA APERTURA
+</td>
+<td class="td_registro" style="width:10%;">
+FECHA CIERRE
+</td>
+<td class="td_registro" style="width:10%;">
+MONTO RECAUDADO
+</td>
+<td class="td_registro" style="width:10%;">
+ESTADO
+</td>
+</tr>
+</tbody>
+</table>
+<table class="tableCabeceraRegistro" >
+<tbody>
+<tr>
+<td class="td_registro" style="width:9%;">
+<input  class="inputfiltro" type="Text" id="inptBuscarVistaCaja1" onkeyup="if(event.keyCode == 13){buscarvistacajaapp()}">
+</td>
+<td class="td_registro" style="width:1%;">
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarVistaCaja1')" />
+</td>
+<td class="td_registro" style="width:10%;"></td>
+<td class="td_registro" style="width:10%;"></td>
+<td class="td_registro" style="width:10%;"></td>
+<td class="td_registro" style="width:9%;">
+<select class="inputfiltro" id="inptBuscarVistaCaja2">
+<option value="">Todos</option>
+<option value="Activo">Activo</option>
+<option value="Cerrado">Cerrado</option>
+</select>
+</td>
+<td class="td_registro" style="width:1%;">
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarVistaCaja2')" />
+</td>
+</tr>
+</tbody>
+</table>
+<div class="div_cuerpo_table" id="table_vista_caja_app" style='height:  185px;' ></div>
+<BR>
+</div>
+<table class="divMenuF"  >
+<tr>
+<td style='width:15%;text-align:left'>
+<p class='pTituloC' >Registro</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalRegistoVistaCaja'  style='width:120px;text-align:center' />
+</td>
+<td style='width:75%;text-align:left'>
+</td>
+</tr>
+</table>
+<br>
+</center>
+</div>
+
+<br>
+</center>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+ <div class='principal2' style='display:none' id='divFiltrosAperturaCierreCaja'>
+<table style='width:100%;height:100%;'>
+<tr>
+<td>
+<center>
+<div style='min-height:400px;width:380px;' class='divAbms_b'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Filtros</p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodVentaElectroGuai/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana'
+onclick='vercerrarfiltrosBuscarVistaAperturaCierre("","")' />
+</td>
+</tr>
+</table>
+<center>
+<br>
+<div class='divMenuf'>
+<p class='pTituloRepor' style='width:90%'>CONF. DE BUSQUEDAD</p>
+<br>
+
+<select class="inputSelect" id='inputSelectTipoBuscarVistaAperturaCaja'
+style='width:95%;display:none'>
+<option value="1">RANGO DE FECHAS </option>
+<option value="2">PARAMENTRO DE BUSQUEDA</option>
+</select>
+<table style='width:100%'>
+<tr>
+<td style='width:1%'>
+<img src='/GoodVentaElectroGuai/iconos/etiquetalocalidad.png'
+class='imgIconH' />
+</td>
+<td style='width:99%'>
+<p class='pTituloC' >Local</p>
+<select class="inputSelect" id="inptlocalVistaApCie"
+style='width:150px'></select>
+</td>
+</tr>
+</table>
+<br>
+<table style='width:100%'>
+<tr>
+<td style='width:1%'>
+<img src='/GoodVentaElectroGuai/iconos/etiquetaselect.png' class='imgIconH' />
+</td>
+<td style='width:99%'>
+<p class='pTituloC' >Estado :</p>
+<select class="inputSelect"
+id="inputSelectEstadoBuscarVistaAperturaCaja" style='width:150px'>
+<option value="">TODOS</option>
+<option value="Activo">ACTIVO</option>
+<option value="Cerrado">CERRADO</option>
+</select>
+</td>
+</tr>
+</table>
+<br>
+<p class='pTituloRepor' style='width:90%'>PARÁMETROS A BUSCAR</p>
+<br>
+<div id='divfiltroVistaAperturaCaja2'>
+<table style='width:100%'>
+<tr>
+<td style='width:1%'>
+<img src='/GoodVentaElectroGuai/iconos/etiquetatexto.png'
+class='imgIconH' />
+</td>
+<td style='width:100%'>
+<p class='pTituloC' >Usuario</p>
+<input class='inputText' type='text'
+id='inputFiltroTipoBuscarVistaAperturaCaja' style='width:95%'
+onkeyup="if(event.keyCode == 13){buscarvistaaperturacierrecaja()}" />
+</td>
+</tr>
+</table>
+<br>
+</div>
+<div id='divfiltroVistaAperturaCaja1'>
+<table style='width:100%'>
+<tr>
+<td style='width:1%'>
+<img src='/GoodVentaElectroGuai/iconos/etiquetadate.png' class='imgIconH' />
+</td>
+<td style='width:50%'>
+<p class='pTituloC' >Fecha inicio</p>
+<input class='inputText' type='Date' id='inptBuscarVistaApCieF1'
+style='width:130px' />
+</td>
+<td style='width:1%'>
+<img src='/GoodVentaElectroGuai/iconos/etiquetadate.png' class='imgIconH' />
+</td>
+<td style='width:50%'>
+<p class='pTituloC' >Fecha fin</p>
+<input class='inputText' type='Date' id='inptBuscarVistaApCieF2'
+style='width:130px' />
+</td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+
+<center>
+<input type='Button' value='Empezar a buscar' class='btn1'
+onclick='buscarvistaaperturacierrecaja()' />
+</center>
+<br>
+<br>
+</div>
+
+</center>
+</div>
+</center>
+</td>
+
+</tr>
+</table>
+</div>
+
 
 <div class='principal2 divScrollPrincipal' style='display:none' id='divOpcionedDetalleFactura'>
 <table style='width:100%;height:100%' id='tdEfectoOpcionesDetalles'>
@@ -11413,7 +12070,7 @@ ENCARGADO
     </div>
   </div>
 	</div>
- 
+ <div id='DivImprimir' style='display:none'></div>
 <div style='display:none'>
 <datalist id="ListMaterias"></datalist>
 <datalist id="ListMateriasMalla"></datalist>

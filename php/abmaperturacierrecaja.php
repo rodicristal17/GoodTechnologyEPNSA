@@ -286,14 +286,13 @@ function controldecaja($buscar,$cod_local,$user)
 {
 	$mysqli=conectar_al_servidor();
 	
-		$sql= "Select idarqueocaja, montoapertura, montocierre, fechaapertura, fechacierre, estado, codusuarioap, codusuarioce,
+		$sql= "Select idarqueocaja, caja_idcaja, montoapertura, montocierre, fechaapertura, fechacierre, estado, codusuarioap, codusuarioce,
 		(Select concat(Nombre,' ',Apellido) from usuario where Cod_Usuario=codusuarioap) as usuarioap
-		from arqueocaja where estado='Activo' and cod_local='$cod_local' and codusuarioap='$user' ";
+		from arqueocaja where caja_idcaja='$buscar' and estado='Activo' and cod_local='$cod_local' and codusuarioap='$user' ";
 		 $pagina="";  
 
-// echo $sql;
-// exit;
-   
+   // echo $sql;
+   // exit;
    
    $stmt = $mysqli->prepare($sql);
 
@@ -348,7 +347,7 @@ function obternerultimacajauser($cod_local,$user,$buscar)
 	$mysqli=conectar_al_servidor();
 	
 		$sql= "Select idarqueocaja,montoapertura
-		from arqueocaja where cod_local='$cod_local' and codusuarioap='$user' order by  idarqueocaja desc limit 1";
+		from arqueocaja where caja_idcaja='$buscar' and cod_local='$cod_local' and codusuarioap='$user' order by  idarqueocaja desc limit 1";
 		
 
    
@@ -423,16 +422,18 @@ if ($lote != "") {
 }
 
 $sql= "Select idarqueocaja, caja_idcaja, montoapertura, montocierre, fechaapertura, fechacierre, estado, codusuarioap, codusuarioce,cod_local,
-(Select cajanro from caja l where l.idcaja=caja_idcaja) as cajanro,
-(ifnull((Select sum(Monto) from pago where codApertura=idarqueocaja),0)) as cobros,
+(Select nro from listadocaja l where l.idcaja=caja_idcaja) as cajanro,
+(ifnull((Select sum(Monto) from pagos where cod_arqueocaja=idarqueocaja),0)) as cobros,
 (ifnull((Select sum(monto) from gastos where codApertura=idarqueocaja and tipo='Egreso'),0)) as egreso,
-(ifnull((Select sum(monto) from gastos where codApertura=idarqueocaja and tipo='Ingreso'),0)) as ingreso,
-(Select cajanro from caja l where l.idcaja=caja_idcaja) as cajanro,lote,
-(Select nombre_persona from persona where cod_persona=codusuarioap) as usuarioap,
-(Select nombre_persona from persona where cod_persona=codusuarioce) as usuariocie,
+(ifnull((Select sum(monto) from gastos where codApertura=idarqueocaja and tipo='Ingreso'),0)) as ingreso,lote,
+(Select concat(Nombre,' ',Apellido) from usuario where Cod_Usuario=codusuarioap) as usuarioap,
+(Select concat(Nombre,' ',Apellido) from usuario where Cod_Usuario=codusuarioce) as usuariocie,
 ap.cant500, ap.cant1000, ap.cant2000, ap.cant5000, ap.cant10000, ap.cant20000, ap.cant50000, ap.cant100000,
-(Select Nombre from local l where l.cod_local=ap.cod_local) as nombrelocal
+(Select nombre from filial l where l.cod_filial=ap.cod_local) as nombrelocal
 from arqueocaja ap where  estado!='Cancelado' ".$sqlFiltro." order by idarqueocaja desc limit 100  ";
+
+// echo $sql;
+// exit;
 
 $pagina = "";   
 $stmt = $mysqli->prepare($sql);
@@ -645,9 +646,14 @@ function ObtenerTotalCaja($idArqeoFk,$montoInicio)
 {
 $mysqli=conectar_al_servidor();
 
-$sql= "select  sum(pg.Monto) as Monto
- from  pago pg 
- where pg.Monto>0 and pg.codApertura='$idArqeoFk' ";	
+$sql= "select  ifnull(sum(pg.Monto),0) as Monto
+ from  pagos pg 
+ where pg.Monto>0 and pg.cod_arqueocaja='$idArqeoFk' ";	
+ 
+ 
+ // echo $sql;
+ // exit;
+ 
 $Pagos = "0";   
 $stmt = $mysqli->prepare($sql);
 if ( ! $stmt->execute()) {
@@ -730,13 +736,13 @@ $MontoIngreso=$MontoIngreso+$m;
 
  
 
-$datosdeCajaRecibir=datosdeCajaRecibir($idArqeoFk);
-$datosdeCajaEnviado=datosdeCajaEnviado($idArqeoFk);
+// $datosdeCajaRecibir=datosdeCajaRecibir($idArqeoFk);
+// $datosdeCajaEnviado=datosdeCajaEnviado($idArqeoFk);
 
 
 
-$totalIngreso=$MontoIngreso+$Pagos+$montoInicio + $datosdeCajaRecibir[1];
-$Monto=$totalIngreso-($MontoEgresos  + $datosdeCajaEnviado[1]);
+$totalIngreso=$MontoIngreso+$Pagos+$montoInicio ;
+$Monto=$totalIngreso-($MontoEgresos );
  
 
 return $Monto;
@@ -871,10 +877,9 @@ function buscarmoviemientocaja($idArqeoFk)
 {
 $mysqli=conectar_al_servidor();
 
-$sql= "select Monto,tipo,cod_venta_fk,descripcion,
-(Select Nombre from local l where l.cod_local=pg.codCaja) as nombrelocal
- from  pago pg 
- where pg.Monto>0 and pg.codApertura='$idArqeoFk' ";
+$sql= "select Monto
+ from  pagos pg 
+ where pg.Monto>0 and pg.cod_arqueocaja='$idArqeoFk' ";
 $totalPagado = "0";   
 $pagina = "";   
 $stmt = $mysqli->prepare($sql);
@@ -894,24 +899,26 @@ while ($valor= mysqli_fetch_assoc($result))
           
 
 $Monto = mb_convert_encoding((string)($valor['Monto']), 'UTF-8', 'ISO-8859-1'); 
-$nombrelocal = mb_convert_encoding((string)($valor['nombrelocal']), 'UTF-8', 'ISO-8859-1'); 
-$cod_venta_fk = mb_convert_encoding((string)($valor['cod_venta_fk']), 'UTF-8', 'ISO-8859-1'); 
-$tipo = mb_convert_encoding((string)($valor['tipo']), 'UTF-8', 'ISO-8859-1'); 
-$descripcion = mb_convert_encoding((string)($valor['descripcion']), 'UTF-8', 'ISO-8859-1'); 
+// $nombrelocal = mb_convert_encoding((string)($valor['nombrelocal']), 'UTF-8', 'ISO-8859-1'); 
+// $cod_venta_fk = mb_convert_encoding((string)($valor['cod_venta_fk']), 'UTF-8', 'ISO-8859-1'); 
+// $tipo = mb_convert_encoding((string)($valor['tipo']), 'UTF-8', 'ISO-8859-1'); 
+// $descripcion = mb_convert_encoding((string)($valor['descripcion']), 'UTF-8', 'ISO-8859-1'); 
 
 
 $totalPagado=$totalPagado+$Monto;
-if($descripcion=="ventas"){
-	$descripcion=buscar_detalles_venta($cod_venta_fk);
-}
-	$pagina.="
-<table class='tableTicket' border='0' cellspacing='0' cellpadding='0'>
-<tr >
-<td id='' style='width:75%;text-align:left;padding:5px;line-height: 18px;' >".$descripcion."</td>
-<td id='' style='width:25%'>". number_format($Monto,'0',',','.')."</td>
-</tr>
-</table>
-";
+// if($descripcion=="ventas"){
+	// $descripcion=buscar_detalles_venta($cod_venta_fk);
+// }
+
+
+	// $pagina.="
+// <table class='tableTicket' border='0' cellspacing='0' cellpadding='0'>
+// <tr >
+// <td id='' style='width:75%;text-align:left;padding:5px;line-height: 18px;' >".$descripcion."</td>
+// <td id='' style='width:25%'>". number_format($Monto,'0',',','.')."</td>
+// </tr>
+// </table>
+// ";
 
 
 	    	 
@@ -920,15 +927,15 @@ if($descripcion=="ventas"){
 }
 }
 
-$datosdeCajaRecibir=datosdeCajaRecibir($idArqeoFk);
-$datosdeCajaEnviado=datosdeCajaEnviado($idArqeoFk);
+// $datosdeCajaRecibir=datosdeCajaRecibir($idArqeoFk);
+// $datosdeCajaEnviado=datosdeCajaEnviado($idArqeoFk);
 
 
 $montoapertura=Obtenermontoapertura($idArqeoFk);
 
 $datosdeEgresos=datosdeEgresos($idArqeoFk);
 $datosdeIngreso=datosdeIngreso($idArqeoFk); 
-$totalPagado=($totalPagado+$datosdeIngreso[0]+$montoapertura + $datosdeCajaRecibir[1])-($datosdeEgresos[0] + $datosdeCajaEnviado[1] );
+$totalPagado=($totalPagado+$datosdeIngreso[0]+$montoapertura )-($datosdeEgresos[0] );
  $informacion =array("1" => "exito","2" =>  number_format($totalPagado,'0',',','.'),"3"=> $pagina);
 echo json_encode($informacion);	
 exit;
