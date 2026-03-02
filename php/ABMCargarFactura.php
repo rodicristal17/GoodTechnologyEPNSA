@@ -124,7 +124,10 @@ if($funt=="cargarcobranzas")
 	$tipoComprobante=$_POST['tipoComprobante'];
     $tipoComprobante = utf8_decode($tipoComprobante);
 	
-	cargarcobranzas($tipoComprobante,$controlnrofactura,$nrofactura,$cf,$idcursosalumnoFk,$fecha,$puntoexpedicionfk,$estadofactura);
+	$codApertura=$_POST['codApertura'];
+    $codApertura = utf8_decode($codApertura);
+	
+	cargarcobranzas($codApertura,$tipoComprobante,$controlnrofactura,$nrofactura,$cf,$idcursosalumnoFk,$fecha,$puntoexpedicionfk,$estadofactura);
 
 }
 
@@ -689,7 +692,7 @@ if ( ! $stmt->execute() ) {
 	
 }
 
-function cargarcobranzas($tipoComprobante,$controlnrofactura,$nrofactura,$cf,$idcursosalumnoFk,$fecha,$puntoexpedicionfk,$estadofactura)
+function cargarcobranzas($codApertura,$tipoComprobante,$controlnrofactura,$nrofactura,$cf,$idcursosalumnoFk,$fecha,$puntoexpedicionfk,$estadofactura)
 {
 	
 	if( $idcursosalumnoFk=="" || $fecha==""   ){
@@ -809,10 +812,10 @@ if ( ! $stmt->execute() ) {
 	
 	
 
- $consulta="insert into facturaspagadas (tipo_comprobante,curso,anho,semestre,controlnrofactura,estadofactura,Detalles, nrofactura, cf, monto, idcursosalumnoFk, fecha, estado, cod_arancelFk, puntoexpedicionfk,cod_puntoexpedicionFK,descuento) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";	
+ $consulta="insert into facturaspagadas (tipo_comprobante,curso,anho,semestre,controlnrofactura,estadofactura,Detalles, nrofactura, cf, monto, idcursosalumnoFk, fecha, estado, cod_arancelFk, puntoexpedicionfk,cod_puntoexpedicionFK,descuento,codApertura) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";	
      $stmt = $mysqli->prepare($consulta);
-    $ss='sssssssssssssssss';
-    $stmt->bind_param($ss,$tipoComprobante,$curso,$anho,$semestre,$controlnrofactura,$estadofactura, $detalles ,$nrofactura, $cf, $monto, $idcursosalumnoFk, $fecha, $estado, $cod_arancelFk, $puntoexpedicionfk, $puntoexpedicionfk,$descuento); 
+    $ss='ssssssssssssssssss';
+    $stmt->bind_param($ss,$tipoComprobante,$curso,$anho,$semestre,$controlnrofactura,$estadofactura, $detalles ,$nrofactura, $cf, $monto, $idcursosalumnoFk, $fecha, $estado, $cod_arancelFk, $puntoexpedicionfk, $puntoexpedicionfk,$descuento,$codApertura); 
 if (!$stmt->execute()) {
 echo trigger_error('The query execution failed; MySQL said ('.$stmt->errno.') '.$stmt->error, E_USER_ERROR);
 exit;

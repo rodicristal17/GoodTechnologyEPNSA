@@ -1252,7 +1252,7 @@ $totales=0;
 			  <td id='td_id_3' style='display:none;'>".$cod_carreraFK."</td>
 			  <td id='td_id_4' style='display:none;'>".$cod_filialOringFK."</td>
 			  <td  id='td_datos_10' style='display:none;".$styleorden2."' >".$nombrefilial."</td>
-			  <td  id='td_datos_3' style='display:none;".$styleorden3."'>".$nombrecarrera."</td>
+			  <td  id='td_datos_3' style='width:10%".$styleorden3."'>".$nombrecarrera."</td>
 			  <td  id='td_datos_1' style='width:7%' >".$ci."</td>
 			  <td  id='td_datos_2' style='width:15%;".$styleorden1."' >".$apellido." ".$nombrealumno."</td>	
 			  <td  id='td_datos_20' style='width:5%;'>".$whatsapp."</td>	

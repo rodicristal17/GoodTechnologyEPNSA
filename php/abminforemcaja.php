@@ -172,9 +172,16 @@ function datosdepagosventas($idArqeoFk)
 $mysqli=conectar_al_servidor();
  
 	
-$sql= "select  ifnull(sum(pg.Monto),0) as Monto
- from  pagos pg 
- where pg.Monto>0 and pg.cod_arqueocaja='$idArqeoFk'  ";	
+// $sql= "select  (pg.monto - pg.descuento) as Monto , Detalles ,'' as Alumno
+ // from  facturaspagadas pg 
+ // where pg.monto>0 and pg.codApertura='$idArqeoFk'   ";	
+$sql= " select  (fac.monto - fac.descuento) as Monto , fac.Detalles,fac.fecha
+, CONCAT(alu.nombre,' ',alu.apellido) as nombrealumno , alu.ci
+
+from facturaspagadas fac 
+inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk 
+inner join alumno alu on alu.idalumno=cur.idalumnoFk
+where  fac.codApertura='$idArqeoFk'   ";	
 
 
 // echo($sql);
@@ -198,40 +205,28 @@ if ($valor>0)
 {
 while ($valor= mysqli_fetch_assoc($result))
 {  
-
-
-
-// $cliente = mb_convert_encoding((string)($valor['cliente']), 'UTF-8', 'ISO-8859-1'); 
+ 
+$Detalles = mb_convert_encoding((string)($valor['Detalles']), 'UTF-8', 'ISO-8859-1'); 
 $Monto = mb_convert_encoding((string)($valor['Monto']), 'UTF-8', 'ISO-8859-1'); 
-// $nombrelocal = mb_convert_encoding((string)($valor['nombrelocal']), 'UTF-8', 'ISO-8859-1'); 
-// $cod_venta_fk = mb_convert_encoding((string)($valor['cod_venta_fk']), 'UTF-8', 'ISO-8859-1'); 
-// $tipo = mb_convert_encoding((string)($valor['tipo']), 'UTF-8', 'ISO-8859-1'); 
-// $descripcion = mb_convert_encoding((string)($valor['descripcion']), 'UTF-8', 'ISO-8859-1'); 
-// $tipopago = mb_convert_encoding((string)($valor['tipopago']), 'UTF-8', 'ISO-8859-1'); 
+$Alumno = mb_convert_encoding((string)($valor['nombrealumno']), 'UTF-8', 'ISO-8859-1'); 
+$ci = mb_convert_encoding((string)($valor['ci']), 'UTF-8', 'ISO-8859-1'); 
 
 
 $totalefectivo=$totalefectivo+$Monto;
 
 
-/* 	
-	if($tipo=="Tarjeta"){
-$totaltarjeta=$totaltarjeta+$Monto;
-}else{
-} 
 $totalPagado=$totalPagado+$Monto;
-if($descripcion=="ventas"){
-	$descripcion=buscar_detalles_venta($cod_venta_fk);
-}
+
 	$styleName=CargarStyleTable($styleName);
 	$pagina.="
 <table class='$styleName' border='1' cellspacing='1' cellpadding='5'>
 <tr id='tbSelecRegistro'>
-<td id='' style='width:30%;text-align:left;padding:5px;line-height: 18px;' >".$descripcion."-".$cliente."</td>
-<td id='' style='width:20%'>". number_format($Monto,'0',',','.')." &nbsp&nbsp(".$tipopago.")</td>
-<td id='' style='width:20%'>". $nombrelocal."</td>
+<td id='' style='width:40%;text-align:left;padding:5px;line-height: 18px;' >".$Alumno."<b>".$ci."</b></td>
+<td id='' style='width:30%;text-align:left;padding:5px;line-height: 18px;' >".$Detalles."</td>
+<td id='' style='width:30%;text-align:left;padding:5px;line-height: 18px;' >". number_format($Monto,'0',',','.')."</td>
 </tr>
 </table>
-"; */
+"; 
 
 
 
@@ -249,68 +244,73 @@ return $datos;
 
 function datosdeEgresos($idArqeoFk)
 {
-	$mysqli=conectar_al_servidor();
-	 $pagina='';
-	 
-		$sql= "Select monto,motivo,fecha,estado,cod_usuario,idgastos,personales,cod_local,
-		(Select concat(Nombre,' ',Apellido) from usuario where Cod_Usuario=cod_usuario) as usuarionombre,
-		(Select nombre from filial l where l.cod_filial=g.cod_local ) as nombrelocal
-		from gastos g where codApertura='$idArqeoFk' and estado='Activo' and tipo='Egreso' ";
-		
-   
-   $stmt = $mysqli->prepare($sql);
- 
-if ( ! $stmt->execute()) {
-   echo "Error";
-   exit;
-}
- 
-	$result = $stmt->get_result();
- $valor= mysqli_num_rows($result);
- $nroRegistro= $valor;
- $totalGasto=0;
- $styleName="tableRegistroSearch";
- 
- 
- if ($valor>0)
- {
-	  while ($valor= mysqli_fetch_assoc($result))
-	  {
-		  
-		  
-		      $idgastos=$valor['idgastos'];
-		  	  $usuarionombre=mb_convert_encoding((string)($valor['usuarionombre']), 'UTF-8', 'ISO-8859-1');
-		  	  $monto=mb_convert_encoding((string)($valor['monto']), 'UTF-8', 'ISO-8859-1');
-		  	  $motivo=mb_convert_encoding((string)($valor['motivo']), 'UTF-8', 'ISO-8859-1');
-		  	  $fecha=mb_convert_encoding((string)($valor['fecha']), 'UTF-8', 'ISO-8859-1');
-		  	  $personales=mb_convert_encoding((string)($valor['personales']), 'UTF-8', 'ISO-8859-1');
-		  	  $estado=mb_convert_encoding((string)($valor['estado']), 'UTF-8', 'ISO-8859-1');
-		  	  $cod_local=mb_convert_encoding((string)($valor['cod_local']), 'UTF-8', 'ISO-8859-1');
-		  	  $nombrelocal=mb_convert_encoding((string)($valor['nombrelocal']), 'UTF-8', 'ISO-8859-1');
-		  	 $totalGasto=$totalGasto+$monto;
-		  	 
-	$styleName=CargarStyleTable($styleName);
-	$pagina.="
+    $mysqli = conectar_al_servidor();
+    $pagina = '';
+
+    $sql = "SELECT 
+                g.monto, g.motivo, g.fecha, g.estado, g.cod_usuario, g.idgastos, g.personales, g.cod_local,
+                (SELECT CONCAT(Nombre,' ',Apellido) FROM usuario WHERE Cod_Usuario=g.cod_usuario) AS usuarionombre,
+                (SELECT nombre FROM filial l WHERE l.cod_filial=g.cod_local) AS nombrelocal
+            FROM gastos g
+            WHERE g.codApertura = ?
+              AND g.estado = 'Activo'
+              AND g.tipo = 'Egreso'";
+
+    $stmt = $mysqli->prepare($sql);
+    if (!$stmt) {
+        // DEVOLVER JSON limpio (no imprimir HTML)
+        return [ "", 0 ];
+    }
+
+    $stmt->bind_param("s", $idArqeoFk);
+
+    if (!$stmt->execute()) {
+        return [ "", 0 ];
+    }
+
+    // IMPORTANTE: esto permite num_rows sin get_result()
+    $stmt->store_result();
+    $nroRegistro = $stmt->num_rows;
+
+    // Bind de columnas
+    $stmt->bind_result(
+        $monto, $motivo, $fecha, $estado, $cod_usuario, $idgastos, $personales, $cod_local,
+        $usuarionombre, $nombrelocal
+    );
+
+    $totalGasto = 0;
+    $styleName  = "tableRegistroSearch";
+
+    if ($nroRegistro > 0) {
+        while ($stmt->fetch()) {
+
+            // Si ya estás en UTF-8, NO conviertas. Si tu BD está en latin1, esto puede ayudar:
+            $usuarionombre = mb_convert_encoding((string)$usuarionombre, 'UTF-8', 'ISO-8859-1');
+            $motivo        = mb_convert_encoding((string)$motivo, 'UTF-8', 'ISO-8859-1');
+            $nombrelocal   = mb_convert_encoding((string)$nombrelocal, 'UTF-8', 'ISO-8859-1');
+
+            // OJO: $monto debe ser numérico para sumar bien
+            $montoNum   = (float)$monto;
+            $totalGasto += $montoNum;
+
+            $styleName = CargarStyleTable($styleName);
+
+            $pagina .= "
 <table class='$styleName' border='1' cellspacing='1' cellpadding='5'>
 <tr id='tbSelecRegistro'>
-<td id='' style='width:30%;text-align:left;padding:5px' >".$motivo."</td>
-<td id='' style='width:20%'>". number_format($monto,'0',',','.')."</td>
-<td id='' style='width:20%'>". $nombrelocal."</td>
+    <td style='width:30%;text-align:left;padding:5px'>{$motivo}</td>
+    <td style='width:20%'>" . number_format($montoNum, 0, ',', '.') . "</td>
+    <td style='width:20%'>{$nombrelocal}</td>
 </tr>
 </table>
 ";
-			    	 
-		  	  
-			  
-			  
-	  }
- }
+        }
+    }
 
- $datos[0]= $pagina;
- $datos[1]= $totalGasto;
- return $datos;
+    $stmt->close();
+
+    return [$pagina, $totalGasto];
 }
-
 function datosdeIngreso($idArqeoFk)
 {
 	$mysqli=conectar_al_servidor();

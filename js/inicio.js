@@ -16880,6 +16880,14 @@ function verCerrarFrmCobrarAranceles(d){
 	document.getElementById("divMinimizadoCobranzas2").style.display="none";
 	  document.getElementById("divSegundoPlano").style.display="none"	
 	// if(controlacceso("VERCOBRANZAS","accion")==false){ return;}
+	
+	
+	if(idabmAperturacierrecaja==""){
+		alertmensaje("FALTA APERTURAR UNA CAJA")
+		verCerrarVentanaAbmAperturaCierreCaja()
+		return;
+	}
+	
 
 	if(d=="1"){
 		minimizartodaventanaabierto()
@@ -18565,6 +18573,7 @@ function abmguardarcobranzas(tipoComprobante,nombrerazonsocial,rucrazonsocial,co
 	datos.append("rucrazonsocial", rucrazonsocial)
 	datos.append("nombrerazonsocial", nombrerazonsocial)
 	datos.append("tipoComprobante", tipoComprobante)
+	datos.append("codApertura", idabmAperturacierrecaja)
 	
 	
 	var OpAjax = $.ajax({
@@ -20164,26 +20173,23 @@ function verCerrarFrmAsignarArancel(d){
 	document.getElementById("divMinimizadoAranceles").style.display="none";
 	document.getElementById("divSegundoPlano").style.display="none"	
 	// if(controlacceso("VARASIGNARARANCELES","accion")==false){	  return;		}
-
-	
+ 
 	if(d=="1"){
 		
 		minimizartodaventanaabierto()
-	document.getElementById("divAbmAsignarArancel").style.display="";
-document.getElementById("tdEfectoAsignarArancel").className="magictime slideDownReturn"
+		document.getElementById("divAbmAsignarArancel").style.display="";
+		document.getElementById("divAbmAsignarArancel1").style.display=""
 	
 	}else{
-	//document.getElementById("divAbmAsignarArancel").style.display="none";
-document.getElementById("tdEfectoAsignarArancel").className="magictime vanishOut"
-	$("div[id=divAbmAsignarArancel]").fadeOut(500);	
-	 LimpiarCamposAsignarArancel()
-	 LimpiarCamposAsignarArancelMasivo()
-	 LimpiarCamposBusquedaAsignarArancel()
+		document.getElementById("divAbmAsignarArancel").style.display="none";
+		$("div[id=divAbmAsignarArancel]").fadeOut(500);	
+		LimpiarCamposAsignarArancel()
+		LimpiarCamposAsignarArancelMasivo()
+		LimpiarCamposBusquedaAsignarArancel()
 	}
 }
 function MinimizarVentanaAsignarArancel(){
-//document.getElementById("divAbmAsignarArancel").style.display="none";
-document.getElementById("tdEfectoAsignarArancel").className="magictime slideDown"
+document.getElementById("divAbmAsignarArancel").style.display="none";
 	$("div[id=divAbmAsignarArancel]").fadeOut(500);	
 	document.getElementById("divMinimizadoAranceles").style.display="";
 }
@@ -23152,12 +23158,10 @@ function VerCerrarAsignarArancelesEspeciales(d){
 		return
 	}
 		document.getElementById("divAbmAsignarArancelesEspeciales").style.display="";
-		  document.getElementById("tdEfectoAsignarArancelesEspeciales").className="magictime slideLeftReturn"
 		CargarArancelesEspecialesDetalles(idAbmArancelesEspeciales)
 		BuscarAbmAsignarArancelesEspeciales()
 	}else{
-		//document.getElementById("divAbmAsignarCarreraCaja").style.display="none";
-		document.getElementById("tdEfectoAsignarArancelesEspeciales").className="magictime slideRight"
+		document.getElementById("divAbmAsignarCarreraCaja").style.display="none";
 	$("div[id=divAbmAsignarArancelesEspeciales]").fadeOut(500);	
 	}
 }
@@ -24956,7 +24960,7 @@ function verificarcamposaperturacierredecaja() {
 		}
 		
 		if(inptFechaAperturaCierreCaja==""){
-			ver_vetana_informativa("FALTO SELECCIONAR LA APERTURA")
+			ver_vetana_informativa("FALTO LA FECHA DE APERTURA")
 		return false;
 		}
 	}
@@ -25056,6 +25060,8 @@ verCerrarEfectoCargando("1")
 					}else{
 						ImprimirTicketReportCierreCaja()
 					}
+					
+					
 					controldecaja()
 				} else {
 					ver_vetana_informativa(datos[2], datos[3]);

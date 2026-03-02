@@ -1102,15 +1102,17 @@ function buscar1($estado,$codCarrera,$codFilial,$anho,$semestre,$curso,$monto,$c
 	if($ordenby=="6"){
 		$oderby="order by ar.curso desc";
 	}
-		$sql= "Select ar.cod_arancel,lta.nombre as nombreArancel,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
+		$sql= "Select ar.cod_arancel,lta.nombre as nombreArancel,lta.tipo ,
+		ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
 		ltc.nombre as nombrecarrera, ifnull(costo,0) as costo,
 		(select nombre from filial where cod_filial=cr.cod_filialOringFK) as nombrefilial
         from aranceles ar inner join carrera cr on cr.cod_carrera=ar.cod_carreraFK
 		inner join listadecarreras  ltc on ltc.Cod_listadecarreras=cr.Cod_listadecarrerasFK
 		inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
-		where  ar.tipo='Especificos' and ar.estado=? ".$condicionCarrera.$condicionFilial.$condicionAnho.$condicionsemestre.$condicioncurso.$condicionmonto.$condicioncodconcepto." ".$oderby." limit 1000";
+		where  ar.estado=? ".$condicionCarrera.$condicionFilial.$condicionAnho.$condicionsemestre.$condicioncurso.$condicionmonto.$condicioncodconcepto." ".$oderby." limit 1000";
 		 
-	
+		// echo($sql);
+		// exit;
 		
    $stmt = $mysqli->prepare($sql);
   	$s='s';
@@ -1148,6 +1150,7 @@ $totales=0;
 		  	  $nombrefilial=utf8_encode($valor['nombrefilial']);
 		  	  $semestre=utf8_encode($valor['semestre']);
 		  	  $costo=utf8_encode($valor['costo']);
+		  	  $tipo=utf8_encode($valor['tipo']);
 		  	
 		$styleorden1="";
 			  $styleorden2="";
@@ -1184,6 +1187,7 @@ $totales=0;
 			    <td  id='td_datos_11' style='width:10%;display:none".$styleorden5."' >".$semestre."</td>
 			  <td  id='td_datos_5' style='width:10%;".$styleorden6."' >".$curso."</td>
 			   <td  id='td_datos_4' style='width:10%;".$styleorden4."' >".$anho."</td>
+			  <td    style='width:10%' >". $tipo ."</td>
 			  <td  id='td_datos_6' style='width:10%' >". number_format($monto,'0',',','.') ."</td>
 			  <td  id='td_datos_7' style='width:10%' >".$cantidad."</td>
 			  <td  id='td_datos_8' style='width:10%' >". number_format($total,'0',',','.') ."</td>
@@ -1599,7 +1603,13 @@ function buscarvistaCobrarAranceles($cod_carrera,$anho,$curso,$semestre,$buscar,
 	 
 	 $condiciontipo="";
 if($tipo=="Especificos" || $tipo=="Materiales Didacticos" || $tipo=="Libros" ){
-	$condiciontipo="and ar.cod_arancel='0' or ar.cod_carreraFk='$cod_carrera' and ar.anho='$anho'  AND LOWER(REPLACE(ar.curso,'°','')) = LOWER(REPLACE('$curso','°','')) and ar.estado='Activo'	and lta.tipo='$tipo'";
+	// $condiciontipo="and ar.cod_arancel='0' or ar.cod_carreraFk='$cod_carrera' and ar.anho='$anho'  AND AND LOWER(REPLACE(ar.curso,'°','')) COLLATE utf8_unicode_ci 
+    // = LOWER(REPLACE('$curso','°','')) COLLATE utf8_unicode_ci and ar.estado='Activo'	and lta.tipo='$tipo'";
+	
+	
+	$condiciontipo=" AND ar.cod_carreraFk='$cod_carrera' AND ar.anho='$anho'  AND ar.curso ='$curso' AND lta.tipo='$tipo' ";
+	
+	
 }else{
 	$condiciontipo="and (ar.cod_arancel='0' or (lta.tipo='$tipo' and ar.cod_carreraFk='$cod_carrera'))"; 
 }
@@ -1619,9 +1629,8 @@ if($tipo=="Especificos" || $tipo=="Materiales Didacticos" || $tipo=="Libros" ){
        and lta.nombre like '%".$buscar."%'
 		 order  by cr.cod_filialOringFK,anho,curso,lta.nombre asc";
 		
-		//  echo($sql);
-		//  exit;
-	
+	 // echo($sql);
+	 // exit;
 
    $stmt = $mysqli->prepare($sql); 
 

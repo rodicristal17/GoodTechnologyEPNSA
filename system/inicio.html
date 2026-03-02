@@ -435,7 +435,7 @@ src='/GoodTechnologyEPNSA/iconos/cierredecaja.png' />
 </div>
 
 <table class='divMenub' id='divMenuAbmCobradores'
-onclick='verCerrarAbmCobrador()' style='text-align:center'>
+onclick='verCerrarAbmCobrador()'  style='display:none;'>
 <tr>
 <td>
 <img class='imgIconoMenu'
@@ -494,7 +494,7 @@ style='display:none' class='divMinimizado'></div>
 </tr>
 </table>
 </div>
-<div class='divMenub'   title='Asignar malla curricular' onclick='verCerrarFrmAsignarMalla(1)'  id='divMenuAsignarMallaCurricular' >
+<div class='divMenub'  style='display:none;'  title='Asignar malla curricular' onclick='verCerrarFrmAsignarMalla(1)'  id='divMenuAsignarMallaCurricular' >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
@@ -3824,7 +3824,7 @@ onclick='verCerrarVentanaAbmAperturaCierreCaja("2","")' />
 </td>
 </tr>
 </table>
-<table style='width:100%;'>
+<table style='width:100%;display:none;'>
 <tr>
 <td>
 <p class='pTituloC' >Caja :</p>
@@ -4154,7 +4154,7 @@ disabled />
 </td>
 <td style="width:80%;text-align:left">
 </td>
-<td style="width:10%;text-align:left">
+<td style="width:10%;text-align:left;display:none;">
 <input type="button" value="Editar limite" class="btn4" onclick='verCerrarVentanaABMLimiteCaja(true)'  style="width:100px;background-color: rgb(58 58 58);">
 </td>
 </tr>
@@ -4164,8 +4164,7 @@ disabled />
 <tbody>
 <tr>
 <td class="td_registro" style="width:30%;">DETALLES</td>
-<td class="td_registro" style="width:20%;">MONTO</td>
-<td class="td_registro" style="width:20%;">LOCAL</td>
+<td class="td_registro" style="width:20%;">MONTO</td> 
 </tr>
 </tbody>
 </table>
@@ -4321,14 +4320,14 @@ style='width:95%;' />
       </div>
     </div>
 	
-	    <div class="timeline-item entrada">
+	<div class="timeline-item entrada" style='display:none;' >
       <div class="timeline-content">
         <h3 class='taentrada' style="font-size: 0.8rem; margin: 0 0 5px;">Caja Recibido</h3>
         <input class='taentrada'  id='inptResumenCajaRecibido' type="text" readonly style="font-size: 0.8rem;">
       </div>
     </div>
 
-    <div class="timeline-item entrada">
+    <div class="timeline-item entrada"  style='display:none;'>
       <div class="timeline-content">
         <h3 class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Transferencia</h3>
         <input class='taSalida' id='inptResumenTransferencia'  type="text"  readonly style="font-size: 0.8rem;">
@@ -4336,7 +4335,7 @@ style='width:95%;' />
     </div>
 
     <!-- SALIDAS -->
-    <div class="timeline-item salida">
+    <div class="timeline-item salida" style='display:none;'>
       <div class="timeline-content">
         <h3 class='taSalida' style="font-size: 0.8rem; margin: 0 0 5px;">Caja Migrado</h3>
         <input class='taSalida' id='inptResumenCajaMigrado'  type="text"  readonly style="font-size: 0.8rem;">
@@ -5395,8 +5394,8 @@ ESTADO
 <td class="td_registro_orden1" style="width:7%;cursor:pointer;display: none;" id='tdOrdReportMatri2' onclick='ordenreportmatricula(2)'>
 LOCAL
 </td>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer;display: none;" id='tdOrdReportMatri3' onclick='ordenreportmatricula(3)'>
-CARRERA
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;" id='tdOrdReportMatri3' onclick='ordenreportmatricula(3)'>
+NIVEL EDUCATIVO
 </td>
 <td class="td_registro" style="width:7%;">
 C.I.
@@ -5442,10 +5441,10 @@ AÑO ACAD.
 <td class="td_registro" style="width:1%;display: none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado1')" />
 </td>
-<td  class="td_registro"style="width:9%;display: none;" >
+<td  class="td_registro"style="width:9%;" >
 <input placeholder='Igual a'  type="text" list="ListCarreras" class="inputfiltro" id="inptReporAlumnoMatriculado2" autocomplete="off"  onkeyup="if(event.keyCode == 13){BuscarReportAlumnosMatriculados()}">
 </td>
-<td class="td_registro" style="width:1%;display: none;">
+<td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporAlumnoMatriculado2')" />
 </td>
 <td class="td_registro" style="width:6%;">
@@ -9972,6 +9971,9 @@ CURSO
 AÑO
 </td>
 <td class="td_registro" style="width:10%;">
+TIPO
+</td>
+<td class="td_registro" style="width:10%;">
 MONTO
 </td>
 <td class="td_registro" style="width:10%;">
@@ -10016,12 +10018,15 @@ TOTAL
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarAsignarArancel5')" />
 </td>
-<td class="td_registro" class="td_registro" style="width:9%" >
+<td class="td_registro" style="width:9%" >
 <input  list='ListAnho'  autocomplete="off"type='text'  class='inputfiltro' id='inptBuscarAsignarArancel6'  style='width:95%'  onkeyup="if(event.keyCode == 13){BuscarAbmAsignarArancel()}" />
 </td>
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png' onclick="vaciar('inptBuscarAsignarArancel6')" />
 </td>
+<td  class="td_registro" style="width:10%;">
+</td>
+
 <td  class="td_registro" style="width:9%;">
 <input type='text' autocomplete="off"  class='inputfiltro' id='inptBuscarAsignarArancel7'  style='width:95%' onkeyup="if(event.keyCode == 13){BuscarAbmAsignarArancel()}"  />
 </td>
@@ -10032,7 +10037,6 @@ TOTAL
 
 </td>
 <td  class="td_registro" style="width:10%;">
-
 </td>
 </tr>
 </tbody>
@@ -10176,7 +10180,7 @@ TOTAL
 </td>
 </tr>
 </table> 
-<table style='width:100%'>
+<table style='width:100%;display:none;'>
 <tr>
 <td>
 <p class='pTitulo5'  >Tipo  :</p>
@@ -10332,7 +10336,8 @@ TOTAL
 <input type='button' value='Guardar' class='btn1' onclick='VerificarDatosAsignarArancel()' id='btnAbmPeriodoAcademico'   />
  
 <br> 
-
+</center>
+</div>
 </center>
 </div>
 

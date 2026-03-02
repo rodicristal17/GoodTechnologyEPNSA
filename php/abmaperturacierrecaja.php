@@ -291,8 +291,8 @@ function controldecaja($buscar,$cod_local,$user)
 		from arqueocaja where caja_idcaja='$buscar' and estado='Activo' and cod_local='$cod_local' and codusuarioap='$user' ";
 		 $pagina="";  
 
-   // echo $sql;
-   // exit;
+//    echo $sql;
+//    exit;
    
    $stmt = $mysqli->prepare($sql);
 
@@ -646,9 +646,9 @@ function ObtenerTotalCaja($idArqeoFk,$montoInicio)
 {
 $mysqli=conectar_al_servidor();
 
-$sql= "select  ifnull(sum(pg.Monto),0) as Monto
- from  pagos pg 
- where pg.Monto>0 and pg.cod_arqueocaja='$idArqeoFk' ";	
+$sql= "select  ifnull(sum(pg.monto - pg.descuento),0) as Monto
+ from  facturaspagadas pg 
+ where pg.monto>0 and pg.codApertura='$idArqeoFk' ";	
  
  
  // echo $sql;
@@ -877,9 +877,9 @@ function buscarmoviemientocaja($idArqeoFk)
 {
 $mysqli=conectar_al_servidor();
 
-$sql= "select Monto
- from  pagos pg 
- where pg.Monto>0 and pg.cod_arqueocaja='$idArqeoFk' ";
+$sql= "select  ifnull(sum(pg.monto - pg.descuento),0) as Monto
+ from  facturaspagadas pg 
+ where pg.monto>0 and pg.codApertura='$idArqeoFk' ";
 $totalPagado = "0";   
 $pagina = "";   
 $stmt = $mysqli->prepare($sql);
