@@ -588,6 +588,8 @@ function buscar_datos_del_usuario(){
           filiaruser=datos["6"];  
           filialNombreuser=datos["9"];  
 		  
+		  
+		  buscarcarreraEditar()
 		  BuscarFilialSelect()
 		  BuscarCarreraSelect()
 		  BuscarFacultadlSelect()
@@ -7344,6 +7346,10 @@ function EliminarRegitroAsingarAlumnos(){
 	}
 
 }
+
+
+
+
 function CargarCarrerasAsingarAlumnos(){
 		
 		var codFilial="";
@@ -7439,6 +7445,9 @@ verCerrarEfectoCargando("2")
 	});
 	
 }
+
+
+
 function CargarCarrerasEnBuscarArancel(){
 		
 		var codFilial="";
@@ -8412,11 +8421,16 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 
 
 }
+
+
+
 function EditarCursoSemestreAnho(datos) {
 // if(controlacceso("EDITARMATRICULACION","accion")==false){  return;		}	
 	var controledit=$(datos).attr("name")
 	var idMatriculacion=$(datos).attr("id")
 	var valor=datos.value
+	
+	
 	if(valor=="") {
 		alertmensaje("EL VALOR NO PUEDE IR VACIO")
 		return
@@ -8489,6 +8503,91 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 
 
 }
+
+
+
+function EditarNivelEducativo(datos) {
+// if(controlacceso("EDITARMATRICULACION","accion")==false){  return;		}	
+	var controledit=$(datos).attr("name")
+	var idMatriculacion=$(datos).attr("id")
+	var valor=datos.value
+	
+	if(valor=="") {
+		alertmensaje("EL VALOR NO PUEDE IR VACIO")
+		return
+	}
+	verCerrarEfectoCargando("1")
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"idAbm": idMatriculacion,
+		"funt": "editamatriculacion",
+		"controledit": controledit,
+		"valor": valor
+	};
+	$.ajax({
+		data: datos,
+        url: "/GoodTechnologyEPNSA/php/ABMMatricularAlumnos.php",
+		type: "post",
+			 xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+         var kb=((evt.loaded*1)/1000).toFixed(1)
+		
+		 if(kb=="0.0"){
+			kb=0.1;
+		}
+               cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+			kb=0.1;
+		}
+                    cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		beforeSend: function () {
+
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			verCerrarEfectoCargando("2")		
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			verCerrarEfectoCargando("2")			
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta)
+		         if (Respuesta == true) {	
+					var datos_buscados = datos[2];
+					BuscarReportAlumnosMatriculados()
+					alertmensaje("DATOS EDITADOS CORRECTAMENTE")
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+
+			}
+		}
+	});
+
+
+}
+
+
+
+
 var controlordenasignaralumnos="1"
 function ordenreportasignaralumnos(d){
 	document.getElementById('tdOrdReportAsignarAlumnos1').className="td_registro_orden1"
@@ -27066,3 +27165,79 @@ ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
 	});
 }
 
+
+
+
+function buscarcarreraEditar(){
+		
+	
+	document.getElementById("ListEditarCarrera").innerHTML=""
+	verCerrarEfectoCargando("1")
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"funt": "buscarcarreraEditar"
+	};
+	$.ajax({
+
+		data: datos,
+        url: "/GoodTechnologyEPNSA/php/ABMAsignarCarrera.php",
+		type: "post",
+			 xhr: function () {
+        var xhr = new window.XMLHttpRequest();
+        //Uload progress
+        xhr.upload.addEventListener("progress" ,function (evt) {
+         var kb=((evt.loaded*1)/1000).toFixed(1)
+		
+		 if(kb=="0.0"){
+			kb=0.1;
+		}
+               cargarConectividad("enviado",kb,"0")           
+        }, false);
+ //Download progress
+		xhr.addEventListener("progress", function (evt) {
+        var kb=((evt.loaded*1)/1000).toFixed(1)
+		if(kb=="0.0"){
+			kb=0.1;
+		}
+                    cargarConectividad("recibido","0",kb)  
+        }, false);
+        return xhr;
+    },
+		beforeSend: function () {
+
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+			document.getElementById("ListEditarCarrera").innerHTML=""
+			verCerrarEfectoCargando("2")
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+					return false;
+			
+		},
+		success: function (responseText) {
+verCerrarEfectoCargando("2")
+			var Respuesta = responseText;
+			console.log(Respuesta)
+				document.getElementById("ListEditarCarrera").innerHTML=""
+				
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				 Respuesta=respuestaJqueryAjax(Respuesta)
+		         if (Respuesta == true) {	
+					var datos_buscados1 = datos[2];
+					document.getElementById("ListEditarCarrera").innerHTML = datos_buscados1
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+
+			}
+		}
+	});
+	
+}

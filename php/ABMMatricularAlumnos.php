@@ -491,6 +491,12 @@ exit;
 	if($controledit=="turno"){
     $consulta="update  cursosalumno set turno='$valor' where idcursosalumno='$idcursosalumno' ";
 	}
+	
+	if($controledit=="nombrecarrera"){
+    $consulta="update  cursosalumno set cod_carreraFK=(Select cr.cod_carrera
+        from carrera cr inner join filial fl1 on fl1.cod_filial=cr.cod_filialOringFK 
+		inner join listadecarreras lt on lt.Cod_listadecarreras=cr.Cod_listadecarrerasFK where lt.nombre='$valor') where idcursosalumno='$idcursosalumno' ";
+	}
 
 
      $stmt = $mysqli->prepare($consulta);
@@ -521,7 +527,7 @@ function buscarMiHistorial($buscar,$user,$estado,$codFilial)
 	
 		$sql= "SELECT cur.idcursosalumno, cur.idalumnoFk, cur.cod_carreraFK, cur.estado, cur.anho, cur.semestre, cur.curso,convalidacion,cur.seccion,cur.turno,cur.fechaInicio,
 		alu.nombre as nombrealumno,alu.apellido,alu.ci,cur.anhoregistro,
-		ltc.nombre as nombrecarrera,
+		ltc.nombre as nombrecarrera,ltc.Cod_listadecarreras,
 		fil.nombre as nombrefilial
  FROM cursosalumno cur inner join alumno alu on alu.idalumno=cur.idalumnoFk
  inner join carrera car on car.cod_carrera=cur.cod_carreraFK 
@@ -567,6 +573,7 @@ $totales=0;
 		  	  $seccion=utf8_encode($valor['seccion']);
 		  	  $turno=utf8_encode($valor['turno']);
 		  	  $fechaInicio=utf8_encode($valor['fechaInicio']);
+		  	  $Cod_listadecarreras=utf8_encode($valor['Cod_listadecarreras']);
 		  	  
 		 
 		  	if($controlacc>0){
@@ -607,16 +614,24 @@ $totales=0;
 			}
 				
 			}
+			
+			
+			
+			$Carrera="<input list='ListEditarCarrera' onkeyup='if(event.keyCode == 13){EditarNivelEducativo(this)}' value='$nombrecarrera' style='width: 95%;text-align: center;' type='text' class='input3' id='".$idcursosalumno."' name='nombrecarrera'  />";
+			
+			
+			
+			
 			    $pagina.="<table class='tableRegistroSearch' border='0' cellspacing='0' cellpadding='0'>
 			  <tr id='tbSelecRegistro' >
-			   <td  id='td_datos_1' style='width:10%;display:none;' >".$nombrecarrera."</td>
+			   <td  id='td_datos_1' style='width:10%;' >".$Carrera."</td>
 			   <td  id='td_datos_2' style='width:10%;display:none;' >".$anhoregistro."</td>
 			   <td  id='td_datos_2' style='width:10%' >".$anho."</td>
-			    <td  id='td_datos_3' style='width:10%;display:none;'>".$semestre."</td>
-			    <td  id='td_datos_3' style='width:10%'>".$fechaInicio."</td>
+			   <td  id='td_datos_3' style='width:10%;display:none;'>".$semestre."</td>
+			   <td  id='td_datos_3' style='width:10%'>".$fechaInicio."</td>
 			   <td  id='td_datos_4' style='width:10%' >".$curso."</td>
 			   <td  id='td_datos_4' style='width:10%' >".$turno."</td>
-			    <td  id='td_datos_4' style='width:10%' >".$seccion."</td>
+			   <td  id='td_datos_4' style='width:10%' >".$seccion."</td>
 			   <td  id='td_datos_7' style='width:10%;display:none;' >".$convalidacion."</td>
 			   <td  id='td_datos_7' style='width:10%' >".$estado."</td>
 			  </tr>

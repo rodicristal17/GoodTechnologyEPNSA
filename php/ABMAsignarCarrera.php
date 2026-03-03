@@ -159,7 +159,11 @@ if($funt=="buscarSelectTipo")
 $tipo=$_POST['tipo'];
 $tipo = utf8_decode($tipo);
 buscarSelectTipo($tipo);
+}
 
+if($funt=="buscarcarreraEditar")
+{
+buscarcarreraEditar();
 }
 
 	
@@ -872,6 +876,63 @@ exit;
 
 
 }
+
+
+
+
+function buscarcarreraEditar()
+{
+	$mysqli=conectar_al_servidor();
+	 $pagina='';
+		$sql= "Select cr.cod_carrera,lt.nombre as nombreCarrera
+        from carrera cr inner join filial fl1 on fl1.cod_filial=cr.cod_filialOringFK 
+		inner join listadecarreras lt on lt.Cod_listadecarreras=cr.Cod_listadecarrerasFK
+		where  cr.estado='Activo'  order by lt.nombre asc";
+		 
+	
+		
+		 
+   $stmt = $mysqli->prepare($sql);
+  if ( ! $stmt->execute()) {
+   echo "Error";
+   exit;
+}
+$paginaArancel="";
+$controltitulo="0";
+$totalArancel=-1;
+$totales=0;
+	$result = $stmt->get_result();
+ $valor= mysqli_num_rows($result);
+ $totalresouesta= $valor;
+ if ($valor>0)
+ {
+	  while ($valor= mysqli_fetch_assoc($result))
+	  {
+		  
+		  
+		  
+		      $cod_carrera=$valor['cod_carrera'];
+		  	  $nombreCarrera=utf8_encode($valor['nombreCarrera']);
+		  	 
+		  	
+		  	
+			 	$pagina.="<option id='$cod_carrera' value='$nombreCarrera'  ></option>";
+			    	 
+		  	
+			  
+			  
+	  }
+	  
+ }
+ 
+  mysqli_close($mysqli); 
+$informacion =array("1" => "exito","2" => $pagina);
+echo json_encode($informacion);	
+exit;
+
+
+}
+
 
 
 

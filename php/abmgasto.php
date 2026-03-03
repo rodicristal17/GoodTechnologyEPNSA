@@ -9,8 +9,6 @@ include("verificar_navegador.php");
 include("classTable.php");
 include("subir_foto_base64.php");
 
-
-
 function verificar($operacion)
 {
 	
