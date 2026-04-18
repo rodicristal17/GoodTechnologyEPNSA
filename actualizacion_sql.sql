@@ -1,7 +1,7 @@
 CREATE TABLE categoria_gasto (
   id_categoria_gasto INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
-  tipo ENUM('INGRESO','EGRESO') NOT NULL,
+  tipo ENUM('Ingreso','Egreso') NOT NULL,
   estado ENUM('Activo','Inactivo') NOT NULL DEFAULT 'Activo'
 );
 

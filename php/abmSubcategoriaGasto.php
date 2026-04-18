@@ -294,7 +294,7 @@ $stmt1->bind_param($ss,$nombre, $id_categoria, $estado);
  
 if($operacion=="editar")
 {
-$consulta1="Update categoria_gasto nombre=?, id_categoria_gastoFK=?, estado= ? where id_subcategoria_gasto=?";
+$consulta1="Update subcategoria_gasto nombre=?, id_categoria_gastoFK=?, estado= ? where id_subcategoria_gasto=?";
 $stmt1 = $mysqli->prepare($consulta1);
 $ss='ssss';
 $stmt1->bind_param($ss,$nombre, $id_categoria, $estado ,$idabm); 
@@ -1048,7 +1048,7 @@ function buscaroption($id_categoria)
 {
 	$mysqli=conectar_al_servidor();
 	
-		$sql= "Select nombre,id_subcategoria_gasto from categoria_gasto where estado='Activo' and id_categoria_gastoFK = '$id_categoria' order by nombre asc  ";
+		$sql= "Select nombre,id_subcategoria_gasto from subcategoria_gasto where estado='Activo' and id_categoria_gastoFK = '$id_categoria' order by nombre asc  ";
 		
 		
 		 $pagina="<option  value='' >SELECCIONAR</option>";       
@@ -1280,6 +1280,8 @@ function buscar($buscar, $id_categoria)
 		$sql= "Select id_subcategoria_gasto,nombre,estado,id_categoria_gastoFK
         from subcategoria_gasto where 1=1  and estado='Activo' and id_categoria_gastoFK = '$id_categoria'".$condicionnombre." order by nombre asc ";
 		
+		// echo $sql;
+		// exit;
 		
    
    $stmt = $mysqli->prepare($sql);

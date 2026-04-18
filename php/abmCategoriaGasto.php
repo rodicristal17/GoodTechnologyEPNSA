@@ -227,8 +227,11 @@ $local = utf8_decode($local);
 
 if($operacion=="buscaroption")
 {
+	
+	$tipo=$_POST['tipo'];
+$tipo = utf8_decode($tipo);
 
-	buscaroption();
+	buscaroption($tipo);
 
 }
 
@@ -239,7 +242,10 @@ if($operacion=="buscar")
 $buscar=$_POST['buscar'];
 $buscar = utf8_decode($buscar);
 
-	buscar($buscar);
+$tipo=$_POST['tipo'];
+$tipo = utf8_decode($tipo);
+
+	buscar($buscar, $tipo);
 
 }
 
@@ -1038,11 +1044,11 @@ echo json_encode($informacion);
 exit;
 }
 
-function buscaroption()
+function buscaroption($tipo)
 {
 	$mysqli=conectar_al_servidor();
 	
-		$sql= "Select * from categoria_gasto where estado='Activo' order by nombre asc  ";
+		$sql= "Select * from categoria_gasto where estado='Activo' and tipo ='$tipo' order by nombre asc  ";
 		
 		
 		 $pagina="<option  value='' >SELECCIONAR</option>";       
@@ -1262,7 +1268,7 @@ exit;
 
 }
 
-function buscar($buscar)
+function buscar($buscar, $tipo)
 {
 	$condicionnombre = "";
 	if($buscar != ""){
@@ -1272,7 +1278,7 @@ function buscar($buscar)
 	$mysqli=conectar_al_servidor();
 	 $pagina='';
 		$sql= "Select id_categoria_gasto,nombre,estado,tipo
-        from categoria_gasto where 1=1  and estado='Activo'".$condicionnombre." order by nombre asc ";
+        from categoria_gasto where 1=1  and estado='Activo' and tipo = '$tipo'".$condicionnombre." order by nombre asc ";
 		
 		
    

@@ -7080,10 +7080,9 @@ style='width:150px'></select>
 <tr>
 <td>
 <p class='pTituloC' >Tipo :</p>
-<select class="inputSelect" id="inptTipoGasto" style='width:150px'>
+<select class="inputSelect" id="inptTipoGasto" onchange='buscaroptionCategoriaGasto()' style='width:150px'>
 <option value="Ingreso">INGRESO</option>
-<option value="Egreso">EGRESOS</option>
-<option value="Deposito">DEPOSITO</option>
+<option value="Egreso">EGRESO</option>
 </select>
 </td>
 </tr>
@@ -7093,8 +7092,7 @@ style='width:150px'></select>
 <tr>
 <td>
 <p class='pTituloC' >Categoria :</p>
-<input id="inptCategoriaMisGastos" list="ListCategoriaMisGastos" style="width:70%" type="text" class="inputText">
-<datalist id="ListCategoriaMisGastos"></datalist>
+<select id="inptCategoriaMisGastos" style="width:70%" type="text" class="inputText" onchange='buscaroptionSubcategoriaGasto()'></select>
 <input  type="button" value="Add" class="btn5" onclick="verCerrarAbmCategoriaGasto()" >
 </td>
 </tr>
@@ -7105,8 +7103,9 @@ style='width:150px'></select>
 <tr>
 <td>
 <p class='pTituloC' >Sub-Categoria :</p>
-<input id="inptSubcategoriaMisGastos" list="ListSubcategoriaMisGastos" style="width:70%" type="text" class="inputText">
-<datalist id="ListSubcategoriaMisGastos"></datalist>
+<select id="inptSubcategoriaMisGastos" style="width:70%" type="text" class="inputText">
+<option value=''>SELECCIONAR</option>
+</select>
 <input  type="button" value="Add" class="btn5" onclick="verCerrarAbmSubcategoriaGasto()" >
 </td>
 </tr>
@@ -8803,10 +8802,9 @@ placeholder='Obligatorio(*)'>
 <tr>
 <td style='width:100%'>
 <p class='pTituloC' >Tipo :</p>
-<select class="inputSelect" style='width:250px' id='inptTipoCategoriaGasto'>
-<option value="">SELECCIONAR</option>
-<option value="INGRESO">INGRESO</option>
-<option value="EGRESO">EGRESO</option>
+<select class="inputSelect" style='width:250px' id='inptTipoCategoriaGasto' onchange='cambioTipoGasto(this)' >
+<option value="Ingreso">INGRESO</option>
+<option value="Egreso">EGRESO</option>
 </select>
 </td>
 </tr>
