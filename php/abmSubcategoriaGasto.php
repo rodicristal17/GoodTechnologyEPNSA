@@ -228,7 +228,10 @@ $local = utf8_decode($local);
 if($operacion=="buscaroption")
 {
 
-	buscaroption();
+$id_categoria=$_POST['id_categoria'];
+$id_categoria = utf8_decode($id_categoria);
+
+	buscaroption($id_categoria);
 
 }
 
@@ -239,7 +242,10 @@ if($operacion=="buscar")
 $buscar=$_POST['buscar'];
 $buscar = utf8_decode($buscar);
 
-	buscar($buscar);
+$id_categoria=$_POST['id_categoria'];
+$id_categoria = utf8_decode($id_categoria);
+
+	buscar($buscar, $id_categoria);
 
 }
 
@@ -255,21 +261,21 @@ $estado = utf8_decode($estado);
 $idabm=$_POST['idabm'];
 $idabm = utf8_decode($idabm);
 
-$tipo=$_POST['tipo'];
-$tipo = utf8_decode($tipo);
+$id_categoria=$_POST['id_categoria'];
+$id_categoria = utf8_decode($id_categoria);
 
-abm($nombre,$estado, $tipo, $idabm, $operacion);
+abm($nombre,$estado, $id_categoria, $idabm, $operacion);
 
 }	
 
 
 }
 
-function abm($nombre,$estado, $tipo, $idabm, $operacion)
+function abm($nombre,$estado, $id_categoria, $idabm, $operacion)
 {
 	
 	
-if($nombre=="" || $estado=="" || $tipo==""){
+if($nombre=="" || $estado=="" || $id_categoria==""){
 $informacion =array("1" => "camposvacio");
 echo json_encode($informacion);	
 exit;
@@ -280,18 +286,18 @@ $mysqli=conectar_al_servidor();
 if($operacion=="nuevo")
 {
  
-$consulta1="Insert into categoria_gasto (nombre, tipo, estado) values(?,?,?)";
+$consulta1="Insert into subcategoria_gasto (nombre, id_categoria_gastoFK, estado) values(?,?,?)";
 $stmt1 = $mysqli->prepare($consulta1);
 $ss='sss';
-$stmt1->bind_param($ss,$nombre, $tipo, $estado);
+$stmt1->bind_param($ss,$nombre, $id_categoria, $estado);
 }
  
 if($operacion=="editar")
 {
-$consulta1="Update categoria_gasto nombre=?, tipo=?, estado= ? where id_categoria_gasto=?";
+$consulta1="Update categoria_gasto nombre=?, id_categoria_gastoFK=?, estado= ? where id_subcategoria_gasto=?";
 $stmt1 = $mysqli->prepare($consulta1);
 $ss='ssss';
-$stmt1->bind_param($ss,$nombre, $tipo, $estado ,$idabm); 
+$stmt1->bind_param($ss,$nombre, $id_categoria, $estado ,$idabm); 
 
 }
  
@@ -1038,11 +1044,11 @@ echo json_encode($informacion);
 exit;
 }
 
-function buscaroption()
+function buscaroption($id_categoria)
 {
 	$mysqli=conectar_al_servidor();
 	
-		$sql= "Select * from categoria_gasto where estado='Activo' order by nombre asc  ";
+		$sql= "Select nombre,id_subcategoria_gasto from categoria_gasto where estado='Activo' and id_categoria_gastoFK = '$id_categoria' order by nombre asc  ";
 		
 		
 		 $pagina="<option  value='' >SELECCIONAR</option>";       
@@ -1064,15 +1070,15 @@ if ( ! $stmt->execute()) {
 	  {
 		  
 		  
-		      $id_categoria_gasto=$valor['id_categoria_gasto'];
-		  	  $nombre=utf8_encode($valor['nombre']);
+		  	  $id_subcategoria_gasto=utf8_encode($valor['id_subcategoria_gasto']);
+		      $nombre=$valor['nombre'];
 				  	 
 		  	 
 			    	
-			  $pagina.="<option  value='$id_categoria_gasto' >".$nombre."</option>";     
+			  $pagina.="<option  value='$id_subcategoria_gasto' >".$nombre."</option>";     
 			  
 			  
-			  $paginaList.="<option id='$id_categoria_gasto' value='".$nombre."'></option>";	
+			  $paginaList.="<option id='$id_subcategoria_gasto' value='".$nombre."'></option>";	
 	  }
  }
  
@@ -1262,7 +1268,7 @@ exit;
 
 }
 
-function buscar($buscar)
+function buscar($buscar, $id_categoria)
 {
 	$condicionnombre = "";
 	if($buscar != ""){
@@ -1271,8 +1277,8 @@ function buscar($buscar)
 	
 	$mysqli=conectar_al_servidor();
 	 $pagina='';
-		$sql= "Select id_categoria_gasto,nombre,estado,tipo
-        from categoria_gasto where 1=1  and estado='Activo'".$condicionnombre." order by nombre asc ";
+		$sql= "Select id_subcategoria_gasto,nombre,estado,id_categoria_gastoFK
+        from subcategoria_gasto where 1=1  and estado='Activo' and id_categoria_gastoFK = '$id_categoria'".$condicionnombre." order by nombre asc ";
 		
 		
    
@@ -1295,10 +1301,9 @@ if ( ! $stmt->execute()) {
 		  
 		  
 		  
-		      $id_categoria_gasto=$valor['id_categoria_gasto'];
+		      $id_subcategoria_gasto=$valor['id_subcategoria_gasto'];
 		  	  $nombre=utf8_encode($valor['nombre']);
 		  	  $estado=utf8_encode($valor['estado']);
-		  	  $tipo=utf8_encode($valor['tipo']);
 		  	 
 			  
 		  	 
@@ -1306,10 +1311,9 @@ if ( ! $stmt->execute()) {
 			  $pagina.="
 			  <table class='$styleName' border='1' cellspacing='1' cellpadding='5'>
 			  <tr id='tbSelecRegistro' onclick='ObtenerdatosAbmCategoriaGasto(this)'>
-			  <td id='td_id' style='display:none;'>".$id_categoria_gasto."</td>
+			  <td id='td_id' style='display:none;'>".$id_subcategoria_gasto."</td>
 			  <td id='td_datos_1'style='width:25%' class='tdRegistroSearch' >".$nombre."</td>
 			   <td  id='td_datos_2' style='display:none'>".$estado."</td>
-			   <td  id='td_datos_3' style='display:none'>".$tipo."</td>
 			  </tr>
 			  </table>";
 			    	 

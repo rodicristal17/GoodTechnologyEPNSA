@@ -221,6 +221,10 @@ function buscaroption($cod_local)
 		fl1.puntoexpedicion
         from listadocaja suc inner join filial fl1 on fl1.cod_filial=suc.cod_filialFkOrigen 
         where suc.estado='Activo' and cod_filialFk = '$cod_local'";
+		
+		// echo $sql;
+		// exit;
+		
 		 $pagina="";  
 		 $paginaexp="";  
 

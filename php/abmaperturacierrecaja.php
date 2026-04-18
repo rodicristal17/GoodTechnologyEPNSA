@@ -141,19 +141,7 @@ $stmt1->bind_param($ss,$cod_local,$caja_idcaja,$montoapertura,$fechaapertura,$es
 
 if($operacion=="editar")
 {
-	// Verificar si tiene moviemientos pendientes de autorizacion
-	$sql= "SELECT * FROM gastos WHERE estado='solicitado' AND cod_usuario= $codusuarioce";
-	$stmt = $mysqli->prepare($sql);
-	if ( ! $stmt->execute()) {
-		echo "Error";
-		exit;
-	}
-	$result = $stmt->get_result();
- 	$valor= mysqli_num_rows($result);
-	if ($valor > 0) {
-		echo json_encode(array("1" => "error", "2" => "No se puede cerrar la caja", "3" => "Existen $valor Egresos / Ingresos que necesitan aprobacion."));
-		exit;
-	}
+	
 
 	// Obtiene los montos en cada tipo de moneda
 	$cant500= $_POST['cant500'];
@@ -291,8 +279,8 @@ function controldecaja($buscar,$cod_local,$user)
 		from arqueocaja where caja_idcaja='$buscar' and estado='Activo' and cod_local='$cod_local' and codusuarioap='$user' ";
 		 $pagina="";  
 
-//    echo $sql;
-//    exit;
+   // echo $sql;
+   // exit;
    
    $stmt = $mysqli->prepare($sql);
 
