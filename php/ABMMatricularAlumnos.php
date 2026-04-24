@@ -524,6 +524,11 @@ function buscarMiHistorial($buscar,$user,$estado,$codFilial)
 {
 	$mysqli=conectar_al_servidor();
 	 $pagina='';
+	 
+	$condicionEstado=" ";
+	 if($estado!=""){
+		  $condicionEstado="  and cur.estado='$estado' ";
+	 }
 	
 		$sql= "SELECT cur.idcursosalumno, cur.idalumnoFk, cur.cod_carreraFK, cur.estado, cur.anho, cur.semestre, cur.curso,convalidacion,cur.seccion,cur.turno,cur.fechaInicio,
 		alu.nombre as nombrealumno,alu.apellido,alu.ci,cur.anhoregistro,
@@ -533,7 +538,7 @@ function buscarMiHistorial($buscar,$user,$estado,$codFilial)
  inner join carrera car on car.cod_carrera=cur.cod_carreraFK 
  inner join listadecarreras ltc on ltc.Cod_listadecarreras=car.Cod_listadecarrerasFK
  inner join filial fil on fil.cod_filial=car.cod_filialOringFK
-where  cur.idalumnoFk='$buscar' and cur.estado='$estado' and car.cod_filialOringFK='$codFilial' order by cur.anho desc";
+where  cur.idalumnoFk='$buscar' ".$condicionEstado." and car.cod_filialOringFK='$codFilial' order by cur.anho desc";
 		 
    $stmt = $mysqli->prepare($sql);
   

@@ -8352,6 +8352,11 @@ function BuscarMiHistorialDeMatriculacion() {
 		if(document.getElementById('checkestadoHistorialMatriculados3').checked==true){
 			var estado="Academico";
 		}
+		
+		if(document.getElementById('checkestadoHistorialMatriculados4').checked==true){
+			var estado="";
+		}
+		
 	document.getElementById("divBuscadorCarrerasCursadas").innerHTML = imgCargandoA   
 	obtener_datos_user();
 	var datos = {
@@ -10359,17 +10364,28 @@ function checkestadoHistorialMatriculados(d){
 	document.getElementById('checkestadoHistorialMatriculados1').checked=true
 	document.getElementById('checkestadoHistorialMatriculados2').checked=false	
 	document.getElementById('checkestadoHistorialMatriculados3').checked=false	
+	document.getElementById('checkestadoHistorialMatriculados4').checked=false
 	}
 	if(d=="2"){
 	document.getElementById('checkestadoHistorialMatriculados1').checked=false
 	document.getElementById('checkestadoHistorialMatriculados3').checked=false
 	document.getElementById('checkestadoHistorialMatriculados2').checked=true
+	document.getElementById('checkestadoHistorialMatriculados4').checked=false
 	}
 	if(d=="3"){
 	document.getElementById('checkestadoHistorialMatriculados1').checked=false
 	document.getElementById('checkestadoHistorialMatriculados2').checked=false
 	document.getElementById('checkestadoHistorialMatriculados3').checked=true
+	document.getElementById('checkestadoHistorialMatriculados4').checked=false
 	}
+	
+	if(d=="4"){
+	document.getElementById('checkestadoHistorialMatriculados1').checked=false
+	document.getElementById('checkestadoHistorialMatriculados2').checked=false
+	document.getElementById('checkestadoHistorialMatriculados3').checked=false
+	document.getElementById('checkestadoHistorialMatriculados4').checked=true
+	}
+	
 	 BuscarMiHistorialDeMatriculacion()
 }
 function VerRegistroSeleccionadoReportAlumnMatric(){
