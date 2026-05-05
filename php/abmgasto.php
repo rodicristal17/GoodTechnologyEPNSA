@@ -69,9 +69,13 @@ $personales = "";
 
 $fechaDeposito=$_POST['fechaDeposito'];
 $fechaDeposito = utf8_decode($fechaDeposito);
+$idcategoria_gastoFK=$_POST['idcategoria_gastoFK'];
+$idcategoria_gastoFK = utf8_decode($idcategoria_gastoFK);
+$idsubcategoria_gastoFK=$_POST['idsubcategoria_gastoFK'];
+$idsubcategoria_gastoFK = utf8_decode($idsubcategoria_gastoFK);
 
 
-	abm($fechaDeposito,$cod_motivo,$Arreglo,$nroboleta , $nrocuenta ,$idgastos,$monto,$motivo,$fecha,$estado,$personales,$cod_usuario,$cod_local,$tipo,$codcaja,$idaperturacierrecaja,$extgasto,$operacion);
+	abm($fechaDeposito,$cod_motivo,$Arreglo,$nroboleta , $nrocuenta ,$idgastos,$monto,$motivo,$fecha,$estado,$personales,$cod_usuario,$cod_local,$tipo,$codcaja,$idaperturacierrecaja,$extgasto,$idcategoria_gastoFK,$idsubcategoria_gastoFK,$operacion);
 
 }
 
@@ -79,6 +83,23 @@ $fechaDeposito = utf8_decode($fechaDeposito);
 if($operacion=="buscarSeleccionarBusquedaEgresosTotalLocal")
 {
 	buscarSeleccionarBusquedaEgresosTotalLocal();
+
+}
+
+if($operacion=="buscarGastosPorCategoria")
+{
+	
+	
+$fecha1=$_POST['fecha1'];
+$fecha1 = utf8_decode($fecha1);
+
+$fecha2=$_POST['fecha2'];
+$fecha2 = utf8_decode($fecha2);
+$tipo=$_POST['tipo'];
+$tipo = utf8_decode($tipo);
+
+
+	buscarGastosPorCategoria($fecha1, $fecha2, $tipo);
 
 }
 
@@ -371,7 +392,7 @@ $idabm = utf8_decode($idabm);
 
 }
 
-function abm($fechaDeposito,$cod_motivo,$Arreglo,$nroboleta , $nrocuenta,$idgastos,$monto,$motivo,$fecha,$estado,$personales,$cod_usuario,$cod_local,$tipo,$codcaja,$idaperturacierrecaja,$extgasto,$operacion)
+function abm($fechaDeposito,$cod_motivo,$Arreglo,$nroboleta , $nrocuenta,$idgastos,$monto,$motivo,$fecha,$estado,$personales,$cod_usuario,$cod_local,$tipo,$codcaja,$idaperturacierrecaja,$extgasto,$idcategoria_gastoFK,$idsubcategoria_gastoFK,$operacion)
 {
 	
 	
@@ -386,11 +407,11 @@ $mysqli=conectar_al_servidor();
 if($operacion=="nuevo")
 {
  
-$consulta1="Insert into gastos (arreglo,monto,motivo,fecha,estado,cod_usuario,personales,cod_local,tipo,codCaja,codApertura,nroboleta,nrocuenta,cod_motivo,fechaDeposito)
-values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+$consulta1="Insert into gastos (arreglo,monto,motivo,fecha,estado,cod_usuario,personales,cod_local,tipo,codCaja,codApertura,nroboleta,nrocuenta,cod_motivo,fechaDeposito,idcategoria_gastoFK,idsubcategoria_gastoFK)
+values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 $stmt1 = $mysqli->prepare($consulta1);
-$ss='sssssssssssssss';
-$stmt1->bind_param($ss,$Arreglo,$monto,$motivo,$fecha,$estado,$cod_usuario,$personales,$cod_local,$tipo,$codcaja,$idaperturacierrecaja,$nroboleta , $nrocuenta,$cod_motivo,$fechaDeposito);
+$ss='sssssssssssssssss';
+$stmt1->bind_param($ss,$Arreglo,$monto,$motivo,$fecha,$estado,$cod_usuario,$personales,$cod_local,$tipo,$codcaja,$idaperturacierrecaja,$nroboleta , $nrocuenta,$cod_motivo,$fechaDeposito,$idcategoria_gastoFK,$idsubcategoria_gastoFK);
 
 }
  
@@ -398,10 +419,10 @@ if($operacion=="editar")
 {
 
 $consulta1="Update gastos set arreglo=?, monto=?,motivo=?,fecha=?,estado=?,
-personales=?,cod_local=?,tipo=?,nroboleta=?,nrocuenta=?,cod_motivo=?,fechaDeposito='$fechaDeposito' where idgastos=?";
+personales=?,cod_local=?,tipo=?,nroboleta=?,nrocuenta=?,cod_motivo=?,fechaDeposito='$fechaDeposito',idcategoria_gastoFK=?,idsubcategoria_gastoFK=? where idgastos=?";
 $stmt1 = $mysqli->prepare($consulta1);
-$ss='ssssssssssss';
-$stmt1->bind_param($ss,$Arreglo,$monto,$motivo,$fecha,$estado,$personales,$cod_local,$tipo,$nroboleta,$nrocuenta,$cod_motivo,$idgastos); 
+$ss='ssssssssssssss';
+$stmt1->bind_param($ss,$Arreglo,$monto,$motivo,$fecha,$estado,$personales,$cod_local,$tipo,$nroboleta,$nrocuenta,$cod_motivo,$idcategoria_gastoFK,$idsubcategoria_gastoFK,$idgastos); 
 
 }
  
@@ -606,7 +627,7 @@ function buscar($permisover,$user,$arreglo,$fecha1,$fecha2,$estado,$cod_local,$t
 		 }
 		 
 		 
-		$sql= "Select fechaDeposito,arreglo,monto, ifnull((select descripcion from  motivo_e_i where idmotivo_e_i=cod_motivo),'') as descripcion,motivo,fecha,estado,cod_usuario,idgastos,tipo,cod_local,nroboleta,nrocuenta,cod_motivo,
+		$sql= "Select fechaDeposito,arreglo,monto, ifnull((select descripcion from  motivo_e_i where idmotivo_e_i=cod_motivo),'') as descripcion,motivo,fecha,estado,cod_usuario,idgastos,tipo,cod_local,nroboleta,nrocuenta,cod_motivo,idcategoria_gastoFK,idsubcategoria_gastoFK,
 		(Select concat(Nombre,' ',Apellido) from usuario where Cod_Usuario=cod_usuario limit 1) as usuarionombre,confirmado,url,
 		(Select nombre from filial f where f.cod_filial=g.cod_local) as nombrelocal
 		from gastos g where  estado='$estado' ".$condicionpermisover.$condicionCodLocal.$condicionarreglo.$condiciontipo.$condicionfecha.$condicionusuario.$condicionrangofechas.$condicionmotivo.$condicionconfirmado.$condicionagrupacion.$condicionnroboleta.$condicionmonto;
@@ -665,6 +686,8 @@ if ( ! $stmt->execute()) {
 			  $arreglo=utf8_encode($valor['arreglo']);
 			  $confirmado=utf8_encode($valor['confirmado']);
 			  $url=utf8_encode($valor['url']);
+			  $idcategoria_gastoFK=utf8_encode($valor['idcategoria_gastoFK']);
+			  $idsubcategoria_gastoFK=utf8_encode($valor['idsubcategoria_gastoFK']);
 			  
 				$totalGasto=$totalGasto+$monto;
 		  	 
@@ -725,6 +748,8 @@ if($tipo!="Deposito"){
 <td  id='td_datos_17'	style='display:none'>".$ext."</td>
 <td  id='td_datos_18'	style='display:none'>".$fechaDeposito."</td>
 <td  id='td_datos_12'	style='display:none'>".$descripcion."</td>
+<td  id='td_datos_19'	style='display:none'>".$idcategoria_gastoFK."</td>
+<td  id='td_datos_20'	style='display:none'>".$idsubcategoria_gastoFK."</td>
 </tr>
 </table>";
 			  
@@ -2312,6 +2337,425 @@ echo json_encode($informacion);
 exit;
 }
 
+
+function buscarGastosPorCategoria($fecha1, $fecha2, $tipo)
+{
+    $mysqli = conectar_al_servidor();
+    $pagina = '<style>
+	.expense-record-list {
+  padding: 10px 0 0;
+}
+
+.expense-record {
+  display: grid;
+  grid-template-columns: 1fr 120px 160px 140px;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #e5e7eb;
+  cursor: pointer;
+}
+
+.expense-record:hover {
+  background: #f3f4f6;
+}
+
+.expense-record__title {
+  display: block;
+  color: #1f2937;
+}
+
+.expense-record__description {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.expense-record__date,
+.expense-record__local {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.expense-record__amount {
+  text-align: right;
+}
+
+.subcategory-list__header {
+  display: grid;
+  grid-template-columns: 1fr 130px 140px 120px;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+}
+
+.subcategory-list__header::-webkit-details-marker {
+  display: none;
+}
+
+.subcategory-list__count {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.subcategory-list__toggle {
+  color: #2563eb;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: right;
+}
+
+.subcategory-list__item[open] .subcategory-list__toggle::after {
+  content: " ▲";
+}
+
+.subcategory-list__item:not([open]) .subcategory-list__toggle::after {
+  content: " ▼";
+}
+
+@media (max-width: 800px) {
+  .subcategory-list__header,
+  .expense-record {
+    grid-template-columns: 1fr;
+  }
+
+  .expense-record__amount,
+  .subcategory-list__toggle {
+    text-align: left;
+  }
+}
+	</style>';
+
+    $where = array("g.estado = 'Activo'");
+    $params = array();
+    $types = '';
+
+    if ($fecha1 != '' && $fecha2 != '') {
+        $where[] = "g.fecha BETWEEN ? AND ?";
+        $params[] = $fecha1;
+        $params[] = $fecha2;
+        $types .= 'ss';
+    } else if ($fecha1 != '') {
+        $where[] = "g.fecha >= ?";
+        $params[] = $fecha1;
+        $types .= 's';
+    } else if ($fecha2 != '') {
+        $where[] = "g.fecha <= ?";
+        $params[] = $fecha2;
+        $types .= 's';
+    }
+
+    if ($tipo != '') {
+        $where[] = "g.tipo = ?";
+        $params[] = $tipo;
+        $types .= 's';
+    }
+
+    $sql = "
+        SELECT 
+            g.fechaDeposito,
+            g.arreglo,
+            g.monto,
+            IFNULL(me.descripcion, '') AS descripcion,
+            g.motivo,
+            g.fecha,
+            g.estado,
+            g.cod_usuario,
+            g.idgastos,
+            g.tipo,
+            g.cod_local,
+            g.nroboleta,
+            g.nrocuenta,
+            g.cod_motivo,
+            IFNULL(cg.nombre, 'Sin categoría') AS categoria,
+            IFNULL(sg.nombre, 'Sin subcategoría') AS subcategoria,
+            IFNULL(CONCAT(u.Nombre, ' ', u.Apellido), '') AS usuarionombre,
+            g.confirmado,
+            g.url,
+            IFNULL(f.nombre, '') AS nombrelocal
+        FROM gastos g
+        LEFT JOIN motivo_e_i me 
+            ON me.idmotivo_e_i = g.cod_motivo
+        LEFT JOIN categoria_gasto cg 
+            ON cg.id_categoria_gasto = g.idcategoria_gastoFK
+        LEFT JOIN subcategoria_gasto sg 
+            ON sg.id_subcategoria_gasto = g.idsubcategoria_gastoFK
+        LEFT JOIN usuario u 
+            ON u.Cod_Usuario = g.cod_usuario
+        LEFT JOIN filial f 
+            ON f.cod_filial = g.cod_local
+        WHERE " . implode(" AND ", $where) . "
+        ORDER BY cg.nombre ASC, sg.nombre ASC, g.fecha DESC
+    ";
+
+    $stmt = $mysqli->prepare($sql);
+
+    if (!$stmt) {
+        $informacion = array(
+            "1" => "error",
+            "2" => "Error al preparar la consulta: " . $mysqli->error
+        );
+        echo json_encode($informacion);
+        exit;
+    }
+
+    if (count($params) > 0) {
+        $stmt->bind_param($types, ...$params);
+    }
+
+    if (!$stmt->execute()) {
+        $informacion = array(
+            "1" => "error",
+            "2" => "Error al ejecutar la consulta"
+        );
+        echo json_encode($informacion);
+        exit;
+    }
+
+    $result = $stmt->get_result();
+
+    $categorias = array();
+    $totalIngresos = 0;
+    $totalEgresos = 0;
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $categoria = $row['categoria'] != '' ? $row['categoria'] : 'Sin categoría';
+        $subcategoria = $row['subcategoria'] != '' ? $row['subcategoria'] : 'Sin subcategoría';
+        $tipoRegistro = $row['tipo'] != '' ? $row['tipo'] : 'Sin tipo';
+        $monto = floatval($row['monto']);
+
+        /*
+            Se usa tipo + categoría como clave para evitar mezclar:
+            Ingreso > Ventas
+            Egreso > Ventas
+        */
+        $claveCategoria = $tipoRegistro . '|' . $categoria;
+        $claveSubcategoria = $subcategoria;
+
+        if (!isset($categorias[$claveCategoria])) {
+            $categorias[$claveCategoria] = array(
+                "nombre" => $categoria,
+                "tipo" => $tipoRegistro,
+                "total" => 0,
+                "cantidad" => 0,
+                "subcategorias" => array()
+            );
+        }
+
+        if (!isset($categorias[$claveCategoria]["subcategorias"][$claveSubcategoria])) {
+            $categorias[$claveCategoria]["subcategorias"][$claveSubcategoria] = array(
+                "nombre" => $subcategoria,
+                "total" => 0,
+                "cantidad" => 0,
+                "registros" => array()
+            );
+        }
+
+        $categorias[$claveCategoria]["total"] += $monto;
+        $categorias[$claveCategoria]["cantidad"]++;
+
+        $categorias[$claveCategoria]["subcategorias"][$claveSubcategoria]["total"] += $monto;
+        $categorias[$claveCategoria]["subcategorias"][$claveSubcategoria]["cantidad"]++;
+        $categorias[$claveCategoria]["subcategorias"][$claveSubcategoria]["registros"][] = $row;
+
+        $tipoLower = strtolower($tipoRegistro);
+
+        if ($tipoLower == 'ingreso' || $tipoLower == 'deposito' || $tipoLower == 'depósito') {
+            $totalIngresos += $monto;
+        } else {
+            $totalEgresos += $monto;
+        }
+    }
+
+    $h = function ($valor) {
+        return htmlspecialchars((string)$valor, ENT_QUOTES, 'UTF-8');
+    };
+
+    $formatearMonto = function ($valor) {
+        return 'Gs. ' . number_format(floatval($valor), 0, ',', '.');
+    };
+
+    if (count($categorias) == 0) {
+        $pagina .= "
+            <div class='movements__empty'>
+                No se encontraron registros en el rango seleccionado.
+            </div>
+        ";
+    } else {
+        $balance = $totalIngresos - $totalEgresos;
+
+        $pagina .= "
+            <section class='summary'>
+                <article class='summary__item'>
+                    <span class='summary__label'>Total ingresos</span>
+                    <strong class='summary__amount summary__amount--income'>
+                        " . $formatearMonto($totalIngresos) . "
+                    </strong>
+                </article>
+
+                <article class='summary__item'>
+                    <span class='summary__label'>Total egresos</span>
+                    <strong class='summary__amount summary__amount--expense'>
+                        " . $formatearMonto($totalEgresos) . "
+                    </strong>
+                </article>
+
+                <article class='summary__item'>
+                    <span class='summary__label'>Balance</span>
+                    <strong class='summary__amount summary__amount--balance'>
+                        " . $formatearMonto($balance) . "
+                    </strong>
+                </article>
+            </section>
+
+            <section class='category-list'>
+        ";
+
+        foreach ($categorias as $categoria) {
+            $tipoLower = strtolower($categoria["tipo"]);
+
+            $tipoClase = 'expense';
+            $icono = '↓';
+
+            if ($tipoLower == 'ingreso' || $tipoLower == 'deposito' || $tipoLower == 'depósito') {
+                $tipoClase = 'income';
+                $icono = '↑';
+            }
+
+            $cantidadSubcategorias = count($categoria["subcategorias"]);
+
+            $pagina .= "
+                <details class='category'>
+                    <summary class='category__header'>
+                        <div class='category__info'>
+                            <div class='category__icon category__icon--" . $tipoClase . "'>
+                                " . $icono . "
+                            </div>
+
+                            <div>
+                                <h2 class='category__title'>" . $h($categoria["nombre"]) . "</h2>
+                                <span class='category__subtitle'>
+                                    " . $cantidadSubcategorias . " subcategoría(s) · " . $categoria["cantidad"] . " registro(s)
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class='category__type category__type--" . $tipoClase . "'>
+                            " . $h($categoria["tipo"]) . "
+                        </div>
+
+                        <div class='category__amount'>
+                            " . $formatearMonto($categoria["total"]) . "
+                        </div>
+
+                        <div class='category__toggle'>
+                            Ver subcategorías
+                        </div>
+                    </summary>
+
+                    <div class='subcategory-list'>
+            ";
+
+            foreach ($categoria["subcategorias"] as $subcategoria) {
+                $pagina .= "
+                    <details class='subcategory-list__item'>
+                        <summary class='subcategory-list__header'>
+                            <div class='subcategory-list__name'>
+                                " . $h($subcategoria["nombre"]) . "
+                            </div>
+
+                            <div class='subcategory-list__count'>
+                                " . $subcategoria["cantidad"] . " registro(s)
+                            </div>
+
+                            <strong class='subcategory-list__amount'>
+                                " . $formatearMonto($subcategoria["total"]) . "
+                            </strong>
+
+                            <div class='subcategory-list__toggle'>
+                                Ver registros
+                            </div>
+                        </summary>
+
+                        <div class='expense-record-list'>
+                ";
+
+                foreach ($subcategoria["registros"] as $registro) {
+                    $fechaDeposito = $registro['fechaDeposito'];
+
+                    if ($registro['tipo'] != 'Deposito' && $registro['tipo'] != 'Depósito') {
+                        $fechaDeposito = '';
+                    }
+
+                    $pagina .= "
+                        <div 
+                            class='expense-record'
+                            onclick='obtenerdatosabmGasto(this)'
+                        >
+                            <div class='expense-record__main'>
+                                <strong class='expense-record__title'>
+                                    " . $h($registro['motivo']) . "
+                                </strong>
+
+                                <span class='expense-record__description'>
+                                    " . $h($registro['descripcion']) . "
+                                </span>
+                            </div>
+
+                            <div class='expense-record__date'>
+                                " . $h($registro['fecha']) . "
+                            </div>
+
+                            <div class='expense-record__local'>
+                                " . $h($registro['nombrelocal']) . "
+                            </div>
+
+                            <strong class='expense-record__amount'>
+                                " . $formatearMonto($registro['monto']) . "
+                            </strong>
+
+                            <span id='td_id' style='display:none'>" . $h($registro['idgastos']) . "</span>
+                            <span id='td_datos_1' style='display:none'>" . $h($registro['monto']) . "</span>
+                            <span id='td_datos_3' style='display:none'>" . $h($registro['fecha']) . "</span>
+                            <span id='td_datos_5' style='display:none'>" . $h($registro['estado']) . "</span>
+                            <span id='td_datos_6' style='display:none'>" . $h($registro['tipo']) . "</span>
+                            <span id='td_datos_7' style='display:none'>" . $h($registro['cod_local']) . "</span>
+                            <span id='td_datos_8' style='display:none'>" . $h($registro['usuarionombre']) . "</span>
+                            <span id='td_datos_10' style='display:none'>" . $h($registro['nrocuenta']) . "</span>
+                            <span id='td_datos_11' style='display:none'>" . $h($registro['arreglo']) . "</span>
+                            <span id='td_datos_12' style='display:none'>" . $h($registro['descripcion']) . "</span>
+                            <span id='td_datos_14' style='display:none'>" . $h($registro['nroboleta']) . "</span>
+                            <span id='td_datos_15' style='display:none'>" . $h($registro['url']) . "</span>
+                            <span id='td_datos_18' style='display:none'>" . $h($fechaDeposito) . "</span>
+                        </div>
+                    ";
+                }
+
+                $pagina .= "
+                        </div>
+                    </details>
+                ";
+            }
+
+            $pagina .= "
+                    </div>
+                </details>
+            ";
+        }
+
+        $pagina .= "
+            </section>
+        ";
+    }
+
+    $informacion = array(
+        "1" => "exito",
+        "2" => $pagina
+    );
+
+    echo json_encode($informacion);
+    exit;
+}
 
 
 verificar($operacion);

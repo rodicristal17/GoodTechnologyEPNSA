@@ -26168,6 +26168,8 @@ function obtenerdatosabmGasto(datostr) {
 	document.getElementById('inptEstadoGasto').value = $(datostr).children('td[id="td_datos_5"]').html();
 	document.getElementById('inptlocalMisGastos').value = $(datostr).children('td[id="td_datos_7"]').html();
 	document.getElementById('inptNroBoletaGasto').value = $(datostr).children('td[id="td_datos_14"]').html();
+	document.getElementById('inptCategoriaMisGastos').value = $(datostr).children('td[id="td_datos_19"]').html();
+	document.getElementById('inptSubcategoriaMisGastos').value = $(datostr).children('td[id="td_datos_20"]').html();
 	// document.getElementById('inptBancoGasto').value = $(datostr).children('td[id="td_datos_9"]').html();
 	
 	
@@ -26214,6 +26216,8 @@ function verificarcamposGasto() {
 	var inptNroBoletaGasto = document.getElementById('inptNroBoletaGasto').value
 	// var inptBancoGasto = document.getElementById('inptBancoGasto') 
 	var inptFechaDepositoGasto = document.getElementById('inptFechaDepositoGasto').value
+	var inptCategoriaMisGastos = document.getElementById('inptCategoriaMisGastos').value
+	var inptSubcategoriaMisGastos = document.getElementById('inptSubcategoriaMisGastos').value
     // inptBancoGasto = inptBancoGasto.options[inptBancoGasto.selectedIndex].text;
 	// if(inptBancoGasto == 'SELECCIONAR'){
 		// inptBancoGasto = '';
@@ -26241,6 +26245,14 @@ function verificarcamposGasto() {
 		ver_vetana_informativa("FALTO SELECCIONAR EL MOTIVO")
 		return false;
 	}
+	if (inptCategoriaMisGastos == "") {
+		ver_vetana_informativa("FALTO SELECCIONAR LA CATEGORIA")
+		return false;
+	}
+	if (inptSubcategoriaMisGastos == "") {
+		ver_vetana_informativa("FALTO SELECCIONAR LA SUBCATEGORIA")
+		return false;
+	}
 	if (inptMotivoGasto == "") {
 		ver_vetana_informativa("FALTO INGRESAR EL MOTIVO DEL GASTO")
 		return false;
@@ -26266,9 +26278,9 @@ function verificarcamposGasto() {
 		accion = "nuevo";
 	}
 	
-	abmgastos(inptFechaDepositoGasto,inptMotivoMisGastos,inptArregloGasto,inptNroBoletaGasto , inptCuentaGasto ,inptMontoGasto, inptMotivoGasto, inptFechaGasto, inptEstadoGasto, idAbmGasto, inptTipoGasto, inptlocalMisGastos, accion);
+	abmgastos(inptFechaDepositoGasto,inptMotivoMisGastos,inptArregloGasto,inptNroBoletaGasto , inptCuentaGasto ,inptMontoGasto, inptMotivoGasto, inptFechaGasto, inptEstadoGasto, idAbmGasto, inptTipoGasto, inptlocalMisGastos,inptCategoriaMisGastos,inptSubcategoriaMisGastos, accion);
 }
-function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,nrocuenta,monto, motivo, fecha, estado, idgastos, tipo, cod_local, accion) {
+function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,nrocuenta,monto, motivo, fecha, estado, idgastos, tipo, cod_local,idcategoria_gastoFK,idsubcategoria_gastoFK, accion) {
 	verCerrarEfectoCargando("1")
 	var datos = new FormData();
 	obtener_datos_user();
@@ -26292,6 +26304,8 @@ function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,nrocuenta,monto, 
 	datos.append("foto", fotogasto)
 	datos.append("ext", extgasto)
 	datos.append("fechaDeposito", fechaDeposito)
+	datos.append("idcategoria_gastoFK", idcategoria_gastoFK)
+	datos.append("idsubcategoria_gastoFK", idsubcategoria_gastoFK)
 	var OpAjax = $.ajax({
 		data: datos,
 		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
@@ -27741,4 +27755,91 @@ function limpiarcamposSubcategoriaGasto(){
 }
 
 
+/* VISTA GASTOS POR CATEGORIA */
+function buscarabmGastoCategoria() {
+	let fecha1 = document.getElementById('buscarfechaInicioGastosPorCategoria').value;
+	let fecha2 = document.getElementById('buscarfechaFinGastosPorCategoria').value;
+	let tipo = document.getElementById('buscarTipoGastosPorCategoria').value;
 
+	document.getElementById("contenedorCategorias").innerHTML = imgCargandoA
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"fecha1": fecha1,
+		"fecha2": fecha2,
+		"tipo": tipo,
+		"funt": "buscarGastosPorCategoria"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
+		type: "post",
+		 
+		
+		beforeSend: function () {
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
+			 document.getElementById("contenedorCategorias").innerHTML = `
+          <div class="movements__empty">
+            Ocurrió un error al buscar los datos.
+          </div>
+        `;
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+	
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				if (Respuesta == "UI") {
+					ir_a_login()
+					ver_vetana_informativa("USUARIO INCORRECTO VUELVA A INICIAR SESION...")
+					return false;
+				}
+				if (Respuesta == "NI") {
+					ver_vetana_informativa("NO TIENES PERMISO PARA CONTINUA")
+					return false;
+                  }
+				if (Respuesta == "exito") {
+					 document.getElementById("contenedorCategorias").innerHTML = datos[2];
+				}
+			} catch (error) {
+				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
+				var titulo="Error: "+error+" \r\n Consola: "+responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+
+function verCerrarGastoPorCategoria(){
+	document.getElementById("divSegundoPlano").style.display="none";
+	if(document.getElementById("divVistaGastoPorCategoria").style.display==""){
+	document.getElementById("divMinimizadoVistaEgresoIngresoCategoria").style.display="none"
+     //  
+	$("div[id=divVistaGastoPorCategoria]").fadeOut(500);	
+	limpiarcamposbuscadoregresoingresocategoria()
+	
+	}else{	
+ 		
+		document.getElementById("divVistaGastoPorCategoria").style.display=""
+	
+	}
+}
+function limpiarcamposbuscadoregresoingresocategoria(){
+	
+	document.getElementById("contenedorCategorias").innerHTML=""
+	document.getElementById("buscarfechaFinGastosPorCategoria").value=""
+	document.getElementById("buscarfechaInicioGastosPorCategoria").value=""
+	document.getElementById("buscarTipoGastosPorCategoria").value=""
+	
+}
+function minimizarventanaingresoegreso(){
+	document.getElementById("divMinimizadoVistaEgresoIngresoCategoria").style.display="" 
+	$("div[id=divVistaGastoPorCategoria]").fadeOut(500);
+}
