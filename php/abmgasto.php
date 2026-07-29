@@ -2500,7 +2500,19 @@ function buscarGastosPorCategoria($fecha1, $fecha2, $tipo)
     }
 
     if (count($params) > 0) {
-        $stmt->bind_param($types, ...$params);
+        $bindParams = array($types);
+        foreach ($params as $key => $value) {
+            $bindParams[] = &$params[$key];
+        }
+
+        if (!call_user_func_array(array($stmt, 'bind_param'), $bindParams)) {
+            $informacion = array(
+                "1" => "error",
+                "2" => "Error al vincular parametros"
+            );
+            echo json_encode($informacion);
+            exit;
+        }
     }
 
     if (!$stmt->execute()) {

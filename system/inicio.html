@@ -33,10 +33,10 @@
 
     
     <script src="/GoodTechnologyEPNSA/js/datosUsuario.js"></script>
-	<!-- <link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/inicio.css?x=X-IOSV.04" /> -->
-	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.04" />
-	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.04" />
-	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.04" />
+	<!-- <link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/inicio.css?x=X-IOSV.06" /> -->
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.06" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.06" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.06" />
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/nextjs-toast-notify@1.47.0/dist/nextjs-toast-notify.js"></script>
@@ -58,7 +58,7 @@
 <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
 
 <!-- TU APP AL FINAL -->
-<script src="/GoodTechnologyEPNSA/js/inicio.js"></script>
+<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.06"></script>
 
  
 	
@@ -9245,6 +9245,8 @@ MONTO A COBRAR
 <option value="Materiales Didacticos">Materiales Didacticos</option>
 <option value="Libros">Libros</option>
 <option value="Interes">Interes</option>
+<option value="Matriculas">Matriculas</option>
+<option value="Cuotas">Cuotas</option>
 </select>
 </td>
 <td style='width:38%;'>
@@ -10502,6 +10504,8 @@ TIPO
 <option value="Materiales Didacticos">Materiales Didacticos</option>
 <option value="Libros">Libros</option>
 <option value="Interes">Interes</option>
+<option value="Matriculas">Matriculas</option>
+<option value="Cuotas">Cuotas</option>
 </select>
 </td>
 </tr>
@@ -10876,7 +10880,7 @@ TOTAL
 
 </center>
 </div>
-<div class='divAbms_b' id='divAbmAsignarArancel2' style='display:none;width: 900px;'>
+<div class='divAbms_b asignar-arancel-form' id='divAbmAsignarArancel2' style='display:none;width: 900px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -10895,8 +10899,8 @@ TOTAL
 </table>
 <br>
 <center>
-<div  style=" width: 100%; display: flex;" >
-<div class='divMenuf' style=" margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;"> 
+<div class='asignar-arancel-form-grid' style=" width: 100%; display: flex;" >
+<div class='divMenuf asignar-arancel-form-panel' style=" margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;"> 
 <br>
 <table style='width:100%;display:none;'>
 <tr>
@@ -10917,14 +10921,14 @@ TOTAL
 <option value="Materiales Didacticos">Materiales Didacticos</option>
 <option value="Libros">Libros</option>
 <option value="Interes">Interes</option>
+<option value="Matriculas">Matriculas</option>
+<option value="Cuotas">Cuotas</option>
 </select>
 </td>
 </tr>
 </table>
 
-<div id='divTipoAranceles'>
-<br>
-<table style='width:100%'>
+<table style='width:100%' id="divAnhoAsignarArancel">
 <tr>
 <td>
 <p class='pTitulo5'  >Año :</p>
@@ -10955,10 +10959,10 @@ TOTAL
 </tr>
 </table>
 <br>
-<table style='width:100%'>
+<table style='width:100%' id="divGradoAsignarArancel">
 <tr>
 <td>
-<p class='pTitulo5'  >Grado :</p>
+<p class='pTitulo5'>Grado :</p>
 <select class="inputText" style='width:130px' id='inptCursoAsignarArancel'>
 <option value="">Seleccionar</option>
 <option value="Prejardín"> Prejardín</option>
@@ -10979,7 +10983,6 @@ TOTAL
 </tr>
 </table>
 
-</div>
 <br>
 <table style='width:100%'>
 <tr>
@@ -11000,7 +11003,7 @@ TOTAL
 </table>
 
 </div>
-<div class='divMenuf' style="  margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;"> 
+<div class='divMenuf asignar-arancel-form-panel' style="  margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;"> 
 
 
 <br>
@@ -11064,14 +11067,12 @@ TOTAL
 <br> 
 </center>
 </div>
-</center>
-</div>
 
 
 
 
 
-<div class='divAbms_b' id='divAbmAsignarArancel3' style='display:none;'>
+<div class='divAbms_b asignar-arancel-form' id='divAbmAsignarArancel3' style='display:none;width: 900px;'>
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
@@ -11090,7 +11091,8 @@ TOTAL
 </table>
 <br>
 <center>
-<div class='divMenuf'>
+<div class='asignar-arancel-form-grid' style=" width: 100%; display: flex;" >
+<div class='divMenuf asignar-arancel-form-panel' style=" margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;">
 <br>
 <table style='width:100%'>
 <tr>
@@ -11104,6 +11106,8 @@ TOTAL
 <option value="Materiales Didacticos">Materiales Didacticos</option>
 <option value="Libros">Libros</option>
 <option value="Interes">Interes</option>
+<option value="Matriculas">Matriculas</option>
+<option value="Cuotas">Cuotas</option>
 </select>
 </td>
 </tr>
@@ -11206,6 +11210,10 @@ TOTAL
 </td>
 </tr>
 </table>
+
+</div>
+<div class='divMenuf asignar-arancel-form-panel' style="  margin-left: 10px; margin-top: 10px; height: 480px; width: 48%;">
+
 <br>
 <table style='width:100%'>
 <tr>
@@ -11233,14 +11241,16 @@ TOTAL
 </td>
 </tr>
 </table>
-<br>
-<br>
-<center>
-<input type='button' value='Guardar' class='btn1' onclick='CrearArancelMasivo()'   />
-</center>
-<br>
-<br>
 </div>
+</div>
+
+<br>
+<input type='button' value='Guardar' class='btn1' onclick='CrearArancelMasivo()'   />
+
+<br>
+</center>
+</div>
+
 </center>
 </div>
 

@@ -20294,6 +20294,8 @@ function verCerrarFrmAsignarArancel(d){
 		minimizartodaventanaabierto()
 		document.getElementById("divAbmAsignarArancel").style.display="";
 		document.getElementById("divAbmAsignarArancel1").style.display=""
+		document.getElementById("divAbmAsignarArancel2").style.display="none"
+		document.getElementById("divAbmAsignarArancel3").style.display="none"
 	
 	}else{
 		document.getElementById("divAbmAsignarArancel").style.display="none";
@@ -20340,6 +20342,7 @@ function verCerrarTipoVistaAsignarArancel(d){
 }
 function NuevoAsignarArancelFrm(){
 	// if(controlacceso("INSERTARASIGNARARANCELES","accion")==false){	  return;		}
+		document.getElementById("divAbmAsignarArancel").style.display=""
 		document.getElementById("divAbmAsignarArancel1").style.display="none"
 		document.getElementById("divAbmAsignarArancel3").style.display="none"
 		document.getElementById("divAbmAsignarArancel2").style.display=""
@@ -20347,10 +20350,11 @@ function NuevoAsignarArancelFrm(){
 }
 function NuevoAsignarArancelMasivoFrm(){
 	// if(controlacceso("INSERTARASIGNARARANCELES","accion")==false){	  return;		}
+		document.getElementById("divAbmAsignarArancel").style.display=""
 		document.getElementById("divAbmAsignarArancel1").style.display="none"
 		document.getElementById("divAbmAsignarArancel2").style.display="none"
 		document.getElementById("divAbmAsignarArancel3").style.display=""
-		LimpiarCamposAsignarArancel()
+		LimpiarCamposAsignarArancelMasivo()
 		
 }
 function EditarAsignarArancelFrm(){
@@ -20488,16 +20492,20 @@ function LimpiarCamposAsignarArancelMasivo(){
 	document.getElementById("ListArancelTipos").innerHTML=""
 }
 function ControlTipoArancel(d){
-	if(d.value=="Especificos" || d.value=="Libros" || d.value=="Materiales Didacticos"){
-		document.getElementById("divTipoAranceles").style.display=""
+	if(d.value=="Especificos" || d.value=="Libros" || d.value=="Materiales Didacticos" || d.value=="Cuotas"){
+		document.getElementById("divGradoAsignarArancel").style.display=""
+		if (d.value != "Cuotas") {
+			document.getElementById("divAnhoAsignarArancel").style.display=""
+		}
 	}else{
-		document.getElementById("divTipoAranceles").style.display="none"
+		document.getElementById("divGradoAsignarArancel").style.display="none"
+		document.getElementById("divAnhoAsignarArancel").style.display="none"
 	}
 		var tipo= document.getElementById("inptTipoArancelAsignarArancel").value
 	BuscarSeleccListaArancelesPorTipoEnArancel(tipo);
 }
 function ControlTipoArancelMasivo(d){
-	if(d.value=="Especificos"){
+	if(d.value=="Especificos" || d.value=="Libros" || d.value=="Materiales Didacticos" || d.value=="Cuotas"){
 		document.getElementById("divTipoArancelesMasivo").style.display=""
 	}else{
 		document.getElementById("divTipoArancelesMasivo").style.display="none"

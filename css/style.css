@@ -6087,3 +6087,70 @@ text-align: justify;
   color: #222;
   margin: 5px 0 0;
 }
+
+/* Asignar arancel: evita que reglas globales de .divMenuf/.inputText rompan la vista masiva. */
+#divAbmAsignarArancel2.asignar-arancel-form,
+#divAbmAsignarArancel3.asignar-arancel-form {
+  width: 900px !important;
+  max-width: calc(100vw - 280px);
+  min-height: 500px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+#divAbmAsignarArancel2 .asignar-arancel-form-grid,
+#divAbmAsignarArancel3 .asignar-arancel-form-grid {
+  width: 100% !important;
+  display: flex !important;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+#divAbmAsignarArancel2 .asignar-arancel-form-panel,
+#divAbmAsignarArancel3 .asignar-arancel-form-panel {
+  width: 48% !important;
+  height: 480px !important;
+  margin: 10px 0 0 !important;
+  overflow: auto;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+#divAbmAsignarArancel2 .inputText,
+#divAbmAsignarArancel2 .inputTextDisable,
+#divAbmAsignarArancel3 .inputText,
+#divAbmAsignarArancel3 .inputTextDisable {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  #divAbmAsignarArancel2.asignar-arancel-form,
+  #divAbmAsignarArancel3.asignar-arancel-form {
+    width: calc(100vw - 280px) !important;
+    max-width: calc(100vw - 280px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #divAbmAsignarArancel2.asignar-arancel-form,
+  #divAbmAsignarArancel3.asignar-arancel-form {
+    width: calc(100vw - 90px) !important;
+    max-width: calc(100vw - 90px);
+  }
+
+  #divAbmAsignarArancel2 .asignar-arancel-form-grid,
+  #divAbmAsignarArancel3 .asignar-arancel-form-grid {
+    flex-direction: column;
+  }
+
+  #divAbmAsignarArancel2 .asignar-arancel-form-panel,
+  #divAbmAsignarArancel3 .asignar-arancel-form-panel {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
