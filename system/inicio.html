@@ -58,7 +58,7 @@
 <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
 
 <!-- TU APP AL FINAL -->
-<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.06"></script>
+<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.07"></script>
 
  
 	
@@ -9022,7 +9022,7 @@ PENDIENTE
 <img src='/GoodTechnologyEPNSA/iconos/imprimir.png'class='iconoBtn' title='Imprimir Venta' onclick='vercerrarOpcionesImpresion("1")' />
 </td>
 <td style='width:5%;text-align:center'>
-<img src='/GoodTechnologyEPNSA/iconos/buscar.png'class='iconoBtn' title='Buscar Venta'onclick='vercerrarvistaventas("1")' />
+<img src='/GoodTechnologyEPNSA/iconos/buscar.png'class='iconoBtn' title='Historial de Cobranzas' onclick='vercerrarvistacobranzas("1")' />
 </td>
 <td style="width:5%">
 <img src="/GoodTechnologyEPNSA/iconos/minimizar2.png" class="iconoBtn" title="Minimizar Ventana" onclick="MinimizarVentanaCobranzas()">
@@ -9326,6 +9326,106 @@ TOTAL
 <!-- </td>				
 </tr>
 </table> -->
+</div>
+
+<div class='principal2' style='display:none' id='divVistaCobranzas'>
+<table style='width:100%;height:100%' id='tdEfectoVistaCobranza'>
+<tr>
+<td>
+<center>
+<div style='min-height:500px;width:1100px;' class='divAbms_b'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Historial de <b style='font-size: 30px;'>Cobranzas</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn' title='Cerrar Ventana'
+onclick='vercerrarvistacobranzas("2")' />
+</td>
+</tr>
+</table>
+<br>
+<center>
+<div class='divMenuf'>
+<table style='width:95%'>
+<tr>
+<td style='width:25%'>
+<p class='pTituloC'>Buscador</p>
+<input style='width:250px' class='inputText' type='text' id='inptBuscarVistaCobranzas'
+onkeyup="if(event.keyCode == 13){buscarvistacobranza()}" />
+</td>
+<td style='width:22%'>
+<p class='pTituloC'>Buscar Por</p>
+<select style='width:190px' class='inputSelect' id='inptOpcionesdeBusquedaCobranza'>
+<option value='1'>NOMBRE Y APELLIDO DEL ALUMNO</option>
+<option value='2'>NRO DOCUMENTO DEL ALUMNO</option>
+<option value='3'>NRO COMPROBANTE</option>
+<option value='4'>CONCEPTO</option>
+<option value='5'>FECHA</option>
+</select>
+</td>
+<td style='width:14%'>
+<p class='pTituloC'>Fecha Inicio</p>
+<input style='width:120px' class='inputText' type='date' id='inptFechaInicioVistaCobranzas'
+onkeyup="if(event.keyCode == 13){buscarvistacobranza()}" />
+</td>
+<td style='width:14%'>
+<p class='pTituloC'>Fecha Fin</p>
+<input style='width:120px' class='inputText' type='date' id='inptFechaFinVistaCobranzas'
+onkeyup="if(event.keyCode == 13){buscarvistacobranza()}" />
+</td>
+<td style='width:25%;vertical-align:bottom;text-align:left'>
+<input type='button' value='Buscar' class='btn4' onclick='buscarvistacobranza()'>
+</td>
+</tr>
+</table>
+<br>
+<br>
+<center>
+<table class='tableCabeceraRegistro'>
+<tbody>
+<tr>
+<td class='td_registro' style='width:15%;'>NRO COMPROBANTE</td>
+<td class='td_registro' style='width:11%;'>FECHA</td>
+<td class='td_registro' style='width:10%;'>TIPO</td>
+<td class='td_registro' style='width:29%;'>ALUMNO</td>
+<td class='td_registro' style='width:15%;'>DOCUMENTO</td>
+<td class='td_registro' style='width:10%;'>CURSO</td>
+<td class='td_registro' style='display:none'>ANHO</td>
+<td class='td_registro' style='display:none'>CONCEPTO</td>
+<td class='td_registro' style='width:10%;'>MONTO</td>
+<td class='td_registro' style='display:none'>ESTADO</td>
+</tr>
+</tbody>
+</table>
+<div class='div_cuerpo_table' id='table_vista_cobranzas'></div>
+<br>
+<table style='width:95%'>
+<tr>
+<td style='width:75%;text-align:left'>
+<p class='pTituloC'>Registro seleccionado</p>
+<input class='inputTextDisable' type='text' id='inptRegistroSeleccionadoVistaCobranza' disabled style='width:250px' />
+</td>
+<td style='width:12%;text-align:left'>
+<p class='pTituloC'>Registros</p>
+<input class='inputTextDisable' type='text' id='inptTotalRegistroVistaCobranza' disabled style='width:90px' />
+</td>
+<td style='width:13%;text-align:left'>
+<p class='pTituloC'>Total</p>
+<input class='inputTextDisable' type='text' id='inptTotalMontoVistaCobranza' disabled style='width:110px' />
+</td>
+</tr>
+</table>
+</center>
+</div>
+</center>
+<br>
+</div>
+</center>
+</td>
+</tr>
+</table>
 </div>
 
 <div class='principal2' style='display:none' id='divOpcionesImpresion'>

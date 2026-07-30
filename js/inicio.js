@@ -16990,6 +16990,264 @@ function ObtenerdatosAbmListaDocente(datostr) {
 /*
 COBRAR ARANCELES
 */
+function vercerrarvistaventas(d) {
+	vercerrarvistacobranzas(d)
+}
+
+function limpiarFiltrosHistorialCobranza() {
+	if (document.getElementById("inptFechaInicioVistaCobranzas")) {
+		document.getElementById("inptFechaInicioVistaCobranzas").value = ""
+	}
+	if (document.getElementById("inptFechaFinVistaCobranzas")) {
+		document.getElementById("inptFechaFinVistaCobranzas").value = ""
+	}
+}
+
+function vercerrarvistacobranzas(d) {
+	if (!document.getElementById("divVistaCobranzas") || !document.getElementById("inptBuscarVistaCobranzas")) {
+		return
+	}
+	if (d == "1") {
+		document.getElementById("divVistaCobranzas").style.display = ""
+		document.getElementById("inptBuscarVistaCobranzas").focus()
+	} else {
+		document.getElementById("inptBuscarVistaCobranzas").value = ""
+		limpiarFiltrosHistorialCobranza()
+		if (document.getElementById("table_vista_cobranzas")) {
+			document.getElementById("table_vista_cobranzas").innerHTML = ""
+		}
+		if (document.getElementById("inptRegistroSeleccionadoVistaCobranza")) {
+			document.getElementById("inptRegistroSeleccionadoVistaCobranza").value = ""
+		}
+		if (document.getElementById("inptTotalRegistroVistaCobranza")) {
+			document.getElementById("inptTotalRegistroVistaCobranza").value = ""
+		}
+		if (document.getElementById("inptTotalMontoVistaCobranza")) {
+			document.getElementById("inptTotalMontoVistaCobranza").value = ""
+		}
+		$("div[id=divVistaCobranzas]").fadeOut(500)
+	}
+}
+
+function buscarvistacobranza() {
+	var buscar = document.getElementById('inptBuscarVistaCobranzas').value
+	var filtro = document.getElementById('inptOpcionesdeBusquedaCobranza').value
+	var fecha1 = document.getElementById('inptFechaInicioVistaCobranzas').value
+	var fecha2 = document.getElementById('inptFechaFinVistaCobranzas').value
+	if (fecha1 != "" && fecha2 != "" && fecha2 < fecha1) {
+		alertmensaje("La fecha fin no puede ser menor a la fecha inicio")
+		return
+	}
+	document.getElementById("table_vista_cobranzas").innerHTML = imgCargandoA
+	document.getElementById("inptRegistroSeleccionadoVistaCobranza").value = ""
+	document.getElementById("inptTotalRegistroVistaCobranza").value = ""
+	document.getElementById("inptTotalMontoVistaCobranza").value = ""
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"buscar": buscar,
+		"filtro": filtro,
+		"fecha1": fecha1,
+		"fecha2": fecha2,
+		"funt": "historialvistacobranza"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/ABMCargarFactura.php",
+		type: "post",
+		xhr: function () {
+			var xhr = new window.XMLHttpRequest();
+			xhr.upload.addEventListener("progress", function (evt) {
+				var kb = ((evt.loaded * 1) / 1000).toFixed(1)
+				if (kb == "0.0") {
+					kb = 0.1;
+				}
+				cargarConectividad("enviado", kb, "0")
+			}, false);
+			xhr.addEventListener("progress", function (evt) {
+				var kb = ((evt.loaded * 1) / 1000).toFixed(1)
+				if (kb == "0.0") {
+					kb = 0.1;
+				}
+				cargarConectividad("recibido", "0", kb)
+			}, false);
+			return xhr;
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status, textstatus, "abmventana")
+			document.getElementById("table_vista_cobranzas").innerHTML = ''
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta)
+			document.getElementById("table_vista_cobranzas").innerHTML = ''
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				if (Respuesta == "error") {
+					alertmensaje(datos[2])
+					return
+				}
+				Respuesta = respuestaJqueryAjax(Respuesta)
+				if (Respuesta == true) {
+					document.getElementById("table_vista_cobranzas").innerHTML = datos[2]
+					document.getElementById("inptTotalRegistroVistaCobranza").value = datos[3]
+					document.getElementById("inptTotalMontoVistaCobranza").value = datos[4]
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
+				var titulo = "Error: " + error + " \r\n Consola: " + responseText
+				GuardarArchivosLog(titulo)
+			}
+		}
+	});
+}
+
+function decodificarBase64Utf8(valor) {
+	if (valor == "") {
+		return ""
+	}
+	try {
+		return decodeURIComponent(Array.prototype.map.call(atob(valor), function (c) {
+			return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+		}).join(''))
+	} catch (error) {
+		try {
+			return atob(valor)
+		} catch (errorBase64) {
+			return ""
+		}
+	}
+}
+
+function cargarValorHistorialCobranza(id, valor) {
+	var elemento = document.getElementById(id)
+	if (elemento) {
+		elemento.value = valor
+	}
+}
+
+function cargarHtmlHistorialCobranza(id, valor) {
+	var elemento = document.getElementById(id)
+	if (elemento) {
+		elemento.innerHTML = valor
+	}
+}
+
+function cargarFechaSelectHistorialCobranza(fecha) {
+	if (fecha == "") {
+		return
+	}
+	var partes = fecha.split("-")
+	if (partes.length != 3) {
+		return
+	}
+	cargarValorHistorialCobranza("inputyearFactura", partes[0])
+	cargarValorHistorialCobranza("inputmonthFactura", Number(partes[1]).toString())
+	if (typeof ObtenerFechaSelect === "function") {
+		ObtenerFechaSelect()
+	}
+	cargarValorHistorialCobranza("inputdayFactura", Number(partes[2]).toString())
+}
+
+var idFacturaHistorialCobranza = "";
+function obtenerdatosvistacobranza(datostr) {
+	$("tr[id=tbSelecRegistro]").each(function (i, td) {
+		td.className = ''
+	});
+	datostr.className = 'tableRegistroSelec'
+	limpiarCamposCobrarAranceles()
+	idFacturaHistorialCobranza = $(datostr).children('td[id="td_id"]').html();
+	idAbmCargaFactura = "";
+	idAsignarAlumnosFk = $(datostr).children('td[id="td_datos_13"]').html();
+	idAlumnosFacturaFk = $(datostr).children('td[id="td_datos_14"]').html();
+	idCarreraFactura = $(datostr).children('td[id="td_datos_15"]').html();
+	idFilialFactura = $(datostr).children('td[id="td_datos_16"]').html();
+
+	var fecha = $(datostr).children('td[id="td_datos_1"]').html();
+	var alumno = $(datostr).children('td[id="td_datos_2"]').html();
+	var documento = $(datostr).children('td[id="td_datos_3"]').html();
+	var carrera = $(datostr).children('td[id="td_datos_4"]').html();
+	var curso = $(datostr).children('td[id="td_datos_5"]').html();
+	var anho = $(datostr).children('td[id="td_datos_6"]').html();
+	var semestre = $(datostr).children('td[id="td_datos_7"]').html();
+	var filial = $(datostr).children('td[id="td_datos_8"]').html();
+	var total = $(datostr).children('td[id="td_datos_9"]').html();
+	var descuento = $(datostr).children('td[id="td_datos_10"]').html();
+	var comprobante = $(datostr).children('td[id="td_datos_11"]').html();
+	var concepto = $(datostr).children('td[id="td_datos_12"]').html();
+	var tipoComprobante = $(datostr).children('td[id="td_datos_17"]').html();
+	var puntoExpedicionFk = $(datostr).children('td[id="td_datos_18"]').html();
+	var cf = $(datostr).children('td[id="td_datos_19"]').html();
+	var turno = $(datostr).children('td[id="td_datos_21"]').html();
+	var seccion = $(datostr).children('td[id="td_datos_22"]').html();
+	var totalNumero = $(datostr).children('td[id="td_datos_23"]').html();
+	var subtotal = $(datostr).children('td[id="td_datos_24"]').html();
+	var detalleTabla = decodificarBase64Utf8($(datostr).children('td[id="td_datos_25"]').html());
+	var detalleRecibo = decodificarBase64Utf8($(datostr).children('td[id="td_datos_26"]').html());
+	var detalleFactura = decodificarBase64Utf8($(datostr).children('td[id="td_datos_27"]').html());
+	var puntoExpedicionTexto = $(datostr).children('td[id="td_datos_28"]').html();
+
+	cargarValorHistorialCobranza('inptRegistroSeleccionadoVistaCobranza', comprobante + " - " + alumno)
+	cargarValorHistorialCobranza('inptDocAlumnosCobrarAranceles', documento)
+	cargarValorHistorialCobranza('inptRucRazonSocial', documento)
+	cargarValorHistorialCobranza('inptNombreAlumnoCobrarAranceles', alumno)
+	cargarValorHistorialCobranza('inptNombreApellidoRazonSocial', alumno)
+	cargarValorHistorialCobranza('inptCarreraCobrarAranceles', carrera)
+	cargarValorHistorialCobranza('inptCursoCobrarAranceles', curso)
+	cargarValorHistorialCobranza('inptAnhoCobrarAranceles', anho)
+	cargarValorHistorialCobranza('inptSemestreCobrarAranceles', semestre)
+	cargarValorHistorialCobranza('inptTurnoCobrarAranceles', turno)
+	cargarValorHistorialCobranza('inptSeccionCobrarAranceles', seccion)
+	cargarValorHistorialCobranza('inptFilialCobrarAranceles', filial)
+	cargarValorHistorialCobranza('inptFechaCobrarAranceles', fecha)
+	cargarValorHistorialCobranza('inptFacturaNroCobrarAranceles', comprobante)
+	cargarValorHistorialCobranza('inptControlCobrarAranceles', cf)
+	cargarValorHistorialCobranza('inptSubTotalCobrarAranceles', subtotal)
+	cargarValorHistorialCobranza('inptTotalDescuentoCobrarAranceles', descuento)
+	cargarValorHistorialCobranza('inptTotalCobrarAranceles', total)
+	cargarHtmlHistorialCobranza('inptTotalCobrarAranceles2', total)
+	cargarHtmlHistorialCobranza('table_abm_detalle_cobrar_aranceles', detalleTabla)
+	cargarHtmlHistorialCobranza('divExtraFactura1', concepto)
+	cargarFechaSelectHistorialCobranza(fecha)
+
+	if (document.getElementById('inptSeleccionImprimirCobranza')) {
+		if (tipoComprobante == "FACTURA" || tipoComprobante == "BOLETA") {
+			document.getElementById('inptSeleccionImprimirCobranza').value = tipoComprobante
+		}
+	}
+	if (document.getElementById('inptPuntoExpedicionCobrarAranceles')) {
+		document.getElementById('inptPuntoExpedicionCobrarAranceles').innerHTML = "<option id='" + puntoExpedicionFk + "' value='" + puntoExpedicionTexto + "'>" + puntoExpedicionTexto + "</option>"
+	}
+
+	facturaNombreAlumno = alumno
+	facturaCiAlumno = documento
+	facturaDireccionAlumno = filial
+	facturaFecha = fecha
+	facturaTotal = total
+	facturanros = comprobante
+	paginaRecibo = detalleRecibo
+	facturaDetalles = detalleFactura
+	descuentofactura = descuento
+	if (typeof numeroALetras === "function") {
+		facturaTotalLetras = numeroALetras(totalNumero, {
+			plural: 'GUARANIES',
+			singular: 'GUARANIES',
+			centPlural: 'GUARANIES',
+			centSingular: 'GUARANIES'
+		});
+	}
+
+	document.getElementById("btnFinalizarCobranzas").style.display = "none"
+	document.getElementById("btnCancelarCobranzas").style.display = ""
+	document.getElementById("btnAddToDetalleVenta").style.backgroundColor = "#cccccc";
+	document.getElementById("btnMasDetalleVenta").style.display = "none";
+	document.getElementById("TdImprimirCobrarAranceles").style.display = "none"
+	$("div[id=divVistaCobranzas]").fadeOut(500)
+}
+
 function verCerrarFrmCobrarAranceles(d){
 	document.getElementById("divMinimizadoCobranzas").style.display="none";
 	document.getElementById("divMinimizadoCobranzas2").style.display="none";
@@ -17013,6 +17271,7 @@ function verCerrarFrmCobrarAranceles(d){
 	//document.getElementById("divAbmCobrarAranceles").style.display="none";
 		document.getElementById("tdEfectoAbmCobrarAranceles").className="magictime vanishOut"
 		$("div[id=divAbmCobrarAranceles]").fadeOut(500);	
+		vercerrarvistacobranzas("2")
 		limpiarCamposCobrarAranceles()
 	}
 }

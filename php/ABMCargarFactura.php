@@ -205,6 +205,29 @@ if($codFilial==""){
 buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$documento,$alumno,$fecha1,$fecha2,$codFilial,$codArancel,$codCarrera,$estadofactura,$ordenby);
 
 }
+if($funt=="historialvistacobranza")
+{
+$buscar=isset($_POST['buscar']) ? $_POST['buscar'] : "";
+$buscar = preparar_variables(utf8_decode($buscar));
+$filtro=isset($_POST['filtro']) ? $_POST['filtro'] : "1";
+$filtro = preparar_variables(utf8_decode($filtro));
+$fecha1=isset($_POST['fecha1']) ? $_POST['fecha1'] : "";
+$fecha1 = preparar_variables(utf8_decode($fecha1));
+$fecha2=isset($_POST['fecha2']) ? $_POST['fecha2'] : "";
+$fecha2 = preparar_variables(utf8_decode($fecha2));
+$fecha1=normalizarFechaFiltroHistorialCobranza($fecha1);
+$fecha2=normalizarFechaFiltroHistorialCobranza($fecha2);
+$codFilial="";
+if($codFilial==""){
+ $control=controldefilial($user,"ACCESOFILIAL"," acus.accion='SI' ");
+	if($control==0){
+		$codFilial=buscarmifilialFK($user);
+
+	}
+}
+historialvistacobranza($buscar,$filtro,$codFilial,$fecha1,$fecha2);
+
+}
 if($funt=="buscarbalancegeneral")
 {
 $fecha1=$_POST['fecha1'];
@@ -1736,6 +1759,319 @@ echo json_encode($informacion);
 exit;
 
 
+}
+
+function normalizarFechaFiltroHistorialCobranza($fecha)
+{
+	if($fecha==""){
+		return "";
+	}
+	$fecha=str_replace("/", "-", $fecha);
+	if(preg_match('/^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})$/',$fecha,$partes)){
+		$anho=(int)$partes[1];
+		$mes=(int)$partes[2];
+		$dia=(int)$partes[3];
+		if(checkdate($mes,$dia,$anho)){
+			return sprintf('%04d-%02d-%02d',$anho,$mes,$dia);
+		}
+	}
+	if(preg_match('/^([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})$/',$fecha,$partes)){
+		$dia=(int)$partes[1];
+		$mes=(int)$partes[2];
+		$anho=(int)$partes[3];
+		if(checkdate($mes,$dia,$anho)){
+			return sprintf('%04d-%02d-%02d',$anho,$mes,$dia);
+		}
+	}
+	return "";
+}
+
+function historialvistacobranza($buscar,$filtro,$codFilial,$fecha1,$fecha2)
+{
+	$mysqli=conectar_al_servidor();
+	$pagina='';
+	$condicionFilial="";
+	if($codFilial!=""){
+		$condicionFilial=" and pt.cod_filialFk='$codFilial' ";
+	}
+	$condicionFecha="";
+	if($fecha1!="" && $fecha2!=""){
+		if($fecha2<$fecha1){
+			$fechaTemporal=$fecha1;
+			$fecha1=$fecha2;
+			$fecha2=$fechaTemporal;
+		}
+		$condicionFecha=" and DATE(fac.fecha)>='$fecha1' and DATE(fac.fecha)<='$fecha2' ";
+	}else if($fecha1!=""){
+		$condicionFecha=" and DATE(fac.fecha)>='$fecha1' ";
+	}else if($fecha2!=""){
+		$condicionFecha=" and DATE(fac.fecha)<='$fecha2' ";
+	}
+	$condicion="";
+	if($buscar!=""){
+		if($filtro=="1"){
+			$condicion=" and concat(alu.nombre,' ',alu.apellido) like '%".$buscar."%' ";
+		}
+		if($filtro=="2"){
+			$condicion=" and alu.ci like '%".$buscar."%' ";
+		}
+		if($filtro=="3"){
+			$condicion=" and fac.nrofactura like '%".$buscar."%' ";
+		}
+		if($filtro=="4"){
+			$condicion=" and (lta.nombre like '%".$buscar."%' or fac.Detalles like '%".$buscar."%') ";
+		}
+		if($filtro=="5"){
+			$condicion=" and fac.fecha like '%".$buscar."%' ";
+		}
+	}
+
+	$sql= "Select
+	MIN(fac.idfacturaspagadas) as idfacturaspagadas,
+	fac.nrofactura,
+	fac.cf,
+	MAX(fac.tipo_comprobante) as tipo_comprobante,
+	MAX(fac.fecha) as fecha,
+	MAX(fac.estadofactura) as estadofactura,
+	IFNULL(SUM(fac.monto),0) as monto,
+	IFNULL(SUM(fac.descuento),0) as descuento,
+	MAX(fac.idcursosalumnoFk) as idcursosalumnoFk,
+	MAX(fac.anho) as anho,
+	MAX(fac.curso) as curso,
+	MAX(fac.semestre) as semestre,
+	MAX(fac.puntoexpedicionfk) as puntoexpedicionfk,
+	MAX(cur.idalumnoFk) as idalumnoFk,
+	MAX(cur.cod_carreraFK) as cod_carreraFK,
+	MAX(cur.turno) as turno,
+	MAX(cur.seccion) as seccion,
+	MAX(alu.nombre) as nombrealumno,
+	MAX(alu.apellido) as apellido,
+	MAX(alu.ci) as ci,
+	MAX(lt.nombre) as nombreCarrera,
+	MAX(fl1.nombre) as nombrefilialOrigen,
+	MAX(fl1.cod_filial) as codfilial,
+	IFNULL(CONCAT(MAX(fl1.puntoexpedicion),'-',MAX(lts.nro)),'') as puntoexpediciontexto,
+	GROUP_CONCAT(DISTINCT IFNULL(NULLIF(fac.Detalles,''),lta.nombre) SEPARATOR ' / ') as concepto
+	from facturaspagadas fac
+	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk
+	inner join alumno alu on alu.idalumno=cur.idalumnoFk
+	left join carrera car on car.cod_carrera=cur.cod_carreraFK
+	left join listadecarreras lt on lt.Cod_listadecarreras=car.Cod_listadecarrerasFK
+	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+	left join filial fl1 on fl1.cod_filial=pt.cod_filialFk
+	left join listadocaja lts on lts.idcaja=pt.codcajaFk
+	where fac.estado='Activo' ".$condicionFilial.$condicion.$condicionFecha."
+	group by fac.nrofactura, fac.cf
+	order by fecha desc, idfacturaspagadas desc
+	limit 100";
+
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt){
+		error_log("historialvistacobranza prepare error: ".$mysqli->error);
+		mysqli_close($mysqli);
+		$informacion =array("1" => "error","2" => "No se pudo consultar el historial de cobranzas");
+		echo json_encode($informacion);
+		exit;
+	}
+	if ( ! $stmt->execute()) {
+		error_log("historialvistacobranza execute error: ".$stmt->error);
+		mysqli_close($mysqli);
+		$informacion =array("1" => "error","2" => "No se pudo consultar el historial de cobranzas");
+		echo json_encode($informacion);
+		exit;
+	}
+
+	$result = $stmt->get_result();
+	$valor= mysqli_num_rows($result);
+	$totalresouesta= $valor;
+	$totales=0;
+	$styleName="tableRegistroSearch";
+	if ($valor>0)
+	{
+		while ($valor= mysqli_fetch_assoc($result))
+		{
+			$idfacturaspagadas=$valor['idfacturaspagadas'];
+			$nrofactura=utf8_encode($valor['nrofactura']);
+			$cf=utf8_encode($valor['cf']);
+			$tipo_comprobante=utf8_encode($valor['tipo_comprobante']);
+			$fecha=utf8_encode($valor['fecha']);
+			$estadofactura=utf8_encode($valor['estadofactura']);
+			$monto=$valor['monto'];
+			$descuento=$valor['descuento'];
+			$idcursosalumnoFk=utf8_encode($valor['idcursosalumnoFk']);
+			$anho=utf8_encode($valor['anho']);
+			$curso=utf8_encode($valor['curso']);
+			$semestre=utf8_encode($valor['semestre']);
+			$puntoexpedicionfk=utf8_encode($valor['puntoexpedicionfk']);
+			$idalumnoFk=utf8_encode($valor['idalumnoFk']);
+			$cod_carreraFK=utf8_encode($valor['cod_carreraFK']);
+			$turno=utf8_encode($valor['turno']);
+			$seccion=utf8_encode($valor['seccion']);
+			$nombrealumno=utf8_encode($valor['nombrealumno']);
+			$apellido=utf8_encode($valor['apellido']);
+			$ci=utf8_encode($valor['ci']);
+			$nombreCarrera=utf8_encode($valor['nombreCarrera']);
+			$nombrefilialOrigen=utf8_encode($valor['nombrefilialOrigen']);
+			$codfilial=utf8_encode($valor['codfilial']);
+			$puntoexpediciontexto=utf8_encode($valor['puntoexpediciontexto']);
+			$concepto=utf8_encode($valor['concepto']);
+			$alumno=$nombrealumno." ".$apellido;
+			$subtotal=$monto+$descuento;
+			$totales=$totales+$monto;
+			if($tipo_comprobante==""){
+				if($cf=="0" || $cf==""){
+					$tipo_comprobante="BOLETA";
+				}else{
+					$tipo_comprobante="FACTURA";
+				}
+			}
+			$comprobante=$nrofactura;
+			if($cf!=""){
+				$comprobante=$nrofactura."-".$cf;
+			}
+			$fechaVista="";
+			if($fecha!=""){
+				$fechaVista=date("d-m-Y", strtotime($fecha));
+			}
+			if($styleName=="tableRegistroSearch"){
+				$styleName="tableRegistroSearch2";
+			}else{
+				$styleName="tableRegistroSearch";
+			}
+			$detalleCobranza=buscarDetalleHistorialCobranza($nrofactura,$cf);
+			$detalleTabla=base64_encode($detalleCobranza[0]);
+			$detalleRecibo=base64_encode($detalleCobranza[1]);
+			$detalleFactura=base64_encode($detalleCobranza[2]);
+
+			$pagina.="<table class='$styleName' border='0' cellspacing='0' cellpadding='0'>
+			<tr id='tbSelecRegistro' onclick='obtenerdatosvistacobranza(this)'>
+			<td id='td_id' style='display:none'>".$idfacturaspagadas."</td>
+			<td style='width:15%'>".$comprobante."</td>
+			<td id='td_datos_1' style='display:none'>".$fecha."</td>
+			<td style='width:11%'>".$fechaVista."</td>
+			<td id='td_datos_17' style='width:10%'>".$tipo_comprobante."</td>
+			<td id='td_datos_2' style='width:29%'>".$alumno."</td>
+			<td id='td_datos_3' style='width:15%'>".$ci."</td>
+			<td id='td_datos_5' style='width:10%'>".$curso."</td>
+			<td id='td_datos_6' style='display:none'>".$anho."</td>
+			<td id='td_datos_12' style='display:none'>".$concepto."</td>
+			<td id='td_datos_9' style='width:10%'>".number_format($monto,'0',',','.')."</td>
+			<td id='td_datos_20' style='display:none'>".$estadofactura."</td>
+			<td id='td_datos_4' style='display:none'>".$nombreCarrera."</td>
+			<td id='td_datos_7' style='display:none'>".$semestre."</td>
+			<td id='td_datos_8' style='display:none'>".$nombrefilialOrigen."</td>
+			<td id='td_datos_10' style='display:none'>".number_format($descuento,'0',',','.')."</td>
+			<td id='td_datos_11' style='display:none'>".$comprobante."</td>
+			<td id='td_datos_13' style='display:none'>".$idcursosalumnoFk."</td>
+			<td id='td_datos_14' style='display:none'>".$idalumnoFk."</td>
+			<td id='td_datos_15' style='display:none'>".$cod_carreraFK."</td>
+			<td id='td_datos_16' style='display:none'>".$codfilial."</td>
+			<td id='td_datos_18' style='display:none'>".$puntoexpedicionfk."</td>
+			<td id='td_datos_19' style='display:none'>".$cf."</td>
+			<td id='td_datos_21' style='display:none'>".$turno."</td>
+			<td id='td_datos_22' style='display:none'>".$seccion."</td>
+			<td id='td_datos_23' style='display:none'>".$monto."</td>
+			<td id='td_datos_24' style='display:none'>".number_format($subtotal,'0',',','.')."</td>
+			<td id='td_datos_25' style='display:none'>".$detalleTabla."</td>
+			<td id='td_datos_26' style='display:none'>".$detalleRecibo."</td>
+			<td id='td_datos_27' style='display:none'>".$detalleFactura."</td>
+			<td id='td_datos_28' style='display:none'>".$puntoexpediciontexto."</td>
+			</tr>
+			</table>";
+		}
+	}
+	mysqli_close($mysqli);
+	$informacion =array("1" => "exito","2" => $pagina,"3"=> $totalresouesta,"4"=> number_format($totales,'0',',','.') );
+	echo json_encode($informacion);
+	exit;
+}
+
+function buscarDetalleHistorialCobranza($nrofactura,$cf)
+{
+	$mysqli=conectar_al_servidor();
+	$tabla='';
+	$recibo='';
+	$factura='';
+	$sql= "Select fac.cod_arancelFk, fac.Detalles, fac.monto, IFNULL(fac.descuento,0) as descuento,
+	fac.curso, fac.anho, fac.semestre, lta.nombre as arancel
+	from facturaspagadas fac
+	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	where fac.estado='Activo' and fac.nrofactura=? and fac.cf=?
+	order by fac.idfacturaspagadas asc";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt){
+		error_log("buscarDetalleHistorialCobranza prepare error: ".$mysqli->error);
+		mysqli_close($mysqli);
+		$datos[0]=$tabla;
+		$datos[1]=$recibo;
+		$datos[2]=$factura;
+		return $datos;
+	}
+	$ss='ss';
+	$stmt->bind_param($ss,$nrofactura,$cf);
+	if ( ! $stmt->execute()) {
+		error_log("buscarDetalleHistorialCobranza execute error: ".$stmt->error);
+		mysqli_close($mysqli);
+		$datos[0]=$tabla;
+		$datos[1]=$recibo;
+		$datos[2]=$factura;
+		return $datos;
+	}
+	$result = $stmt->get_result();
+	$valor= mysqli_num_rows($result);
+	if ($valor>0)
+	{
+		while ($valor= mysqli_fetch_assoc($result))
+		{
+			$cod_arancelFk=utf8_encode($valor['cod_arancelFk']);
+			$detalle=utf8_encode($valor['Detalles']);
+			$arancel=utf8_encode($valor['arancel']);
+			$monto=$valor['monto'];
+			$descuento=$valor['descuento'];
+			$curso=utf8_encode($valor['curso']);
+			$anho=utf8_encode($valor['anho']);
+			$semestre=utf8_encode($valor['semestre']);
+			if($detalle==""){
+				$detalle=$arancel;
+			}
+			$precio=$monto+$descuento;
+			$tabla.="<table class='tableRegistroSearch' border='0' cellspacing='0' cellpadding='0'>
+			<tr id='tbSelecRegistro' name='tdDetalleCobranzasHistorial'>
+			<td id='td_id_1' style='display:none'>".$cod_arancelFk."</td>
+			<td id='td_datos_1' style='width:20%;'>".$detalle."</td>
+			<td id='td_datos_3' style='width:10%'>".number_format($precio,'0',',','.')."</td>
+			<td id='td_datos_9' style='width:5%'>".number_format($descuento,'0',',','.')."</td>
+			<td id='td_datos_4' style='width:5%'>1</td>
+			<td id='td_datos_5' style='width:10%'>".number_format($monto,'0',',','.')."</td>
+			<td id='td_datos_6' style='display:none'></td>
+			<td id='td_datos_7' style='display:none'></td>
+			<td id='td_datos_10' style='display:none'>".$curso."</td>
+			<td id='td_datos_11' style='display:none'>".$anho."</td>
+			<td id='td_datos_12' style='display:none'>".$semestre."</td>
+			</tr>
+			</table>";
+			$recibo.="<table class='tableRegistroFactura' style='width:100%' ><tbody><tr>
+			<td style='text-align: left; width: 60%;'>".$detalle."</td>
+			<td style='text-align: left; width: 20%;'>".number_format($descuento,'0',',','.')."</td>
+			<td style='text-align: left; width: 20%;'>".number_format($monto,'0',',','.')."</td>
+			</tr></tbody></table>";
+			$factura.="<table class='tableRegistroFactura'><tbody><tr>
+			<td style='text-align: center; width: 10%;'>".$cod_arancelFk."</td>
+			<td class='TdCantidadFactura'>1</td>
+			<td class='TdDescripcionFactura'>".$detalle."</td>
+			<td style='width: 10%;'>".number_format($monto,'0',',','.')."</td>
+			<td style='width: 50%;'>".number_format($monto,'0',',','.')."</td>
+			</tr></tbody></table>";
+		}
+	}
+	mysqli_close($mysqli);
+	$datos[0]=$tabla;
+	$datos[1]=$recibo;
+	$datos[2]=$factura;
+	return $datos;
 }
 
 function buscarbalancegeneral($cursofiltro,$semestrefiltro,$fecha1,$fecha2,$tipo,$anhofiltro,$documento,$alumno,$codFilial,$codArancel,$codCarrera,$ordenby)
