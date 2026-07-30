@@ -26359,15 +26359,15 @@ ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
 /* ABM GASTO */
 function verCerrarAbmGasto(){
 	document.getElementById("divSegundoPlano").style.display="none";
-	if(document.getElementById("divAbmGastos").style.display==""){
 	document.getElementById("divMinimizadoEgresoIngreso").style.display="none"
+	if(document.getElementById("divAbmGastos").style.display==""){
      //  
 	$("div[id=divAbmGastos]").fadeOut(500);	
 	limpiarcamposGasto()
 	limpiarcamposbuscadoregresoingreso()
 	}else{	
 // if(controlacceso("VERLISTADOEGRESOINGRESO","accion")==false){return;}	
- 		
+		minimizartodaventanaabierto()
 		document.getElementById("divAbmGastos").style.display=""
        //  
 	
@@ -26422,36 +26422,55 @@ function verVentanaEditarGasto() {
 	verCerrarVentanaAbmGasto("1", "2")
 }
 var idAbmGasto = ""
+function obtenerValorRegistroGasto(datostr, idCampo) {
+	var valor = $(datostr).children('td[id="' + idCampo + '"]').html();
+	if (valor == undefined) {
+		valor = $(datostr).children('span[id="' + idCampo + '"]').html();
+	}
+	if (valor == undefined || valor == null || valor == "undefined" || valor == "null") {
+		return "";
+	}
+	return valor;
+}
 function obtenerdatosabmGasto(datostr) {
 	$("tr[id=tbSelecRegistro]").each(function (i, td) {
 		td.className = ''
 	});
 	
 	datostr.className = 'tableRegistroSelec'
-	document.getElementById('inptMontoGasto').value = $(datostr).children('td[id="td_datos_1"]').html();
-	document.getElementById('inptRegistroSeleccGasto').value = $(datostr).children('td[id="td_datos_1"]').html();
-	document.getElementById('inptMotivoGasto').value = $(datostr).children('td[id="td_datos_13"]').html();
-	document.getElementById('inptFechaGasto').value = $(datostr).children('td[id="td_datos_3"]').html();
-	document.getElementById('inptEstadoGasto').value = $(datostr).children('td[id="td_datos_5"]').html();
-	document.getElementById('inptlocalMisGastos').value = $(datostr).children('td[id="td_datos_7"]').html();
-	document.getElementById('inptNroBoletaGasto').value = $(datostr).children('td[id="td_datos_14"]').html();
-	document.getElementById('inptCategoriaMisGastos').value = $(datostr).children('td[id="td_datos_19"]').html();
-	document.getElementById('inptSubcategoriaMisGastos').value = $(datostr).children('td[id="td_datos_20"]').html();
+	var fotoUrlGasto = obtenerValorRegistroGasto(datostr, "td_datos_15");
+	var fotoNombreGasto = obtenerValorRegistroGasto(datostr, "td_datos_16");
+	var fotoExtGasto = obtenerValorRegistroGasto(datostr, "td_datos_17");
+	document.getElementById('inptMontoGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_1");
+	document.getElementById('inptRegistroSeleccGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_1");
+	document.getElementById('inptMotivoGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_13");
+	document.getElementById('inptFechaGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_3");
+	document.getElementById('inptEstadoGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_5");
+	document.getElementById('inptlocalMisGastos').value = obtenerValorRegistroGasto(datostr, "td_datos_7");
+	document.getElementById('inptNroBoletaGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_14");
+	document.getElementById('inptTipoGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_6");
+	var categoriaGasto = obtenerValorRegistroGasto(datostr, "td_datos_19");
+	var subcategoriaGasto = obtenerValorRegistroGasto(datostr, "td_datos_20");
+	if(categoriaGasto != ""){
+		buscaroptionCategoriaGasto(categoriaGasto, subcategoriaGasto);
+	}else{
+		document.getElementById('inptCategoriaMisGastos').value = "";
+		document.getElementById('inptSubcategoriaMisGastos').value = "";
+	}
 	// document.getElementById('inptBancoGasto').value = $(datostr).children('td[id="td_datos_9"]').html();
 	
 	
-	document.getElementById('inptCuentaGasto').value = $(datostr).children('td[id="td_datos_10"]').html();
-	document.getElementById('inptTipoGasto').value = $(datostr).children('td[id="td_datos_6"]').html();
-	document.getElementById('inptArregloGasto').value = $(datostr).children('td[id="td_datos_11"]').html();
-	document.getElementById('inptMotivoMisGastos').value = $(datostr).children('td[id="td_datos_12"]').html();
-	document.getElementById('inptFechaDepositoGasto').value = $(datostr).children('td[id="td_datos_18"]').html();
+	document.getElementById('inptCuentaGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_10");
+	document.getElementById('inptArregloGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_11");
+	document.getElementById('inptMotivoMisGastos').value = obtenerValorRegistroGasto(datostr, "td_datos_12");
+	document.getElementById('inptFechaDepositoGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_18");
 	document.getElementById('btnAbmGastos').value = "Editar datos";
 	document.getElementById('btnEditarGastos').style.backgroundColor="";
 	document.getElementById('btnConfirmarGasto').style.backgroundColor="#4caf50";
-	idAbmGasto = $(datostr).children('td[id="td_id"]').html();
-	$("div[id=imgFotoGastoIngresoEgreso]").css({"background-image":"url("+$(datostr).children('td[id="td_datos_15"]').html()+")"});
-	fotogasto = $(datostr).children('td[id="td_datos_16"]').html() + "."+ $(datostr).children('td[id="td_datos_17"]').html()
-	extgasto = $(datostr).children('td[id="td_datos_17"]').html()
+	idAbmGasto = obtenerValorRegistroGasto(datostr, "td_id");
+	$("div[id=imgFotoGastoIngresoEgreso]").css({"background-image":"url("+fotoUrlGasto+")"});
+	fotogasto = fotoNombreGasto == "" || fotoExtGasto == "" ? "" : fotoNombreGasto + "."+ fotoExtGasto
+	extgasto = fotoExtGasto
 	
 }
 function verificarcamposGasto() {
@@ -27618,7 +27637,7 @@ function abmCategoriaGasto(nombre, tipo, estado , accion) {
 					ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
 					buscaroptionCategoriaGasto()
 					BuscarAbmCategoriaGasto()
-					limpiarcamposmotivoegresoingreso()
+					limpiarcamposCategoriaGasto()
 				}
 			} catch (error) {
 				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
@@ -27632,9 +27651,10 @@ function abmCategoriaGasto(nombre, tipo, estado , accion) {
 
 
 }
-function buscaroptionCategoriaGasto() {
+function buscaroptionCategoriaGasto(idCategoriaSeleccionada, idSubcategoriaSeleccionada) {
 
 	document.getElementById("inptCategoriaMisGastos").innerHTML = ""
+	document.getElementById("inptSubcategoriaMisGastos").innerHTML = "<option value=''>SELECCIONAR</option>"
 	let tipo = document.getElementById('inptTipoGasto').value;
 	obtener_datos_user();
 	var datos = {
@@ -27670,6 +27690,10 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 				if (Respuesta == true) {
 				   var datos_buscados = datos[2];
 					document.getElementById("inptCategoriaMisGastos").innerHTML = datos[2]
+					if(idCategoriaSeleccionada != undefined && idCategoriaSeleccionada != ""){
+						document.getElementById("inptCategoriaMisGastos").value = idCategoriaSeleccionada
+						buscaroptionSubcategoriaGasto(idSubcategoriaSeleccionada)
+					}
 
 				}
 			} catch (error) {
@@ -27885,7 +27909,7 @@ function abmSubcategoriaGasto(nombre, cod_categoria, estado , accion) {
 					ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
 					buscaroptionSubcategoriaGasto()
 					BuscarAbmSubcategoriaGasto()
-					limpiarcamposmotivoegresoingreso()
+					limpiarcamposSubcategoriaGasto()
 				}
 			} catch (error) {
 				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
@@ -27899,7 +27923,7 @@ function abmSubcategoriaGasto(nombre, cod_categoria, estado , accion) {
 
 
 }
-function buscaroptionSubcategoriaGasto() {
+function buscaroptionSubcategoriaGasto(idSubcategoriaSeleccionada) {
 
 	document.getElementById("inptSubcategoriaMisGastos").innerHTML = ""
 	let idcategoria = document.getElementById('inptCategoriaMisGastos').value;
@@ -27937,6 +27961,9 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 				if (Respuesta == true) {
 				   var datos_buscados = datos[2];
 					document.getElementById("inptSubcategoriaMisGastos").innerHTML = datos[2]
+					if(idSubcategoriaSeleccionada != undefined && idSubcategoriaSeleccionada != ""){
+						document.getElementById("inptSubcategoriaMisGastos").value = idSubcategoriaSeleccionada
+					}
 
 				}
 			} catch (error) {
@@ -28086,14 +28113,14 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 
 function verCerrarGastoPorCategoria(){
 	document.getElementById("divSegundoPlano").style.display="none";
-	if(document.getElementById("divVistaGastoPorCategoria").style.display==""){
 	document.getElementById("divMinimizadoVistaEgresoIngresoCategoria").style.display="none"
+	if(document.getElementById("divVistaGastoPorCategoria").style.display==""){
      //  
 	$("div[id=divVistaGastoPorCategoria]").fadeOut(500);	
 	limpiarcamposbuscadoregresoingresocategoria()
 	
 	}else{	
- 		
+		minimizartodaventanaabierto()
 		document.getElementById("divVistaGastoPorCategoria").style.display=""
 	
 	}
@@ -28106,7 +28133,7 @@ function limpiarcamposbuscadoregresoingresocategoria(){
 	document.getElementById("buscarTipoGastosPorCategoria").value=""
 	
 }
-function minimizarventanaingresoegreso(){
+function minimizarventanaGastoPorCategoria(){
 	document.getElementById("divMinimizadoVistaEgresoIngresoCategoria").style.display="" 
 	$("div[id=divVistaGastoPorCategoria]").fadeOut(500);
 }

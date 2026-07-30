@@ -33,38 +33,6 @@ if($operacion=="buscarSeleccionarBusquedaEgresosTotalLocal")
 
 }
 
-if($operacion=="editar_egresoingreso_cobrador")
-{
-	
-	
-$idgastos=$_POST['idgastos_cobrador'];
-$idgastos = utf8_decode($idgastos);
-$monto=$_POST['monto'];
-$monto = quitarseparadormiles($monto);
-$fecha=$_POST['fecha'];
-$fecha = utf8_decode($fecha);
-$estado=$_POST['estado'];
-$estado = utf8_decode($estado);
-$tipo=$_POST['tipo'];
-$tipo = utf8_decode($tipo);
-$nroboleta=$_POST['nroboleta'];
-$nroboleta = utf8_decode($nroboleta);
-$banco=$_POST['banco'];
-$banco = utf8_decode($banco);
-$nrocuenta=$_POST['nrocuenta'];
-$nrocuenta = utf8_decode($nrocuenta);
-
-$Arreglo=$_POST['Arreglo'];
-$Arreglo = utf8_decode($Arreglo);
-
-$cod_motivo=$_POST['cod_motivo'];
-$cod_motivo = utf8_decode($cod_motivo);
-
-$cod_usuario = $user;
-
-	editar_egresoingreso_cobrador($cod_motivo,$Arreglo,$nroboleta, $banco , $nrocuenta ,$idgastos,$monto,$fecha,$estado,$cod_usuario,$tipo);
-
-}
 if($operacion=="confirmarEgresoIngreso")
 {
 	
@@ -76,19 +44,6 @@ $idgastos = utf8_decode($idgastos);
 $cod_usuario = $user;
 
 	confirmarEgresoIngreso($idgastos);
-
-}
-if($operacion=="confirmarEgresoIngresoCobrador")
-{
-	
-	
-$idgastos=$_POST['idgastos'];
-$idgastos = utf8_decode($idgastos);
-
-
-$cod_usuario = $user;
-
-	confirmarEgresoIngresoCobrador($idgastos);
 
 }
 if ($operacion == "buscar_total_egresos_local_general") {
@@ -119,34 +74,6 @@ if ($operacion == "buscar_total_egresos_local_general_grafica") {
 		buscar_total_egresos_local_general_incremental($anho, $local,$array_cod_seleccionar_busqueda_egresos_total_local);
 	}
 
-
-if($operacion=="buscarinformeegresoingresocobrador")
-{
-$fecha1=$_POST['fecha1'];
-$fecha1 = utf8_decode($fecha1);
-$fecha2=$_POST['fecha2'];
-$fecha2 = utf8_decode($fecha2);
-$tipo=$_POST['tipo'];
-$tipo = utf8_decode($tipo);
-$usuario=$_POST['usuario'];
-$usuario = utf8_decode($usuario);
-$fecha=$_POST['fecha'];
-$fecha = utf8_decode($fecha);
-$arreglo=$_POST['arreglo'];
-$arreglo = utf8_decode($arreglo);
-$motivo=$_POST['motivo'];
-$motivo = utf8_decode($motivo);
-$cod_localFK=$_POST['cod_localFK'];
-$cod_localFK = utf8_decode($cod_localFK);
-$confirmado=$_POST['confirmado'];
-$confirmado = utf8_decode($confirmado);
-
-$agrupacionformulariogastoscobrador=$_POST['agrupacionformulariogastoscobrador'];
-$agrupacionformulariogastoscobrador = utf8_decode($agrupacionformulariogastoscobrador);
-
-buscarinformeegresoingresocobrador($arreglo,$fecha1,$fecha2,$tipo,$usuario,$fecha,$motivo,$cod_localFK,$agrupacionformulariogastoscobrador,$confirmado);
-
-}	
 
 if($operacion=="evaluacionGasto")
 {
@@ -294,7 +221,7 @@ $stmt1->bind_param($ss,$nombre, $tipo, $estado);
  
 if($operacion=="editar")
 {
-$consulta1="Update categoria_gasto nombre=?, tipo=?, estado= ? where id_categoria_gasto=?";
+$consulta1="Update categoria_gasto set nombre=?, tipo=?, estado=? where id_categoria_gasto=?";
 $stmt1 = $mysqli->prepare($consulta1);
 $ss='ssss';
 $stmt1->bind_param($ss,$nombre, $tipo, $estado ,$idabm); 
@@ -332,7 +259,7 @@ $foto = base64_decode($foto);
 
 			  $id_foto = generarCodigoAleatorio(7);
                 $id_f=subir_imagen_base64($donde,$foto,$id_foto,$ext);
-$ruta="/GoodVentaElectroGuai/fotos/gastos/".$id_foto.$id_f.'.'.$ext;
+$ruta="/GoodTechnologyEPNSA/fotos/gastos/".$id_foto.$id_f.'.'.$ext;
 
 $mysqli=conectar_al_servidor();
 $consulta="UPDATE gastos SET url = '$ruta' WHERE idgastos  = '$cod_gasto'";	
@@ -359,29 +286,6 @@ function generarCodigoAleatorio($longitud) {
     return $codigoAleatorio;
 }
 
-function editar_egresoingreso_cobrador($cod_motivo,$Arreglo,$nroboleta, $banco , $nrocuenta ,$idgastos,$monto,$fecha,$estado,$cod_usuario,$tipo)
-{
-
-$mysqli=conectar_al_servidor();
-
-
-$consulta1="Update gastos_cobrador set arreglo='$Arreglo', monto='$monto',fecha='$fecha',estado='$estado',user_editadopor='$cod_usuario',tipo='$tipo',nroboleta='$nroboleta',banco='$banco',nrocuenta='$nrocuenta',cod_motivo='$cod_motivo' where idgastos_cobrador='$idgastos'";
-$stmt1 = $mysqli->prepare($consulta1);
-
-
-
-if (!$stmt1->execute()) {
-	
-echo trigger_error('The query execution failed; MySQL said ('.$stmt->errno.') '.$stmt->error, E_USER_ERROR);
-exit;
-
-}
-
-
-$informacion =array("1" => "exito");
-echo json_encode($informacion);	
-exit;
-}
 function confirmarEgresoIngreso($idgastos)
 {
 
@@ -389,29 +293,6 @@ $mysqli=conectar_al_servidor();
 
 
 $consulta1="Update gastos set confirmado='SI' where idgastos='$idgastos'";
-$stmt1 = $mysqli->prepare($consulta1);
-
-
-
-if (!$stmt1->execute()) {
-	
-echo trigger_error('The query execution failed; MySQL said ('.$stmt->errno.') '.$stmt->error, E_USER_ERROR);
-exit;
-
-}
-
-
-$informacion =array("1" => "exito");
-echo json_encode($informacion);	
-exit;
-}
-function confirmarEgresoIngresoCobrador($idgastos)
-{
-
-$mysqli=conectar_al_servidor();
-
-
-$consulta1="Update gastos_cobrador set confirmado='SI' where idgastos_cobrador='$idgastos'";
 $stmt1 = $mysqli->prepare($consulta1);
 
 
@@ -508,82 +389,6 @@ if ( ! $stmt->execute()) {
  
 return $totalMonto;
 }
-
-function obtener_total_agrupacion_motivo_cobrador($arreglo,$fecha1,$fecha2,$estado,$cod_local,$tipo,$usuario,$fecha,$motivo)
-{
-	$mysqli=conectar_al_servidor();
-	 $pagina='';
-	 
-		$condiciontipo="";
-		 if($tipo!=""){
-			$condiciontipo=" and tipo='$tipo' "; 
-		 }
-		 
-		 
-		 $condicionarreglo="";
-		 if($arreglo!=""){
-			$condicionarreglo=" and arreglo='$arreglo' "; 
-		 }
-		 
-		 $condicionfecha="";
-		 if($fecha!=""){
-			$condicionfecha=" and fecha='$fecha' "; 
-		 }
-		 $condicionusuario="";
-		 if($usuario!=""){
-			$condicionusuario=" and (Select nombre_persona from persona where cod_persona=cod_cobradorFK) like '%".$usuario."%' "; 
-		 }
-		 $condicionlocal="";
-		 if($cod_local!=""){
-			$condicionlocal=" and (SELECT cod_localFK from cobrador where cod_cobrador = cod_cobradorFK) = '".$cod_local."' "; 
-		 }
-		 
-		 $condicionrangofechas="";
-		 if($fecha1!="" && $fecha2!="" ){
-			$condicionrangofechas=" and fecha>='$fecha1' and fecha<='$fecha2' "; 
-		 }
-		 
-		 $condicionmotivo="";
-		 if($motivo!=""){
-			$condicionmotivo=" and cod_motivo = '".$motivo."' "; 
-		 }
-		 
-		$sql= "SELECT idgastos_cobrador,monto,fecha,estado,tipo,nrocuenta,banco,nroboleta,arreglo,cod_motivo,
-		(SELECT descripcion from motivo_e_i where idmotivo_e_i = cod_motivo) as motivo,
-		(SELECT nombre_persona from persona where cod_persona = cod_cobradorFK) as cobrador,
-		(SELECT nombre from local where cod_local = (SELECT cod_localFK from cobrador where cod_cobrador = cod_cobradorFK)) as local
-		from gastos_cobrador where estado='$estado' ".$condicionarreglo.$condiciontipo.$condicionfecha.$condicionusuario.$condicionrangofechas.$condicionmotivo.$condicionlocal;
- 
-   $stmt = $mysqli->prepare($sql);
- 
-if ( ! $stmt->execute()) {
-   echo "Error";
-   exit;
-}
- 
-	$result = $stmt->get_result();
- $valor= mysqli_num_rows($result);
- $nroRegistro= $valor;
-
- $styleName="tableRegistroSearch";
- $totalMonto = 0;
- if ($valor>0)
- {
-	  while ($valor= mysqli_fetch_assoc($result))
-	  {
-		  
-		  
-
-		  	  $monto=utf8_encode($valor['monto']);
-		  	 
-			  $totalMonto += $monto;
-	  }
- }
-
- 
-return $totalMonto;
-}
-
 
 function buscarevaluacion($fecha1,$fecha2,$cod_local)
 {
@@ -1094,180 +899,6 @@ exit;
 }
 
 
-function buscarinformeegresoingresocobrador($arreglo,$fecha1,$fecha2,$tipo,$usuario,$fecha,$motivo,$cod_localFK,$agrupacionformulariogastoscobrador,$confirmado)
-{
-	$mysqli=conectar_al_servidor();
-	 $pagina='';
-	 
-		 $condiciontipo="";
-		 if($tipo!=""){
-			$condiciontipo=" and tipo='$tipo' "; 
-		 }
-		 
-		 
-		 $condicionarreglo="";
-		 if($arreglo!=""){
-			$condicionarreglo=" and arreglo='$arreglo' "; 
-		 }
-		 
-		 $condicionconfirmado="";
-		 if($confirmado!=""){
-			$condicionconfirmado=" and confirmado='$confirmado' "; 
-		 }
-		 
-		 $condicionfecha="";
-		 if($fecha!=""){
-			$condicionfecha=" and fecha='$fecha' "; 
-		 }
-		 $condicionusuario="";
-		 if($usuario!=""){
-			$condicionusuario=" and (Select nombre_persona from persona where cod_persona=cod_cobradorFK) like '%".$usuario."%' "; 
-		 }
-		 $condicionlocal="";
-		 if($cod_localFK!=""){
-			$condicionlocal=" and (SELECT cod_localFK from cobrador where cod_cobrador = cod_cobradorFK) = '".$cod_localFK."' "; 
-		 }
-		 
-		 $condicionrangofechas="";
-		 if($fecha1!="" && $fecha2!="" ){
-			$condicionrangofechas=" and fecha>='$fecha1' and fecha<='$fecha2' "; 
-		 }
-		 
-		 $condicionmotivo="";
-		 if($motivo!=""){
-			$condicionmotivo=" and cod_motivo = '".$motivo."' "; 
-		 }
-		 
-		 $condicionagrupacion = '';
-		 if($agrupacionformulariogastoscobrador == '2'){
-			 $condicionagrupacion = ' group by cod_motivo';
-		 }
-		 
-		$sql= "SELECT idgastos_cobrador,monto,fecha,estado,tipo,nrocuenta,banco,nroboleta,arreglo,cod_motivo,confirmado,url,observacion,
-		(SELECT descripcion from motivo_e_i where idmotivo_e_i = cod_motivo) as motivo,
-		(SELECT nombre_persona from persona where cod_persona = cod_cobradorFK) as cobrador,
-		(SELECT nombre from local where cod_local = (SELECT cod_localFK from cobrador where cod_cobrador = cod_cobradorFK)) as local
-		from gastos_cobrador where estado='Activo' ".$condicionarreglo.$condiciontipo.$condicionfecha.$condicionusuario.$condicionrangofechas.$condicionmotivo.$condicionlocal.$condicionagrupacion.$condicionconfirmado;
-
-
-
-
- $arregloFiltro = $arreglo;
-   $fecha1Filtro = $fecha1;
-   $fecha2Filtro = $fecha2;
-   $estadoFiltro = 'Activo';
-   $cod_localFiltro = $cod_localFK;
-   $tipoFiltro = $tipo;
-   $usuarioFiltro = $usuario;
-   $fechaFiltro = $fecha;
-   $cod_motivoFiltro = $motivo;
-
-   $stmt = $mysqli->prepare($sql);
- 
-if ( ! $stmt->execute()) {
-   echo "Error";
-   exit;
-}
- 
-	$result = $stmt->get_result();
- $valor= mysqli_num_rows($result);
- $nroRegistro= $valor;
- $totalGasto=0;
-  $totalIngreso=0;
-   $totalMonto = 0;
- $styleName="tableRegistroSearch";
- 
- if ($valor>0)
- {
-	  while ($valor= mysqli_fetch_assoc($result))
-	  {
-		  
-		  
-		      $cod_motivo=$valor['cod_motivo'];
-		      $idgastos_cobrador=$valor['idgastos_cobrador'];
-		  	  $cobrador=utf8_encode($valor['cobrador']);
-		  	  $monto=utf8_encode($valor['monto']);
-		  	  $motivo=utf8_encode($valor['motivo']);
-		  	  $fecha=utf8_encode($valor['fecha']);
-		  	  $tipo=utf8_encode($valor['tipo']);
-		  	  $estado=utf8_encode($valor['estado']);
-		  	  $nroboleta=utf8_encode($valor['nroboleta']);
-		  	  $banco=utf8_encode($valor['banco']);
-		  	  $nrocuenta=utf8_encode($valor['nrocuenta']);
-			  $arreglo=utf8_encode($valor['arreglo']);
-			  $local=utf8_encode($valor['local']);
-			  $confirmado=utf8_encode($valor['confirmado']);
-			  $url=utf8_encode($valor['url']);
-			  $observacion=utf8_encode($valor['observacion']);
-			  
-			  $MotivoAgrupado="";
-			  if($agrupacionformulariogastoscobrador == '2'){
-				  $totalMonto = obtener_total_agrupacion_motivo_cobrador($arregloFiltro,$fecha1Filtro,$fecha2Filtro,$estadoFiltro,$cod_localFiltro,$tipoFiltro,$usuarioFiltro,$fechaFiltro,$cod_motivo);
-				  $MotivoAgrupado="";
-			  }else{
-				  $MotivoAgrupado="";
-			  }
-			  
-			  $styleconfirmado = '';
-			  if($confirmado == 'SI'){
-				  $styleconfirmado = 'background-color:green;color:white';
-			  }
-			  
-			  $ver = '';
-if($url !=''){
-	$ver = "<input type=\"button\" value=\"VER\" style=\"width:50px\" class=\"btn4\" onclick=\"verdocumentoClienteSolicitud('$url')\" />";
-}
-$verObs = '';
-if($observacion !=''){
-	$obsEscapado = addslashes($observacion); // Escapa las comillas
-	$verObs = "<input type=\"button\" value=\"OBS\" style=\"width:50px;background-color:#ff5733\" class=\"btn4\" onclick=\"verObservacionIngresoEgresoCobrador('$obsEscapado')\" />";
-}
-		  			 
-	$fecha2 = date("d-m-Y", strtotime($fecha));
-	
-		  	  $styleName=CargarStyleTable($styleName);
-			  $pagina.="
-<table class='$styleName' border='1' cellspacing='1' cellpadding='5'>
-<tr id='tbSelecRegistro' onclick='obtenerdatosinformeegresoingresocobrador(this)' style='$styleconfirmado'>
-<td id='td_id' style='width:5%; background-color: #efeded;color:red'>".$idgastos_cobrador."</td>
-<td  id='td_datos_2' style='width:5%'>".$motivo."</td>
-<td  id='td_datos_1' style='width:5%'>". number_format($agrupacionformulariogastoscobrador == '2' ? $totalMonto : $monto,'0',',','.')."</td>
-<td  id='td_datos_6' style='width:10%'>".$tipo."</td>
-<td  style='width:5%'>".$fecha2."</td>
-<td  id='td_datos_7' style='display:none'>".$fecha."</td>
-<td  id='td_datos_3' style='width:5%'>".$nroboleta."</td>
-<td  id='td_datos_9' style='width:10%'>".$banco."</td>
-<td  id='td_datos_10' style='width:10%'>".$nrocuenta."</td>
-<td  id='td_datos_11' style='width:10%'>".$arreglo."</td>
-<td  id='td_datos_8' style='width:10%'>".$cobrador."</td>
-<td  id='td_datos_5' style='display:none'>".$estado."</td>
-<td  id='td_datos_12' style='display:none'>".$cod_motivo."</td>
-<td  id='td_datos_13' style='width:10%'>".$local."</td>
-<td  id='td_datos_14' style='width:5%'>".$confirmado."</td>
-<td  id='td_datos_15' style='width:5%'>".$ver."</td>
-<td  id='td_datos_16' style='width:5%'>".$verObs."</td>
-</tr>
-</table>";
-	
-if($tipo=="EGRESO"){
-	$totalGasto= $totalGasto + $monto;	
-}else{
-	$totalIngreso= $totalIngreso + $monto;	
-}
-
-			  
-	  }
- }
- 
- 
-/*Retornamos los datos obtenidos mediante el JSON */      
-$informacion =array("1" => "exito","2" => $pagina,"3" => $nroRegistro,"4" => number_format($totalGasto,'0',',','.'),"5" => number_format($totalIngreso,'0',',','.'));
-echo json_encode($informacion);	
-exit;
-
-
-}
-
 function buscar($buscar, $tipo)
 {
 	$condicionnombre = "";
@@ -1348,19 +979,7 @@ function buscar_total_egresos_local_general($anho,$local,$array_cod_seleccionar_
 		<tr id='tbSelecRegistro'><td style='width:5%'>" . $x . "</td>";
 		for ($i = 1; $i <= 12; $i++) {
 			$td='';
-			$total = 0;
-				if(in_array("1", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_administrativo_dia($anho,$i,$x,$local);
-				}
-				if(in_array("2", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_juan_dia($anho,$i,$x,$local);
-				}
-				if(in_array("3", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_local_dia($anho,$i,$x,$local);
-				}
-				if(in_array("4", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_cobradores_dia($anho,$i,$x,$local);
-				}
+			$total = obtener_total_egresos_local_dia($anho,$i,$x,$local);
 			$td = "<td style='width:5%'>" .  number_format($total, '0', ',', '.') . "</td>";
 			$pagina.= $td;
 		}
@@ -1423,19 +1042,7 @@ function buscar_total_egresos_local_general_incremental($anho,$local,$array_cod_
 		<tr id='tbSelecRegistro'><td style='width:5%'>" . $x . "</td>";
 		for ($i = 1; $i <= 12; $i++) {
 			$td='';
-			$total = 0;
-				if(in_array("1", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_administrativo_dia($anho,$i,$x,$local);
-				}
-				if(in_array("2", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_juan_dia($anho,$i,$x,$local);
-				}
-				if(in_array("3", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_local_dia($anho,$i,$x,$local);
-				}
-				if(in_array("4", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_cobradores_dia($anho,$i,$x,$local);
-				}
+			$total = obtener_total_egresos_local_dia($anho,$i,$x,$local);
 			if($i == 1){
 				$totalVenta1 += $total;
 				$td = "<td style='width:5%'>" .  number_format($totalVenta1, '0', ',', '.') . "</td>";
@@ -1557,19 +1164,7 @@ function buscar_total_egresos_local_general_grafica($anho,$local,$array_cod_sele
 		
 		for ($i = 1; $i <= 12; $i++) {
 
-			$total = 0;
-				if(in_array("1", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_administrativo_dia($anho,$i,$x,$local);
-				}
-				if(in_array("2", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_juan_dia($anho,$i,$x,$local);
-				}
-				if(in_array("3", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_local_dia($anho,$i,$x,$local);
-				}
-				if(in_array("4", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_cobradores_dia($anho,$i,$x,$local);
-				}
+			$total = obtener_total_egresos_local_dia($anho,$i,$x,$local);
 			if($i == 1){
 				$totalVenta1 += $total;
 
@@ -1661,19 +1256,7 @@ function buscar_total_egresos_local_general_grafica($anho,$local,$array_cod_sele
 		
 		for ($i = 1; $i <= 12; $i++) {
 
-			$total = 0;
-				if(in_array("1", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_administrativo_dia($anho,$i,$x,$local);
-				}
-				if(in_array("2", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_juan_dia($anho,$i,$x,$local);
-				}
-				if(in_array("3", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_local_dia($anho,$i,$x,$local);
-				}
-				if(in_array("4", $array_cod_seleccionar_busqueda_egresos_total_local)){
-					$total += obtener_total_egresos_cobradores_dia($anho,$i,$x,$local);
-				}
+			$total = obtener_total_egresos_local_dia($anho2,$i,$x,$local);
 			if($i == 1){
 				$totalVenta1 += $total;
 
@@ -1788,125 +1371,6 @@ function obtener_total_egresos_local_dia($anho,$mes,$dia,$local)
 	
 	return $total_gasto;
 }
-function obtener_total_egresos_cobradores_dia($anho,$mes,$dia,$local)
-{
-	$mysqli = conectar_al_servidor();
-	
-	$fecha = $anho."-".$mes."-".$dia;
-	 
-	 $condicionFecha = " and gc.fecha = '$fecha' ";
-	 
-	 $condicionlocal = "";
-	if ($local != "") {
-		$condicionlocal = " and  (SELECT cod_localFK FROM cobrador WHERE cod_cobrador = gc.cod_cobradorFK) ='" . $local . "'";
-	}
-	
-	$sql = "SELECT ifnull(sum(monto),0) as total_gasto FROM gastos_cobrador gc WHERE gc.estado = 'Activo' and gc.tipo='EGRESO' and  (SELECT cod_localFK FROM cobrador WHERE cod_cobrador = gc.cod_cobradorFK) !='9' and  (SELECT cod_localFK FROM cobrador WHERE cod_cobrador = gc.cod_cobradorFK) != '10' ".$condicionFecha.$condicionlocal;
- 
-	// echo $sql;
-	// exit;
- 
-	$stmt = $mysqli->prepare($sql);
-
-	if (!$stmt->execute()) {
-		echo "Error";
-		exit;
-	}
-
-	$result = $stmt->get_result();
-	$valor = mysqli_num_rows($result);
-	$nroRegistro = $valor;
-	$total_gasto = 0;
-
-	if ($valor > 0) {
-		while ($valor = mysqli_fetch_assoc($result)) {
-			$total_gasto = $valor['total_gasto'];
-		}
-	}
-	
-	
-	return $total_gasto;
-}
-function obtener_total_egresos_administrativo_dia($anho,$mes,$dia,$local)
-{
-	$mysqli = conectar_al_servidor();
-	
-	$fecha = $anho."-".$mes."-".$dia;
-	 
-	 $condicionFecha = " and fecha = '$fecha' ";
-	 
-	
-	
-	$sql = "SELECT ifnull(sum(monto),0) as total_gasto_admin FROM gastos_administrativo WHERE estado = 'Activo' and tipo='Egreso' ".$condicionFecha;
- 
-	$stmt = $mysqli->prepare($sql);
-
-	if (!$stmt->execute()) {
-		echo "Error";
-		exit;
-	}
-
-	$result = $stmt->get_result();
-	$valor = mysqli_num_rows($result);
-	$nroRegistro = $valor;
-	$total_gasto_admin = 0;
-
-	if ($valor > 0) {
-		while ($valor = mysqli_fetch_assoc($result)) {
-			$total_gasto_admin = $valor['total_gasto_admin'];
-		}
-	}
-	
-	if($local ==''){
-		return $total_gasto_admin;
-	}
-	
-	return $total_gasto_admin/5;
-}
-
-function obtener_total_egresos_juan_dia($anho,$mes,$dia,$local)
-{
-	$mysqli = conectar_al_servidor();
-	
-	$fecha = $anho."-".$mes."-".$dia;
-	 
-	 $condicionFecha = " and fecha = '$fecha' ";
-	 
-	 $condicionlocal = "";
-	if ($local != "") {
-		$condicionlocal = " and  cod_local ='" . $local . "'";
-	}
-	
-	$sql = "SELECT ifnull(sum(monto),0) as total_gasto_admin FROM gastos_juan WHERE estado = 'Activo' and tipo='Egreso' ".$condicionFecha;
-	
-	// echo $sql;
-	// exit;
- 
-	$stmt = $mysqli->prepare($sql);
-
-	if (!$stmt->execute()) {
-		echo "Error";
-		exit;
-	}
-
-	$result = $stmt->get_result();
-	$valor = mysqli_num_rows($result);
-	$nroRegistro = $valor;
-	$total_gasto_admin = 0;
-
-	if ($valor > 0) {
-		while ($valor = mysqli_fetch_assoc($result)) {
-			$total_gasto_admin = $valor['total_gasto_admin'];
-		}
-	}
-	
-	if($local ==''){
-		return $total_gasto_admin;
-	}
-	
-	return $total_gasto_admin/5;
-}
-
 
 
 function buscarSeleccionarBusquedaEgresosTotalLocal()
@@ -1914,10 +1378,7 @@ function buscarSeleccionarBusquedaEgresosTotalLocal()
 	$pagina = '';
  $styleName="tableRegistroSearch";
  $elementosBusqueda = [
-    "1" => "Administrativo",
-    "2" => "Juan",
-    "3" => "Negocio",
-    "4" => "Cobradores"
+    "3" => "Negocio"
 ];
 
 foreach ($elementosBusqueda as $clave => $valor) {
