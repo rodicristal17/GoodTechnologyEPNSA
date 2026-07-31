@@ -320,8 +320,8 @@ function buscarcascadaArancelArancelesAsignados1($estado,$codfilial,$codcarrera,
 	$mysqli=conectar_al_servidor();
 	 $pagina="";
 	 
-		$sql= "Select ar.cod_arancel,lta.nombre as nombreArancel,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
-		ltc.nombre as nombrecarrera,cr.cod_filialOringFK,
+		$sql= "Select ar.cod_arancel,lta.cod_listadearanceles,lta.nombre as nombreArancel,lta.tipo,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
+		ltc.nombre as nombrecarrera,ltc.Cod_listadecarreras as cod_lista_carrera,cr.cod_filialOringFK,
 		(select nombre from filial where cod_filial=cr.cod_filialOringFK) as nombrefilial
         from aranceles ar inner join carrera cr on cr.cod_carrera=ar.cod_carreraFK
 		inner join listadecarreras  ltc on ltc.Cod_listadecarreras=cr.Cod_listadecarrerasFK
@@ -351,6 +351,7 @@ $totales=0;
 		  
 		  
 		      $cod_arancel=$valor['cod_arancel'];
+		      $cod_listadearanceles=$valor['cod_listadearanceles'];
 		  	  $nombreArancel=utf8_encode($valor['nombreArancel']);
 		  	  $curso=utf8_encode($valor['curso']);
 		  	  $anho=utf8_encode($valor['anho']);
@@ -359,10 +360,12 @@ $totales=0;
 		  	  $total=utf8_encode($valor['total']);
 		  	  $cod_carreraFK=utf8_encode($valor['cod_carreraFK']);
 		  	  $estado=utf8_encode($valor['estado']);
+		  	  $tipo=utf8_encode($valor['tipo']);
 		  	  $nombrecarrera=utf8_encode($valor['nombrecarrera']);
 		  	  $nombrefilial=utf8_encode($valor['nombrefilial']);
 		  	  $semestre=utf8_encode($valor['semestre']);
 		  	  $cod_filialOringFK=utf8_encode($valor['cod_filialOringFK']);
+		  	  $cod_lista_carrera=utf8_encode($valor['cod_lista_carrera']);
 		  	
 		 $pagina.="
 			<table class='tableRegistroCascada' border='0' cellspacing='0' cellpadding='0'>
@@ -384,7 +387,11 @@ $totales=0;
 			  <td  id='td_datos_7'style='display:none;' >".$cantidad."</td>
 			  <td  id='td_datos_8' style='display:none;'>". number_format($total,'0',',','.') ."</td>
 			  <td  id='td_datos_10' style='display:none;' >".$estado."</td>			  
-			  <td  id='td_datos_12' style='display:none;'>Especificos</td>	
+			  <td  id='td_datos_12' style='display:none;'>".$tipo."</td>	
+			  <td  id='td_datos_14' style='display:none;'>".$cod_listadearanceles."</td>	
+			  <td  id='td_datos_9' style='display:none;'>".$cod_carreraFK."</td>	
+			  <td  id='td_datos_15' style='display:none;'>".$cod_lista_carrera."</td>	
+			  <td  id='td_datos_16' style='display:none;'>".$cod_filialOringFK."</td>	
 			  
 			  </tr>
 			  </table>
@@ -411,7 +418,7 @@ function buscarcascadaSemestreArancelesAsignados1($estado,$codfilial,$codcarrera
 	 $pagina="";
 	 
 		$sql= "Select ar.cod_arancel,lta.nombre as nombreArancel,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
-		ltc.nombre as nombrecarrera,cr.cod_filialOringFK,
+		ltc.nombre as nombrecarrera,ltc.Cod_listadecarreras as cod_lista_carrera,cr.cod_filialOringFK,
 		(select nombre from filial where cod_filial=cr.cod_filialOringFK) as nombrefilial
         from aranceles ar inner join carrera cr on cr.cod_carrera=ar.cod_carreraFK
 		inner join listadecarreras  ltc on ltc.Cod_listadecarreras=cr.Cod_listadecarrerasFK
@@ -453,6 +460,7 @@ $totales=0;
 		  	  $nombrefilial=utf8_encode($valor['nombrefilial']);
 		  	  $semestre=utf8_encode($valor['semestre']);
 		  	  $cod_filialOringFK=utf8_encode($valor['cod_filialOringFK']);
+		  	  $cod_lista_carrera=utf8_encode($valor['cod_lista_carrera']);
 		  	
 		$pagina.="
 			 <p class='divCascada3'  onclick='vercerrarcascadaasignararancelArancel(this)' >
@@ -638,8 +646,8 @@ function buscarcascadaArancelGeneralArancelesAsignados1($estado,$codfilial,$codc
 	$mysqli=conectar_al_servidor();
 	 $pagina="";
 	 
-		$sql= "Select ar.cod_arancel,lta.nombre as nombreArancel,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
-		ltc.nombre as nombrecarrera,cr.cod_filialOringFK,
+		$sql= "Select ar.cod_arancel,lta.cod_listadearanceles,lta.nombre as nombreArancel,lta.tipo,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
+		ltc.nombre as nombrecarrera,ltc.Cod_listadecarreras as cod_lista_carrera,cr.cod_filialOringFK,
 		(select nombre from filial where cod_filial=cr.cod_filialOringFK) as nombrefilial
         from aranceles ar inner join carrera cr on cr.cod_carrera=ar.cod_carreraFK
 		inner join listadecarreras  ltc on ltc.Cod_listadecarreras=cr.Cod_listadecarrerasFK
@@ -669,6 +677,7 @@ $totales=0;
 		  
 		  
 		      $cod_arancel=$valor['cod_arancel'];
+		      $cod_listadearanceles=$valor['cod_listadearanceles'];
 		  	  $nombreArancel=utf8_encode($valor['nombreArancel']);
 		  	  $curso=utf8_encode($valor['curso']);
 		  	  $anho=utf8_encode($valor['anho']);
@@ -677,7 +686,9 @@ $totales=0;
 		  	  $total=utf8_encode($valor['total']);
 		  	  $cod_carreraFK=utf8_encode($valor['cod_carreraFK']);
 		  	  $estado=utf8_encode($valor['estado']);
+		  	  $tipo=utf8_encode($valor['tipo']);
 		  	  $nombrecarrera=utf8_encode($valor['nombrecarrera']);
+		  	  $cod_lista_carrera=utf8_encode($valor['cod_lista_carrera']);
 		  	  $nombrefilial=utf8_encode($valor['nombrefilial']);
 		  	  $semestre=utf8_encode($valor['semestre']);
 		  	  $cod_filialOringFK=utf8_encode($valor['cod_filialOringFK']);
@@ -700,7 +711,11 @@ $totales=0;
 			  <td  id='td_datos_7'style='display:none;' >".$cantidad."</td>
 			  <td  id='td_datos_8' style='display:none;'>". number_format($total,'0',',','.') ."</td>
 			  <td  id='td_datos_10' style='display:none;' >".$estado."</td>			  
-			  <td  id='td_datos_12' style='display:none;'>Generales</td>	
+			  <td  id='td_datos_12' style='display:none;'>".$tipo."</td>	
+			  <td  id='td_datos_14' style='display:none;'>".$cod_listadearanceles."</td>	
+			  <td  id='td_datos_9' style='display:none;'>".$cod_carreraFK."</td>	
+			  <td  id='td_datos_15' style='display:none;'>".$cod_lista_carrera."</td>	
+			  <td  id='td_datos_16' style='display:none;'>".$cod_filialOringFK."</td>	
 			  
 			  </tr>
 			  </table>
@@ -1102,9 +1117,9 @@ function buscar1($estado,$codCarrera,$codFilial,$anho,$semestre,$curso,$monto,$c
 	if($ordenby=="6"){
 		$oderby="order by ar.curso desc";
 	}
-		$sql= "Select ar.cod_arancel,lta.nombre as nombreArancel,lta.tipo ,
+		$sql= "Select ar.cod_arancel,lta.cod_listadearanceles,lta.nombre as nombreArancel,lta.tipo ,
 		ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
-		ltc.nombre as nombrecarrera, ifnull(costo,0) as costo,
+		ltc.nombre as nombrecarrera, ltc.Cod_listadecarreras as cod_lista_carrera, cr.cod_filialOringFK as cod_filial, ifnull(costo,0) as costo,
 		(select nombre from filial where cod_filial=cr.cod_filialOringFK) as nombrefilial
         from aranceles ar inner join carrera cr on cr.cod_carrera=ar.cod_carreraFK
 		inner join listadecarreras  ltc on ltc.Cod_listadecarreras=cr.Cod_listadecarrerasFK
@@ -1138,6 +1153,7 @@ $totales=0;
 		  
 		  
 		      $cod_arancel=$valor['cod_arancel'];
+		      $cod_listadearanceles=$valor['cod_listadearanceles'];
 		  	  $nombreArancel=utf8_encode($valor['nombreArancel']);
 		  	  $curso=utf8_encode($valor['curso']);
 		  	  $anho=utf8_encode($valor['anho']);
@@ -1151,6 +1167,8 @@ $totales=0;
 		  	  $semestre=utf8_encode($valor['semestre']);
 		  	  $costo=utf8_encode($valor['costo']);
 		  	  $tipo=utf8_encode($valor['tipo']);
+		  	  $cod_lista_carrera=utf8_encode($valor['cod_lista_carrera']);
+		  	  $cod_filial=utf8_encode($valor['cod_filial']);
 		  	
 		$styleorden1="";
 			  $styleorden2="";
@@ -1194,7 +1212,10 @@ $totales=0;
 			  <td  id='td_datos_13' style='display:none' >". number_format($costo,'0',',','.') ."</td>
 			  <td  id='td_datos_9' style='display:none' >".$cod_carreraFK."</td>
 			  <td  id='td_datos_10' style='display:none' >".$estado."</td>			  
-			  <td  id='td_datos_12' style='display:none' >Especificos</td>			  
+			  <td  id='td_datos_12' style='display:none' >".$tipo."</td>			  
+			  <td  id='td_datos_14' style='display:none' >".$cod_listadearanceles."</td>			  
+			  <td  id='td_datos_15' style='display:none' >".$cod_lista_carrera."</td>			  
+			  <td  id='td_datos_16' style='display:none' >".$cod_filial."</td>			  
 			  </tr>
 			  </table>";
 			    	 
@@ -1245,8 +1266,8 @@ function buscar2($estado,$codFilial,$codConcepto,$ordenby)
 	if($ordenby=="6"){
 		$oderby="order by ar.curso desc";
 	}
-		$sql= "Select ar.cod_arancel,lta.nombre as nombreArancel,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
-		ltc.nombre as nombrecarrera,ifnull(costo,0) as costo,
+		$sql= "Select ar.cod_arancel,lta.cod_listadearanceles,lta.nombre as nombreArancel,lta.tipo,ar.curso,ar.anho,ar.monto,ar.cantidad,ar.total,ar.cod_carreraFK,ar.estado,ar.semestre,
+		ltc.nombre as nombrecarrera,ltc.Cod_listadecarreras as cod_lista_carrera, ar.codFilialFk as cod_filial, ifnull(costo,0) as costo,
 		(select nombre from filial where cod_filial=ar.codFilialFk) as nombrefilial
         from aranceles ar inner join carrera cr on cr.cod_carrera=ar.cod_carreraFK
 		inner join listadecarreras  ltc on ltc.Cod_listadecarreras=cr.Cod_listadecarrerasFK
@@ -1279,6 +1300,7 @@ $totales=0;
 		  
 		  
 		      $cod_arancel=$valor['cod_arancel'];
+		      $cod_listadearanceles=$valor['cod_listadearanceles'];
 		  	  $nombreArancel=utf8_encode($valor['nombreArancel']);
 		  	  $curso=utf8_encode($valor['curso']);
 		  	  $anho=utf8_encode($valor['anho']);
@@ -1291,6 +1313,9 @@ $totales=0;
 		  	  $nombrefilial=utf8_encode($valor['nombrefilial']);
 		  	  $semestre=utf8_encode($valor['semestre']);
 		  	  $costo=utf8_encode($valor['costo']);
+		  	  $tipo=utf8_encode($valor['tipo']);
+		  	  $cod_lista_carrera=utf8_encode($valor['cod_lista_carrera']);
+		  	  $cod_filial=utf8_encode($valor['cod_filial']);
 		  	
 			$styleorden1="";
 			  $styleorden2="";
@@ -1332,7 +1357,10 @@ $totales=0;
 			  <td  id='td_datos_8' style='display:none' >". number_format($costo,'0',',','.') ."</td>
 			  <td  id='td_datos_9' style='display:none' >".$cod_carreraFK."</td>
 			  <td  id='td_datos_10' style='display:none' >".$estado."</td>		
-               <td  id='td_datos_12' style='display:none' >Generales</td>			  
+               <td  id='td_datos_12' style='display:none' >".$tipo."</td>			  
+			  <td  id='td_datos_14' style='display:none' >".$cod_listadearanceles."</td>			  
+			  <td  id='td_datos_15' style='display:none' >".$cod_lista_carrera."</td>			  
+			  <td  id='td_datos_16' style='display:none' >".$cod_filial."</td>			  
 			  </tr>
 			  </table>";
 			    	 

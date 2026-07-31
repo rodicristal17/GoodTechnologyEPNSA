@@ -7632,10 +7632,14 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 			try {
 				var datos = $.parseJSON(Respuesta);
 				Respuesta = datos["1"];
-				 Respuesta=respuestaJqueryAjax(Respuesta)
+				Respuesta=respuestaJqueryAjax(Respuesta)
 		         if (Respuesta == true) {	
 					var datos_buscados1 = datos[2];
 					document.getElementById("ListCarrerasCargarArancel").innerHTML = datos_buscados1
+					if(carreraAsignarArancelMasivoPendiente!=""){
+						document.getElementById("inptCarreraAsignarArancelMasivo").value=carreraAsignarArancelMasivoPendiente
+						carreraAsignarArancelMasivoPendiente=""
+					}
 				}
 			} catch (error) {
 				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
@@ -20542,6 +20546,11 @@ ASIGNAR ARANCELES
 */
 var CodCarreraAsignarArancel="";
 var idAbmAsignarArancel="";
+var CodListadoArancelAsignarArancel="";
+var CodListaCarreraAsignarArancelMasivo="";
+var CodFilialAsignarArancelMasivo="";
+var carreraAsignarArancelMasivoPendiente="";
+var TipoArancelAsignarArancelSeleccionado="";
 var ControlVistaAsignarArancel=""
 function verCerrarFrmAsignarArancel(d){
 	document.getElementById("divMinimizadoAranceles").style.display="none";
@@ -20609,11 +20618,16 @@ function NuevoAsignarArancelFrm(){
 }
 function NuevoAsignarArancelMasivoFrm(){
 	// if(controlacceso("INSERTARASIGNARARANCELES","accion")==false){	  return;		}
+	if(idAbmAsignarArancel==""){		
+		alertmensaje("Falto seleccionar un arancel")
+		return
+	}
 		document.getElementById("divAbmAsignarArancel").style.display=""
 		document.getElementById("divAbmAsignarArancel1").style.display="none"
 		document.getElementById("divAbmAsignarArancel2").style.display="none"
 		document.getElementById("divAbmAsignarArancel3").style.display=""
 		LimpiarCamposAsignarArancelMasivo()
+		CargarDatosSeleccionadosAsignarArancelMasivo()
 		
 }
 function EditarAsignarArancelFrm(){
@@ -20717,8 +20731,13 @@ function LimpiarCamposAsignarArancel(){
 	document.getElementById("inptRegistroSeleccionadoAsignarArancel").value=""
 	   document.getElementById("btneditarDatosAsignarCarrera").style.backgroundColor="#b5f5b7"
      document.getElementById("btneliminarDatosAsignarCarrera").style.backgroundColor="#ffcece"
+     document.getElementById("btncrearMasivoAsignarArancel").style.backgroundColor="#bbdefb"
 	 CodCarreraAsignarArancel="";
  idAbmAsignarArancel="";
+ CodListadoArancelAsignarArancel="";
+ CodListaCarreraAsignarArancelMasivo="";
+ CodFilialAsignarArancelMasivo="";
+ TipoArancelAsignarArancelSeleccionado="";
  ControlVistaAsignarArancel=""
 
  CargarCarrerasAsingarArancel()
@@ -20735,7 +20754,20 @@ function LimpiarCamposBusquedaAsignarArancel(){
 	document.getElementById("lblNroRegistroAsignarArancel").innerHTML=""
 	document.getElementById("divBuscadorAsignarArancel1").innerHTML=""
 	document.getElementById("divBuscadorAsignarArancelCascada").innerHTML=""
+	LimpiarSeleccionAsignarArancel()
 	
+}
+function LimpiarSeleccionAsignarArancel(){
+	document.getElementById("inptRegistroSeleccionadoAsignarArancel").value=""
+	document.getElementById("btneditarDatosAsignarCarrera").style.backgroundColor="#b5f5b7"
+	document.getElementById("btneliminarDatosAsignarCarrera").style.backgroundColor="#ffcece"
+	document.getElementById("btncrearMasivoAsignarArancel").style.backgroundColor="#bbdefb"
+	idAbmAsignarArancel="";
+	CodCarreraAsignarArancel="";
+	CodListadoArancelAsignarArancel="";
+	CodListaCarreraAsignarArancelMasivo="";
+	CodFilialAsignarArancelMasivo="";
+	TipoArancelAsignarArancelSeleccionado="";
 }
 function LimpiarCamposAsignarArancelMasivo(){
 	document.getElementById("inptTipoArancelAsignarArancelMasivo").value=""
@@ -20749,6 +20781,39 @@ function LimpiarCamposAsignarArancelMasivo(){
 	document.getElementById("inptCantidadAsignarArancelMasivo").value="1"
 	document.getElementById("inptTotalAsignarArancelMasivo").value="0"
 	document.getElementById("ListArancelTipos").innerHTML=""
+}
+function ObtenerValorRegistroAsignarArancel(datostr, idCampo) {
+	var valor = $(datostr).children('td[id="' + idCampo + '"]').html();
+	if(valor == undefined) {
+		valor = $(datostr).children('span[id="' + idCampo + '"]').html();
+	}
+	if(valor == undefined || valor == null || valor == "undefined" || valor == "null") {
+		return "";
+	}
+	return valor;
+}
+function CargarDatosSeleccionadosAsignarArancelMasivo(){
+	var tipoSeleccionado=TipoArancelAsignarArancelSeleccionado
+	if(tipoSeleccionado==""){
+		tipoSeleccionado=document.getElementById("inptTipoArancelAsignarArancel").value
+	}
+	document.getElementById("inptTipoArancelAsignarArancelMasivo").value=tipoSeleccionado
+	document.getElementById("inptFilialAsignarArancelMasivo").value=document.getElementById("inptFilialAsignarArancel").value
+	document.getElementById("inptAnhoAsignarArancelMasivo").value=document.getElementById("inptAnhoAsignarArancel").value
+	document.getElementById("inptSemestreAsignarArancelMasivo").value=document.getElementById("inptSemestreAsignarArancel").value
+	document.getElementById("inptCursoAsignarArancelMasivo").value=document.getElementById("inptCursoAsignarArancel").value
+	document.getElementById("inptNombreAsignarArancelMasivo").value=document.getElementById("inptNombreAsignarArancel").value
+	document.getElementById("inptMontoAsignarArancelMasivo").value=document.getElementById("inptMontoAsignarArancel").value
+	document.getElementById("inptCantidadAsignarArancelMasivo").value=document.getElementById("inptCantidadAsignarArancel").value
+	document.getElementById("inptTotalAsignarArancelMasivo").value=document.getElementById("inptTotalAsignarArancel").value
+	carreraAsignarArancelMasivoPendiente=document.getElementById("inptCarreraAsignarArancel").value
+	document.getElementById("inptCarreraAsignarArancelMasivo").value=carreraAsignarArancelMasivoPendiente
+	ControlTipoArancelMasivo(document.getElementById("inptTipoArancelAsignarArancelMasivo"))
+	CargarCarrerasEnCargarArancelMasivo()
+	if(document.getElementById("inptFilialAsignarArancelMasivo").value==""){
+		document.getElementById("inptCarreraAsignarArancelMasivo").value=carreraAsignarArancelMasivoPendiente
+		carreraAsignarArancelMasivoPendiente=""
+	}
 }
 function ControlTipoArancel(d){
 	if(d.value=="Especificos" || d.value=="Libros" || d.value=="Materiales Didacticos" || d.value=="Cuotas"){
@@ -20781,24 +20846,29 @@ function ObtenerdatosAbmAsignarArancel(datostr) {
 	});
 		
 	datostr.className = 'tableRegistroSelec'
-	idAbmAsignarArancel = $(datostr).children('td[id="td_id"]').html();
-	CodCarreraAsignarArancel = $(datostr).children('td[id="td_datos_9"]').html();
-	document.getElementById('inptRegistroSeleccionadoAsignarArancel').value = $(datostr).children('td[id="td_datos_1"]').html();
-	document.getElementById('inptNombreAsignarArancel').value = $(datostr).children('td[id="td_datos_1"]').html();
-	document.getElementById('inptCarreraAsignarArancel').value = $(datostr).children('td[id="td_datos_2"]').html();
-	document.getElementById('inptFilialAsignarArancel').value = $(datostr).children('td[id="td_datos_3"]').html();
-	document.getElementById('inptSemestreAsignarArancel').value = $(datostr).children('td[id="td_datos_11"]').html();
-	document.getElementById('inptCursoAsignarArancel').value = $(datostr).children('td[id="td_datos_5"]').html();
-	document.getElementById('inptAnhoAsignarArancel').value = $(datostr).children('td[id="td_datos_4"]').html();
-	document.getElementById('inptMontoAsignarArancel').value = $(datostr).children('td[id="td_datos_6"]').html();
-	document.getElementById('inptCantidadAsignarArancel').value = $(datostr).children('td[id="td_datos_7"]').html();
-	document.getElementById('inptTotalAsignarArancel').value = $(datostr).children('td[id="td_datos_8"]').html();
-	document.getElementById('inptEstadoAsignarArancel').value = $(datostr).children('td[id="td_datos_10"]').html();
-	document.getElementById('inptTipoArancelAsignarArancel').value = $(datostr).children('td[id="td_datos_12"]').html();
-	document.getElementById('inptCostoAsignarArancel').value = $(datostr).children('td[id="td_datos_13"]').html();
+	idAbmAsignarArancel = ObtenerValorRegistroAsignarArancel(datostr,"td_id");
+	CodCarreraAsignarArancel = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_9");
+	CodListadoArancelAsignarArancel = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_14");
+	CodListaCarreraAsignarArancelMasivo = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_15");
+	CodFilialAsignarArancelMasivo = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_16");
+	TipoArancelAsignarArancelSeleccionado = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_12");
+	document.getElementById('inptRegistroSeleccionadoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_1");
+	document.getElementById('inptNombreAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_1");
+	document.getElementById('inptCarreraAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_2");
+	document.getElementById('inptFilialAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_3");
+	document.getElementById('inptSemestreAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_11");
+	document.getElementById('inptCursoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_5");
+	document.getElementById('inptAnhoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_4");
+	document.getElementById('inptMontoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_6");
+	document.getElementById('inptCantidadAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_7");
+	document.getElementById('inptTotalAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_8");
+	document.getElementById('inptEstadoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_10");
+	document.getElementById('inptTipoArancelAsignarArancel').value = TipoArancelAsignarArancelSeleccionado;
+	document.getElementById('inptCostoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_13");
      document.getElementById("btnAbmAsignarArancel").value="Editar Datos"
      document.getElementById("btneditarDatosAsignarCarrera").style.backgroundColor="#4CAF50"
      document.getElementById("btneliminarDatosAsignarCarrera").style.backgroundColor="red"
+     document.getElementById("btncrearMasivoAsignarArancel").style.backgroundColor="#2196f3"
    
    if(document.getElementById('inptTipoArancelAsignarArancel').value=="Generales"){
 	    document.getElementById("divTipoAranceles").style.display="None";
@@ -20816,21 +20886,27 @@ function ObtenerdatosAbmAsignarArancelCascada(datostr) {
 
 	});
 		
+	datostr.className = 'tableRegistroSelec'
 	
-	idAbmAsignarArancel = $(datostr).children('td[id="td_id"]').html();
-	CodCarreraAsignarArancel = $(datostr).children('td[id="td_datos_9"]').html();
-	document.getElementById('inptRegistroSeleccionadoAsignarArancel').value = $(datostr).children('td[id="td_datos_1"]').html();
-	document.getElementById('inptNombreAsignarArancel').value = $(datostr).children('td[id="td_datos_1"]').html();
-	document.getElementById('inptCarreraAsignarArancel').value = $(datostr).children('td[id="td_datos_2"]').html();
-	document.getElementById('inptFilialAsignarArancel').value = $(datostr).children('td[id="td_datos_3"]').html();
-	document.getElementById('inptSemestreAsignarArancel').value = $(datostr).children('td[id="td_datos_11"]').html();
-	document.getElementById('inptCursoAsignarArancel').value = $(datostr).children('td[id="td_datos_5"]').html();
-	document.getElementById('inptAnhoAsignarArancel').value = $(datostr).children('td[id="td_datos_4"]').html();
-	document.getElementById('inptMontoAsignarArancel').value = $(datostr).children('td[id="td_datos_6"]').html();
-	document.getElementById('inptCantidadAsignarArancel').value = $(datostr).children('td[id="td_datos_7"]').html();
-	document.getElementById('inptTotalAsignarArancel').value = $(datostr).children('td[id="td_datos_8"]').html();
-	document.getElementById('inptEstadoAsignarArancel').value = $(datostr).children('td[id="td_datos_10"]').html();
-	document.getElementById('inptTipoArancelAsignarArancel').value = $(datostr).children('td[id="td_datos_12"]').html();
+	idAbmAsignarArancel = ObtenerValorRegistroAsignarArancel(datostr,"td_id");
+	CodCarreraAsignarArancel = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_9");
+	CodListadoArancelAsignarArancel = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_14");
+	CodListaCarreraAsignarArancelMasivo = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_15");
+	CodFilialAsignarArancelMasivo = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_16");
+	TipoArancelAsignarArancelSeleccionado = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_12");
+	document.getElementById('inptRegistroSeleccionadoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_1");
+	document.getElementById('inptNombreAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_1");
+	document.getElementById('inptCarreraAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_2");
+	document.getElementById('inptFilialAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_3");
+	document.getElementById('inptSemestreAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_11");
+	document.getElementById('inptCursoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_5");
+	document.getElementById('inptAnhoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_4");
+	document.getElementById('inptMontoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_6");
+	document.getElementById('inptCantidadAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_7");
+	document.getElementById('inptTotalAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_8");
+	document.getElementById('inptEstadoAsignarArancel').value = ObtenerValorRegistroAsignarArancel(datostr,"td_datos_10");
+	document.getElementById('inptTipoArancelAsignarArancel').value = TipoArancelAsignarArancelSeleccionado;
+	document.getElementById("btncrearMasivoAsignarArancel").style.backgroundColor="#2196f3"
      
    if(document.getElementById('inptTipoArancelAsignarArancel').value=="Generales"){
 	    document.getElementById("divTipoAranceles").style.display="None";
@@ -21146,6 +21222,11 @@ function AbmAsignarArancel(costo,arancelname,tipo,estado,anho,curso,monto,cantid
 }
 function CrearArancelMasivo() {
 	
+	if(idAbmAsignarArancel==""){
+		alertmensaje("Falto seleccionar un arancel")
+		return
+	}
+	
 	var anho=document.getElementById("inptAnhoAsignarArancelMasivo").value;
 	var semestre=document.getElementById("inptSemestreAsignarArancelMasivo").value;
 	var curso=document.getElementById("inptCursoAsignarArancelMasivo").value;
@@ -21169,6 +21250,9 @@ $("input[id=inptFilialAsignarArancelMasivo]").each(function (i, Elemento) {
            // value is not in list
        }
 });
+if(codFilial=="" && document.getElementById("inptFilialAsignarArancelMasivo").value==document.getElementById("inptFilialAsignarArancel").value){
+	codFilial=CodFilialAsignarArancelMasivo
+}
 var codcarrera="";
 $("input[id=inptCarreraAsignarArancelMasivo]").each(function (i, Elemento) {
       var $input = $(this),
@@ -21185,6 +21269,9 @@ $("input[id=inptCarreraAsignarArancelMasivo]").each(function (i, Elemento) {
            // value is not in list
        }
 });
+if(codcarrera=="" && document.getElementById("inptCarreraAsignarArancelMasivo").value==document.getElementById("inptCarreraAsignarArancel").value){
+	codcarrera=CodListaCarreraAsignarArancelMasivo
+}
 
 
 	var arancelname =document.getElementById("inptNombreAsignarArancelMasivo").value
@@ -21205,8 +21292,12 @@ $("input[id=inptNombreAsignarArancelMasivo]").each(function (i, Elemento) {
        }
 });
 
+if(cod_listadearancelesFk=="" && arancelname==document.getElementById("inptNombreAsignarArancel").value){
+	cod_listadearancelesFk=CodListadoArancelAsignarArancel
+}
+
 if(cod_listadearancelesFk==""){
-		alertmensaje("Falto Seleccionar una el arancel")
+		alertmensaje("Falto seleccionar el arancel")
 		return
 	}
 	
@@ -21348,6 +21439,7 @@ function ordenasignararancel(d){
 
 
 function BuscarAbmAsignarArancel(){
+	LimpiarSeleccionAsignarArancel()
 	if(document.getElementById('inptSeleccTipoAsignarArancel1').checked==true){
 		BuscarAbmAsignarArancel1()
 	}else{
