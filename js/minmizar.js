@@ -92,12 +92,8 @@ function verventanasminizados(){
 	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarFrmUsuarios(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/usuarios.png' /><br/><label class='pTitulo17'  >Usuarios</label></button>"
 	control=control+1;
 	}
-	if($("div[id=divMinimizadoEgresoIngreso]").is(':visible')){
+	if($("div[id=divMinimizadoEgresoIngreso], div[id=divMinimizadoEgresoIngresoAdministrativo]").is(':visible')){
 	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarAbmGasto()' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/gastos.png' /><br/><label class='pTitulo17'  >Gastos</label></button>"
-	control=control+1;
-	}
-	if($("div[id=divMinimizadoVistaEgresoIngresoCategoria]").is(':visible')){
-	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarGastoPorCategoria()' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/gastos.png' /><br/><label class='pTitulo17'  >Categoria de Gastos</label></button>"
 	control=control+1;
 	}
 	
@@ -152,13 +148,17 @@ function finalizarventanasminizados(){
 	if($("div[id=divMinimizadoUsuario]").is(':visible')){
 	verCerrarFrmUsuarios("2")
 	}
-	if($("div[id=divMinimizadoEgresoIngreso]").is(':visible')){
+	if($("div[id=divMinimizadoEgresoIngreso], div[id=divMinimizadoEgresoIngresoAdministrativo]").is(':visible')){
+	if(typeof actualizarDivMinimizadoEgresoIngreso=="function"){
+	actualizarDivMinimizadoEgresoIngreso("none")
+	}else{
 	document.getElementById("divMinimizadoEgresoIngreso").style.display="none"
-	document.getElementById("divAbmGastos").style.display="none"
+	var divMinimizadoEgresoIngresoAdministrativo=document.getElementById("divMinimizadoEgresoIngresoAdministrativo")
+	if(divMinimizadoEgresoIngresoAdministrativo){
+	divMinimizadoEgresoIngresoAdministrativo.style.display="none"
 	}
-	if($("div[id=divMinimizadoVistaEgresoIngresoCategoria]").is(':visible')){
-	document.getElementById("divMinimizadoVistaEgresoIngresoCategoria").style.display="none"
-	document.getElementById("divVistaGastoPorCategoria").style.display="none"
+	}
+	document.getElementById("divAbmGastos").style.display="none"
 	}
 		 document.getElementById("divSegundoPlano").style.display="none"
 	document.getElementById("divVentanaminizado").innerHTML=""
@@ -224,10 +224,6 @@ if(document.getElementById("divAbmGastos").style.display==""){
 minimizarventanaingresoegreso()
 return
 }
-if(document.getElementById("divVistaGastoPorCategoria").style.display==""){
-minimizarventanaGastoPorCategoria()
-return
-}
 
 }
 
@@ -287,10 +283,6 @@ return
 }
 if(document.getElementById("divAbmGastos").style.display==""){
 minimizarventanaingresoegreso()
-return
-}
-if(document.getElementById("divVistaGastoPorCategoria").style.display==""){
-minimizarventanaGastoPorCategoria()
 return
 }
 

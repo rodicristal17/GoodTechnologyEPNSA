@@ -600,11 +600,9 @@ function buscar_datos_del_usuario(){
  removeToBtn()
  BuscarNivelesSelect()
 buscarOptionCaja() 
-buscaroptionCategoriaGasto()
  buscaroptionMotivoEgresoIngreso()
  BuscarListCajaSelectNroFactura()
  BuscarSeleccListaAranceles()
- BuscarSelecDescripcionArregloGastoEgresoIngreso()
  ObtenerFechaSelect()
 fechaActualSelect()	
 ObtenerFechaSelectHistoricos()
@@ -7445,8 +7443,6 @@ verCerrarEfectoCargando("2")
 	});
 	
 }
-
-
 
 function CargarCarrerasEnBuscarArancel(){
 		
@@ -17729,6 +17725,22 @@ var anhoCobrarArancel="";
 var CursoCobrarArancel="";
 var semestreCobrarArancel="";
 var TipoCobrarArancel="";
+function controlarEstadoTipoArancelCobrarAranceles(arancelSeleccionado) {
+	var inputTipoArancel = document.getElementById("inptTipoArancelCobrarAranceles");
+	if (!inputTipoArancel) {
+		return;
+	}
+	if (arancelSeleccionado == true) {
+		inputTipoArancel.disabled = true;
+		return;
+	}
+	if (CursoCobrarArancel == "CULMINADO") {
+		inputTipoArancel.disabled = true;
+		inputTipoArancel.value = "Generales";
+	} else {
+		inputTipoArancel.disabled = false;
+	}
+}
 function ObtenerdatosVistaCargarArancelCobrar(datostr) {
 
 	$("tr[id=tbSelecRegistro]").each(function (i, td) {
@@ -17804,6 +17816,7 @@ function ObtenerdatosVistaCargarArancelCobrar(datostr) {
 			
 }
 
+controlarEstadoTipoArancelCobrarAranceles(true);
 }
 var montopagadoArancel=0;
 var montounitariodelarancel=0;
@@ -17842,6 +17855,7 @@ function ObtenerdatosVistaCargarArancelCobrarCuota(datostr) {
 				document.getElementById('divVistaArancelesCobrar').style.display='flex';
 				document.getElementById("inptTipoArancelNombreAranceles").value=""
 				document.getElementById("tdArancelesDeudasAnterior").style.display="none"
+	controlarEstadoTipoArancelCobrarAranceles(true);
 	buscarCuotasaranceles2()
 	
 }
@@ -17878,6 +17892,7 @@ function ObtenerdatosVistaCargarArancelCobrarDerecho(datostr) {
 				document.getElementById("inptSemestreCobrarAranceles").value=semestreCobrarArancel
 				document.getElementById("inptTipoArancelNombreAranceles").value=""
 				document.getElementById("tdArancelesDeudasAnterior").style.display="none"
+	controlarEstadoTipoArancelCobrarAranceles(true);
 	
 }
 
@@ -18278,6 +18293,7 @@ document.getElementById('inptDescuentoArancelCobrarAranceles').value=""
 document.getElementById('inptTotalArancelCobrarAranceles').value=""
 document.getElementById('btnAddToDetalleVenta').style.backgroundColor='#cccccc';
 document.getElementById('btnMasDetalleVenta').style.display='none';
+controlarEstadoTipoArancelCobrarAranceles(false);
 document.getElementById('inptNomArancelCobrarAranceles').focus();
 tituloDescuentoFactura="";
 }
@@ -18627,6 +18643,7 @@ document.getElementById('inptDescuentoArancelCobrarAranceles').value="0"
 document.getElementById('inptTotalArancelCobrarAranceles').value="0"
 document.getElementById('btnAddToDetalleVenta').style.backgroundColor='#cccccc';
 document.getElementById('btnMasDetalleVenta').style.display='none';
+controlarEstadoTipoArancelCobrarAranceles(false);
 document.getElementById('inptNomArancelCobrarAranceles').focus();
 
 }
@@ -18792,6 +18809,7 @@ checkTipodeCobro(1);
     duracioncarreracobrarcobranzas=""
 	semestreCobrarArancel=""
 	tituloDescuentoFactura=""
+	controlarEstadoTipoArancelCobrarAranceles(false);
 }
 
 function guardarDatosCobranzas(){
@@ -26449,9 +26467,18 @@ ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
 
 
 /* ABM GASTO */
+function actualizarDivMinimizadoEgresoIngreso(display){
+	var ids=["divMinimizadoEgresoIngreso","divMinimizadoEgresoIngresoAdministrativo"];
+	for(var i=0;i<ids.length;i++){
+		var elemento=document.getElementById(ids[i]);
+		if(elemento){
+			elemento.style.display=display;
+		}
+	}
+}
 function verCerrarAbmGasto(){
 	document.getElementById("divSegundoPlano").style.display="none";
-	document.getElementById("divMinimizadoEgresoIngreso").style.display="none"
+	actualizarDivMinimizadoEgresoIngreso("none")
 	if(document.getElementById("divAbmGastos").style.display==""){
      //  
 	$("div[id=divAbmGastos]").fadeOut(500);	
@@ -26476,7 +26503,7 @@ function limpiarcamposbuscadoregresoingreso(){
 	document.getElementById("table_abm_gasto").innerHTML=""
 }
 function minimizarventanaingresoegreso(){
-	document.getElementById("divMinimizadoEgresoIngreso").style.display="" 
+	actualizarDivMinimizadoEgresoIngreso("")
 	$("div[id=divAbmGastos]").fadeOut(500);
 }
 function verCerrarVentanaAbmGasto(d, l) {
@@ -26541,19 +26568,10 @@ function obtenerdatosabmGasto(datostr) {
 	document.getElementById('inptlocalMisGastos').value = obtenerValorRegistroGasto(datostr, "td_datos_7");
 	document.getElementById('inptNroBoletaGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_14");
 	document.getElementById('inptTipoGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_6");
-	var categoriaGasto = obtenerValorRegistroGasto(datostr, "td_datos_19");
-	var subcategoriaGasto = obtenerValorRegistroGasto(datostr, "td_datos_20");
-	if(categoriaGasto != ""){
-		buscaroptionCategoriaGasto(categoriaGasto, subcategoriaGasto);
-	}else{
-		document.getElementById('inptCategoriaMisGastos').value = "";
-		document.getElementById('inptSubcategoriaMisGastos').value = "";
-	}
 	// document.getElementById('inptBancoGasto').value = $(datostr).children('td[id="td_datos_9"]').html();
 	
 	
 	document.getElementById('inptCuentaGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_10");
-	document.getElementById('inptArregloGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_11");
 	document.getElementById('inptMotivoMisGastos').value = obtenerValorRegistroGasto(datostr, "td_datos_12");
 	document.getElementById('inptFechaDepositoGasto').value = obtenerValorRegistroGasto(datostr, "td_datos_18");
 	document.getElementById('btnAbmGastos').value = "Editar datos";
@@ -26588,26 +26606,16 @@ function verificarcamposGasto() {
 	var inptMotivoGasto = document.getElementById('inptMotivoGasto').value
 	var inptFechaGasto = document.getElementById('inptFechaGasto').value
 	var inptEstadoGasto = document.getElementById('inptEstadoGasto').value
-	var inptArregloGasto = document.getElementById('inptArregloGasto').value
 	var inptlocalMisGastos = document.getElementById('inptlocalMisGastos').value
 	var inptTipoGasto = document.getElementById('inptTipoGasto').value
 	var inptNroBoletaGasto = document.getElementById('inptNroBoletaGasto').value
 	// var inptBancoGasto = document.getElementById('inptBancoGasto') 
 	var inptFechaDepositoGasto = document.getElementById('inptFechaDepositoGasto').value
-	var inptCategoriaMisGastos = document.getElementById('inptCategoriaMisGastos').value
-	var inptSubcategoriaMisGastos = document.getElementById('inptSubcategoriaMisGastos').value
     // inptBancoGasto = inptBancoGasto.options[inptBancoGasto.selectedIndex].text;
 	// if(inptBancoGasto == 'SELECCIONAR'){
 		// inptBancoGasto = '';
 	// }
-	
-	
-	if (inptArregloGasto == "" && inptTipoGasto=="Egreso") {
-		ver_vetana_informativa("FALTO SELECCIONAR UN ARREGLO")
-		return false;
-	}
-	
-	
+
 	var inptCuentaGasto = document.getElementById('inptCuentaGasto').value
 	if (inptFechaDepositoGasto == "" && inptTipoGasto=="Deposito") {
 		ver_vetana_informativa("FALTO SELECCIONAR UNA FECHA DE DEPOSITO")
@@ -26621,14 +26629,6 @@ function verificarcamposGasto() {
 	}
 	if (inptMotivoMisGastos == "") {
 		ver_vetana_informativa("FALTO SELECCIONAR EL MOTIVO")
-		return false;
-	}
-	if (inptCategoriaMisGastos == "") {
-		ver_vetana_informativa("FALTO SELECCIONAR LA CATEGORIA")
-		return false;
-	}
-	if (inptSubcategoriaMisGastos == "") {
-		ver_vetana_informativa("FALTO SELECCIONAR LA SUBCATEGORIA")
 		return false;
 	}
 	if (inptMotivoGasto == "") {
@@ -26656,9 +26656,9 @@ function verificarcamposGasto() {
 		accion = "nuevo";
 	}
 	
-	abmgastos(inptFechaDepositoGasto,inptMotivoMisGastos,inptArregloGasto,inptNroBoletaGasto , inptCuentaGasto ,inptMontoGasto, inptMotivoGasto, inptFechaGasto, inptEstadoGasto, idAbmGasto, inptTipoGasto, inptlocalMisGastos,inptCategoriaMisGastos,inptSubcategoriaMisGastos, accion);
+	abmgastos(inptFechaDepositoGasto,inptMotivoMisGastos,inptNroBoletaGasto , inptCuentaGasto ,inptMontoGasto, inptMotivoGasto, inptFechaGasto, inptEstadoGasto, idAbmGasto, inptTipoGasto, inptlocalMisGastos, accion);
 }
-function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,nrocuenta,monto, motivo, fecha, estado, idgastos, tipo, cod_local,idcategoria_gastoFK,idsubcategoria_gastoFK, accion) {
+function abmgastos(fechaDeposito,cod_motivo,nroboleta ,nrocuenta,monto, motivo, fecha, estado, idgastos, tipo, cod_local, accion) {
 	verCerrarEfectoCargando("1")
 	var datos = new FormData();
 	obtener_datos_user();
@@ -26676,14 +26676,11 @@ function abmgastos(fechaDeposito,cod_motivo,Arreglo,nroboleta ,nrocuenta,monto, 
 	datos.append("codcaja", cajapredeterminada)
 	datos.append("idaperturacierrecaja", idabmAperturacierrecaja)
 	datos.append("nroboleta", nroboleta)
-	datos.append("Arreglo", Arreglo)
 	datos.append("nrocuenta", nrocuenta)
 	datos.append("cod_motivo", cod_motivo)
 	datos.append("foto", fotogasto)
 	datos.append("ext", extgasto)
 	datos.append("fechaDeposito", fechaDeposito)
-	datos.append("idcategoria_gastoFK", idcategoria_gastoFK)
-	datos.append("idsubcategoria_gastoFK", idsubcategoria_gastoFK)
 	var OpAjax = $.ajax({
 		data: datos,
 		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
@@ -26924,7 +26921,6 @@ function buscarabmGasto() {
 		estado="Inactivo"
 	}
 	var tipo = document.getElementById('inptSeleccTipoBuscarGasto').value
-	var arreglo = document.getElementById('inptSeleccArregloBuscarGasto').value
 	var cod_local = document.getElementById('inptlocalMisGastosBusca').value
 	var fecha = document.getElementById('inptBuscarIngresoEgreso2').value
 	var usuario = document.getElementById('inptBuscarIngresoEgreso1').value
@@ -26971,7 +26967,6 @@ function buscarabmGasto() {
 		"tipo": tipo,
 		"usuario": usuario,
 		"fecha": fecha,
-		"arreglo": arreglo,
 		"motivo": motivo,
 		"confirmado": confirmado,
 		"nroboleta": nroboleta,
@@ -27045,9 +27040,6 @@ function limpiarcamposGasto() {
 	document.getElementById('inptNroBoletaGasto').value = "";
 	// document.getElementById('inptBancoGasto').value = "";
 	document.getElementById('inptCuentaGasto').value = "";
-	document.getElementById('inptArregloGasto').value = "";
-	document.getElementById('inptCategoriaMisGastos').value = "";
-	document.getElementById('inptSubcategoriaMisGastos').value = "";
 	document.getElementById('btnEditarGastos').style.backgroundColor="#b7b7b7";
 	document.getElementById('btnConfirmarGasto').style.backgroundColor="#b7b7b7";
 	document.getElementById('inptEstadoGasto').value = "Activo";
@@ -27363,220 +27355,6 @@ function limpiarcamposmotivoegresoingreso(){
 }
 
 
-/* ABM DESCRIPCION ARREGLO INGRESO EGRESO */
-var idAbmDescripcionArregloGastoEgresoIngreso="";
-var ElementoSeleccDescripcionArregloGastoEgresoIngreso="";
-function verCerrarFrmDescripcionArregloGastoEgresoIngreso(d){
-	if(d=="1"){
-		// if(controlacceso("CREARNUEVADESCRIPCIONARREGLOEGRESOINGRESO","accion")==false){return;}	
-		$("div[id=divAbmDescripcionArregloGastoEgresoIngreso]").fadeIn(500);
-		BuscarAbmDescripcionArregloGastoEgresoIngreso()
-	}else{
-		$("div[id=divAbmDescripcionArregloGastoEgresoIngreso]").fadeOut(500);
-	}
-}
-function LimpiarCamposDescripcionArregloGastoEgresoIngreso(){
-	document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").value="";
-	document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").value="";
-	document.getElementById("btnDescripcionArregloGastoEgresoIngreso1").value="Guardar Datos"
-	idAbmDescripcionArregloGastoEgresoIngreso="";
-	ElementoSeleccDescripcionArregloGastoEgresoIngreso="";
-}
-function ObtenerdatosAbmDescripcionArregloGastoEgresoIngreso(datostr) {
-	$("tr[id=tbSelecRegistro]").each(function (i, td) {
-		td.className = ''
-	});		
-	ElementoSeleccDescripcionArregloGastoEgresoIngreso=datostr
-	datostr.className = 'tableRegistroSelec'
-    document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").value = $(datostr).children('td[id="td_datos_1"]').html();
-    document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").value = $(datostr).children('td[id="td_datos_2"]').html();
-	
-
-	
-	idAbmDescripcionArregloGastoEgresoIngreso = $(datostr).children('td[id="td_id"]').html();
-     document.getElementById("btnDescripcionArregloGastoEgresoIngreso1").value="Editar Datos"
-}
-function SeleccionarRegistroDescripcionArregloGastoEgresoIngreso(){
-	if(ElementoSeleccDescripcionArregloGastoEgresoIngreso==""){
-		ver_vetana_informativa("Falto Seleccionar un registro")
-		return;
-	}
-    
-	 document.getElementById("divAbmDescripcionArregloGastoEgresoIngreso").style.display="none";
-	 LimpiarCamposDescripcionArregloGastoEgresoIngreso()
-}
-function VerificarDatosDescripcionArregloGastoEgresoIngreso(){
-	var inptNombreDescripcionArregloGastoEgresoIngreso = document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").value
-	var inptEstadoDescripcionArregloGastoEgresoIngreso = document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").value	
-	if(inptNombreDescripcionArregloGastoEgresoIngreso==""){
-		document.getElementById("inptNombreDescripcionArregloGastoEgresoIngreso").focus()
-		ver_vetana_informativa("Falto Ingresar el nombre")
-		return
-	}
-	if(inptEstadoDescripcionArregloGastoEgresoIngreso==""){
-		document.getElementById("inptEstadoDescripcionArregloGastoEgresoIngreso").focus()
-		ver_vetana_informativa("Falto seleccionar el estado del registro")
-		return
-	}	
-	var accion = "";
-	if (idAbmDescripcionArregloGastoEgresoIngreso != "") {		
-		accion = "editar";
-	} else {		
-		accion = "nuevo";
-	}
-	AbmDescripcionArregloGastoEgresoIngreso(inptNombreDescripcionArregloGastoEgresoIngreso,inptEstadoDescripcionArregloGastoEgresoIngreso,idAbmDescripcionArregloGastoEgresoIngreso,accion)
-}
-function AbmDescripcionArregloGastoEgresoIngreso(descripcion,Estado,idabm,accion) {
-	verCerrarEfectoCargando("1")
-	var datos = new FormData();
-	obtener_datos_user();
-	datos.append("useru", userid)
-	datos.append("passu", passuser)
-	datos.append("navegador", navegador)
-	datos.append("funt", accion)
-	datos.append("idabm", idabm)
-	datos.append("descripcion", descripcion)
-	datos.append("Estado", Estado)
-	var OpAjax = $.ajax({
-		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmDescripcionArregloGastoEgresoIngreso.php",
-		type: "post",
-		cache: false,
-		contentType: false,
-		processData: false,
-		  
-		
-		error: function (jqXHR, textstatus, errorThrowm) {
-			verCerrarEfectoCargando("")
-			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			return false;
-		},
-		success: function (responseText) {
-			verCerrarEfectoCargando("")
-			Respuesta = responseText;
-			console.log(Respuesta)
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				 Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-				LimpiarCamposDescripcionArregloGastoEgresoIngreso()
-				ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
-				BuscarAbmDescripcionArregloGastoEgresoIngreso()
-				BuscarSelecDescripcionArregloGastoEgresoIngreso()
-				}
-				else {
-				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR")
-				}
-			} catch (error) {
-				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-						var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-}
-function BuscarAbmDescripcionArregloGastoEgresoIngreso() {
-	var buscador = document.getElementById("inptBuscarAbmDescripcionArregloGastoEgresoIngresos").value
-	var estado = document.getElementById("inptBuscarEstadoDescripcionArregloGastoEgresoIngreso").value
-	if(estado == ''){
-		estado = 'Activo';
-	}
-	document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = imgCargandoA
-    document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML="";
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"buscar": buscador,
-		"estado": estado,
-		"funt": "buscar"
-	};
-	$.ajax({
-		data: datos,
-        url: "/GoodTechnologyEPNSA/php/abmDescripcionArregloGastoEgresoIngreso.php",
-		type: "post",
-		 
-		
-		beforeSend: function () {
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = ''
-			document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML = ''
-		},
-		success: function (responseText) {
-			var Respuesta = responseText;
-			console.log(Respuesta)
-			document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = ''
-			document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML = ''
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-					var datos_buscados = datos[2];
-					document.getElementById("divBuscadorDescripcionArregloGastoEgresoIngreso").innerHTML = datos_buscados
-                   document.getElementById("lblNroRegistroDescripcionArregloGastoEgresoIngreso").innerHTML="Se encontraron "+datos[3]+" registro(s)";
-				   
-				}
-			} catch (error) {
-ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-					var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-}
-function BuscarSelecDescripcionArregloGastoEgresoIngreso() {
-	document.getElementById("inptArregloGasto").innerHTML = ""
-	document.getElementById("inptSeleccArregloBuscarGasto").innerHTML = ""
-	
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"funt": "buscarOption"
-	};
-	$.ajax({
-		data: datos,
-        url: "/GoodTechnologyEPNSA/php/abmDescripcionArregloGastoEgresoIngreso.php",
-		type: "post",
-		
-		beforeSend: function () {
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-		 
-						},
-		success: function (responseText) {
-			var Respuesta = responseText;
-			console.log(Respuesta)
-			 
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-					var datos_buscados = datos[2];
-					document.getElementById("inptArregloGasto").innerHTML = "<option value=''>SELECCIONAR</option>"+datos_buscados
-				document.getElementById("inptSeleccArregloBuscarGasto").innerHTML ="<option value=''>TODOS</option>"+ datos_buscados
-					
-				}
-			} catch (error) {
-ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-					var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-}
-
-
-
-
 function buscarcarreraEditar(){
 		
 	
@@ -27649,583 +27427,4 @@ verCerrarEfectoCargando("2")
 		}
 	});
 	
-}
-
-
-/* ABM CATEGORIAS EGRESO/INGRESO */
-function verCerrarAbmCategoriaGasto(){
-	// if(controlacceso("CREARNUEVOMOTIVO","accion")==false){return;}
-	if(document.getElementById("divAbmCategoriaGasto").style.display==""){
-		
-		$("div[id=divAbmCategoriaGasto]").fadeOut(500);	
-		
-	}else{		
-	document.getElementById('inptTipoCategoriaGasto').value = document.getElementById('inptTipoGasto').value;
-		document.getElementById("divAbmCategoriaGasto").style.display=""
-BuscarAbmCategoriaGasto()
-	}
-}
-function VerificarDatosCategoriaGasto() {
-	var inptNombreCategoriaGasto = document.getElementById('inptNombreCategoriaGasto').value
-	var inptEstadoCategoriaGasto = document.getElementById('inptEstadoCategoriaGasto').value
-	var inptTipoCategoriaGasto = document.getElementById('inptTipoCategoriaGasto').value
-	
-	if (inptNombreCategoriaGasto == "") {
-		ver_vetana_informativa("FALTO AGREGAR NOMBRE DE LA CATEGORIA")
-		return false;
-	}
-	
-	if (inptTipoCategoriaGasto == "") {
-		ver_vetana_informativa("FALTO SELECCIONAR LA CATEGORIA")
-		return false;
-	}	
-
-
-	if(idAbmCategoriaGasto != ''){
-		accion = "editar";
-	}else{
-		accion = "nuevo";
-	}
-		
-	
-	abmCategoriaGasto(inptNombreCategoriaGasto,inptTipoCategoriaGasto,inptEstadoCategoriaGasto, accion);
-}
-function abmCategoriaGasto(nombre, tipo, estado , accion) {
-	verCerrarEfectoCargando("1")
-	var datos = new FormData();
-	obtener_datos_user();
-	datos.append("useru", userid)
-	datos.append("passu", passuser)
-	datos.append("navegador", navegador)
-	datos.append("funt", accion)
-	datos.append("nombre", nombre)
-	datos.append("estado", estado)
-	datos.append("tipo", tipo)
-	datos.append("idabm", idAbmCategoriaGasto)
-
-
-	var OpAjax = $.ajax({
-		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmCategoriaGasto.php",
-		type: "post",
-		cache: false,
-		contentType: false,
-		processData: false,
-		error: function (jqXHR, textstatus, errorThrowm) {
-			verCerrarEfectoCargando("")
-			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-
-			return false;
-		},
-		success: function (responseText) {
-			verCerrarEfectoCargando("")
-			Respuesta = responseText;
-			console.log(Respuesta)
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				 Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-					ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
-					buscaroptionCategoriaGasto()
-					BuscarAbmCategoriaGasto()
-					limpiarcamposCategoriaGasto()
-				}
-			} catch (error) {
-				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-				var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-
-
-		}
-	});
-
-
-}
-function buscaroptionCategoriaGasto(idCategoriaSeleccionada, idSubcategoriaSeleccionada) {
-
-	document.getElementById("inptCategoriaMisGastos").innerHTML = ""
-	document.getElementById("inptSubcategoriaMisGastos").innerHTML = "<option value=''>SELECCIONAR</option>"
-	let tipo = document.getElementById('inptTipoGasto').value;
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"tipo": tipo,
-		"funt": "buscaroption"
-	};
-	$.ajax({
-
-		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmCategoriaGasto.php",
-		type: "post",
-		
-		beforeSend: function () {
-
-
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("inptCategoriaMisGastos").innerHTML = ''
-		},
-		success: function (responseText) {
-
-			var Respuesta = responseText;
-			console.log(Respuesta)
-			document.getElementById("inptCategoriaMisGastos").innerHTML = ''
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-				   var datos_buscados = datos[2];
-					document.getElementById("inptCategoriaMisGastos").innerHTML = datos[2]
-					if(idCategoriaSeleccionada != undefined && idCategoriaSeleccionada != ""){
-						document.getElementById("inptCategoriaMisGastos").value = idCategoriaSeleccionada
-						buscaroptionSubcategoriaGasto(idSubcategoriaSeleccionada)
-					}
-
-				}
-			} catch (error) {
-ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-					var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-
-
-}
-function buscarSelectSubCategoria(datos) {
-
-	document.getElementById("inptSubcategoriaMisGastos").innerHTML = ""
-
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"funt": "buscaroption"
-	};
-	$.ajax({
-
-		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmCategoriaGasto.php",
-		type: "post",
-		
-		beforeSend: function () {
-
-
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("inptSubcategoriaMisGastos").innerHTML = ''
-		},
-		success: function (responseText) {
-
-			var Respuesta = responseText;
-			console.log(Respuesta)
-			document.getElementById("inptSubcategoriaMisGastos").innerHTML = ''
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-				   var datos_buscados = datos[2];
-					document.getElementById("inptSubcategoriaMisGastos").innerHTML = datos[2]
-
-				}
-			} catch (error) {
-ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-					var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-
-
-}
-function BuscarAbmCategoriaGasto() {
-	var buscador = document.getElementById("inptBuscarAbmCategoriaGasto").value
-	document.getElementById("divBuscadorCategoriaGasto").innerHTML = imgCargandoA
-    document.getElementById("lblNroRegistroCategoriaGasto").innerHTML="";
-	let tipo = document.getElementById('inptTipoCategoriaGasto').value;
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"buscar": buscador,
-		"tipo": tipo,
-		"funt": "buscar"
-	};
-	$.ajax({
-		data: datos,
-        url: "/GoodTechnologyEPNSA/php/abmCategoriaGasto.php",
-		type: "post",
-		 
-		
-		beforeSend: function () {
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("divBuscadorCategoriaGasto").innerHTML = ''
-			document.getElementById("lblNroRegistroCategoriaGasto").innerHTML = ''
-		},
-		success: function (responseText) {
-			var Respuesta = responseText;
-			console.log(Respuesta)
-			document.getElementById("divBuscadorCategoriaGasto").innerHTML = ''
-			document.getElementById("lblNroRegistroCategoriaGasto").innerHTML = ''
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-					var datos_buscados = datos[2];
-					document.getElementById("divBuscadorCategoriaGasto").innerHTML = datos_buscados
-                   document.getElementById("lblNroRegistroCategoriaGasto").innerHTML="Se encontraron "+datos[3]+" registro(s)";
-				   buscaroptionCategoriaGasto()
-				}
-			} catch (error) {
-ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-					var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-	}
-
-var idAbmCategoriaGasto = "";
-function ObtenerdatosAbmCategoriaGasto(datostr) {
-	$("tr[id=tbSelecRegistro]").each(function (i, td) {
-		td.className = ''
-	});
-	ElementoSeleccMarca=datostr
-	datostr.className = 'tableRegistroSelec'
-    document.getElementById("inptNombreCategoriaGasto").value = $(datostr).children('td[id="td_datos_1"]').html();
-    document.getElementById("inptEstadoCategoriaGasto").value = $(datostr).children('td[id="td_datos_2"]').html();
-    document.getElementById("inptTipoCategoriaGasto").value = $(datostr).children('td[id="td_datos_3"]').html();
-	idAbmCategoriaGasto= $(datostr).children('td[id="td_id"]').html();
-     document.getElementById("btnCategoriaGasto").value="Editar Datos"
-}
-
-function limpiarcamposCategoriaGasto(){
-	  document.getElementById("inptNombreCategoriaGasto").value = ''
-    document.getElementById("inptEstadoCategoriaGasto").value = 'Activo'
-    // document.getElementById("inptTipoCategoriaGasto").value = ''
-	idAbmCategoriaGasto=''
-     document.getElementById("btnCategoriaGasto").value="Guardar"
-}
-
-function cambioTipoGasto(datos){
-	document.getElementById('inptTipoGasto').value = datos.value;
-}
-
-/* ABM SUBCATEGORIA EGRESO/INGRESO */
-function verCerrarAbmSubcategoriaGasto(){
-	// if(controlacceso("CREARNUEVOMOTIVO","accion")==false){return;}
-	if(document.getElementById("divAbmSubcategoriaGasto").style.display==""){
-		
-		$("div[id=divAbmSubcategoriaGasto]").fadeOut(500);	
-		
-	}else{		
-	let cod_categoria = document.getElementById('inptCategoriaMisGastos').value;
-	
-	if(cod_categoria==''){
-		ver_vetana_informativa('FALTO SELECCIONAR UNA CATEGORIA');
-		return;
-	}
-		document.getElementById("divAbmSubcategoriaGasto").style.display=""
-BuscarAbmSubcategoriaGasto()
-	}
-}
-function VerificarDatosSubcategoriaGasto() {
-	var inptNombreSubcategoriaGasto = document.getElementById('inptNombreSubcategoriaGasto').value
-	var inptEstadoSubcategoriaGasto = document.getElementById('inptEstadoSubcategoriaGasto').value
-	var inptCategoriaMisGastos = document.getElementById('inptCategoriaMisGastos').value
-	
-	if (inptNombreSubcategoriaGasto == "") {
-		ver_vetana_informativa("FALTO AGREGAR NOMBRE DE LA CATEGORIA")
-		return false;
-	}
-
-
-	if(idAbmSubcategoriaGasto != ''){
-		accion = "editar";
-	}else{
-		accion = "nuevo";
-	}
-		
-	
-	abmSubcategoriaGasto(inptNombreSubcategoriaGasto,inptCategoriaMisGastos,inptEstadoSubcategoriaGasto, accion);
-}
-function abmSubcategoriaGasto(nombre, cod_categoria, estado , accion) {
-	verCerrarEfectoCargando("1")
-	var datos = new FormData();
-	obtener_datos_user();
-	datos.append("useru", userid)
-	datos.append("passu", passuser)
-	datos.append("navegador", navegador)
-	datos.append("funt", accion)
-	datos.append("nombre", nombre)
-	datos.append("estado", estado)
-	datos.append("id_categoria", cod_categoria)
-	datos.append("idabm", idAbmSubcategoriaGasto)
-
-
-	var OpAjax = $.ajax({
-		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmSubcategoriaGasto.php",
-		type: "post",
-		cache: false,
-		contentType: false,
-		processData: false,
-		error: function (jqXHR, textstatus, errorThrowm) {
-			verCerrarEfectoCargando("")
-			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-
-			return false;
-		},
-		success: function (responseText) {
-			verCerrarEfectoCargando("")
-			Respuesta = responseText;
-			console.log(Respuesta)
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				 Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-					ver_vetana_informativa("DATOS CARGADO CORRECTAMENTE...")
-					buscaroptionSubcategoriaGasto()
-					BuscarAbmSubcategoriaGasto()
-					limpiarcamposSubcategoriaGasto()
-				}
-			} catch (error) {
-				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-				var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-
-
-		}
-	});
-
-
-}
-function buscaroptionSubcategoriaGasto(idSubcategoriaSeleccionada) {
-
-	document.getElementById("inptSubcategoriaMisGastos").innerHTML = ""
-	let idcategoria = document.getElementById('inptCategoriaMisGastos').value;
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"id_categoria": idcategoria,
-		"funt": "buscaroption"
-	};
-	$.ajax({
-
-		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmSubcategoriaGasto.php",
-		type: "post",
-		
-		beforeSend: function () {
-
-
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("inptSubcategoriaMisGastos").innerHTML = ''
-		},
-		success: function (responseText) {
-
-			var Respuesta = responseText;
-			console.log(Respuesta)
-			document.getElementById("inptSubcategoriaMisGastos").innerHTML = ''
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-				   var datos_buscados = datos[2];
-					document.getElementById("inptSubcategoriaMisGastos").innerHTML = datos[2]
-					if(idSubcategoriaSeleccionada != undefined && idSubcategoriaSeleccionada != ""){
-						document.getElementById("inptSubcategoriaMisGastos").value = idSubcategoriaSeleccionada
-					}
-
-				}
-			} catch (error) {
-ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-					var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-
-
-}
-function BuscarAbmSubcategoriaGasto() {
-	var buscador = document.getElementById("inptBuscarAbmSubcategoriaGasto").value
-	document.getElementById("divBuscadorSubcategoriaGasto").innerHTML = imgCargandoA
-    document.getElementById("lblNroRegistroSubcategoriaGasto").innerHTML="";
-	let cod_categoria = document.getElementById('inptCategoriaMisGastos').value;
-	
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"buscar": buscador,
-		"id_categoria": cod_categoria,
-		"funt": "buscar"
-	};
-	$.ajax({
-		data: datos,
-        url: "/GoodTechnologyEPNSA/php/abmSubcategoriaGasto.php",
-		type: "post",
-		 
-		
-		beforeSend: function () {
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			document.getElementById("divBuscadorSubcategoriaGasto").innerHTML = ''
-			document.getElementById("lblNroRegistroSubcategoriaGasto").innerHTML = ''
-		},
-		success: function (responseText) {
-			var Respuesta = responseText;
-			console.log(Respuesta)
-			document.getElementById("divBuscadorSubcategoriaGasto").innerHTML = ''
-			document.getElementById("lblNroRegistroSubcategoriaGasto").innerHTML = ''
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				Respuesta=respuestaJqueryAjax(Respuesta)
-				if (Respuesta == true) {
-					var datos_buscados = datos[2];
-					document.getElementById("divBuscadorSubcategoriaGasto").innerHTML = datos_buscados
-                   document.getElementById("lblNroRegistroSubcategoriaGasto").innerHTML="Se encontraron "+datos[3]+" registro(s)";
-				   buscaroptionSubcategoriaGasto()
-				}
-			} catch (error) {
-ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-					var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-	}
-
-var idAbmSubcategoriaGasto = "";
-function ObtenerdatosAbmSubcategoriaGasto(datostr) {
-	$("tr[id=tbSelecRegistro]").each(function (i, td) {
-		td.className = ''
-	});
-	ElementoSeleccMarca=datostr
-	datostr.className = 'tableRegistroSelec'
-    document.getElementById("inptNombreSubcategoriaGasto").value = $(datostr).children('td[id="td_datos_1"]').html();
-    document.getElementById("inptEstadoSubcategoriaGasto").value = $(datostr).children('td[id="td_datos_2"]').html();
-	idAbmSubcategoriaGasto= $(datostr).children('td[id="td_id"]').html();
-     document.getElementById("btnSubcategoriaGasto").value="Editar Datos"
-}
-
-function limpiarcamposSubcategoriaGasto(){
-	  document.getElementById("inptNombreSubcategoriaGasto").value = ''
-    document.getElementById("inptEstadoSubcategoriaGasto").value = 'Activo'
-	idAbmSubcategoriaGasto=''
-     document.getElementById("btnSubcategoriaGasto").value="Guardar"
-}
-
-
-/* VISTA GASTOS POR CATEGORIA */
-function buscarabmGastoCategoria() {
-	let fecha1 = document.getElementById('buscarfechaInicioGastosPorCategoria').value;
-	let fecha2 = document.getElementById('buscarfechaFinGastosPorCategoria').value;
-	let tipo = document.getElementById('buscarTipoGastosPorCategoria').value;
-
-	document.getElementById("contenedorCategorias").innerHTML = imgCargandoA
-	obtener_datos_user();
-	var datos = {
-		"useru": userid,
-		"passu": passuser,
-		"navegador": navegador,
-		"fecha1": fecha1,
-		"fecha2": fecha2,
-		"tipo": tipo,
-		"funt": "buscarGastosPorCategoria"
-	};
-	$.ajax({
-		data: datos,
-		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
-		type: "post",
-		 
-		
-		beforeSend: function () {
-
-		},
-		error: function (jqXHR, textstatus, errorThrowm) {
-manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
-			 document.getElementById("contenedorCategorias").innerHTML = `
-          <div class="movements__empty">
-            Ocurrió un error al buscar los datos.
-          </div>
-        `;
-		},
-		success: function (responseText) {
-			var Respuesta = responseText;
-			console.log(Respuesta)
-	
-			try {
-				var datos = $.parseJSON(Respuesta);
-				Respuesta = datos["1"];
-				if (Respuesta == "UI") {
-					ir_a_login()
-					ver_vetana_informativa("USUARIO INCORRECTO VUELVA A INICIAR SESION...")
-					return false;
-				}
-				if (Respuesta == "NI") {
-					ver_vetana_informativa("NO TIENES PERMISO PARA CONTINUA")
-					return false;
-                  }
-				if (Respuesta == "exito") {
-					 document.getElementById("contenedorCategorias").innerHTML = datos[2];
-				}
-			} catch (error) {
-				ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
-				var titulo="Error: "+error+" \r\n Consola: "+responseText
-				GuardarArchivosLog(titulo)
-			}
-		}
-	});
-}
-
-function verCerrarGastoPorCategoria(){
-	document.getElementById("divSegundoPlano").style.display="none";
-	document.getElementById("divMinimizadoVistaEgresoIngresoCategoria").style.display="none"
-	if(document.getElementById("divVistaGastoPorCategoria").style.display==""){
-     //  
-	$("div[id=divVistaGastoPorCategoria]").fadeOut(500);	
-	limpiarcamposbuscadoregresoingresocategoria()
-	
-	}else{	
-		minimizartodaventanaabierto()
-		document.getElementById("divVistaGastoPorCategoria").style.display=""
-	
-	}
-}
-function limpiarcamposbuscadoregresoingresocategoria(){
-	
-	document.getElementById("contenedorCategorias").innerHTML=""
-	document.getElementById("buscarfechaFinGastosPorCategoria").value=""
-	document.getElementById("buscarfechaInicioGastosPorCategoria").value=""
-	document.getElementById("buscarTipoGastosPorCategoria").value=""
-	
-}
-function minimizarventanaGastoPorCategoria(){
-	document.getElementById("divMinimizadoVistaEgresoIngresoCategoria").style.display="" 
-	$("div[id=divVistaGastoPorCategoria]").fadeOut(500);
 }
