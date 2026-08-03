@@ -26551,6 +26551,36 @@ function obtenerValorRegistroGasto(datostr, idCampo) {
 	}
 	return valor;
 }
+function normalizarTextoDatalist(valor) {
+	if (valor == undefined || valor == null) {
+		return "";
+	}
+	return String(valor).replace(/\s+/g, " ").trim().toUpperCase();
+}
+function obtenerIdSeleccionDatalist(inputId) {
+	var input = document.getElementById(inputId);
+	if (input == null) {
+		return "";
+	}
+	var valorInput = normalizarTextoDatalist(input.value);
+	if (valorInput == "") {
+		return "";
+	}
+	var idLista = input.getAttribute("list");
+	var lista = document.getElementById(idLista);
+	if (lista == null) {
+		return "";
+	}
+	var opciones = lista.getElementsByTagName("option");
+	for (var i = 0; i < opciones.length; i++) {
+		var opcion = opciones[i];
+		var idOpcion = opcion.getAttribute("id") || "";
+		if (normalizarTextoDatalist(opcion.value) == valorInput || normalizarTextoDatalist(idOpcion) == valorInput) {
+			return idOpcion;
+		}
+	}
+	return "";
+}
 function obtenerdatosabmGasto(datostr) {
 	$("tr[id=tbSelecRegistro]").each(function (i, td) {
 		td.className = ''
@@ -26584,23 +26614,7 @@ function obtenerdatosabmGasto(datostr) {
 	
 }
 function verificarcamposGasto() {
-	var inptMotivoMisGastos = '';
-	
-	$("input[id=inptMotivoMisGastos]").each(function (i, Elemento) {
-      var $input = $(this),
-          val = $input.val();
-		 
-          list = $input.attr('list'),
-          match = $('#'+list + ' option').filter(function() {
-              return ($(this).val() === val);			 
-          });
-
-       if(match.length > 0) {
-         inptMotivoMisGastos=$(match).attr("id")
-       } else {
-           // value is not in list
-       }
-});
+	var inptMotivoMisGastos = obtenerIdSeleccionDatalist("inptMotivoMisGastos");
 	
 	var inptMontoGasto = document.getElementById('inptMontoGasto').value
 	var inptMotivoGasto = document.getElementById('inptMotivoGasto').value
@@ -26632,7 +26646,7 @@ function verificarcamposGasto() {
 		return false;
 	}
 	if (inptMotivoGasto == "") {
-		ver_vetana_informativa("FALTO INGRESAR EL MOTIVO DEL GASTO")
+		ver_vetana_informativa("FALTO INGRESAR LA DESCRIPCION DEL GASTO")
 		return false;
 	}
 	if (inptFechaGasto == "") {
@@ -26924,23 +26938,7 @@ function buscarabmGasto() {
 	var cod_local = document.getElementById('inptlocalMisGastosBusca').value
 	var fecha = document.getElementById('inptBuscarIngresoEgreso2').value
 	var usuario = document.getElementById('inptBuscarIngresoEgreso1').value
-	var motivo = '';
-	
-	$("input[id=inptBuscarIngresoEgreso3]").each(function (i, Elemento) {
-      var $input = $(this),
-          val = $input.val();
-		 
-          list = $input.attr('list'),
-          match = $('#'+list + ' option').filter(function() {
-              return ($(this).val() === val);			 
-          });
-
-       if(match.length > 0) {
-         motivo=$(match).attr("id")
-       } else {
-           // value is not in list
-       }
-});
+	var motivo = obtenerIdSeleccionDatalist("inptBuscarIngresoEgreso3");
 	
 	var nroboleta = document.getElementById('inptBuscarIngresoEgreso5').value
 	var monto = document.getElementById('inptBuscarIngresoEgreso8').value
