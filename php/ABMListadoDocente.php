@@ -102,7 +102,7 @@ buscarselect();
 function abm($idlistadoProfesores,$nrodocumento,$nombreapellido,$nrotelef,$correo,$estado,$ruc,$funt)
 {
 	
-	if($ruc=="" || $nrodocumento=="" || $nombreapellido=="" ){
+	if($nrodocumento=="" || $nombreapellido=="" ){
 $informacion =array("1" => "DI");
 echo json_encode($informacion);	
 exit;
@@ -154,7 +154,7 @@ if($valor>0)
 	if($funt=="editar")
 	{
         
-    $consulta="Update listadoprofesores set ruc=?,nrodocumento=?,nombreapellido=?,nrotelef,correo=?,estado=?  where idlistadoProfesores=?";	
+    $consulta="Update listadoprofesores set ruc=?,nrodocumento=?,nombreapellido=?,nrotelef=?,correo=?,estado=? where idlistadoProfesores=?";
 	$stmt = $mysqli->prepare($consulta);
     $ss='sssssss';        
     $stmt->bind_param($ss,$ruc,$nrodocumento,$nombreapellido,$nrotelef,$correo,$estado,$idlistadoProfesores); 

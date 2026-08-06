@@ -72,6 +72,10 @@ function verventanasminizados(){
 	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarFrmAsignarDocentes(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/asignardocentes.png' /><br/><label class='pTitulo17'  >Asignar Docentes</label></button>"
 	control=control+1;
 	}
+	if($("div[id=divMinimizadoAsistenciaDocente]").is(':visible')){
+	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarFrmAsistenciaDocente(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/asistencia.png' /><br/><label class='pTitulo17'  >Asistencia Docente</label></button>"
+	control=control+1;
+	}
 	if($("div[id=divMinimizadoCrearListadoParaNotas1]").is(':visible')){
 	pagina+="<button id='btnMini_"+control+"' onclick='vercerrarcrearlistaparanotas(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/carpetas.png' /><br/><label class='pTitulo17'  >Cargar Calificaciones</label></button>"
 	control=control+1;
@@ -132,6 +136,9 @@ function finalizarventanasminizados(){
 	}
 	if($("div[id=divMinimizadoAsignarDocente]").is(':visible')){
 	verCerrarFrmAsignarDocentes("2")
+	}
+	if($("div[id=divMinimizadoAsistenciaDocente]").is(':visible')){
+	verCerrarFrmAsistenciaDocente("2")
 	}
 	if($("div[id=divMinimizadoCrearListadoParaNotas1]").is(':visible')){
    vercerrarcrearlistaparanotas("2")
@@ -200,6 +207,10 @@ if(document.getElementById("divAbmAsignarDocentes").style.display==""){
 MinimizarVentanadoAsignarDocentess()
 return
 }
+if(document.getElementById("divAsistenciaDocente").style.display==""){
+MinimizarVentanaAsistenciaDocente()
+return
+}
 if(document.getElementById("divCrearListadoNotas").style.display==""){
 MinimizarVentanaCrearLitadoNota()
 return
@@ -259,6 +270,10 @@ return
 }
 if(document.getElementById("divAbmAsignarDocentes").style.display==""){
 MinimizarVentanadoAsignarDocentess()
+return
+}
+if(document.getElementById("divAsistenciaDocente").style.display==""){
+MinimizarVentanaAsistenciaDocente()
 return
 }
 if(document.getElementById("divCrearListadoNotas").style.display==""){

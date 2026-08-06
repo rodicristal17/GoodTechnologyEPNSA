@@ -34,7 +34,7 @@
     
     <script src="/GoodTechnologyEPNSA/js/datosUsuario.js"></script>
 	<!-- <link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/inicio.css?x=X-IOSV.06" /> -->
-	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.06" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.07" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.06" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.06" />
 	
@@ -54,11 +54,11 @@
 
 <!-- Otros utilitarios -->
 <script src="/GoodTechnologyEPNSA/js/excel.js"></script>
-<script src="/GoodTechnologyEPNSA/js/minmizar.js"></script>
+<script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.01"></script>
 <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
 
 <!-- TU APP AL FINAL -->
-<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.08"></script>
+<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.09"></script>
 
  
 	
@@ -77,7 +77,7 @@
             <li class="active" onclick='vercerrarventanamenu("1")' > <a   class="active"> <i class='bx bxs-dashboard'></i>ACCESO DIRECTO</a></li>
             <li onclick='vercerrarventanamenu("2")'> <a  class="active"> <i class='bx bx-store-alt'></i>LISTADOS</a></li>
             <li onclick='vercerrarventanamenu("3")'> <a  class="active"> <i class='bx bx-analyse'></i>ADMINISTRATIVO</a></li>
-            <li onclick='vercerrarventanamenu("4")'> <a  class="active"> <i class='bx bx-message-square-dots'></i>ACADEMIDO</a></li>
+            <li onclick='vercerrarventanamenu("4")'> <a  class="active"> <i class='bx bx-message-square-dots'></i>ACADEMICO</a></li>
             <li onclick='vercerrarventanamenu("6")'> <a  class="active"> <i class='bx bx-objects-vertical-bottom'></i>INFORME</a></li>
             <li onclick='vercerrarventanamenu("5")'> <a  class="active"> <i class='bx bx-group'></i>SISTEMA</a></li>
 		</ul>
@@ -494,7 +494,7 @@ style='display:none' class='divMinimizado'></div>
 </tr>
 </table>
 </div>
-<div class='divMenub'  style='display:none;'  title='Asignar malla curricular' onclick='verCerrarFrmAsignarMalla(1)'  id='divMenuAsignarMallaCurricular' >
+<div class='divMenub' title='Asignar malla curricular' onclick='verCerrarFrmAsignarMalla(1)'  id='divMenuAsignarMallaCurricular' >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
@@ -690,6 +690,18 @@ class='divMinimizado'></div>
           <center>
             <div id='divMinimizadoCrearListadoParaNotasAlumnos1' style='display:none' class='divMinimizado'></div>
           </center>
+</td>
+</tr>
+</table>
+</div>
+
+<div class='divMenub'   title='Registrar asistencia de profesores' onclick='verCerrarFrmAsistenciaDocente(1)' id='divMenuAsistenciaDocente' >
+<table style='width:100%;height:100%;text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/asistencia.png' />
+<p class='pTitulo3'  >Asistencia Docente</p>
+<center><div id='divMinimizadoAsistenciaDocente' style='display:none' class='divMinimizado'></div></center>
 </td>
 </tr>
 </table>
@@ -2093,7 +2105,7 @@ CORREO
 
 <td>
 <p class='pTitulo5' >R.U.C. :</p>
-<input type='text' placeholder='Obligatorio(*)' class='inputText' id='inptRucListaDocente' />
+<input type='text' placeholder='Opcional' class='inputText' id='inptRucListaDocente' />
 </td>
 </tr>
 </table>
@@ -2121,7 +2133,7 @@ CORREO
 
 <td>
 <p class='pTitulo5'>Correo :</p>
-<input type='text' placeholder='Obligatorio(*)' class='inputText' id='inptCorreoListaDocente' />
+<input type='text' placeholder='Opcional' class='inputText' id='inptCorreoListaDocente' />
 </td>
 </tr>
 </table>
@@ -2546,13 +2558,13 @@ CURSO
 <td class="td_registro_orden1" style="width:5%;cursor:pointer;display: none;" id='tdOrdAsignarDocentes8' onclick='ordenasignardocentes(8)'>
 SEMESTRE
 </td>
-<td class="td_registro_orden1" style="display:none;cursor:pointer" id='tdOrdAsignarDocentes9' onclick='ordenasignardocentes(9)'>
+<td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdAsignarDocentes9' onclick='ordenasignardocentes(9)'>
 DIA
 </td>
-<td class="td_registro" style="display:none;">
+<td class="td_registro" style="width:5%;">
 H. INICIO
 </td>
-<td class="td_registro" style="display:none;" >
+<td class="td_registro" style="width:5%;" >
 H. FIN
 </td>
 <td class="td_registro" style="width:5%;">
@@ -2698,7 +2710,7 @@ H/ SEMANAL
 <br>
 <center>
 
-<div class='divMenuf' style='float: left;   margin-left: 10px;  height: 450px;  width: 48%;'>
+<div class='divMenuf' style='float: left;   margin-left: 10px;  min-height: 450px;  width: 48%;'>
 <table style='width:100%'>
 <tr>
 <td>
@@ -2748,7 +2760,7 @@ H/ SEMANAL
 </table>
 
 </div>
-<div class='divMenuf' style='float: left;   margin-left: 10px;  height: 450px;  width: 48%;'>
+<div class='divMenuf' style='float: left;   margin-left: 10px;  min-height: 450px;  width: 48%;'>
 
  
 <table style='width:100%'>
@@ -2780,7 +2792,7 @@ H/ SEMANAL
 </tr>
 </table>
 
-<table style='width:100%;display:none;'>
+<table style='width:100%;'>
 <tr>
 <td>
 <p class='pTitulo5' >Día :</p>
@@ -2797,7 +2809,7 @@ H/ SEMANAL
 </tr>
 </table>
 
-<table style='width:100%;display:none;'>
+<table style='width:100%;'>
 <tr>
 <td>
 <p class='pTitulo5'  >Hora inicio :</p>
@@ -2806,7 +2818,7 @@ H/ SEMANAL
 </tr>
 </table>
 
-<table style='width:100%;display:none;'>
+<table style='width:100%;'>
 <tr>
 
 <td>
@@ -2874,6 +2886,144 @@ H/ SEMANAL
 </table>
 </div>
 
+<div class='principal2' style='display:none' id='divAsistenciaDocente'>
+<table style='width:100%;height:100%'>
+<tr>
+<td>
+<center>
+<div class='divPrincipalrepor' id='divAsistenciaDocente1' style='width: 100vw;'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%'>
+<p class='pTituloB'  >Asistencia Docente</p>
+</td>
+<td style='width:5%'>
+<img src="/GoodTechnologyEPNSA/iconos/print.png" class="iconoBtn" title="Imprimir" onclick="ordenimpresion('asistenciadocente')">
+</td>
+<td style='width:5%'>
+<img src="/GoodTechnologyEPNSA/iconos/computacion-en-la-nube.png" class="iconoBtn" title="Exportar a Excel" onclick="ExporarAsistenciaDocente()">
+</td>
+<td style="width:5%">
+<img src="/GoodTechnologyEPNSA/iconos/minimizar2.png" class="iconoBtn" title="Minimizar Ventana" onclick="MinimizarVentanaAsistenciaDocente()">
+</td>
+<td style='width:5%'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn' title='Cerrar Ventana' onclick='verCerrarFrmAsistenciaDocente("2")' />
+</td>
+</tr>
+</table>
+
+<center>
+<div class='divMenuf asistencia-docente-filtros'>
+<table style='width:100%'>
+<tr>
+<td style='width:11%'>
+<p class='pTitulo5'>Fecha</p>
+<input type='date' class='inputText' id='inptBuscarAsistenciaDocenteFecha' style='width:95%' onchange='BuscarAsistenciaDocente()' />
+</td>
+<td style='width:13%'>
+<p class='pTitulo5'>Local</p>
+<input placeholder='Igual a' autocomplete="off" type='text' class='inputfiltro' id='inptBuscarAsistenciaDocente1' style='width:84%' list='ListFilial' onchange="CargarCarrerasEnAsistenciaDocente()" onkeyup="if(event.keyCode == 13){BuscarAsistenciaDocente()}" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsistenciaDocente1')" />
+</td>
+<td style='width:15%'>
+<p class='pTitulo5'>Nivel educativo</p>
+<input placeholder='Igual a' autocomplete="off" type='text' class='inputfiltro' id='inptBuscarAsistenciaDocente2' style='width:84%' list='ListCarreras' onchange="BuscarAsistenciaDocente()" onkeyup="if(event.keyCode == 13){BuscarAsistenciaDocente()}" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsistenciaDocente2')" />
+</td>
+<td style='width:10%'>
+<p class='pTitulo5'>Grado</p>
+<input placeholder='Igual a' autocomplete="off" type='text' class='inputfiltro' id='inptBuscarAsistenciaDocente3' style='width:84%' list='ListCurso' onkeyup="if(event.keyCode == 13){BuscarAsistenciaDocente()}" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsistenciaDocente3')" />
+</td>
+<td style='width:10%'>
+<p class='pTitulo5'>Turno</p>
+<input placeholder='Igual a' autocomplete="off" type='text' class='inputfiltro' id='inptBuscarAsistenciaDocente4' style='width:84%' list='ListTurno' onkeyup="if(event.keyCode == 13){BuscarAsistenciaDocente()}" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsistenciaDocente4')" />
+</td>
+<td style='width:8%'>
+<p class='pTitulo5'>Sección</p>
+<input placeholder='Igual a' autocomplete="off" type='text' class='inputfiltro' id='inptBuscarAsistenciaDocente5' style='width:84%' onkeyup="if(event.keyCode == 13){BuscarAsistenciaDocente()}" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsistenciaDocente5')" />
+</td>
+<td style='width:10%'>
+<p class='pTitulo5'>Documento</p>
+<input placeholder='Igual a' autocomplete="off" type='text' class='inputfiltro' id='inptBuscarAsistenciaDocente6' style='width:84%' onkeyup="if(event.keyCode == 13){BuscarAsistenciaDocente()}" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsistenciaDocente6')" />
+</td>
+<td style='width:15%'>
+<p class='pTitulo5'>Docente</p>
+<input placeholder='Parecido a' autocomplete="off" type='text' class='inputfiltro' id='inptBuscarAsistenciaDocente7' style='width:84%' list='ListDocentes' onkeyup="if(event.keyCode == 13){BuscarAsistenciaDocente()}" />
+<img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsistenciaDocente7')" />
+</td>
+<td style='width:8%;vertical-align:bottom'>
+<img src='/GoodTechnologyEPNSA/iconos/buscar.png' class='iconoBtn' title='Buscar' onclick='BuscarAsistenciaDocente()' />
+</td>
+</tr>
+</table>
+</div>
+
+<p class='pTitulo7' id="lblNroRegistroAsistenciaDocente"></p>
+<p class='pTitulo5' id="lblDiaAsistenciaDocente"></p>
+
+<div style='overflow:auto;border-radius:15px ' class='divScrollhideen' id='TableScroollAsistenciaDocente1'>
+<table class="tableCabeceraRegistro" style='width:1900px;' id='tdImprimirAsistenciaDocente'>
+<tbody>
+<tr>
+<td class="td_registro" style="width:8%;">GRADO</td>
+<td class="td_registro" style="width:12%;">NIVEL EDUCATIVO</td>
+<td class="td_registro" style="width:12%;">CATEDRA</td>
+<td class="td_registro" style="width:15%;">DOCENTE</td>
+<td class="td_registro" style="width:7%;">DIA</td>
+<td class="td_registro" style="width:7%;">HORARIO</td>
+<td class="td_registro" style="width:6%;">TURNO</td>
+<td class="td_registro" style="width:5%;">SECCIÓN</td>
+<td class="td_registro" style="width:9%;">ASISTENCIA</td>
+<td class="td_registro" style="width:6%;">ENTRADA</td>
+<td class="td_registro" style="width:6%;">SALIDA</td>
+<td class="td_registro" style="width:10%;">OBS.</td>
+<td class="td_registro" style="width:7%;">ACCIÓN</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div style='height: 55vh;' class='divTablesScrool' id='TableScroollAsistenciaDocente2'>
+<div class="div_cuerpo_table" id="divBuscadorAsistenciaDocente" style='min-height:170px;height:auto;width:1900px;border:none;'>
+</div>
+</div>
+<br>
+<table style='width:96%'>
+<tr>
+<td style='width:10%'>
+<p class='pTitulo5'>Registros</p>
+<input type='text' class='inputTextDisable' id='inptRegistroAsistenciaDocente' style='width:100px' disabled />
+</td>
+<td style='width:10%'>
+<p class='pTitulo5'>Grados</p>
+<input type='text' class='inputTextDisable' id='inptRegistroGradoAsistenciaDocente' style='width:80px' disabled />
+</td>
+<td style='width:10%'>
+<p class='pTitulo5'>Docentes</p>
+<input type='text' class='inputTextDisable' id='inptRegistroDocenteAsistenciaDocente' style='width:80px' disabled />
+</td>
+<td style='width:10%'>
+<p class='pTitulo5'>Pendientes</p>
+<input type='text' class='inputTextDisable' id='inptPendienteAsistenciaDocente' style='width:80px' disabled />
+</td>
+<td style='width:60%;text-align:left'>
+<input type='button' value='Limpiar' class='btn4' onclick='LimpiarCamposBusquedaAsistenciaDocente()' style='width:100px;background-color:#777'>
+<input type='button' value='Buscar' class='btn4' onclick='BuscarAsistenciaDocente()' style='width:100px;background-color:#1cbb8c'>
+</td>
+</tr>
+</table>
+</center>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
 <div class='principal2' style='display:none' id='divVistaMallaCurricular'>
 <table style='width:100%;height:100%'>
 <tr>
@@ -2918,7 +3068,7 @@ AÑO
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdMallaVista2' onclick='ordenmallavista(2)'>
 CURSO
 </td>
-<td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdMallaVista3' onclick='ordenmallavista(3)'>
+<td class="td_registro_orden1" style="width:5%;cursor:pointer;display:none;" id='tdOrdMallaVista3' onclick='ordenmallavista(3)'>
 SEMESTRE
 </td>
 </tr>
@@ -2963,10 +3113,10 @@ SEMESTRE
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptVistaAsignarMalla4')" />
 </td>
-<td class="td_registro" style="width:4%;" >
+<td class="td_registro" style="width:4%;display:none;" >
 <input placeholder='Igual a' autocomplete="off" type='text'  class='inputfiltro' id='inptVistaAsignarMalla5' list='ListSemestre' style='width:95%'     onkeyup="if(event.keyCode == 13){BuscarVistaAsignarMalla()}"  />
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display:none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptVistaAsignarMalla5')" />
 </td>
 </tr>
@@ -4950,7 +5100,7 @@ AÑO
 <td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdMalla2' onclick='ordenmallaabm(2)'>
 CURSO
 </td>
-<td class="td_registro_orden1" style="width:10%;cursor:pointer" id='tdOrdMalla3' onclick='ordenmallaabm(3)'>
+<td class="td_registro_orden1" style="width:10%;cursor:pointer;display:none;" id='tdOrdMalla3' onclick='ordenmallaabm(3)'>
 SEMESTRE
 </td>
 <td class="td_registro" style="width:10%;">
@@ -4996,10 +5146,10 @@ CARGA HORARIA
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsignarMalla4')" />
 </td>
-<td class="td_registro" style="width:9%;" >
+<td class="td_registro" style="width:9%;display:none;" >
 <input placeholder='Igual a' autocomplete="off" type='text'  class='inputfiltro' id='inptBuscarAsignarMalla5' list='ListSemestre' style='width:95%'     onkeyup="if(event.keyCode == 13){BuscarAbmAsignarMalla()}"  />
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display:none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptBuscarAsignarMalla5')" />
 </td>
 
@@ -5168,7 +5318,7 @@ CARGA HORARIA
 </tr>
 </table>
 <br>
-<table style='width:100%'>
+<table style='width:100%;display:none;'>
 <tr>
 
 <td>
@@ -5275,7 +5425,7 @@ AÑO
 <td class="td_registro" style="width:5%;">
 CURSO
 </td>
-<td class="td_registro" style="width:5%;">
+<td class="td_registro" style="width:5%;display:none;">
 SEMESTRE
 </td>
 <td class="td_registro" style="width:5%;">
@@ -5648,7 +5798,7 @@ AÑO
 <td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportCrearListadoNotas7' onclick='ordenreportCrearListadoNotas(7)'>
 CURSO
 </td>
-<td class="td_registro_orden1" style="width:5%;cursor:pointer" id='tdOrdReportCrearListadoNotas8' onclick='ordenreportCrearListadoNotas(8)'>
+<td class="td_registro_orden1" style="width:5%;cursor:pointer;display:none;" id='tdOrdReportCrearListadoNotas8' onclick='ordenreportCrearListadoNotas(8)'>
 SEMESTRE
 </td>
 <td class="td_registro" style="width:5%;">
@@ -5707,10 +5857,10 @@ ACCION
 <td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporCrearListadoNotas4')" />
 </td>
-<td  class="td_registro" style="width:4%;">
+<td  class="td_registro" style="width:4%;display:none;">
 <input  placeholder='Igual a'  type="text"  class="inputfiltro" id="inptReporCrearListadoNotas5" list='ListSemestre'  autocomplete="off" onkeyup="if(event.keyCode == 13){BuscarReportCrearListadoNotas()}">
 </td>
-<td class="td_registro" style="width:1%;">
+<td class="td_registro" style="width:1%;display:none;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar2.png' onclick="vaciar('inptReporCrearListadoNotas5')" />
 </td>
 <td  class="td_registro" style="width:4%;">
@@ -6091,7 +6241,7 @@ ACCION
 <input type="text" class="inputText" id="inptCargarNotas3" style="width: 50px;" disabled="">
 </td>
 
-<td style="width: 5%;text-align:left;">
+<td style="width: 5%;text-align:left;display:none;">
 <p class="pTitulo5" >Semestre:</p>
 <input type="text" class="inputText" id="inptCargarNotas4" style="width: 50px;" disabled="">
 </td>
@@ -6314,7 +6464,7 @@ CURSO
 <td class="td_registro" style="width:7%;">
 AÑO
 </td>
-<td class="td_registro" style="width:7%;">
+<td class="td_registro" style="width:7%;display:none;">
 SEMESTRE
 </td>
 <td class="td_registro" style="width:7%;">
@@ -6751,7 +6901,7 @@ AÑO
 <td class="td_registro" style="width:5%;">
 CURSO
 </td>
-<td class="td_registro" style="width:5%;">
+<td class="td_registro" style="width:5%;display:none;">
 SEMESTRE
 </td>
 <td class="td_registro" style="width:5%;">
@@ -11541,7 +11691,7 @@ ENCARGADO
                           <td class="td_registro_orden1" style="width:5%;">
                             CURSO
                           </td>
-                          <td class="td_registro_orden1" style="width:5%;">
+                          <td class="td_registro_orden1" style="width:5%;display:none;">
                             SEMESTRE
                           </td>
                         </tr>
@@ -11645,7 +11795,7 @@ ENCARGADO
                         <td class="td_registro" style="width:5%">
                           CURSO
                         </td>
-                        <td class="td_registro" style="width:5%">
+                        <td class="td_registro" style="width:5%;display:none;">
                           SEMESTRE
                         </td>
                         <td class="td_registro" style="width:5%">
@@ -11771,7 +11921,7 @@ ENCARGADO
   <p class="pTitulo5_3" >Curso:</p>
   <p class='pTitulo5_2' id="inptCargarNotasVista3" ></p>
   </td>
-  <td style="width: 10%;text-align:left;">
+  <td style="width: 10%;text-align:left;display:none;">
   <p class="pTitulo5_3">Semestre:</p>
   <p class='pTitulo5_2' id="inptCargarNotasVista4" ></p>
   </td>
@@ -12072,6 +12222,7 @@ ENCARGADO
 <datalist id="ListCarrerasAsignar"></datalist>
 <datalist id="ListCarrerasAsignarArancel"></datalist>
 <datalist id="ListCarrerasAsignarDocentes"></datalist>
+<datalist id="ListCarrerasAsistenciaDocente"></datalist>
 <datalist id="ListCarrerasCalendario"></datalist>
 <datalist id="ListCarrerasMatricular"></datalist>
 <datalist id="ListCarrerasBuscarArancel"></datalist>

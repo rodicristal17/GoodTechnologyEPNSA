@@ -9,6 +9,9 @@ require("conexion.php");
 include("verificar_navegador.php");
 include("buscar_nivel.php");
 include('quitarseparadormiles.php');
+if (!defined('SEMESTRE_ESCOLAR')) {
+	define('SEMESTRE_ESCOLAR', '1');
+}
 function verificar($funt)
 {
 	
@@ -61,6 +64,7 @@ if($funt=="nuevo" || $funt=="editar")
     $curso = utf8_decode($curso);
 	$semestre=$_POST['semestre'];
     $semestre = utf8_decode($semestre);
+	$semestre = SEMESTRE_ESCOLAR;
 	$cargahoraria=$_POST['cargahoraria'];
     $cargahoraria = utf8_decode($cargahoraria);
 	$idlistadodematerias=$_POST['idlistadodematerias'];
@@ -91,6 +95,7 @@ if($funt=="importar" )
     $curso = utf8_decode($curso);
 	$semestre=$_POST['semestre'];
     $semestre = utf8_decode($semestre);
+	$semestre = SEMESTRE_ESCOLAR;
 	$cargahoraria=$_POST['cargahoraria'];
     $cargahoraria = utf8_decode($cargahoraria);
 	
@@ -109,6 +114,7 @@ $curso=$_POST['curso'];
 $curso = utf8_decode($curso);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 $codCarrera=$_POST['codCarrera'];
 $codCarrera = utf8_decode($codCarrera);
 $codCatedra=$_POST['codCatedra'];
@@ -130,6 +136,7 @@ $curso=$_POST['curso'];
 $curso = utf8_decode($curso);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 $codCarrera=$_POST['codCarrera'];
 $codCarrera = utf8_decode($codCarrera);
 $codCatedra=$_POST['codCatedra'];
@@ -192,6 +199,7 @@ $curso=$_POST['curso'];
 $curso = utf8_decode($curso);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = SEMESTRE_ESCOLAR;
 buscarmateriacascada($codCarrera,$anho,$curso,$semestre);
 
 }
@@ -243,6 +251,7 @@ $anho=$_POST['anho'];
 $anho = utf8_decode($anho);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 buscarSelectMalla($codCarrera,$anho,$semestre);
 
 }
@@ -264,8 +273,9 @@ buscarSelectporcarrera1($codcarrera);
 
 function abm($idmallacurricular,$codigomalla,$horasemanal,$anho,$curso,$semestre,$cargahoraria,$idlistadodematerias,$cod_carrera,$estado,$funt)
 {
+	$semestre = SEMESTRE_ESCOLAR;
 	
-	if($anho=="" ||$curso=="" || $semestre==""|| $cargahoraria=="" || $idlistadodematerias==""|| $cod_carrera==""  ){
+	if($anho=="" ||$curso=="" || $cargahoraria=="" || $idlistadodematerias==""|| $cod_carrera==""  ){
 $informacion =array("1" => "DI");
 echo json_encode($informacion);	
 exit;
@@ -331,8 +341,10 @@ if ( ! $stmt->execute() ) {
 
 function importar($carrera,$catedra,$anho,$curso,$semestre,$cargahoraria)
 {
+	$semestre = SEMESTRE_ESCOLAR;
+	$estado = "Activo";
 	
-	if($carrera=="" ||$catedra=="" || $anho==""|| $curso=="" || $semestre=="" ){
+	if($carrera=="" ||$catedra=="" || $anho==""|| $curso=="" ){
 $informacion =array("1" => "VACIO");
 echo json_encode($informacion);	
 exit;
@@ -501,9 +513,6 @@ function buscar($codigo,$estado,$anho,$semestre,$curso,$codCarrera,$codCatedra,$
 		$condicioAnho=" and anho='$anho'";
 	}
 	$condicioSemestre="";
-	if($semestre!=""){
-		$condicioSemestre=" and semestre='$semestre'";
-	}
 	$condicioCarrera="";
 	if($codCarrera!=""){
 		$condicioCarrera=" and ml.cod_carrera='$codCarrera'";
@@ -608,7 +617,7 @@ $totales=0;
 			   <td  id='td_datos_2'  style='width:20%;".$styleorden4."' >".$nombreMateria."</td>
 			   <td  id='td_datos_3'  style='width:10%;".$styleorden1."' >".$anho."</td>
 			   <td  id='td_datos_4'  style='width:10%;".$styleorden2."'>".$curso."</td>
-			   <td  id='td_datos_5'  style='width:10%;".$styleorden3."' >".$semestre."</td>
+			   <td  id='td_datos_5'  style='display:none;".$styleorden3."' >".$semestre."</td>
 			   <td  id='td_datos_12' style='width:10%' >".$horasemanal."</td>
 			   <td  id='td_datos_6'  style='width:10%' >".$cargahoraria."</td>
 			  <td  id='td_datos_7' style='display:none' >".$estado."</td>
@@ -639,9 +648,6 @@ function buscarvista($codfilial,$codigo,$anho,$semestre,$curso,$codCarrera,$codC
 		$condicioAnho=" and ml.anho='$anho'";
 	}
 	$condicioSemestre="";
-	if($semestre!=""){
-		$condicioSemestre=" and ml.semestre='$semestre'";
-	}
 	$condicioFilial="";
 	if($codfilial!=""){
 		$condicioFilial=" and car.cod_filialOringFK='$codfilial'";
@@ -757,7 +763,7 @@ $totales=0;
 			   <td  id='td_datos_2' style='width:10%;".$styleorden4."' >".$nombreMateria."</td>
 			   <td  id='td_datos_3' style='width:5%;".$styleorden1."' >".$anho."</td>
 			   <td  id='td_datos_4' style='width:5%;".$styleorden2."'>".$curso."</td>
-			   <td  id='td_datos_5' style='width:5%;".$styleorden3."' >".$semestre."</td>
+			   <td  id='td_datos_5' style='display:none;".$styleorden3."' >".$semestre."</td>
 			  <td  id='td_datos_7' style='display:none' >".$estado."</td>
 			  </tr>
 			  </table>";
@@ -959,13 +965,14 @@ $totales=0;
 		  	  $codigomalla=utf8_encode($valor['codigomalla']);
 			  	
 			 $pagina.="
-			 <p class='divCascada3'  onclick='vercerrarasignarmallasemestrelistado(this)' >
+			 <p class='divCascada3'  onclick='vercerrarasignarmallaMateriaslistado(this)' >
 			 <img  id='iconocarpeta' name='iconocarpetamallacurso' class='iconocascada' src='/GoodTechnologyEPNSA/iconos/carpetacerrada.png' />Curso ".$curso." 
 			 <span id='span1' style='display:none' >$cod_carrera</span>
 			 <span id='span2' style='display:none' >$anho</span>
 			 <span id='span3' style='display:none' >$curso</span>
+			 <span id='span4' style='display:none' >".SEMESTRE_ESCOLAR."</span>
 			 </p>
-			 <div class='divCascada2' name='div_semestre_asignar_malla_1' id='div_semestre_asignar_malla_".$cod_carrera.$anho.$curso."' style='display:none' ></div>";
+			 <div class='divCascada2' name='div_materias_asignar_malla_1' id='div_materias_asignar_malla_".$cod_carrera.$anho.$curso.SEMESTRE_ESCOLAR."' style='display:none' ></div>";
 			  
 			  
 	  }
@@ -1052,6 +1059,7 @@ exit;
 
 function buscarmateriacascada($cod_carrera,$anho,$curso,$semestre)
 {
+	$semestre = SEMESTRE_ESCOLAR;
 	$mysqli=conectar_al_servidor();
 	 $pagina="";
 	
@@ -1335,9 +1343,6 @@ function buscarSelectMalla($codCarrera,$anho,$semestre)
 		 $condicionAnho="and ml.anho='$anho'";
 	}
 	$condicionSemestre="";
-	if($semestre!=""){
-		 $condicionSemestre="and ml.semestre='$semestre'";
-	}
       
    
       if($condicionCarrera!=""||$condicionAnho!=""||$condicionSemestre!=""){

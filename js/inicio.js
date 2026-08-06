@@ -1,6 +1,7 @@
 
 var imgCargandoA = "<img src='/GoodTechnologyEPNSA/iconos/cargando.gif' style='width:30px' />"
 var imgCargandoB = "<img src='/GoodTechnologyEPNSA/iconos/cargandoB.gif' style='width:25px' />"
+var SEMESTRE_ESCOLAR = "1";
 var controlMenuWd=1;		
 function MeniWindows(){
 	if(controlMenuWd==0){
@@ -481,6 +482,7 @@ eventoScrollTable(document.getElementById('TableScroollCargarExistenciasArchivos
 eventoScrollTable(document.getElementById('TableScroollCargarExistenciasArchivosPosgrado2'));
 eventoScrollTable(document.getElementById('TableScroollAlumnosMatriculadosCargadas2'));
 eventoScrollTable(document.getElementById('TableScroollFacturasCargadas2'));
+eventoScrollTable(document.getElementById('TableScroollAsistenciaDocente2'));
 
 
 var controlactualizacion=0;
@@ -516,8 +518,11 @@ function eventoScrollTable(elemento){
 
 	$(elemento).on("scroll", function(){		
 		 var desplamiento = $(elemento).scrollLeft();		
-		 	if($(elemento).attr("id")=="TableScroollAsignarDocente2"){
+			if($(elemento).attr("id")=="TableScroollAsignarDocente2"){
 			document.getElementById("TableScroollAsignarDocente1").scrollLeft=desplamiento
+			}
+			if($(elemento).attr("id")=="TableScroollAsistenciaDocente2"){
+			document.getElementById("TableScroollAsistenciaDocente1").scrollLeft=desplamiento
 			}
 			if($(elemento).attr("id")=="TableScroollCargarCalificaciones2"){
 			document.getElementById("TableScroollCargarCalificaciones1").scrollLeft=desplamiento
@@ -1928,11 +1933,6 @@ function VerificarDatosListaDocente(){
 	if(inptDocumentoListaDocente==""){
 		document.getElementById("inptDocumentoListaDocente").focus()
 		alertmensaje("Falto ingresar el Nro de documento")
-		return
-	}
-	if(inptRucListaDocente==""){
-		document.getElementById("inptRucListaDocente").focus()
-		alertmensaje("Falto ingresar el Nro R.U.C.")
 		return
 	}
 	if(inptNombreListaDocente==""){
@@ -4557,7 +4557,7 @@ function LimpiarCamposAsignarMalla(){
 	document.getElementById('inptCodigoAsignarMalla').value = "";
 	document.getElementById('inptAnhoAsignarMalla').value = "";
 	document.getElementById('inptCursoAsignarMalla').value = "";
-	document.getElementById('inptSemestrAsignarMalla').value = "";
+	document.getElementById('inptSemestrAsignarMalla').value = SEMESTRE_ESCOLAR;
 	document.getElementById('inptCargaHorariaAsignarMalla').value ="";
 	document.getElementById('inptEstadoAsignarMalla').value = "Activo";
 	document.getElementById("inptRegistroSeleccionadoAsignarMallal").value=""
@@ -4587,7 +4587,7 @@ function ObtenerdatosAbmAsignarMalla(datostr) {
 	document.getElementById('inptCatedraAsignarMalla').value = $(datostr).children('td[id="td_datos_2"]').html();
 	document.getElementById('inptAnhoAsignarMalla').value = $(datostr).children('td[id="td_datos_3"]').html();
 	document.getElementById('inptCursoAsignarMalla').value = $(datostr).children('td[id="td_datos_4"]').html();
-	document.getElementById('inptSemestrAsignarMalla').value = $(datostr).children('td[id="td_datos_5"]').html();
+	document.getElementById('inptSemestrAsignarMalla').value = SEMESTRE_ESCOLAR;
 	document.getElementById('inptCargaHorariaAsignarMalla').value = $(datostr).children('td[id="td_datos_6"]').html();
 	document.getElementById('inptEstadoAsignarMalla').value = $(datostr).children('td[id="td_datos_7"]').html();
 	document.getElementById("inptHorasemanalAsignarMalla").value = $(datostr).children('td[id="td_datos_12"]').html();
@@ -4607,7 +4607,7 @@ function ObtenerdatosAbmAsignarMallaCascada(datostr) {
 	document.getElementById('inptCatedraAsignarMalla').value = $(datostr).children('span[id="td_datos_2"]').html();
 	document.getElementById('inptAnhoAsignarMalla').value = $(datostr).children('span[id="td_datos_3"]').html();
 	document.getElementById('inptCursoAsignarMalla').value = $(datostr).children('span[id="td_datos_4"]').html();
-	document.getElementById('inptSemestrAsignarMalla').value = $(datostr).children('span[id="td_datos_5"]').html();
+	document.getElementById('inptSemestrAsignarMalla').value = SEMESTRE_ESCOLAR;
 	document.getElementById('inptCargaHorariaAsignarMalla').value = $(datostr).children('span[id="td_datos_6"]').html();
 	document.getElementById('inptEstadoAsignarMalla').value = $(datostr).children('span[id="td_datos_7"]').html();
 	document.getElementById("inptHorasemanalAsignarMalla").value = $(datostr).children('span[id="td_datos_12"]').html();
@@ -4629,7 +4629,8 @@ function EliminarRegitroAsignarMalla(){
 function VerificarDatosAsignarMalla(){
 	
 	var inptAnhoAsignarMalla = document.getElementById("inptAnhoAsignarMalla").value
-	var inptSemestrAsignarMalla = document.getElementById("inptSemestrAsignarMalla").value
+	document.getElementById("inptSemestrAsignarMalla").value = SEMESTRE_ESCOLAR
+	var inptSemestrAsignarMalla = SEMESTRE_ESCOLAR
 	var inptEstadoAsignarMalla = document.getElementById("inptEstadoAsignarMalla").value
 	var inptCursoAsignarMalla = document.getElementById("inptCursoAsignarMalla").value
 	var inptCargaHorariaAsignarMalla = document.getElementById("inptCargaHorariaAsignarMalla").value
@@ -4648,11 +4649,6 @@ function VerificarDatosAsignarMalla(){
 	if(inptCursoAsignarMalla==""){
 		document.getElementById("inptCursoAsignarMalla").focus()
 		alertmensaje("Falto ingresar el curso")
-		return
-	}
-	if(inptSemestrAsignarMalla==""){
-		document.getElementById("inptSemestrAsignarMalla").focus()
-		alertmensaje("Falto ingresar el semestre")
 		return
 	}
 	if(inptCargaHorariaAsignarMalla==""){
@@ -4855,7 +4851,7 @@ function BuscarAbmAsignarMalla() {
 
 	var anho = document.getElementById('inptBuscarAsignarMalla3').value
 	var curso = document.getElementById('inptBuscarAsignarMalla4').value
-	var semestre = document.getElementById('inptBuscarAsignarMalla5').value
+	var semestre = ""
 	var codigo = document.getElementById('inptBuscarAsignarMalla6').value
 	var estado = ""
 var codCarrera="";
@@ -5406,7 +5402,7 @@ $("div[name=div_materias_asignar_malla_1]").each(function (i, elemento) {
 
 	});	
 	
-	$("img[name=iconocarpetamallasemestre]").each(function (i, elemento) {
+	$("img[name=iconocarpetamallasemestre], img[name=iconocarpetamallacurso]").each(function (i, elemento) {
 		$(elemento).attr('src', '/GoodTechnologyEPNSA/iconos/carpetacerrada.png');
      
 	});	
@@ -5513,7 +5509,7 @@ function BuscarVistaAsignarMalla() {
 
 	var anho = document.getElementById('inptVistaAsignarMalla3').value
 	var curso = document.getElementById('inptVistaAsignarMalla4').value
-	var semestre = document.getElementById('inptVistaAsignarMalla5').value
+	var semestre = ""
 	var codigo = document.getElementById('inptVistaAsignarMalla6').value
 var codfilial="";
 $("input[id=inptVistaAsignarMalla7]").each(function (i, Elemento) {
@@ -5664,7 +5660,7 @@ function ObtenerdatosVistaAsignarMalla(datostr) {
 	document.getElementById('inptCatedraAsignarDocente').value = $(datostr).children('td[id="td_datos_2"]').html();
 	document.getElementById('inptAnhoAsignarDocente').value = $(datostr).children('td[id="td_datos_3"]').html();
 	document.getElementById('inptCursoAsignarDocente').value = $(datostr).children('td[id="td_datos_4"]').html();
-	document.getElementById('inptSemestreAsignarDocente').value = $(datostr).children('td[id="td_datos_5"]').html();
+	document.getElementById('inptSemestreAsignarDocente').value = SEMESTRE_ESCOLAR;
 	document.getElementById("inptCodMallaAsignarDocente").value = $(datostr).children('td[id="td_datos_13"]').html();
 	document.getElementById("inptFilialAsignarDocente").value = $(datostr).children('td[id="td_datos_14"]').html();
     
@@ -5676,7 +5672,7 @@ function ObtenerdatosVistaAsignarMalla(datostr) {
 	document.getElementById('inptCatedraCalendario').value = $(datostr).children('td[id="td_datos_2"]').html();
 	document.getElementById('inptAnhoCalendario').value = $(datostr).children('td[id="td_datos_3"]').html();
 	document.getElementById('inptCursoCalendario').value = $(datostr).children('td[id="td_datos_4"]').html();
-	document.getElementById('inptSemestreCalendario').value = $(datostr).children('td[id="td_datos_5"]').html();
+	document.getElementById('inptSemestreCalendario').value = SEMESTRE_ESCOLAR;
 	document.getElementById("inptCodMallaCalendario").value = $(datostr).children('td[id="td_datos_13"]').html();
 	document.getElementById("inptFilialCalendario").value = $(datostr).children('td[id="td_datos_14"]').html();
     
@@ -5981,7 +5977,7 @@ function procesardatosMalla(data){
 			   var catedra=data[i]["CATEDRA"]
 			    var anho=data[i]["ANHO"]
 			    var curso=data[i]["CURSO"]
-			    var semestre=data[i]["SEMESTRE"]
+			    var semestre=SEMESTRE_ESCOLAR
 			  var cargahoraria=data[i]["CARGAHORARIA"]
 			
 			 
@@ -6000,7 +5996,7 @@ function abmimportarmalla(control,registro,totalregistro,carrera,catedra, anho,c
 +"<td  style='width:10%;'  id='td_datos_3'>"+catedra+"</td>"
 +"<td  style='width:10%;'  id='td_datos_4'>"+anho+"</td>"
 +"<td  style='width:10%;'  id='td_datos_5'>"+curso+"</td>"
-+"<td  style='width:10%;'  id='td_datos_6'>"+semestre+"</td>"
++"<td  style='display:none;'  id='td_datos_6'>"+semestre+"</td>"
 +"<td  style='width:10%;'  id='td_datos_7'>"+cargahoraria+"</td>"
 +"<td  style='width:5%;' id='traccion_"+registro+"'>ENVIANDO...</td>"
 +"</tr>"
@@ -7266,6 +7262,7 @@ function LimpiarCamposAsignarAlumnos(){
 	document.getElementById("inptFilialAsignarAlumnos").value=""
 	document.getElementById("inptAnhoAsignarAlumnos").value=""
 	document.getElementById("inptAnhoAsignarRegistroAlumnos").value=""
+	document.getElementById("inptSemestreAsignarAlumnos").value=SEMESTRE_ESCOLAR
 	document.getElementById("inptTurnoAsignarAlumnos").value=""
 	document.getElementById("inptSeccionAsignarAlumnos").value=""
 	
@@ -7316,7 +7313,7 @@ function ObtenerdatosAbmAsignarAlumnos(datostr) {
 	document.getElementById('inptDocumentoAsignarAlumnos').value = $(datostr).children('td[id="td_datos_1"]').html();
 	document.getElementById('inptNombreAsignarAlumnos').value = $(datostr).children('td[id="td_datos_2"]').html();
 	document.getElementById('inptCarreraAsignarAlumnos').value = $(datostr).children('td[id="td_datos_3"]').html()+" - "+$(datostr).children('td[id="td_datos_10"]').html();
-	document.getElementById('inptSemestreAsignarAlumnos').value = $(datostr).children('td[id="td_datos_7"]').html();
+	document.getElementById('inptSemestreAsignarAlumnos').value = SEMESTRE_ESCOLAR;
 	document.getElementById('inptCursoAsignarAlumnos').value = $(datostr).children('td[id="td_datos_4"]').html();
 	document.getElementById('inptAnhoAsignarAlumnos').value = $(datostr).children('td[id="td_datos_6"]').html();
 	document.getElementById('inptAnhoAsignarRegistroAlumnos').value = $(datostr).children('td[id="td_datos_13"]').html();
@@ -8042,50 +8039,16 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 	
 }
 function habilitarSemestrePorCursoSeleccionado(d){
-	var datos=d.value
-	
-if(datos=="1"){
-	document.getElementById("inptSemestreAsignarAlumnos").innerHTML=""
-	+"<option value='1'>1</option>"
-	+"<option value='2'>2</option>"
-}	
-if(datos=="2"){
-	document.getElementById("inptSemestreAsignarAlumnos").innerHTML=""
-	+"<option value='3'>3</option>"
-	+"<option value='4'>4</option>"
-}
-if(datos=="3"){
-	document.getElementById("inptSemestreAsignarAlumnos").innerHTML=""
-	+"<option value='5'>5</option>"
-	+"<option value='6'>6</option>"
-}
-if(datos=="4"){
-	document.getElementById("inptSemestreAsignarAlumnos").innerHTML=""
-	+"<option value='7'>7</option>"
-	+"<option value='8'>8</option>"
-}
-if(datos=="5"){
-	document.getElementById("inptSemestreAsignarAlumnos").innerHTML=""
-	+"<option value='9'>9</option>"
-	+"<option value='10'>10</option>"
-}
-if(datos=="6"){
-	document.getElementById("inptSemestreAsignarAlumnos").innerHTML=""
-	+"<option value='11'>11</option>"
-	+"<option value='12'>12</option>"
-}
-if(datos=="CULMINADO"){
-	document.getElementById("inptSemestreAsignarAlumnos").innerHTML=""
-	+"<option value='CULMINADO'>CULMINADO</option>"
-
-}	
+	document.getElementById("inptSemestreAsignarAlumnos").innerHTML="<option value='"+SEMESTRE_ESCOLAR+"'>"+SEMESTRE_ESCOLAR+"</option>"
+	document.getElementById("inptSemestreAsignarAlumnos").value=SEMESTRE_ESCOLAR
 }
 function VerificarDatosAsignarAlumnos(){
 	
 	
 	var inptAnhoAsignarAlumnos=document.getElementById("inptAnhoAsignarAlumnos").value
 	var inptAnhoAsignarRegistroAlumnos=document.getElementById("inptAnhoAsignarRegistroAlumnos").value
-	var inptSemestreAsignarAlumnos=document.getElementById("inptSemestreAsignarAlumnos").value
+	document.getElementById("inptSemestreAsignarAlumnos").value=SEMESTRE_ESCOLAR
+	var inptSemestreAsignarAlumnos=SEMESTRE_ESCOLAR
 	var inptCursoAsignarAlumnos=document.getElementById("inptCursoAsignarAlumnos").value
 	var inptTurnoAsignarAlumnos=document.getElementById("inptTurnoAsignarAlumnos").value
 	var inptSeccionAsignarAlumnos=document.getElementById("inptSeccionAsignarAlumnos").value
@@ -8114,10 +8077,6 @@ function VerificarDatosAsignarAlumnos(){
 	}
 	if(inptAnhoAsignarRegistroAlumnos==""){
 		alertmensaje("Falto Seleccionar el año de registro")
-		return
-	}
-	if(inptSemestreAsignarAlumnos==""){
-		alertmensaje("Falto Seleccionar el semestre")
 		return
 	}
 	if(inptCursoAsignarAlumnos==""){
@@ -8640,7 +8599,7 @@ function BuscarVistaAsignarAlumnos() {
 	var alumno = document.getElementById('inptBuscarVistaAsignarAlumnos2').value
 	var curso = document.getElementById('inptBuscarVistaAsignarAlumnos4').value
 	var anho = document.getElementById('inptBuscarVistaAsignarAlumnos5').value
-	var semestre = document.getElementById('inptBuscarVistaAsignarAlumnos6').value
+	var semestre = ""
 	// var anhoregistro = document.getElementById('inptBuscarVistaAsignarAlumnos8').value
 		var codCarrera="";
 $("input[id=inptBuscarVistaAsignarAlumnos3]").each(function (i, Elemento) {
@@ -9263,7 +9222,7 @@ $("input[id=inptReporAlumnoMatriculado2]").each(function (i, Elemento) {
 		// alertmensaje("EL AÑO NO PUEDE QUEDAR VACIO")
 		// return
 	// }
-    var semestre=document.getElementById("inptReporAlumnoMatriculado7").value
+    var semestre=""
     var nombre=document.getElementById("inptReporAlumnoMatriculado4").value
     var convalidado=document.getElementById("inptReporAlumnoMatriculado8").value
     var turno=document.getElementById("inptReporAlumnoMatriculado10").value
@@ -9964,7 +9923,7 @@ $("div[name=div_turno_report_matriculados_1]").each(function (i, elemento) {
 
 	});	
 	
-	$("img[name=iconocarpetareportmatroculadoturno]").each(function (i, elemento) {
+	$("img[name=iconocarpetareportmatroculadoturno], img[name=iconocarpetareportmatroculadosemestre]").each(function (i, elemento) {
 		$(elemento).attr('src', '/GoodTechnologyEPNSA/iconos/carpetacerrada.png');
      
 	});	
@@ -11587,7 +11546,7 @@ function LimpiarCamposAsignarDocentes(){
 	document.getElementById("inptCatedraAsignarDocente").value=""
 	document.getElementById("inptAnhoAsignarDocente").value=""
 	document.getElementById("inptCursoAsignarDocente").value=""
-	document.getElementById("inptSemestreAsignarDocente").value=""
+	document.getElementById("inptSemestreAsignarDocente").value=SEMESTRE_ESCOLAR
 	document.getElementById("inptDiasAsignarDocente").value=""
 	document.getElementById("inptHinicioAsignarDocente").value=""
 	document.getElementById("inptHfinAsignarDocente").value="" 
@@ -11632,7 +11591,7 @@ function ObtenerdatosAbmAsignarDocentes(datostr) {
 	document.getElementById('inptCatedraAsignarDocente').value = $(datostr).children('td[id="td_datos_3"]').html();
 	document.getElementById('inptAnhoAsignarDocente').value = $(datostr).children('td[id="td_datos_7"]').html();
 	document.getElementById('inptCursoAsignarDocente').value = $(datostr).children('td[id="td_datos_8"]').html();
-	document.getElementById('inptSemestreAsignarDocente').value = $(datostr).children('td[id="td_datos_9"]').html();
+	document.getElementById('inptSemestreAsignarDocente').value = SEMESTRE_ESCOLAR;
 	document.getElementById('inptEstadoAsignarDocentes').value = $(datostr).children('td[id="td_datos_11"]').html();
 	document.getElementById('inptTurnoAsignarDocente').value = $(datostr).children('td[id="td_datos_12"]').html();
 	document.getElementById('inptSeccionAsignarDocente').value = $(datostr).children('td[id="td_datos_13"]').html();
@@ -11665,7 +11624,8 @@ function VerificarDatosAsignarDocentes(){
 	var inptSeccionAsignarDocente=document.getElementById("inptSeccionAsignarDocente").value
 	var inptAnhoAsignarDocente=document.getElementById("inptAnhoAsignarDocente").value
 	var inptCursoAsignarDocente=document.getElementById("inptCursoAsignarDocente").value
-	var inptSemestreAsignarDocente=document.getElementById("inptSemestreAsignarDocente").value
+	document.getElementById("inptSemestreAsignarDocente").value=SEMESTRE_ESCOLAR
+	var inptSemestreAsignarDocente=SEMESTRE_ESCOLAR
 	var inptDiasAsignarDocente=document.getElementById("inptDiasAsignarDocente").value
 	var inptHinicioAsignarDocente=document.getElementById("inptHinicioAsignarDocente").value
 	var inptHfinAsignarDocente=document.getElementById("inptHfinAsignarDocente").value
@@ -11712,18 +11672,18 @@ var codFkFilial=idFkFilialAsignarDocentes;
 		alertmensaje("Falto seleccionar la sección")
 		return
 	}
-	// if(inptDiasAsignarDocente==""){
-		// alertmensaje("Falto seleccionar el dia")
-		// return
-	// }
-	// if(inptHinicioAsignarDocente==""){
-		// alertmensaje("Falto seleccionar la hora de inicio")
-		// return
-	// }
-   // if(inptHfinAsignarDocente==""){
-		// alertmensaje("Falto seleccionar la hora fin")
-		// return
-	// }
+	if(inptDiasAsignarDocente==""){
+		alertmensaje("Falto seleccionar el dia")
+		return
+	}
+	if(inptHinicioAsignarDocente==""){
+		alertmensaje("Falto seleccionar la hora de inicio")
+		return
+	}
+   if(inptHfinAsignarDocente==""){
+		alertmensaje("Falto seleccionar la hora fin")
+		return
+	}
 	
 	var accion = "";
 	if (idAbmAsignarDocentes != "") {
@@ -12107,6 +12067,297 @@ alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR")
 
 }
 
+/*
+ASISTENCIA DOCENTE
+*/
+function verCerrarFrmAsistenciaDocente(d){
+	document.getElementById("divMinimizadoAsistenciaDocente").style.display="none";
+	document.getElementById("divSegundoPlano").style.display="none";
+
+	if(d=="1"){
+		minimizartodaventanaabierto();
+		document.getElementById("divAsistenciaDocente").style.display="";
+		if(document.getElementById("inptBuscarAsistenciaDocenteFecha").value==""){
+			fechaActualAsistenciaDocente();
+		}
+		BuscarAsistenciaDocente();
+	}else{
+		document.getElementById("divAsistenciaDocente").style.display="none";
+		LimpiarCamposBusquedaAsistenciaDocente();
+	}
+}
+
+function MinimizarVentanaAsistenciaDocente(){
+	document.getElementById("divAsistenciaDocente").style.display="none";
+	document.getElementById("divMinimizadoAsistenciaDocente").style.display="";
+}
+
+function fechaActualAsistenciaDocente(){
+	var f = new Date();
+	var dia = f.getDate();
+	if (dia < 10) {
+		dia = "0" + dia;
+	}
+	var mes = f.getMonth() + 1;
+	if (mes < 10) {
+		mes = "0" + mes;
+	}
+	document.getElementById("inptBuscarAsistenciaDocenteFecha").value = f.getFullYear()+"-"+mes+"-"+dia;
+}
+
+function LimpiarCamposBusquedaAsistenciaDocente(){
+	document.getElementById("inptBuscarAsistenciaDocente1").value="";
+	document.getElementById("inptBuscarAsistenciaDocente2").value="";
+	document.getElementById("inptBuscarAsistenciaDocente3").value="";
+	document.getElementById("inptBuscarAsistenciaDocente4").value="";
+	document.getElementById("inptBuscarAsistenciaDocente5").value="";
+	document.getElementById("inptBuscarAsistenciaDocente6").value="";
+	document.getElementById("inptBuscarAsistenciaDocente7").value="";
+	document.getElementById("ListCarrerasAsistenciaDocente").innerHTML="";
+	document.getElementById("divBuscadorAsistenciaDocente").innerHTML="";
+	document.getElementById("lblNroRegistroAsistenciaDocente").innerHTML="";
+	document.getElementById("lblDiaAsistenciaDocente").innerHTML="";
+	document.getElementById("inptRegistroAsistenciaDocente").value="";
+	document.getElementById("inptRegistroGradoAsistenciaDocente").value="";
+	document.getElementById("inptRegistroDocenteAsistenciaDocente").value="";
+	document.getElementById("inptPendienteAsistenciaDocente").value="";
+	$("input[id=inptBuscarAsistenciaDocente2]").attr("list","ListCarreras");
+	fechaActualAsistenciaDocente();
+}
+
+function obtenerIdDatalistAsistenciaDocente(idInput){
+	var codigo = "";
+	$("input[id="+idInput+"]").each(function (i, Elemento) {
+		var $input = $(this),
+			val = $input.val(),
+			list = $input.attr('list'),
+			match = $('#'+list + ' option').filter(function() {
+				return ($(this).val() === val);
+			});
+
+		if(match.length > 0) {
+			codigo=$(match).attr("id");
+		}
+	});
+	return codigo;
+}
+
+function CargarCarrerasEnAsistenciaDocente(){
+	var codFilial = obtenerIdDatalistAsistenciaDocente("inptBuscarAsistenciaDocente1");
+
+	if(codFilial==""){
+		$("input[id=inptBuscarAsistenciaDocente2]").attr("list","ListCarreras");
+		document.getElementById("ListCarrerasAsistenciaDocente").innerHTML="";
+		document.getElementById("inptBuscarAsistenciaDocente2").value="";
+		BuscarAsistenciaDocente();
+		return;
+	}else{
+		$("input[id=inptBuscarAsistenciaDocente2]").attr("list","ListCarrerasAsistenciaDocente");
+	}
+
+	document.getElementById("ListCarrerasAsistenciaDocente").innerHTML="";
+	document.getElementById("inptBuscarAsistenciaDocente2").value="";
+
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"codFilial": codFilial,
+		"funt": "buscarcarreraporfilial2"
+	};
+	$.ajax({
+
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/ABMAsignarCarrera.php",
+		type: "post",
+		xhr: function () {
+			var xhr = new window.XMLHttpRequest();
+			xhr.upload.addEventListener("progress" ,function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("enviado",kb,"0");
+			}, false);
+			xhr.addEventListener("progress", function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("recibido","0",kb);
+			}, false);
+			return xhr;
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+			document.getElementById("ListCarrerasAsistenciaDocente").innerHTML="";
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			return false;
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			document.getElementById("ListCarrerasAsistenciaDocente").innerHTML="";
+
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					document.getElementById("ListCarrerasAsistenciaDocente").innerHTML = datos[2];
+					BuscarAsistenciaDocente();
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+			}
+		}
+	});
+}
+
+function BuscarAsistenciaDocente() {
+	var fecha = document.getElementById("inptBuscarAsistenciaDocenteFecha").value;
+	if(fecha==""){
+		alertmensaje("Falto seleccionar la fecha");
+		return;
+	}
+
+	var filial = obtenerIdDatalistAsistenciaDocente("inptBuscarAsistenciaDocente1");
+	var carrera = obtenerIdDatalistAsistenciaDocente("inptBuscarAsistenciaDocente2");
+	var grado = document.getElementById("inptBuscarAsistenciaDocente3").value;
+	var turno = document.getElementById("inptBuscarAsistenciaDocente4").value;
+	var seccion = document.getElementById("inptBuscarAsistenciaDocente5").value;
+	var documento = document.getElementById("inptBuscarAsistenciaDocente6").value;
+	var docente = document.getElementById("inptBuscarAsistenciaDocente7").value;
+
+	document.getElementById("divBuscadorAsistenciaDocente").innerHTML = imgCargandoA;
+	document.getElementById("lblNroRegistroAsistenciaDocente").innerHTML = imgCargandoB;
+
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"fecha": fecha,
+		"filial": filial,
+		"carrera": carrera,
+		"grado": grado,
+		"turno": turno,
+		"seccion": seccion,
+		"documento": documento,
+		"docente": docente,
+		"funt": "buscar"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/ABMAsistenciaDocente.php",
+		type: "post",
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			document.getElementById("divBuscadorAsistenciaDocente").innerHTML = "";
+			document.getElementById("lblNroRegistroAsistenciaDocente").innerHTML = "";
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			document.getElementById("divBuscadorAsistenciaDocente").innerHTML = "";
+			document.getElementById("lblNroRegistroAsistenciaDocente").innerHTML = "";
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					var datos_buscados = datos[2];
+					document.getElementById("divBuscadorAsistenciaDocente").innerHTML = datos_buscados;
+					document.getElementById("lblNroRegistroAsistenciaDocente").innerHTML="Se encontraron "+datos[3]+" horario(s)";
+					document.getElementById("lblDiaAsistenciaDocente").innerHTML="Dia semanal: "+datos[7];
+					document.getElementById("inptRegistroAsistenciaDocente").value=datos[3];
+					document.getElementById("inptRegistroGradoAsistenciaDocente").value=datos[4];
+					document.getElementById("inptRegistroDocenteAsistenciaDocente").value=datos[5];
+					document.getElementById("inptPendienteAsistenciaDocente").value=datos[6];
+					if(datos_buscados==""){
+						alertmensaje("NO ENCONTRARON HORARIOS COINCIDENTES");
+					}
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+			}
+		}
+	});
+}
+
+function RegistrarAsistenciaDocente(iddocente_catedra){
+	var fecha = document.getElementById("inptBuscarAsistenciaDocenteFecha").value;
+	var estado_asistencia = document.getElementById("inptEstadoAsistenciaDocente_"+iddocente_catedra).value;
+	var hora_entrada = document.getElementById("inptEntradaAsistenciaDocente_"+iddocente_catedra).value;
+	var hora_salida = document.getElementById("inptSalidaAsistenciaDocente_"+iddocente_catedra).value;
+	var observacion = document.getElementById("inptObsAsistenciaDocente_"+iddocente_catedra).value;
+
+	if(fecha==""){
+		alertmensaje("Falto seleccionar la fecha");
+		return;
+	}
+	if(estado_asistencia==""){
+		alertmensaje("Falto seleccionar el estado de asistencia");
+		return;
+	}
+
+	verCerrarEfectoCargando("1");
+	var datos = new FormData();
+	obtener_datos_user();
+	datos.append("useru", userid);
+	datos.append("passu", passuser);
+	datos.append("navegador", navegador);
+	datos.append("iddocente_catedra", iddocente_catedra);
+	datos.append("fecha", fecha);
+	datos.append("estado_asistencia", estado_asistencia);
+	datos.append("hora_entrada", hora_entrada);
+	datos.append("hora_salida", hora_salida);
+	datos.append("observacion", observacion);
+	datos.append("funt", "guardar");
+
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/ABMAsistenciaDocente.php",
+		type: "post",
+		cache: false,
+		contentType: false,
+		processData: false,
+		error: function (jqXHR, textstatus, errorThrowm) {
+			verCerrarEfectoCargando("");
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			return false;
+		},
+		success: function (responseText) {
+			verCerrarEfectoCargando("");
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					alertmensaje("ASISTENCIA REGISTRADA CORRECTAMENTE");
+					BuscarAsistenciaDocente();
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+			}
+		}
+	});
+}
+
+function ExporarAsistenciaDocente() {
+	$("#divBuscadorAsistenciaDocente").table2excel({
+		filename: "AsistenciaDocente.xls"
+	});
+}
+
 /* Crear Listado Notas por Alumno */
 function verCerrarCalifAlumnoVista(mostrar) {
 	
@@ -12139,7 +12390,7 @@ function limpiarCamposNostasAlumnosVista() {
 function buscarNotasAlumnoVista() {
 	const materia= document.getElementById("inptBuscarCalifAlumno1").value;
 	const anho= document.getElementById("inptBuscarCalifAlumno2").value;
-	const semestre=document.getElementById("inptBuscarCalifAlumno3").value;
+	const semestre=SEMESTRE_ESCOLAR;
 	const curso= document.getElementById("inptBuscarCalifAlumno4").value;
 	const seccion= document.getElementById("inptBuscarCalifAlumno5").value;
 	const docente= document.getElementById("inptBuscarCalifAlumno7").value;
@@ -12450,7 +12701,7 @@ function BuscarReportCrearListadoNotas() {
 
 	var anho = document.getElementById('inptReporCrearListadoNotas3').value
 	var curso = document.getElementById('inptReporCrearListadoNotas4').value
-	var semestre = document.getElementById('inptReporCrearListadoNotas5').value
+	var semestre = ""
 	var turno = document.getElementById('inptReporCrearListadoNotas6').value
 	var seccion = document.getElementById('inptReporCrearListadoNotas7').value
 	var documento = document.getElementById('inptReporCrearListadoNotas9').value
@@ -12821,7 +13072,7 @@ function VerVistaCargarCalif(datosbtn){
 	iddocentecatedra=$(datosbtn).children('p[id="p_id_1"]').html();
 	cod_AlumnoCalificaciones=$(datosbtn).children('p[id="p_id_21"]').html();
 	curso_AlumnoCalificaciones=$(datosbtn).children('p[id="p_id_7"]').html();
-	Semestre_AlumnoCalificaciones=$(datosbtn).children('p[id="p_id_8"]').html();
+	Semestre_AlumnoCalificaciones=SEMESTRE_ESCOLAR;
 	var docente=$(datosbtn).children('p[id="p_id_2"]').html();
 	var catedra=$(datosbtn).children('p[id="p_id_3"]').html();
 	var turno=$(datosbtn).children('p[id="p_id_4"]').html();
@@ -16340,10 +16591,6 @@ if (ventana == "asignardocente") {
 +"<p class='pTituloC' >"+document.getElementById("inptBuscarAsignarDocentes6").value+"</p>"
 +"</td>"
 +"<td style='width:10%;text-align:left'>"
-+"<p class='pTituloC'><b>Semestre</b> </p>"
-+"<p class='pTituloC' >"+document.getElementById("inptBuscarAsignarDocentes7").value+"</p>"
-+"</td>"
-+"<td style='width:10%;text-align:left'>"
 +"<p class='pTituloC'><b>Turno</b> </p>"
 +"<p class='pTituloC' >"+document.getElementById("inptBuscarAsignarDocentes8").value+"</p>"
 +"</td>"
@@ -16377,6 +16624,69 @@ document.getElementById("tbDatosImpresiones").innerHTML=document.getElementById(
 
 }
 
+if (ventana == "asistenciadocente") {
+
+		pagina =
+"<table class='TableRepor0' style='width:100%'>"
++"<tr>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Fecha</b></p>"
++"<p class='pTituloC' >"+document.getElementById("inptBuscarAsistenciaDocenteFecha").value+"</p>"
++"</td>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Filial</b></p>"
++"<p class='pTituloC' >"+document.getElementById("inptBuscarAsistenciaDocente1").value+"</p>"
++"</td>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Nivel educativo</b></p>"
++"<p class='pTituloC' >"+document.getElementById("inptBuscarAsistenciaDocente2").value+"</p>"
++"</td>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Grado</b></p>"
++"<p class='pTituloC' >"+document.getElementById("inptBuscarAsistenciaDocente3").value+"</p>"
++"</td>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Turno</b></p>"
++"<p class='pTituloC' >"+document.getElementById("inptBuscarAsistenciaDocente4").value+"</p>"
++"</td>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Sección</b></p>"
++"<p class='pTituloC' >"+document.getElementById("inptBuscarAsistenciaDocente5").value+"</p>"
++"</td>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Docente</b></p>"
++"<p class='pTituloC' >"+document.getElementById("inptBuscarAsistenciaDocente7").value+"</p>"
++"</td>"
++"<td style='width:10%;text-align:left'>"
++"<p class='pTituloC'><b>Fecha de impresión</b></p>"
++"<p class='pTituloC' >"+fechaimpresion+"</p>"
++"</td>"
++"</tr>"
++"</table><br><center><h1 class='pTituloD' >ASISTENCIA DOCENTE</h1><br></center>"
+
+paginaPie =
+"<br><br><table class='TableRepor0' style='width:100%'>"
++"<tr>"
++"<td style='width:20%;text-align:left'>"
++"<p class='pTituloC'><b>Registros </b></p>"
++"<p class='pTituloC' >"+ document.getElementById("inptRegistroAsistenciaDocente").value+"</p>"
++"</td>"
++"<td style='width:20%;text-align:left'>"
++"<p class='pTituloC'><b>Pendientes </b></p>"
++"<p class='pTituloC' >"+ document.getElementById("inptPendienteAsistenciaDocente").value+"</p>"
++"</td>"
++"<td style='width:60%;text-align:left'>"
++"</td>"
++"</tr>"
++"</table>"
+
+document.getElementById("divCabeceraImpresiones").innerHTML=pagina
+document.getElementById("divPieImpresiones").innerHTML=paginaPie
+document.getElementById("tbTitulosImpresiones").innerHTML=document.getElementById("tdImprimirAsistenciaDocente").innerHTML
+document.getElementById("tbDatosImpresiones").innerHTML=document.getElementById("divBuscadorAsistenciaDocente").innerHTML
+
+}
+
 if (ventana == "alumnomatriculado") {
 		
 		pagina =
@@ -16405,10 +16715,6 @@ if (ventana == "alumnomatriculado") {
 +"<td style='width:10%;text-align:left'>"
 +"<p class='pTituloC'><b>Curso</b> </p>"
 +"<p class='pTituloC' >"+document.getElementById("inptReporAlumnoMatriculado6").value+"</p>"
-+"</td>"
-+"<td style='width:10%;text-align:left'>"
-+"<p class='pTituloC'><b>Semestre</b> </p>"
-+"<p class='pTituloC' >"+document.getElementById("inptReporAlumnoMatriculado7").value+"</p>"
 +"</td>"
 +"<td style='width:10%;text-align:left'>"
 +"<p class='pTituloC'><b>Fecha de impresión</b></p>"
@@ -16456,10 +16762,6 @@ if (ventana == "malla") {
 +"<td style='width:10%;text-align:left'>"
 +"<p class='pTituloC'><b>Curso</b> </p>"
 +"<p class='pTituloC' >"+document.getElementById("inptBuscarAsignarMalla4").value+"</p>"
-+"</td>"
-+"<td style='width:10%;text-align:left'>"
-+"<p class='pTituloC'><b>Semestre</b> </p>"
-+"<p class='pTituloC' >"+document.getElementById("inptBuscarAsignarMalla5").value+"</p>"
 +"</td>"
 +"<td style='width:10%;text-align:left'>"
 +"<p class='pTituloC'><b>Fecha de impresión</b></p>"

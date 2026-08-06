@@ -10,6 +10,9 @@ include_once("verificar_navegador.php");
 include_once("buscar_nivel.php");
 include_once('quitarseparadormiles.php');
 include_once('ABMAsignarDocentes.php');
+if (!defined('SEMESTRE_ESCOLAR')) {
+	define('SEMESTRE_ESCOLAR', '1');
+}
 function verificarCalif($funt)
 {
 	
@@ -62,6 +65,7 @@ if($funt=="crearlista" )
     $curso = utf8_decode($curso);
 	$semestre=$_POST['semestre'];
     $semestre = utf8_decode($semestre);
+	$semestre = SEMESTRE_ESCOLAR;
 	$cod_carrera=$_POST['cod_carrera'];
     $cod_carrera = utf8_decode($cod_carrera);
 	$cod_filial=$_POST['cod_filial'];
@@ -85,6 +89,7 @@ if($funt=="buscarvistacarganotas" )
 	
 	$semestre=$_POST['semestre'];
     $semestre = utf8_decode($semestre);
+	$semestre = SEMESTRE_ESCOLAR;
 	$curso=$_POST['curso'];
     $curso = utf8_decode($curso);
 	
@@ -149,6 +154,7 @@ if ($funt == "obtenerNotasAlumno") {
 	$curso = utf8_decode($curso);
 	$semestre = $_POST['semestre'];
 	$semestre = utf8_decode($semestre);
+	$semestre = SEMESTRE_ESCOLAR;
 	$seccion = $_POST['seccion'];
 	$seccion = utf8_decode($seccion);
 	$idcursosalumno = $_POST['idcursosalumno'];
@@ -205,7 +211,7 @@ if ( ! $stmt->execute()) {
 		      $nombre=$valor['nombre'];
 		      $apellido=$valor['apellido'];
 		      $carrera=$valor['carrera'];
-			$pagina.=" <p><strong>AÑO:</strong> <b>$anho</b> &nbsp;&nbsp; <strong>Curso:</strong> <b>$curso</b> &nbsp;&nbsp; <strong>Semestre :</strong> <b>$semestre</b> </p>  
+			$pagina.=" <p><strong>AÑO:</strong> <b>$anho</b> &nbsp;&nbsp; <strong>Curso:</strong> <b>$curso</b> </p>
 	<table class='tableCabeceraRegistro' style='width: 100%;background-color: #9E9E9E;text-align: center; font-size: 14px;' >
 				<tr >  
 					<td style='width:55%;'>Asignatura</td>
@@ -229,7 +235,7 @@ if ( ! $stmt->execute()) {
 
 function BuscarCalificacionActa($idcursosalumno,$idAlumno, $anho, $curso, $semestre) {
 	// Agregamos los filtros
-	$filtro = "where a.idalumno = $idAlumno and ca.estado='Activo' and  la.cod_alumnoFK = $idAlumno and  ca.idcursosalumno='".$idcursosalumno."' and  mc.anho='".$anho."' and  mc.curso='".$curso."' and  mc.semestre='".$semestre."' ";
+	$filtro = "where a.idalumno = $idAlumno and ca.estado='Activo' and  la.cod_alumnoFK = $idAlumno and  ca.idcursosalumno='".$idcursosalumno."' and  mc.anho='".$anho."' and  mc.curso='".$curso."' ";
  
 	
 	// Creamos la consulta
@@ -343,7 +349,7 @@ if (!is_numeric($calif1) && !is_numeric($calif2) && !is_numeric($calif3)) {
 
 function obtenerNotasAlumno($idcursosalumno,$idAlumno, $materia, $docente, $anho, $curso, $semestre, $seccion) {
 	// Agregamos los filtros
-	$filtro = "where a.idalumno = $idAlumno and  ca.idcursosalumno='".$idcursosalumno."' and  mc.anho='".$anho."' and  mc.curso='".$curso."' and  mc.semestre='".$semestre."'   ";
+	$filtro = "where a.idalumno = $idAlumno and  ca.idcursosalumno='".$idcursosalumno."' and  mc.anho='".$anho."' and  mc.curso='".$curso."'   ";
 	if ($materia != "") {
 		$filtro .= " AND upper(materia) like upper('%$materia%')";
 	}
@@ -515,7 +521,7 @@ function obtenerNotasAlumno($idcursosalumno,$idAlumno, $materia, $docente, $anho
 				<td id='td_datos_2' style='width:20%' >".utf8_encode($valor['materia'])."</td>
 				<td id='td_datos_3' style='width:5%' >".utf8_encode($valor['anho'])."</td>
 				<td id='td_datos_5' style='width:5%' >".utf8_encode($valor['curso'])."</td>
-				<td id='td_datos_4' style='width:5%' >".utf8_encode($valor['semestre'])."</td>
+				<td id='td_datos_4' style='display:none' >".utf8_encode($valor['semestre'])."</td>
 				<td id='td_datos_6' style='width:5%' >".utf8_encode($valor['seccion'])."</td>
 				<td id='td_datos_8' style='width:25%' >".$nombre_docente."</td>
 				<td  style='width:20%' >".$opciones."</td>
@@ -547,7 +553,7 @@ $mysqli=conectar_al_servidor();
 $sql= "SELECT cur.idcursosalumno
  FROM cursosalumno cur inner join alumno alu on alu.idalumno=cur.idalumnoFk
  inner join carrera car on car.cod_carrera=cur.cod_carreraFK 
-where car.cod_filialOringFK='$cod_filial' and cur.anho='$anho' and  cur.semestre='$semestre' and cur.curso='$curso' and cur.seccion='$seccion' and cur.turno like '%".$turno."%' and car.Cod_listadecarrerasFK='$cod_carrera' ";
+where car.cod_filialOringFK='$cod_filial' and cur.anho='$anho' and cur.curso='$curso' and cur.seccion='$seccion' and cur.turno like '%".$turno."%' and car.Cod_listadecarrerasFK='$cod_carrera' ";
 
 
 
@@ -873,7 +879,7 @@ function buscarvistacarganotas($iddocente_catedra,$calificacion,$cod_AlumnoCalif
 		from listadoalumnos lts inner join docente_catedra dtc on dtc.iddocente_catedra=lts.iddocente_catedraFK
 		inner join cursosalumno cur on cur.idcursosalumno=lts.idcursosalumnoFk
 		inner join alumno alu on alu.idalumno=cur.idalumnoFk
-		where lts.iddocente_catedraFK='".$iddocente_catedra."' and cur.idalumnoFk='".$cod_AlumnoCalificaciones."' and cur.semestre='".$semestre."' and cur.curso='".$curso."'  order by nombreapellido asc";
+		where lts.iddocente_catedraFK='".$iddocente_catedra."' and cur.idalumnoFk='".$cod_AlumnoCalificaciones."' and cur.curso='".$curso."'  order by nombreapellido asc";
 	 
 		 
    $stmt = $mysqli->prepare($sql);

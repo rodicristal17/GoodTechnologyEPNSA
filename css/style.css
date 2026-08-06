@@ -6154,3 +6154,57 @@ text-align: justify;
     height: auto !important;
   }
 }
+
+#divAsistenciaDocente .asistencia-docente-filtros {
+  box-sizing: border-box;
+}
+
+#divAsistenciaDocente .asistencia-docente-filtros td {
+  vertical-align: bottom;
+  padding: 3px;
+}
+
+#divAsistenciaDocente .asistencia-docente-grado {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding: 9px 12px;
+  background-color: #244f65;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: left;
+  border-radius: 4px;
+}
+
+#divAsistenciaDocente .asistencia-docente-row td {
+  vertical-align: middle;
+}
+
+#divAsistenciaDocente .asistencia-docente-select {
+  width: 130px !important;
+  min-width: 130px;
+  box-sizing: border-box;
+}
+
+#divAsistenciaDocente .asistencia-docente-time {
+  width: 95px !important;
+  min-width: 95px;
+  box-sizing: border-box;
+}
+
+#divAsistenciaDocente .asistencia-docente-observacion {
+  width: 180px !important;
+  min-width: 180px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  #divAsistenciaDocente .asistencia-docente-filtros table,
+  #divAsistenciaDocente .asistencia-docente-filtros tbody,
+  #divAsistenciaDocente .asistencia-docente-filtros tr,
+  #divAsistenciaDocente .asistencia-docente-filtros td {
+    display: block;
+    width: 100% !important;
+  }
+}

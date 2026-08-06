@@ -678,6 +678,41 @@ INSERT INTO `docente_catedra` VALUES (1,'Activo',1,2,1,'2024','1','1','MAÑANA',
 UNLOCK TABLES;
 
 --
+-- Table structure for table `asistencia_docente`
+--
+
+DROP TABLE IF EXISTS `asistencia_docente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asistencia_docente` (
+  `idasistencia_docente` int(11) NOT NULL AUTO_INCREMENT,
+  `iddocente_catedraFK` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `estado_asistencia` varchar(45) NOT NULL DEFAULT 'Pendiente',
+  `hora_entrada` varchar(45) DEFAULT NULL,
+  `hora_salida` varchar(45) DEFAULT NULL,
+  `observacion` varchar(250) DEFAULT NULL,
+  `cod_usuario` int(11) NOT NULL DEFAULT '0',
+  `editadopor` int(11) NOT NULL DEFAULT '0',
+  `fechainser` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fechaedit` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idasistencia_docente`),
+  UNIQUE KEY `uq_asistencia_docente_fecha` (`iddocente_catedraFK`,`fecha`),
+  KEY `fk_asistencia_docente_docente_catedra_idx` (`iddocente_catedraFK`),
+  CONSTRAINT `fk_asistencia_docente_docente_catedra` FOREIGN KEY (`iddocente_catedraFK`) REFERENCES `docente_catedra` (`iddocente_catedra`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `asistencia_docente`
+--
+
+LOCK TABLES `asistencia_docente` WRITE;
+/*!40000 ALTER TABLE `asistencia_docente` DISABLE KEYS */;
+/*!40000 ALTER TABLE `asistencia_docente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `facturaspagadas`
 --
 

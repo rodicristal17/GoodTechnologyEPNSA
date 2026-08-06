@@ -9,6 +9,9 @@ require("conexion.php");
 include("verificar_navegador.php");
 include("buscar_nivel.php");
 include('quitarseparadormiles.php');
+if (!defined('SEMESTRE_ESCOLAR')) {
+	define('SEMESTRE_ESCOLAR', '1');
+}
 function verificar($funt)
 {
 	
@@ -48,6 +51,7 @@ if($funt=="nuevo" || $funt=="editar")
     $anho = utf8_decode($anho);
 	$semestre=$_POST['semestre'];
     $semestre = utf8_decode($semestre);
+	$semestre = SEMESTRE_ESCOLAR;
 	$curso=$_POST['curso'];
     $curso = utf8_decode($curso);
 	$turno=$_POST['turno'];
@@ -110,6 +114,7 @@ $anho=$_POST['anho'];
 $anho = utf8_decode($anho);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 $codCarrera=$_POST['codCarrera'];
 $codCarrera = utf8_decode($codCarrera);
 $codFilial=$_POST['codFilial'];
@@ -213,6 +218,7 @@ $curso=$_POST['curso'];
 $curso = utf8_decode($curso);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 buscarcascadaTurnoReportMatriculacion($codfilial,$codcarrera,$anho,$curso,$semestre,$estado);
 
 }
@@ -270,6 +276,7 @@ $anho=$_POST['anho'];
 $anho = utf8_decode($anho);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 $nombre=$_POST['nombre'];
 $nombre = utf8_decode($nombre);
 $ordenby=$_POST['ordenby'];
@@ -388,8 +395,9 @@ if($funt=="buscaranhosql")
 
 function abm($tipo,$nroMatriculacion,$fechaMatriculacion,$fechaInicio,$idcursosalumno,$idalumnoFk,$cod_carreraFK,$estado,$anho,$anhoregistro,$semestre,$curso,$turno,$seccion,$convalidacion,$funt)
 {
+	$semestre = SEMESTRE_ESCOLAR;
 	
-	if($idalumnoFk=="" && $cod_carreraFK==""&& $anho==""&& $anhoregistro==""&& $semestre==""&& $curso=="" && $turno==""&& $seccion=="" ){
+	if($idalumnoFk=="" && $cod_carreraFK==""&& $anho==""&& $anhoregistro==""&& $curso=="" && $turno==""&& $seccion=="" ){
 $informacion =array("1" => "DI");
 echo json_encode($informacion);	
 exit;
@@ -474,6 +482,7 @@ exit;
     $consulta="update  cursosalumno set anhoregistro='$valor' where idcursosalumno='$idcursosalumno' ";
 	}
 	if($controledit=="semestre"){
+	$valor=SEMESTRE_ESCOLAR;
     $consulta="update  cursosalumno set semestre='$valor' where idcursosalumno='$idcursosalumno' ";
 	}
 	if($controledit=="curso"){
@@ -713,7 +722,7 @@ $totales=0;
 			   <td  id='' style='width:15%' >".$nombrefilial."</td>
 			   <td  id='' style='width:15%' >".$nombrecarrera."</td>
 			   <td  id='' style='width:5%' >".$anho."</td>
-			    <td  id='' style='width:5%'>".$semestre."</td>
+			    <td  id='' style='display:none'>".$semestre."</td>
 			   <td  id='' style='width:5%' >".$curso."</td>			 
 			   <td  id='' style='width:5%' >".$turno."</td>			 
 			   <td  id='' style='width:5%' >".$seccion."</td>			 
@@ -765,9 +774,6 @@ function buscarvista($documento,$alumno,$curso,$anho,$semestre,$codCarrera,$codF
 	 }
 	
 	 $condicionsemestre="";
-	 if($semestre!=""){
-		  $condicionsemestre=" and cur.semestre='$semestre' ";
-	 }
 	 
 	 $oderby="";
 	if($ordenby=="1"){
@@ -979,7 +985,7 @@ $totales=0;
 			    <td  id='td_datos_3' style='width:10%'>".$nombrecarrera."</td>
 			   <td  id='td_datos_4' style='width:7%' >".$curso."</td>
 			   <td  id='td_datos_6' style='width:7%' >".$anho."</td>
-			   <td  id='td_datos_7' style='width:7%' >".$semestre."</td>		  
+			   <td  id='td_datos_7' style='display:none' >".$semestre."</td>
 			   <td  id='td_datos_5' style='display:none' >".$turno."</td>		  
 			   <td  id='td_datos_12' style='display:none' >".$seccion."</td>		  
 			   <td  id='td_datos_10' style='width:7%' >".$nombrefilial."</td>
@@ -1116,9 +1122,6 @@ function buscarreport($nrodocumento,$codFilial,$codCarrera,$curso,$anhoregistro,
 		$condicionanho=" and cur.anho='$anho' "; 
 	 }
 	 $condicionsemestre="";
-	 if($semestre!=""){
-		$condicionsemestre=" and cur.semestre='$semestre' "; 
-	 }
 	 $condicionseccionnombre="";
 	 if($nombre!=""){
 		$condicionseccionnombre=" and concat(alu.nombre,' ',alu.apellido) like '%".$nombre."%' "; 
@@ -2114,14 +2117,15 @@ $totales=0;
 		  	  $convalidacion=utf8_encode($valor['convalidacion']);
 		  	  $anhoregistro=utf8_encode($valor['anhoregistro']);
 		  	  $pagina.="
-			 <p class='divCascada3'  onclick='vercerrarreportmatriculadossemestre(this)' >
+			 <p class='divCascada3'  onclick='vercerrarreportmatriculadosturno(this)' >
 			 <img  id='iconocarpeta' name='iconocarpetareportmatroculadosemestre' class='iconocascada' src='/GoodTechnologyEPNSA/iconos/carpetacerrada.png' />Curso : ".$curso." 
 			 <span id='span1' style='display:none' >$cod_filialOringFK</span>
 			 <span id='span2' style='display:none' >$cod_carreraFK</span>
 			 <span id='span3' style='display:none' >$anho</span>
 			 <span id='span4' style='display:none' >$curso</span>
+			 <span id='span5' style='display:none' >".SEMESTRE_ESCOLAR."</span>
 			 </p>
-			 <div class='divCascada2' name='div_semestre_report_matriculados_1' id='div_semestre_report_matriculados_".$cod_filialOringFK.$cod_carreraFK.$anho.$curso."' style='display:none' ></div>";
+			 <div class='divCascada2' name='div_turno_report_matriculados_1' id='div_turno_report_matriculados_".$cod_filialOringFK.$cod_carreraFK.$anho.$curso.SEMESTRE_ESCOLAR."' style='display:none' ></div>";
 			  
 			 
 			  
@@ -2245,7 +2249,7 @@ alu.nombre as nombrealumno,alu.apellido,alu.ci,car.cod_filialOringFK,
  inner join carrera car on car.cod_carrera=cur.cod_carreraFK 
  inner join listadecarreras ltc on ltc.Cod_listadecarreras=car.Cod_listadecarrerasFK
  inner join filial fil on fil.cod_filial=car.cod_filialOringFK
-where  ".$condicionestado." car.cod_filialOringFK='$codfilial' and  cur.cod_carreraFK='$codcarrera' and cur.anho='$anho' and cur.curso='$curso' and cur.semestre='$semestre' group by cur.turno order by cur.turno asc";
+where  ".$condicionestado." car.cod_filialOringFK='$codfilial' and  cur.cod_carreraFK='$codcarrera' and cur.anho='$anho' and cur.curso='$curso' group by cur.turno order by cur.turno asc";
 		 
    $stmt = $mysqli->prepare($sql);
   
@@ -2329,7 +2333,7 @@ alu.nombre as nombrealumno,alu.apellido,alu.ci,car.cod_filialOringFK,
  inner join carrera car on car.cod_carrera=cur.cod_carreraFK 
  inner join listadecarreras ltc on ltc.Cod_listadecarreras=car.Cod_listadecarrerasFK
  inner join filial fil on fil.cod_filial=car.cod_filialOringFK
-where ".$condicionestado." car.cod_filialOringFK='$codfilial' and  cur.cod_carreraFK='$codcarrera' and cur.anho='$anho' and cur.curso='$curso' and cur.semestre='$semestre' and cur.turno='$turno' group by cur.seccion order by cur.seccion asc";
+where ".$condicionestado." car.cod_filialOringFK='$codfilial' and  cur.cod_carreraFK='$codcarrera' and cur.anho='$anho' and cur.curso='$curso' and cur.turno='$turno' group by cur.seccion order by cur.seccion asc";
 		 
    $stmt = $mysqli->prepare($sql);
   
@@ -2415,7 +2419,7 @@ alu.nombre as nombrealumno,alu.apellido,alu.ci,car.cod_filialOringFK,
  inner join carrera car on car.cod_carrera=cur.cod_carreraFK 
  inner join listadecarreras ltc on ltc.Cod_listadecarreras=car.Cod_listadecarrerasFK
  inner join filial fil on fil.cod_filial=car.cod_filialOringFK
-where ".$condicionestado." car.cod_filialOringFK='$codfilial' and  cur.cod_carreraFK='$codcarrera' and cur.anho='$anho' and cur.curso='$curso' and cur.semestre='$semestre' and cur.turno='$turno' and cur.seccion='$seccion'  order by nombrealumno asc";
+where ".$condicionestado." car.cod_filialOringFK='$codfilial' and  cur.cod_carreraFK='$codcarrera' and cur.anho='$anho' and cur.curso='$curso' and cur.turno='$turno' and cur.seccion='$seccion'  order by nombrealumno asc";
 		 
    $stmt = $mysqli->prepare($sql);
   

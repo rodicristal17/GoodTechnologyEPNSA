@@ -9,6 +9,9 @@ include_once("conexion.php");
 include_once("verificar_navegador.php");
 include_once("buscar_nivel.php");
 include_once('quitarseparadormiles.php');
+if (!defined('SEMESTRE_ESCOLAR')) {
+	define('SEMESTRE_ESCOLAR', '1');
+}
 function verificar($funt)
 {
 	
@@ -55,6 +58,7 @@ if($funt=="nuevo" || $funt=="editar")
     $curso = utf8_decode($curso);
 	$semestre=$_POST['semestre'];
     $semestre = utf8_decode($semestre);
+	$semestre = SEMESTRE_ESCOLAR;
 	$dias=$_POST['dias'];
     $dias = utf8_decode($dias);
 	$hinicio=$_POST['hinicio'];
@@ -82,6 +86,7 @@ $curso=$_POST['curso'];
 $curso = utf8_decode($curso);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 $estado=$_POST['estado'];
 $estado = utf8_decode($estado);
 $turno=$_POST['turno'];
@@ -109,6 +114,7 @@ $curso=$_POST['curso'];
 $curso = utf8_decode($curso);
 $semestre=$_POST['semestre'];
 $semestre = utf8_decode($semestre);
+$semestre = "";
 $turno=$_POST['turno'];
 $turno = utf8_decode($turno);
 $seccion=$_POST['seccion'];
@@ -141,6 +147,7 @@ buscarSelect($user);
 
 function abm($dias,$hinicio,$hfin,$turno,$seccion,$iddocente_catedra,$idmallacurricular,$idlistadoProfesores,$cod_filial,$estado,$anho,$curso,$semestre,$funt)
 {
+	$semestre = SEMESTRE_ESCOLAR;
 	
 	
 	if( $idmallacurricular=="" || $idlistadoProfesores=="" || $cod_filial=="" || $turno=="" || $seccion=="" ){
@@ -302,9 +309,6 @@ function buscar($documento,$filial,$carrera,$catedra,$docente,$anho,$curso,$seme
 		$condicioncurso="and dtc.curso='".$curso."' "; 
 	 }
 	 $condicionsemestre="";
-	 if($semestre!=""){
-		$condicionsemestre="and dtc.semestre='".$semestre."' "; 
-	 }
 	 $condicionturno="";
 	 if($turno!=""){
 		$condicionturno="and dtc.turno='".$turno."' "; 
@@ -449,8 +453,8 @@ $totales=0;
 			  <td  id='td_datos_8' style='width:5%;".$styleorden7."' >".$curso."</td>
 			  <td  id='td_datos_9' style='display:none;".$styleorden8."' >".$semestre."</td>
 			  <td  id='td_datos_14' style='width:5%;".$styleorden9."'>".$dias."</td>
-			   <td  id='td_datos_15' style='display:none;'>".$hinicio."</td>
-			   <td  id='td_datos_16' style='display:none;'>".$hfin."</td>
+			   <td  id='td_datos_15' style='width:5%;'>".$hinicio."</td>
+			   <td  id='td_datos_16' style='width:5%;'>".$hfin."</td>
 			   <td  id='td_datos_12' style='display:none;'>".$turno."</td>
 			  <td  id='td_datos_13' style='width:5%' >".$seccion."</td>
 			  <td  id='td_datos_20' style='width:5%' >".$horasemanal."</td>
@@ -531,9 +535,6 @@ function buscarlista($filial,$carrera,$anho,$curso,$semestre,$turno,$seccion,$do
 		$condicioncurso="and dtc.curso='".$curso."' "; 
 	 }
 	 $condicionsemestre="";
-	 if($semestre!=""){
-		$condicionsemestre="and dtc.semestre='".$semestre."' "; 
-	 }
 	 $condicionturno="";
 	 if($turno!=""){
 		$condicionturno="and dtc.turno='".$turno."' "; 
@@ -782,7 +783,7 @@ $totales=0;
 			  <td  id='' style='width:10%;".$styleorden5."' >".$nombreMateria."</td>
 			  <td  id='' style='width:5%;".$styleorden6."' >".$anho."</td>
 			  <td  id='' style='width:5%;".$styleorden7."' >".$curso."</td>
-			  <td  id='' style='width:5%;".$styleorden8."' >".$semestre."</td>
+			  <td  id='' style='display:none;".$styleorden8."' >".$semestre."</td>
 			  <td  id='' style='width:5%;' >".$turno."</td>
 			  <td  id='' style='width:5%;' >".$seccion."</td>
 			  <td  id='nroalumnos_".$codigoazar."' style='width:5%' >".$nroalumnos."</td>
