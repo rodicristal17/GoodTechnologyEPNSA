@@ -27244,7 +27244,8 @@ function buscarabmGasto() {
 	
 	var nroboleta = document.getElementById('inptBuscarIngresoEgreso5').value
 	var monto = document.getElementById('inptBuscarIngresoEgreso8').value
-	var confirmado = document.getElementById('inptConfirmadoMisGastosBusca').value
+	var confirmadoCampo = document.getElementById('inptConfirmadoMisGastosBusca')
+	var confirmado = confirmadoCampo == null ? "" : confirmadoCampo.value
 	// var banco = document.getElementById('inptBuscarIngresoEgreso4').value
 	// var banco = $('#inptBuscarIngresoEgreso4').find('option:selected').text();
 	// if(banco == 'SELECCIONAR'){

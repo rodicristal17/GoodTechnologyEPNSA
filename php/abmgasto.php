@@ -463,8 +463,10 @@ function buscar($permisover,$user,$fecha1,$fecha2,$estado,$cod_local,$tipo,$usua
 		 }
 		 
 		 $condicionagrupacion = '';
+		 $ordenGastos = " order by case when tipo='Ingreso' then 1 when tipo='Egreso' then 2 when tipo='Deposito' then 3 else 4 end, fecha desc, idgastos desc";
 		 if($agrupacionformulariogasto == '2'){
-			 $condicionagrupacion = ' group by cod_motivo';
+			 $condicionagrupacion = ' group by tipo, cod_motivo';
+			 $ordenGastos = " order by case when tipo='Ingreso' then 1 when tipo='Egreso' then 2 when tipo='Deposito' then 3 else 4 end, descripcion";
 		 }
 		 
 		 
@@ -477,7 +479,7 @@ function buscar($permisover,$user,$fecha1,$fecha2,$estado,$cod_local,$tipo,$usua
 		$sql= "Select fechaDeposito,monto, ifnull((select descripcion from  motivo_e_i where idmotivo_e_i=cod_motivo),'') as descripcion,motivo,fecha,estado,cod_usuario,idgastos,tipo,cod_local,nroboleta,nrocuenta,cod_motivo,
 		(Select concat(Nombre,' ',Apellido) from usuario where Cod_Usuario=cod_usuario limit 1) as usuarionombre,confirmado,url,
 		(Select nombre from filial f where f.cod_filial=g.cod_local) as nombrelocal
-		from gastos g where  estado='$estado' ".$condicionpermisover.$condicionCodLocal.$condiciontipo.$condicionfecha.$condicionusuario.$condicionrangofechas.$condicionmotivo.$condicionconfirmado.$condicionagrupacion.$condicionnroboleta.$condicionmonto;
+		from gastos g where  estado='$estado' ".$condicionpermisover.$condicionCodLocal.$condiciontipo.$condicionfecha.$condicionusuario.$condicionrangofechas.$condicionmotivo.$condicionconfirmado.$condicionnroboleta.$condicionmonto.$condicionagrupacion.$ordenGastos;
    
 
 
@@ -509,6 +511,9 @@ if ( ! $stmt->execute()) {
  $styleName="tableRegistroSearch";
  $totalMonto = 0;
  $totalMontoAgrupado = 0;
+ $paginasGrupoGastos = array();
+ $totalesGrupoGastos = array();
+ $registrosGrupoGastos = array();
  if ($valor>0)
  {
 	  while ($valor= mysqli_fetch_assoc($result))
@@ -543,9 +548,15 @@ if ( ! $stmt->execute()) {
 				  $style= 'background-color:#09b26d;color:#fff';
 			  }
 			  $MotivoGrupo="";
+			  $montoMostrar = $monto;
 			  if($agrupacionformulariogasto == '2'){
-				  $totalMonto = obtener_total_agrupacion_motivo($fecha1Filtro,$fecha2Filtro,$estadoFiltro,$cod_localFiltro,$tipoFiltro,$usuarioFiltro,$fechaFiltro,$cod_motivo,$confirmadoFiltro);
+				  $tipoFiltroAgrupacion = $tipoFiltro;
+				  if($tipoFiltroAgrupacion == ""){
+					  $tipoFiltroAgrupacion = $tipo;
+				  }
+				  $totalMonto = obtener_total_agrupacion_motivo($fecha1Filtro,$fecha2Filtro,$estadoFiltro,$cod_localFiltro,$tipoFiltroAgrupacion,$usuarioFiltro,$fechaFiltro,$cod_motivo,$confirmadoFiltro,$nroboleta,$monto);
 				  $totalMontoAgrupado += $totalMonto;
+				  $montoMostrar = $totalMonto;
 				  $MotivoGrupo=$descripcion;
 			  }else{
 				  $MotivoGrupo=$motivo." <br><b>".$descripcion."</b>";
@@ -565,22 +576,20 @@ if($tipo!="Deposito"){
 	$fechaDeposito="";
 }  
 			  
-			  $pagina.="
-<table class='$styleName'style='$style' border='1' cellspacing='1' cellpadding='5'>
+			  $filaGasto="
+<table class='$styleName tablaIngresoEgreso'style='$style' border='1' cellspacing='1' cellpadding='5'>
 <tr id='tbSelecRegistro' onclick='obtenerdatosabmGasto(this)'>
-<td id='td_id' style='width:5%; background-color: #efeded;color:red'>".$idgastos."</td>
-<td  id='td_datos_2'	style='width:10%'>".$MotivoGrupo."</td>
-<td  id='td_datos_1'	style='width:5%'>". number_format($agrupacionformulariogasto == '2' ? $totalMonto : $monto ,'0',',','.')."</td>
-<td  	style='width:5%'>".$tipo."<br>".$fechaDeposito."</td>
+<td id='td_id' class='colIngresoEgresoId' style='background-color: #efeded;color:red'>".$idgastos."</td>
+<td  id='td_datos_2'	class='colIngresoEgresoMotivo'>".$MotivoGrupo."</td>
+<td  id='td_datos_1'	class='colIngresoEgresoMonto'>". number_format($montoMostrar,'0',',','.')."</td>
+<td  	class='colIngresoEgresoTipo'>".$tipo."<br>".$fechaDeposito."</td>
 <td  id='td_datos_6'	style='display:none'>".$tipo."</td>
 <td  id='td_datos_3'	style='display:none'>".$fecha."</td>
-<td                  	style='width:10%'>".$fecha2."</td>
-<td  id='td_datos_14'	style='width:10%'>".$nroboleta."</td>
-<td  id='' 				style='width:10%'>".$nombrelocal."</td>
-<td  id='td_datos_10' 	style='width:10%'>".$nrocuenta."</td>
-<td  id='td_datos_8' 	style='width:10%'>".$usuarionombre."</td>
-<td  					style='width:5%'>".$confirmado."</td>
-<td  					style='width:5%'>".$btnVer."</td>
+<td                  	class='colIngresoEgresoFecha'>".$fecha2."</td>
+<td  id='td_datos_14'	class='colIngresoEgresoBoleta'>".$nroboleta."</td>
+<td  id='' 				class='colIngresoEgresoLocal'>".$nombrelocal."</td>
+<td  id='td_datos_10' 	class='colIngresoEgresoCuenta'>".$nrocuenta."</td>
+<td  id='td_datos_8' 	class='colIngresoEgresoUsuario'>".$usuarionombre."</td>
 <td  id='td_datos_5' 	style='display:none'>".$estado."</td>
 <td  id='td_datos_7' 	style='display:none'>".$cod_local."</td>
 <td  					style='display:none'>".$cod_motivo."</td>
@@ -592,8 +601,18 @@ if($tipo!="Deposito"){
 <td  id='td_datos_12'	style='display:none'>".$descripcion."</td>
 </tr>
 </table>";
+			  $tipoGrupo = obtener_tipo_grupo_gasto($tipo);
+			  if(!isset($paginasGrupoGastos[$tipoGrupo])){
+				  $paginasGrupoGastos[$tipoGrupo] = "";
+				  $totalesGrupoGastos[$tipoGrupo] = 0;
+				  $registrosGrupoGastos[$tipoGrupo] = 0;
+			  }
+			  $paginasGrupoGastos[$tipoGrupo] .= $filaGasto;
+			  $totalesGrupoGastos[$tipoGrupo] += $montoMostrar;
+			  $registrosGrupoGastos[$tipoGrupo]++;
 			  
 	  }
+	  $pagina = armar_grupos_gasto($paginasGrupoGastos,$totalesGrupoGastos,$registrosGrupoGastos);
  }
  
  /*v=spf1 +a +mx include:relay.mailchannels.net ~all*/
@@ -609,7 +628,74 @@ exit;
 
 }
 
-function obtener_total_agrupacion_motivo($fecha1,$fecha2,$estado,$cod_local,$tipo,$usuario,$fecha,$motivo,$confirmado)
+function obtener_tipo_grupo_gasto($tipo)
+{
+	if($tipo == "Ingreso" || $tipo == "Egreso" || $tipo == "Deposito"){
+		return $tipo;
+	}
+	if($tipo == ""){
+		return "Sin tipo";
+	}
+	return $tipo;
+}
+
+function obtener_titulo_grupo_gasto($tipo)
+{
+	if($tipo == "Ingreso"){
+		return "INGRESOS";
+	}
+	if($tipo == "Egreso"){
+		return "EGRESOS";
+	}
+	if($tipo == "Deposito"){
+		return "DEPOSITOS";
+	}
+	if($tipo == "Sin tipo"){
+		return "SIN TIPO";
+	}
+	return strtoupper($tipo);
+}
+
+function obtener_clase_grupo_gasto($tipo)
+{
+	if($tipo == "Ingreso"){
+		return "grupoIngresoEgresoIngreso";
+	}
+	if($tipo == "Egreso"){
+		return "grupoIngresoEgresoEgreso";
+	}
+	if($tipo == "Deposito"){
+		return "grupoIngresoEgresoDeposito";
+	}
+	return "grupoIngresoEgresoOtros";
+}
+
+function armar_grupos_gasto($paginasGrupoGastos,$totalesGrupoGastos,$registrosGrupoGastos)
+{
+	$pagina = "";
+	$ordenGrupoGastos = array("Ingreso","Egreso","Deposito");
+	foreach($ordenGrupoGastos as $tipoGrupo){
+		if(isset($paginasGrupoGastos[$tipoGrupo]) && $paginasGrupoGastos[$tipoGrupo] != ""){
+			$pagina .= obtener_encabezado_grupo_gasto($tipoGrupo,$registrosGrupoGastos[$tipoGrupo],$totalesGrupoGastos[$tipoGrupo]).$paginasGrupoGastos[$tipoGrupo];
+		}
+	}
+	foreach($paginasGrupoGastos as $tipoGrupo => $contenidoGrupo){
+		if(in_array($tipoGrupo,$ordenGrupoGastos) || $contenidoGrupo == ""){
+			continue;
+		}
+		$pagina .= obtener_encabezado_grupo_gasto($tipoGrupo,$registrosGrupoGastos[$tipoGrupo],$totalesGrupoGastos[$tipoGrupo]).$contenidoGrupo;
+	}
+	return $pagina;
+}
+
+function obtener_encabezado_grupo_gasto($tipo,$registros,$total)
+{
+	$titulo = obtener_titulo_grupo_gasto($tipo);
+	$clase = obtener_clase_grupo_gasto($tipo);
+	return "<div class='grupoIngresoEgreso ".$clase."'><span>".$titulo."</span><span>".$registros." registro(s) - Total: ".number_format($total,'0',',','.')."</span></div>";
+}
+
+function obtener_total_agrupacion_motivo($fecha1,$fecha2,$estado,$cod_local,$tipo,$usuario,$fecha,$motivo,$confirmado,$nroboleta="",$monto="")
 {
 	$mysqli=conectar_al_servidor();
 	 $pagina='';
@@ -626,6 +712,16 @@ $condicionCodLocal=" and g.cod_local='$cod_local' ";
 		 $condicionconfirmado="";
 		 if($confirmado!=""){
 			$condicionconfirmado=" and confirmado='$confirmado' "; 
+		 }
+
+		 $condicionnroboleta="";
+		 if($nroboleta!=""){
+			$condicionnroboleta=" and nroboleta like '%".$nroboleta."%' ";
+		 }
+
+		 $condicionmonto="";
+		 if($monto!=""){
+			$condicionmonto=" and monto='$monto' ";
 		 }
 		 
 		 
@@ -650,7 +746,7 @@ $condicionCodLocal=" and g.cod_local='$cod_local' ";
 		$sql= "Select fechaDeposito,monto, ifnull((select descripcion from  motivo_e_i where idmotivo_e_i=cod_motivo),'') as descripcion,motivo,fecha,estado,cod_usuario,idgastos,tipo,cod_local,nroboleta,nrocuenta,cod_motivo,
 		(Select concat(Nombre,' ',Apellido) from usuario where Cod_Usuario=cod_usuario limit 1) as usuarionombre,confirmado,url,
 		(Select nombre from filial f where f.cod_filial=g.cod_local) as nombrelocal
-		from gastos g where  estado='$estado'".$condicionCodLocal.$condiciontipo.$condicionfecha.$condicionusuario.$condicionrangofechas.$condicionmotivo.$condicionconfirmado;
+		from gastos g where  estado='$estado'".$condicionCodLocal.$condiciontipo.$condicionfecha.$condicionusuario.$condicionrangofechas.$condicionmotivo.$condicionconfirmado.$condicionnroboleta.$condicionmonto;
    
   
    $stmt = $mysqli->prepare($sql);

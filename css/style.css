@@ -2390,6 +2390,28 @@ border-radius: 50%;
 .tableRegistroSearch { width: 100%; height: 30px; background-color: rgb(255, 255, 255); font-size:11px;  color: rgb(27, 27, 27); text-align: center; border-left: 1px solid rgb(206, 206, 206); border-right: 1px solid rgb(206, 206, 206); border-bottom: 1px solid rgb(206, 206, 206); cursor: pointer;    border-collapse: collapse;
     border-color: #ccc;
     text-align: left; }
+.tablaIngresoEgreso { width: 100%; table-layout: fixed; border-collapse: collapse; }
+.tablaIngresoEgreso td { box-sizing: border-box; min-height: 30px; padding: 5px; vertical-align: middle; overflow-wrap: anywhere; word-break: break-word; }
+.tablaIngresoEgreso .inputText, .tablaIngresoEgreso .inputfiltro, .tablaIngresoEgreso select { width: 100%; max-width: 100%; box-sizing: border-box; }
+.tablaIngresoEgresoFiltros .td_registro { padding: 3px 4px; }
+.filtroIngresoEgreso { width: 100%; display: flex; align-items: center; gap: 4px; }
+.filtroIngresoEgreso .inputfiltro { flex: 1 1 auto; min-width: 0; }
+.filtroIngresoEgreso .inptLimpiarBP { flex: 0 0 auto; margin-left: 0; width: 12px; height: 12px; }
+.colIngresoEgresoId { width: 5%; }
+.colIngresoEgresoMotivo { width: 18%; }
+.colIngresoEgresoMonto { width: 8%; }
+.colIngresoEgresoTipo { width: 8%; }
+.colIngresoEgresoFecha { width: 10%; }
+.colIngresoEgresoBoleta { width: 11%; }
+.colIngresoEgresoLocal { width: 12%; }
+.colIngresoEgresoCuenta { width: 12%; }
+.colIngresoEgresoUsuario { width: 16%; }
+.grupoIngresoEgreso { width: 100%; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 34px; margin-top: 8px; padding: 8px 12px; font-size: 12px; font-weight: bold; color: #fff; background-color: #666; border: 1px solid #555; }
+.grupoIngresoEgreso span:last-child { font-size: 11px; font-weight: normal; text-align: right; }
+.grupoIngresoEgresoIngreso { background-color: #168966; border-color: #0d6a4d; }
+.grupoIngresoEgresoEgreso { background-color: #ad4e2e; border-color: #8d3b22; }
+.grupoIngresoEgresoDeposito { background-color: #3b6fa8; border-color: #255787; }
+.grupoIngresoEgresoOtros { background-color: #666; border-color: #555; }
 .tableRegistroSearch1 { width: 100%; height: 33px; background-color: rgb(255, 255, 255); font-size: 11px;  color: rgb(27, 27, 27); padding: 5px; text-align: left; border-left: 1px solid rgb(206, 206, 206); border-right: 1px solid rgb(206, 206, 206); border-bottom: 1px solid rgb(206, 206, 206); cursor: pointer; margin-top: 5px; }
 .tableRegistroSearch_2 { width: 100%; padding: 5px; background-color: rgb(7, 114, 199); font-size: 11px;  color: rgb(255, 255, 255); text-align: left; line-height: 17px; cursor: pointer; }
 .tableRegistroSearchRepor { width: 100%; height: 33px; background-color: rgb(255, 255, 255); font-size: 11px;  color: rgb(27, 27, 27); text-align: center; border-left: 1px solid rgb(206, 206, 206); border-right: 1px solid rgb(206, 206, 206); border-bottom: 1px solid rgb(206, 206, 206); cursor: pointer; }

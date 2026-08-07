@@ -7430,68 +7430,66 @@ Activo</p>
 </tbody>
 </table>
 <div style='overflow:auto;' class='divScrollhideen' id='TableScroollGastos1'>
-<table  class="tableCabeceraRegistro" id='tdTituloImpreGastos' style='width:100%;'>
+<table  class="tableCabeceraRegistro tablaIngresoEgreso" id='tdTituloImpreGastos' style='width:100%;'>
 <tbody>
 <tr>
-<td class="td_registro" style="width:5%;">#</td>
-<td class="td_registro" style="width:10%;">MOTIVO</td>
-<td class="td_registro" style="width:5%;">MONTO</td>
-<td class="td_registro" style="width:5%;">TIPO</td>
-<td class="td_registro" style="width:10%;">FECHA</td>
-<td class="td_registro" style="width:10%;">NRO BOLETA</td>
-<td class="td_registro" style="width:10%;">LOCAL</td>
-<td class="td_registro" style="width:10%;">CUENTA</td>
-<td class="td_registro" style="width:10%;">USUARIO</td>
-<td class="td_registro" style="width:5%;">CONFIRMADO</td>
-<td class="td_registro" style="width:5%;">FOTO</td>
+<td class="td_registro colIngresoEgresoId">#</td>
+<td class="td_registro colIngresoEgresoMotivo">MOTIVO</td>
+<td class="td_registro colIngresoEgresoMonto">MONTO</td>
+<td class="td_registro colIngresoEgresoTipo">TIPO</td>
+<td class="td_registro colIngresoEgresoFecha">FECHA</td>
+<td class="td_registro colIngresoEgresoBoleta">NRO BOLETA</td>
+<td class="td_registro colIngresoEgresoLocal">LOCAL</td>
+<td class="td_registro colIngresoEgresoCuenta">CUENTA</td>
+<td class="td_registro colIngresoEgresoUsuario">USUARIO</td>
 </tr>
 </tbody>
 </table>
-<table class="tableCabeceraRegistro" id='tdTituloImpreGastos' style='width:100%;'>
+<table class="tableCabeceraRegistro tablaIngresoEgreso tablaIngresoEgresoFiltros" style='width:100%;'>
 <tbody>
 <tr>
-<td class="td_registro" style="width:5%;"></td>
-<td class="td_registro" style="width:10%;">
+<td class="td_registro colIngresoEgresoId"></td>
+<td class="td_registro colIngresoEgresoMotivo">
 <!-- <select class="inputfiltro" id="inptBuscarIngresoEgreso3"></select> -->
-<input id='inptBuscarIngresoEgreso3' list='listBuscarIngresoEgreso3' style='width:70%' type='text' class='inputText' />
+<input id='inptBuscarIngresoEgreso3' list='listBuscarIngresoEgreso3' type='text' class='inputText' />
 <datalist id="listBuscarIngresoEgreso3"></datalist>
 
 </td>
-<td class="td_registro" style="width:5%;">
+<td class="td_registro colIngresoEgresoMonto">
 <input class='inputfiltro' type='text'
 id='inptBuscarIngresoEgreso8'
 onkeyup="if(event.keyCode == 13){buscarabmGasto()}"
 placeholder='Parecido a' />
 </td>
-<td class="td_registro" style="width:4%;">
+<td class="td_registro colIngresoEgresoTipo">
+<div class="filtroIngresoEgreso">
 <select class="inputfiltro" id="inptSeleccTipoBuscarGasto">
 <option value="">TODOS</option>
 <option value="Ingreso">INGRESO</option>
 <option value="Egreso">EGRESOS</option>
 <option value="Deposito">DEPOSITO</option>
 </select>
-</td>
-<td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP'
 src='/GoodTechnologyEPNSA/iconos/limpiar.png'
 onclick="vaciar('inptSeleccTipoBuscarGasto')" />
+</div>
 </td>
-<td class="td_registro" style="width:9%;">
+<td class="td_registro colIngresoEgresoFecha">
+<div class="filtroIngresoEgreso">
 <input class='inputfiltro' type='Date' id='inptBuscarIngresoEgreso2' />
-</td>
-<td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso2')" />
+</div>
 </td>
-<td class="td_registro" style="width:9%;">
+<td class="td_registro colIngresoEgresoBoleta">
+<div class="filtroIngresoEgreso">
 <input class='inputfiltro' type='text'
 id='inptBuscarIngresoEgreso5'
 onkeyup="if(event.keyCode == 13){buscarabmGasto()}"
 placeholder='Parecido a' />
-</td>
-<td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP' src='/GoodTechnologyEPNSA/iconos/limpiar.png'onclick="vaciar('inptBuscarIngresoEgreso5')" />
+</div>
 </td>
-<td class="td_registro" style="width:10%;">
+<td class="td_registro colIngresoEgresoLocal">
 <select class="inputfiltro"
 id="inptlocalMisGastosBusca"></select>
 </td>
@@ -7500,27 +7498,17 @@ id="inptlocalMisGastosBusca"></select>
 <!-- <select class='inputfiltro' id='inptBuscarIngresoEgreso4'></select> -->
 <!-- </td> -->
 <!-- <td class="td_registro" style="width:10%;"></td> -->
-<td class="td_registro" style="width:9%;">
+<td class="td_registro colIngresoEgresoCuenta"></td>
+<td class="td_registro colIngresoEgresoUsuario">
+<div class="filtroIngresoEgreso">
 <input class='inputfiltro' type='text'
 id='inptBuscarIngresoEgreso1'
 onkeyup="if(event.keyCode == 13){buscarabmGasto()}"
 placeholder='Parecido a' />
-</td>
-<td class="td_registro" style="width:1%;">
 <img class='inptLimpiarBP'
 src='/GoodTechnologyEPNSA/iconos/limpiar.png'
 onclick="vaciar('inptBuscarIngresoEgreso1')" />
-</td>
-<td class="td_registro" style="width:5%;">
-<select class="inputfiltro"
-id="inptConfirmadoMisGastosBusca">
-<option value=''>SELECCIONAR</option>
-<option value='SI'>SI</option>
-<option value='NO'>NO</option>
-</select>
-</td>
-<td class="td_registro" style="width:5%;">
-
+</div>
 </td>
 </tr>
 </tbody>
