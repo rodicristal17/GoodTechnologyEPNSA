@@ -100,6 +100,10 @@ function verventanasminizados(){
 	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarAbmGasto()' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/gastos.png' /><br/><label class='pTitulo17'  >Gastos</label></button>"
 	control=control+1;
 	}
+	if($("div[id=divMinimizadoGanancias]").is(':visible')){
+	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarInformeGanancias(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/report.png' /><br/><label class='pTitulo17'  >Ganancias</label></button>"
+	control=control+1;
+	}
 	
 	if(pagina!=""){
 		 document.getElementById("divSegundoPlano").style.display=""
@@ -166,6 +170,10 @@ function finalizarventanasminizados(){
 	}
 	}
 	document.getElementById("divAbmGastos").style.display="none"
+	}
+	if($("div[id=divMinimizadoGanancias]").is(':visible')){
+	document.getElementById("divMinimizadoGanancias").style.display="none"
+	document.getElementById("divInformeGanancias").style.display="none"
 	}
 		 document.getElementById("divSegundoPlano").style.display="none"
 	document.getElementById("divVentanaminizado").innerHTML=""
@@ -235,6 +243,10 @@ if(document.getElementById("divAbmGastos").style.display==""){
 minimizarventanaingresoegreso()
 return
 }
+if(document.getElementById("divInformeGanancias").style.display==""){
+minimizarInformeGanancias()
+return
+}
 
 }
 
@@ -298,6 +310,10 @@ return
 }
 if(document.getElementById("divAbmGastos").style.display==""){
 minimizarventanaingresoegreso()
+return
+}
+if(document.getElementById("divInformeGanancias").style.display==""){
+minimizarInformeGanancias()
 return
 }
 

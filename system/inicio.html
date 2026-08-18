@@ -34,7 +34,7 @@
     
     <script src="/GoodTechnologyEPNSA/js/datosUsuario.js"></script>
 	<!-- <link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/inicio.css?x=X-IOSV.06" /> -->
-	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.07" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.09" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.06" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.06" />
 	
@@ -54,11 +54,11 @@
 
 <!-- Otros utilitarios -->
 <script src="/GoodTechnologyEPNSA/js/excel.js"></script>
-<script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.01"></script>
+<script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.02"></script>
 <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
 
 <!-- TU APP AL FINAL -->
-<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.09"></script>
+<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.12"></script>
 
  
 	
@@ -786,6 +786,20 @@ class='divMinimizado'></div>
 <p class='pTitulo3'  >Ganancias </p>
 <center>
     <div id='divMinimizadoGanancias' style='display:none' class='divMinimizado'></div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+<div class='divMenub'    onclick='verCerrarInformeGananciaArancel("1")' id='divMenuGananciaArancel' >
+<table style='width:100%;height:100%;text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/report.png' />
+<p class='pTitulo3'  >Ganancia por Arancel </p>
+<center>
+    <div id='divMinimizadoGananciaArancel' style='display:none' class='divMinimizado'></div>
 </center>
 </td>
 </tr>
@@ -4526,6 +4540,255 @@ style='width:95%;' />
 </div>
 
 </center>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+<div class='principal2' style='display:none' id='divInformeGanancias'>
+<table style='width:100%;height:100%' id='tdEfectoInformeGanancias'>
+<tr>
+<td>
+<center>
+<div class='divPrincipalrepor' style='width:1200px;margin-left:40px'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Informe de <b style='font-size: 30px;' >Ganancias</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarInformeGanancias()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='verCerrarInformeGanancias()' />
+</td>
+</tr>
+</table>
+<br>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:18%;text-align:left'>
+<p class='pTituloC'>Fecha Inicio</p>
+<input class='inputText' type='date' id='inptFechaInicioGanancias' style='width:95%' />
+</td>
+<td style='width:18%;text-align:left'>
+<p class='pTituloC'>Fecha Fin</p>
+<input class='inputText' type='date' id='inptFechaFinGanancias' style='width:95%' />
+</td>
+<td style='width:24%;text-align:left'>
+<p class='pTituloC'>Local</p>
+<select class='inputSelect' id='inptLocalGanancias' style='width:95%'></select>
+</td>
+<td style='width:40%;text-align:left'>
+<p class='pTituloC'>&nbsp;</p>
+<input type='button' value='Buscar' class='btn4' onclick='buscarInformeGanancias()' style='width:100px;background-color: rgb(58 58 58);' />
+<input type='button' value='Limpiar' class='btn4' onclick='limpiarcamposbuscadorGanancias()' style='width:100px;background-color: rgb(58 58 58);' />
+<input type='button' value='Imprimir' class='btn4' onclick='imprimirInformeGanancias()' style='width:100px;background-color: rgb(58 58 58);' />
+</td>
+</tr>
+</table>
+</div>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Cobranzas</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalCobranzaGanancias' style='width:95%' />
+</td>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Otros Ingresos</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalIngresoGanancias' style='width:95%' />
+</td>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Egresos</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalEgresoGanancias' style='width:95%' />
+</td>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Depositos</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalDepositoGanancias' style='width:95%' />
+</td>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Ganancia</p>
+<input class='inputTextDisable' type='text' disabled id='inptResultadoGanancias' style='width:95%;font-weight:bold' />
+</td>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Registros</p>
+<input class='inputTextDisable' type='text' disabled id='inptRegistroGanancias' style='width:95%' />
+</td>
+</tr>
+</table>
+</div>
+<table class='tableCabeceraRegistro' id='tdTituloImpreGanancias'>
+<tbody>
+<tr>
+<td class='td_registro' style='width:35%;'>DETALLE</td>
+<td class='td_registro' style='width:15%;'>TIPO</td>
+<td class='td_registro' style='width:15%;'>MONTO</td>
+<td class='td_registro' style='width:15%;'>FECHA</td>
+<td class='td_registro' style='width:20%;'>LOCAL</td>
+</tr>
+</tbody>
+</table>
+<div class='div_cuerpo_table' id='table_informe_ganancias' style='height:360px;'></div>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+<div class='principal2' style='display:none' id='divInformeGananciaArancel'>
+<table style='width:100%;height:100%' id='tdEfectoInformeGananciaArancel'>
+<tr>
+<td>
+<center>
+<div class='divPrincipalrepor' style='width:1200px;max-width:calc(100vw - 80px);margin-left:40px;overflow:auto;'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Ganancia por <b style='font-size: 30px;' >Arancel</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarInformeGananciaArancel()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='verCerrarInformeGananciaArancel()' />
+</td>
+</tr>
+</table>
+<br>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Fecha Inicio</p>
+<input class='inputText' type='date' id='inptFechaInicioGananciaArancel' style='width:95%' />
+</td>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Fecha Fin</p>
+<input class='inputText' type='date' id='inptFechaFinGananciaArancel' style='width:95%' />
+</td>
+<td style='width:22%;text-align:left'>
+<p class='pTituloC'>Local</p>
+<select class='inputSelect' id='inptLocalGananciaArancel' style='width:95%'></select>
+</td>
+<td style='width:22%;text-align:left'>
+<p class='pTituloC'>Arancel</p>
+<input class='inputText' type='text' list='ListArancel' id='inptArancelGananciaArancel' style='width:95%' autocomplete='off' />
+</td>
+<td style='width:24%;text-align:left'>
+<p class='pTituloC'>&nbsp;</p>
+<input type='button' value='Buscar' class='btn4' onclick='buscarInformeGananciaArancel()' style='width:80px;background-color: rgb(58 58 58);' />
+<input type='button' value='Limpiar' class='btn4' onclick='limpiarcamposbuscadorGananciaArancel()' style='width:80px;background-color: rgb(58 58 58);' />
+<input type='button' value='Imprimir' class='btn4' onclick='imprimirInformeGananciaArancel()' style='width:80px;background-color: rgb(58 58 58);' />
+</td>
+</tr>
+</table>
+</div>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Total Vendido</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalVentaGananciaArancel' style='width:95%' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Costo</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalCostoGananciaArancel' style='width:95%' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Ganancia</p>
+<input class='inputTextDisable' type='text' disabled id='inptResultadoGananciaArancel' style='width:95%;font-weight:bold' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Margen</p>
+<input class='inputTextDisable' type='text' disabled id='inptMargenGananciaArancel' style='width:95%' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Registros</p>
+<input class='inputTextDisable' type='text' disabled id='inptRegistroGananciaArancel' style='width:95%' />
+</td>
+</tr>
+</table>
+</div>
+<table class='tableCabeceraRegistro tablaReporteFinanciero tablaReporteFinancieroHeader' id='tdTituloImpreGananciaArancel'>
+<tbody>
+<tr>
+<td class='td_registro reporteCol reporteColTexto reporteW28'>ARANCEL</td>
+<td class='td_registro reporteCol reporteColCantidad reporteW10'>REGISTROS</td>
+<td class='td_registro reporteCol reporteColMonto reporteW14'>MONTO VENTA</td>
+<td class='td_registro reporteCol reporteColMonto reporteW15'>TOTAL VENDIDO</td>
+<td class='td_registro reporteCol reporteColMonto reporteW13'>COSTO</td>
+<td class='td_registro reporteCol reporteColMonto reporteW13'>GANANCIA</td>
+<td class='td_registro reporteCol reporteColPorcentaje reporteW7'>MARGEN</td>
+</tr>
+</tbody>
+</table>
+<div class='div_cuerpo_table' id='table_informe_ganancia_arancel' style='height:390px;'></div>
+</div>
+<div id='divDialogDetalleGananciaArancel' class='dialogGananciaArancel' style='display:none'>
+<div class='dialogGananciaArancelPanel'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Detalle por <b style='font-size: 30px;' >Grado / Curso</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Detalle' onclick='cerrarDialogDetalleGananciaArancel()' />
+</td>
+</tr>
+</table>
+<div class='dialogGananciaArancelBody'>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Arancel Seleccionado</p>
+<input class='inputTextDisable' type='text' disabled id='inptSeleccionadoGananciaArancel' style='width:95%' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Venta Detalle</p>
+<input class='inputTextDisable' type='text' disabled id='inptDetalleVentaGananciaArancel' style='width:95%' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Costo Detalle</p>
+<input class='inputTextDisable' type='text' disabled id='inptDetalleCostoGananciaArancel' style='width:95%' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Ganancia Detalle</p>
+<input class='inputTextDisable' type='text' disabled id='inptDetalleResultadoGananciaArancel' style='width:95%;font-weight:bold' />
+</td>
+<td style='width:20%;text-align:left'>
+<p class='pTituloC'>Registros Detalle</p>
+<input class='inputTextDisable' type='text' disabled id='inptDetalleRegistroGananciaArancel' style='width:95%' />
+</td>
+</tr>
+</table>
+</div>
+<table class='tableCabeceraRegistro tablaReporteFinanciero tablaReporteFinancieroHeader' id='tdTituloImpreDetalleGananciaArancel'>
+<tbody>
+<tr>
+<td class='td_registro reporteCol reporteColCantidad reporteW12'>AÑO</td>
+<td class='td_registro reporteCol reporteColTexto reporteW22'>GRADO / CURSO</td>
+<td class='td_registro reporteCol reporteColCantidad reporteW10'>REGISTROS</td>
+<td class='td_registro reporteCol reporteColMonto reporteW14'>MONTO VENTA</td>
+<td class='td_registro reporteCol reporteColMonto reporteW14'>TOTAL VENDIDO</td>
+<td class='td_registro reporteCol reporteColMonto reporteW14'>COSTO</td>
+<td class='td_registro reporteCol reporteColMonto reporteW14'>GANANCIA</td>
+</tr>
+</tbody>
+</table>
+<div class='div_cuerpo_table' id='table_detalle_ganancia_arancel' style='height:330px;'></div>
+</div>
+</div>
 </div>
 </center>
 </td>

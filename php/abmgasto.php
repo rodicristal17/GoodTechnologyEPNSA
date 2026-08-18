@@ -131,6 +131,9 @@ $cod_local=$_POST['cod_local'];
 $cod_local = utf8_decode($cod_local);
 $tipo=$_POST['tipo'];
 $tipo = utf8_decode($tipo);
+if($tipo=="TODOS" || $tipo=="TODO"){
+	$tipo="";
+}
 $usuario=$_POST['usuario'];
 $usuario = utf8_decode($usuario);
 $fecha=$_POST['fecha'];
@@ -154,9 +157,9 @@ $permisover=$_POST['permisover'];
 $permisover = utf8_decode($permisover); 
  
 if($cod_local==""){
-$controllocal=controldeaccesoacasas($user,"CAMBIARLOCAL"," u.accion='SI' ");
+$controllocal=controlaccesos($user,"CAMBIARLOCAL"," acus.accion='SI' ");
 	if($controllocal==0){
-		$cod_local=buscarlocaluser($user);
+		$cod_local=buscarmifilialFK($user);
 	}
 }
 buscar($permisover,$user,$fecha1,$fecha2,$estado,$cod_local,$tipo,$usuario,$fecha,$motivo,$confirmado,$agrupacionformulariogasto,$nroboleta,$monto);
@@ -221,6 +224,70 @@ $local=$_POST['local'];
 $local = utf8_decode($local);
 
 	evaluacionpagoscomprados($fecha1,$fecha2,$local);
+
+}
+
+if($operacion=="informeGanancias")
+{
+	$fecha1=isset($_POST['fecha1']) ? $_POST['fecha1'] : "";
+$fecha1 = utf8_decode($fecha1);
+$fecha2=isset($_POST['fecha2']) ? $_POST['fecha2'] : "";
+$fecha2 = utf8_decode($fecha2);
+$local=isset($_POST['local']) ? $_POST['local'] : "";
+$local = utf8_decode($local);
+
+if($local==""){
+$controllocal=controlaccesos($user,"CAMBIARLOCAL"," acus.accion='SI' ");
+	if($controllocal==0){
+		$local=buscarmifilialFK($user);
+	}
+}
+
+	buscarInformeGanancias($fecha1,$fecha2,$local);
+
+}
+
+if($operacion=="informeGananciaArancel")
+{
+	$fecha1=isset($_POST['fecha1']) ? $_POST['fecha1'] : "";
+$fecha1 = utf8_decode($fecha1);
+$fecha2=isset($_POST['fecha2']) ? $_POST['fecha2'] : "";
+$fecha2 = utf8_decode($fecha2);
+$local=isset($_POST['local']) ? $_POST['local'] : "";
+$local = utf8_decode($local);
+$codArancel=isset($_POST['codArancel']) ? $_POST['codArancel'] : "";
+$codArancel = utf8_decode($codArancel);
+
+if($local==""){
+$controllocal=controlaccesos($user,"CAMBIARLOCAL"," acus.accion='SI' ");
+	if($controllocal==0){
+		$local=buscarmifilialFK($user);
+	}
+}
+
+	buscarInformeGananciaArancel($fecha1,$fecha2,$local,$codArancel);
+
+}
+
+if($operacion=="detalleGananciaArancel")
+{
+	$fecha1=isset($_POST['fecha1']) ? $_POST['fecha1'] : "";
+$fecha1 = utf8_decode($fecha1);
+$fecha2=isset($_POST['fecha2']) ? $_POST['fecha2'] : "";
+$fecha2 = utf8_decode($fecha2);
+$local=isset($_POST['local']) ? $_POST['local'] : "";
+$local = utf8_decode($local);
+$codArancel=isset($_POST['codArancel']) ? $_POST['codArancel'] : "";
+$codArancel = utf8_decode($codArancel);
+
+if($local==""){
+$controllocal=controlaccesos($user,"CAMBIARLOCAL"," acus.accion='SI' ");
+	if($controllocal==0){
+		$local=buscarmifilialFK($user);
+	}
+}
+
+	buscarDetalleGananciaArancel($fecha1,$fecha2,$local,$codArancel);
 
 }
 
@@ -495,6 +562,8 @@ function buscar($permisover,$user,$fecha1,$fecha2,$estado,$cod_local,$tipo,$usua
    $fechaFiltro = $fecha;
    $cod_motivoFiltro = $cod_motivo;
    $confirmadoFiltro = $confirmado;
+   $nroboletaFiltro = $nroboleta;
+   $montoFiltro = $monto;
    
    
    $stmt = $mysqli->prepare($sql);
@@ -554,7 +623,7 @@ if ( ! $stmt->execute()) {
 				  if($tipoFiltroAgrupacion == ""){
 					  $tipoFiltroAgrupacion = $tipo;
 				  }
-				  $totalMonto = obtener_total_agrupacion_motivo($fecha1Filtro,$fecha2Filtro,$estadoFiltro,$cod_localFiltro,$tipoFiltroAgrupacion,$usuarioFiltro,$fechaFiltro,$cod_motivo,$confirmadoFiltro,$nroboleta,$monto);
+				  $totalMonto = obtener_total_agrupacion_motivo($fecha1Filtro,$fecha2Filtro,$estadoFiltro,$cod_localFiltro,$tipoFiltroAgrupacion,$usuarioFiltro,$fechaFiltro,$cod_motivo,$confirmadoFiltro,$nroboletaFiltro,$montoFiltro);
 				  $totalMontoAgrupado += $totalMonto;
 				  $montoMostrar = $totalMonto;
 				  $MotivoGrupo=$descripcion;
@@ -612,8 +681,12 @@ if($tipo!="Deposito"){
 			  $registrosGrupoGastos[$tipoGrupo]++;
 			  
 	  }
-	  $pagina = armar_grupos_gasto($paginasGrupoGastos,$totalesGrupoGastos,$registrosGrupoGastos);
  }
+ $datosResumenCobranzas = agregar_resumen_cobranzas_ingreso($paginasGrupoGastos,$totalesGrupoGastos,$registrosGrupoGastos,$permisover,$user,$fecha1Filtro,$fecha2Filtro,$estadoFiltro,$cod_localFiltro,$tipoFiltro,$usuarioFiltro,$fechaFiltro,$cod_motivoFiltro,$confirmadoFiltro,$nroboletaFiltro,$montoFiltro);
+ $nroRegistro += $datosResumenCobranzas[1];
+ $totalGasto += $datosResumenCobranzas[0];
+ $totalMontoAgrupado += $datosResumenCobranzas[0];
+ $pagina = armar_grupos_gasto($paginasGrupoGastos,$totalesGrupoGastos,$registrosGrupoGastos);
  
  /*v=spf1 +a +mx include:relay.mailchannels.net ~all*/
  
@@ -693,6 +766,147 @@ function obtener_encabezado_grupo_gasto($tipo,$registros,$total)
 	$titulo = obtener_titulo_grupo_gasto($tipo);
 	$clase = obtener_clase_grupo_gasto($tipo);
 	return "<div class='grupoIngresoEgreso ".$clase."'><span>".$titulo."</span><span>".$registros." registro(s) - Total: ".number_format($total,'0',',','.')."</span></div>";
+}
+
+function agregar_resumen_cobranzas_ingreso(&$paginasGrupoGastos,&$totalesGrupoGastos,&$registrosGrupoGastos,$permisover,$user,$fecha1,$fecha2,$estado,$cod_local,$tipo,$usuario,$fecha,$cod_motivo,$confirmado,$nroboleta,$monto)
+{
+	$datos = array(0,0);
+	if($estado!="Activo"){
+		return $datos;
+	}
+	if($tipo!="" && $tipo!="Ingreso"){
+		return $datos;
+	}
+	if($usuario!="" || $cod_motivo!="" || $confirmado!=""){
+		return $datos;
+	}
+	$totalesCobranzas = buscar_totales_cobranzas_ingreso($permisover,$user,$fecha1,$fecha2,$cod_local,$fecha,$nroboleta,$monto);
+	$filasResumen = "";
+	$styleName = "tableRegistroSearch";
+	$fechaResumen = obtener_texto_fecha_resumen_cobranza($fecha1,$fecha2,$fecha);
+	$nombrelocal = obtener_nombre_local_resumen_cobranza($cod_local);
+	$styleName = CargarStyleTable($styleName);
+	$filasResumen .= armar_fila_resumen_cobranza_ingreso($styleName,"SUMATORIA MATRICULACION",$totalesCobranzas["matriculas"],$fechaResumen,$nombrelocal);
+	$datos[0] += $totalesCobranzas["matriculas"];
+	$datos[1]++;
+	$styleName = CargarStyleTable($styleName);
+	$filasResumen .= armar_fila_resumen_cobranza_ingreso($styleName,"SUMATORIA CUOTAS",$totalesCobranzas["cuotas"],$fechaResumen,$nombrelocal);
+	$datos[0] += $totalesCobranzas["cuotas"];
+	$datos[1]++;
+	if($filasResumen!=""){
+		if(!isset($paginasGrupoGastos["Ingreso"])){
+			$paginasGrupoGastos["Ingreso"] = "";
+			$totalesGrupoGastos["Ingreso"] = 0;
+			$registrosGrupoGastos["Ingreso"] = 0;
+		}
+		$paginasGrupoGastos["Ingreso"] = $filasResumen.$paginasGrupoGastos["Ingreso"];
+		$totalesGrupoGastos["Ingreso"] += $datos[0];
+		$registrosGrupoGastos["Ingreso"] += $datos[1];
+	}
+	return $datos;
+}
+
+function buscar_totales_cobranzas_ingreso($permisover,$user,$fecha1,$fecha2,$cod_local,$fecha,$nroboleta,$monto)
+{
+	$mysqli=conectar_al_servidor();
+	$condicionCodLocal="";
+	if($cod_local!=""){
+		$condicionCodLocal=" and (fac.codfiliafk='$cod_local' or pt.cod_filialFk='$cod_local' or pt2.cod_filialFk='$cod_local' or ap.cod_local='$cod_local') ";
+	}
+	$condicionfecha="";
+	if($fecha!=""){
+		$condicionfecha=" and fac.fecha='$fecha' ";
+	}
+	$condicionrangofechas="";
+	if($fecha1!="" && $fecha2!=""){
+		$condicionrangofechas=" and fac.fecha>='$fecha1' and fac.fecha<='$fecha2' ";
+	}
+	$condicionnroboleta="";
+	if($nroboleta!=""){
+		$condicionnroboleta=" and fac.nrofactura like '%".$nroboleta."%' ";
+	}
+	$condicionmonto="";
+	if($monto!=""){
+		$monto = quitarseparadormiles($monto);
+		$condicionmonto=" and fac.monto='$monto' ";
+	}
+	$condicionpermisover="";
+	if($permisover=="NO"){
+		$condicionpermisover=" and fac.usuario_insertado='$user' ";
+	}
+	$sql= "Select
+		ifnull(sum(case when (upper(ifnull(lta.tipo,'')) like '%CUOTA%' or upper(ifnull(ar.tipo,'')) like '%CUOTA%' or upper(ifnull(lta.nombre,'')) like '%CUOTA%' or upper(ifnull(ar.cod_secundario,'')) like '%CUOTA%' or upper(ifnull(fac.Detalles,'')) like '%CUOTA%') then ifnull(fac.monto,0) else 0 end),0) as total_cuotas,
+		ifnull(sum(case when (upper(ifnull(lta.nombre,'')) like '%MATRICUL%' or upper(ifnull(lta.nombre,'')) like '%MATR%CUL%' or upper(ifnull(fac.Detalles,'')) like '%MATRICUL%' or upper(ifnull(fac.Detalles,'')) like '%MATR%CUL%') then ifnull(fac.monto,0) else 0 end),0) as total_matriculas
+		from facturaspagadas fac
+		inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+		inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+		left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+		left join puntoexpedicion pt2 on pt2.idpuntoexpedicion=fac.cod_puntoexpedicionFK
+		left join arqueocaja ap on ap.idarqueocaja=fac.codApertura
+		where fac.estado='Activo' and fac.estadofactura='Activo' ".$condicionpermisover.$condicionCodLocal.$condicionfecha.$condicionrangofechas.$condicionnroboleta.$condicionmonto;
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || ! $stmt->execute()) {
+		mysqli_close($mysqli);
+		return array("cuotas" => 0, "matriculas" => 0);
+	}
+	$result = $stmt->get_result();
+	$datos = array("cuotas" => 0, "matriculas" => 0);
+	if($valor= mysqli_fetch_assoc($result)){
+		$datos["cuotas"] = $valor['total_cuotas'];
+		$datos["matriculas"] = $valor['total_matriculas'];
+	}
+	mysqli_close($mysqli);
+	return $datos;
+}
+
+function armar_fila_resumen_cobranza_ingreso($styleName,$titulo,$monto,$fechaResumen,$nombrelocal)
+{
+	return "
+<table class='$styleName tablaIngresoEgreso' style='font-weight:bold;background-color:#eaf7f2;color:#145a43' border='1' cellspacing='1' cellpadding='5'>
+<tr>
+<td class='colIngresoEgresoId' style='background-color:#d7efe6;color:#168966'>-</td>
+<td class='colIngresoEgresoMotivo'>".$titulo."<br><b>COBRANZAS</b></td>
+<td class='colIngresoEgresoMonto'>". number_format($monto,'0',',','.')."</td>
+<td class='colIngresoEgresoTipo'>Ingreso</td>
+<td class='colIngresoEgresoFecha'>".$fechaResumen."</td>
+<td class='colIngresoEgresoBoleta'>VARIOS</td>
+<td class='colIngresoEgresoLocal'>".$nombrelocal."</td>
+<td class='colIngresoEgresoCuenta'></td>
+<td class='colIngresoEgresoUsuario'>Sistema</td>
+</tr>
+</table>";
+}
+
+function obtener_texto_fecha_resumen_cobranza($fecha1,$fecha2,$fecha)
+{
+	if($fecha!=""){
+		return date("d-m-Y", strtotime($fecha));
+	}
+	if($fecha1!="" && $fecha2!=""){
+		return date("d-m-Y", strtotime($fecha1))."<br>".date("d-m-Y", strtotime($fecha2));
+	}
+	return "TODAS";
+}
+
+function obtener_nombre_local_resumen_cobranza($cod_local)
+{
+	if($cod_local==""){
+		return "TODOS";
+	}
+	$mysqli=conectar_al_servidor();
+	$sql= "Select nombre from filial where cod_filial='$cod_local' limit 1";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || ! $stmt->execute()) {
+		mysqli_close($mysqli);
+		return "";
+	}
+	$result = $stmt->get_result();
+	$nombrelocal = "";
+	if($valor= mysqli_fetch_assoc($result)){
+		$nombrelocal = utf8_encode($valor['nombre']);
+	}
+	mysqli_close($mysqli);
+	return $nombrelocal;
 }
 
 function obtener_total_agrupacion_motivo($fecha1,$fecha2,$estado,$cod_local,$tipo,$usuario,$fecha,$motivo,$confirmado,$nroboleta="",$monto="")
@@ -777,6 +991,444 @@ if ( ! $stmt->execute()) {
 
  
 return $totalMonto;
+}
+
+function validar_fecha_informe_ganancias($fecha)
+{
+	if(preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $fecha)){
+		return $fecha;
+	}
+	return "";
+}
+
+function texto_informe_ganancias($valor)
+{
+	$valor = utf8_encode((string)$valor);
+	return htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+}
+
+function fila_informe_ganancias($styleName,$detalle,$tipo,$monto,$fecha,$local)
+{
+	$colorMonto = "";
+	if($tipo=="Egreso"){
+		$colorMonto = "color:#b00020;font-weight:bold";
+	}
+	if($tipo=="Ingreso" || $tipo=="Cobranza"){
+		$colorMonto = "color:#145a43;font-weight:bold";
+	}
+	return "
+<table class='$styleName' border='1' cellspacing='1' cellpadding='5'>
+<tr id='tbSelecRegistro'>
+<td style='width:35%'>".$detalle."</td>
+<td style='width:15%'>".$tipo."</td>
+<td style='width:15%;".$colorMonto."'>".number_format($monto,'0',',','.')."</td>
+<td style='width:15%'>".$fecha."</td>
+<td style='width:20%'>".$local."</td>
+</tr>
+</table>";
+}
+
+function condicion_fechas_informe_ganancias($fecha1,$fecha2,$campoFecha)
+{
+	$fecha1 = validar_fecha_informe_ganancias($fecha1);
+	$fecha2 = validar_fecha_informe_ganancias($fecha2);
+	if($fecha1!="" && $fecha2!=""){
+		return " and ".$campoFecha.">='".$fecha1."' and ".$campoFecha."<='".$fecha2."' ";
+	}
+	return "";
+}
+
+function buscar_cobranzas_informe_ganancias($fecha1,$fecha2,$cod_local)
+{
+	$mysqli=conectar_al_servidor();
+	$cod_local = $mysqli->real_escape_string($cod_local);
+	$condicionCodLocal = "";
+	if($cod_local!=""){
+		$condicionCodLocal = " and (fac.codfiliafk='$cod_local' or pt.cod_filialFk='$cod_local' or pt2.cod_filialFk='$cod_local' or ap.cod_local='$cod_local') ";
+	}
+	$condicionFechas = condicion_fechas_informe_ganancias($fecha1,$fecha2,"fac.fecha");
+	$sql = "select
+		ifnull(nullif(fac.Detalles,''), ifnull(lta.nombre,'COBRANZA')) as detalle,
+		fac.fecha,
+		ifnull(fl.nombre,'') as nombrelocal,
+		count(*) as registros,
+		ifnull(sum(ifnull(fac.monto,0)),0) as total
+	from facturaspagadas fac
+	left join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	left join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+	left join puntoexpedicion pt2 on pt2.idpuntoexpedicion=fac.cod_puntoexpedicionFK
+	left join arqueocaja ap on ap.idarqueocaja=fac.codApertura
+	left join filial fl on fl.cod_filial=ifnull(ap.cod_local, ifnull(pt.cod_filialFk, ifnull(pt2.cod_filialFk, fac.codfiliafk)))
+	where fac.estado='Activo' and fac.estadofactura='Activo' and ifnull(fac.monto,0)>0 ".$condicionCodLocal.$condicionFechas."
+	group by detalle, fac.fecha, nombrelocal
+	order by fac.fecha asc, nombrelocal asc, detalle asc";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || !$stmt->execute()){
+		mysqli_close($mysqli);
+		return array("pagina"=>"","total"=>0,"registros"=>0);
+	}
+	$result = $stmt->get_result();
+	$pagina = "";
+	$total = 0;
+	$registros = 0;
+	$styleName = "tableRegistroSearch";
+	while($valor = mysqli_fetch_assoc($result)){
+		$monto = $valor['total'];
+		$total += $monto;
+		$registros += $valor['registros'];
+		$fecha = $valor['fecha']!="" ? date("d-m-Y", strtotime($valor['fecha'])) : "";
+		$detalle = texto_informe_ganancias($valor['detalle'])." (".$valor['registros']." reg.)";
+		$local = texto_informe_ganancias($valor['nombrelocal']);
+		if($local==""){
+			$local = texto_informe_ganancias(obtener_nombre_local_resumen_cobranza($cod_local));
+		}
+		$styleName = CargarStyleTable($styleName);
+		$pagina .= fila_informe_ganancias($styleName,$detalle,"Cobranza",$monto,$fecha,$local);
+	}
+	mysqli_close($mysqli);
+	return array("pagina"=>$pagina,"total"=>$total,"registros"=>$registros);
+}
+
+function buscar_movimientos_informe_ganancias($fecha1,$fecha2,$cod_local)
+{
+	$mysqli=conectar_al_servidor();
+	$cod_local = $mysqli->real_escape_string($cod_local);
+	$condicionCodLocal = "";
+	if($cod_local!=""){
+		$condicionCodLocal = " and g.cod_local='$cod_local' ";
+	}
+	$condicionFechas = condicion_fechas_informe_ganancias($fecha1,$fecha2,"g.fecha");
+	$sql = "select
+		ifnull(nullif(mi.descripcion,''), g.motivo) as detalle,
+		g.tipo,
+		g.fecha,
+		ifnull(fl.nombre,'') as nombrelocal,
+		count(*) as registros,
+		ifnull(sum(ifnull(g.monto,0)),0) as total
+	from gastos g
+	left join motivo_e_i mi on mi.idmotivo_e_i=g.cod_motivo
+	left join filial fl on fl.cod_filial=g.cod_local
+	where g.estado='Activo' and g.tipo in ('Ingreso','Egreso','Deposito') and ifnull(g.monto,0)>0 ".$condicionCodLocal.$condicionFechas."
+	group by detalle, g.tipo, g.fecha, nombrelocal
+	order by field(g.tipo,'Ingreso','Egreso','Deposito'), g.fecha asc, nombrelocal asc, detalle asc";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || !$stmt->execute()){
+		mysqli_close($mysqli);
+		return array("pagina"=>"","ingreso"=>0,"egreso"=>0,"deposito"=>0,"registros"=>0);
+	}
+	$result = $stmt->get_result();
+	$pagina = "";
+	$totalIngreso = 0;
+	$totalEgreso = 0;
+	$totalDeposito = 0;
+	$registros = 0;
+	$styleName = "tableRegistroSearch";
+	while($valor = mysqli_fetch_assoc($result)){
+		$monto = $valor['total'];
+		$tipo = utf8_encode($valor['tipo']);
+		if($tipo=="Ingreso"){
+			$totalIngreso += $monto;
+		}
+		if($tipo=="Egreso"){
+			$totalEgreso += $monto;
+		}
+		if($tipo=="Deposito"){
+			$totalDeposito += $monto;
+		}
+		$registros += $valor['registros'];
+		$fecha = $valor['fecha']!="" ? date("d-m-Y", strtotime($valor['fecha'])) : "";
+		$detalle = texto_informe_ganancias($valor['detalle'])." (".$valor['registros']." reg.)";
+		$local = texto_informe_ganancias($valor['nombrelocal']);
+		$styleName = CargarStyleTable($styleName);
+		$pagina .= fila_informe_ganancias($styleName,$detalle,$tipo,$monto,$fecha,$local);
+	}
+	mysqli_close($mysqli);
+	return array("pagina"=>$pagina,"ingreso"=>$totalIngreso,"egreso"=>$totalEgreso,"deposito"=>$totalDeposito,"registros"=>$registros);
+}
+
+function buscarInformeGanancias($fecha1,$fecha2,$cod_local)
+{
+	if(($fecha1=="" && $fecha2!="") || ($fecha1!="" && $fecha2=="")){
+		$informacion =array("1" => "CAMPOSVACIOS");
+		echo json_encode($informacion);
+		exit;
+	}
+	$datosCobranzas = buscar_cobranzas_informe_ganancias($fecha1,$fecha2,$cod_local);
+	$datosMovimientos = buscar_movimientos_informe_ganancias($fecha1,$fecha2,$cod_local);
+	$totalCobranzas = $datosCobranzas["total"];
+	$totalIngreso = $datosMovimientos["ingreso"];
+	$totalEgreso = $datosMovimientos["egreso"];
+	$totalDeposito = $datosMovimientos["deposito"];
+	$ganancia = ($totalCobranzas + $totalIngreso) - $totalEgreso;
+	$registros = $datosCobranzas["registros"] + $datosMovimientos["registros"];
+	$pagina = $datosCobranzas["pagina"].$datosMovimientos["pagina"];
+	if($pagina==""){
+		$pagina = "
+<table class='tableRegistroSearch' border='1' cellspacing='1' cellpadding='5'>
+<tr>
+<td style='width:100%;text-align:center'>NO SE ENCONTRARON MOVIMIENTOS</td>
+</tr>
+</table>";
+	}
+	$informacion =array(
+		"1" => "exito",
+		"2" => $pagina,
+		"3" => number_format($totalCobranzas,'0',',','.'),
+		"4" => number_format($totalIngreso,'0',',','.'),
+		"5" => number_format($totalEgreso,'0',',','.'),
+		"6" => number_format($totalDeposito,'0',',','.'),
+		"7" => number_format($ganancia,'0',',','.'),
+		"8" => number_format($registros,'0',',','.')
+	);
+	echo json_encode($informacion);
+	exit;
+}
+
+function cod_arancel_informe_ganancia_arancel($codArancel)
+{
+	if(preg_match('/^[0-9]+$/', $codArancel)){
+		return $codArancel;
+	}
+	return "";
+}
+
+function expresion_costo_informe_ganancia_arancel()
+{
+	return "case when ifnull(ar.monto,0)>0 then (ifnull(ar.costo,0) * (ifnull(fac.monto,0) / ar.monto)) else ifnull(ar.costo,0) end";
+}
+
+function margen_informe_ganancia_arancel($venta,$ganancia)
+{
+	if($venta<=0){
+		return "0,00%";
+	}
+	return number_format(($ganancia/$venta)*100,2,',','.')."%";
+}
+
+function monto_venta_informe_ganancia_arancel($montoVentaMin,$montoVentaMax)
+{
+	$montoVentaMin = (float)$montoVentaMin;
+	$montoVentaMax = (float)$montoVentaMax;
+	if($montoVentaMin==$montoVentaMax){
+		return number_format($montoVentaMin,'0',',','.');
+	}
+	return number_format($montoVentaMin,'0',',','.')." - ".number_format($montoVentaMax,'0',',','.');
+}
+
+function fila_informe_ganancia_arancel($styleName,$codArancel,$arancel,$registros,$montoVenta,$venta,$costo)
+{
+	$ganancia = $venta - $costo;
+	$claseGanancia = "reporteColGananciaPositiva";
+	if($ganancia<0){
+		$claseGanancia = "reporteColGananciaNegativa";
+	}
+	return "
+<table class='$styleName tablaReporteFinanciero' border='0' cellspacing='0' cellpadding='0'>
+<tr id='tbSelecRegistro' onclick='seleccionarInformeGananciaArancel(this)'>
+<td id='td_id' style='display:none'>".$codArancel."</td>
+<td id='td_datos_1' class='reporteCol reporteColTexto reporteW28' title='".$arancel."'>".$arancel."</td>
+<td class='reporteCol reporteColCantidad reporteW10'>".$registros."</td>
+<td class='reporteCol reporteColMonto reporteColPrincipal reporteW14'>".$montoVenta."</td>
+<td class='reporteCol reporteColMonto reporteColPrincipal reporteW15'>".number_format($venta,'0',',','.')."</td>
+<td class='reporteCol reporteColMonto reporteW13'>".number_format($costo,'0',',','.')."</td>
+<td class='reporteCol reporteColMonto ".$claseGanancia." reporteW13'>".number_format($ganancia,'0',',','.')."</td>
+<td class='reporteCol reporteColPorcentaje reporteW7'>".margen_informe_ganancia_arancel($venta,$ganancia)."</td>
+</tr>
+</table>";
+}
+
+function fila_detalle_ganancia_arancel($styleName,$anho,$curso,$registros,$montoVenta,$venta,$costo)
+{
+	$ganancia = $venta - $costo;
+	$claseGanancia = "reporteColGananciaPositiva";
+	if($ganancia<0){
+		$claseGanancia = "reporteColGananciaNegativa";
+	}
+	return "
+<table class='$styleName tablaReporteFinanciero' border='0' cellspacing='0' cellpadding='0'>
+<tr id='tbSelecRegistro'>
+<td class='reporteCol reporteColCantidad reporteW12'>".$anho."</td>
+<td class='reporteCol reporteColTexto reporteW22' title='".$curso."'>".$curso."</td>
+<td class='reporteCol reporteColCantidad reporteW10'>".$registros."</td>
+<td class='reporteCol reporteColMonto reporteColPrincipal reporteW14'>".$montoVenta."</td>
+<td class='reporteCol reporteColMonto reporteColPrincipal reporteW14'>".number_format($venta,'0',',','.')."</td>
+<td class='reporteCol reporteColMonto reporteW14'>".number_format($costo,'0',',','.')."</td>
+<td class='reporteCol reporteColMonto ".$claseGanancia." reporteW14'>".number_format($ganancia,'0',',','.')."</td>
+</tr>
+</table>";
+}
+
+function condicion_local_informe_ganancia_arancel($mysqli,$cod_local)
+{
+	$cod_local = $mysqli->real_escape_string($cod_local);
+	if($cod_local!=""){
+		return " and (fac.codfiliafk='$cod_local' or pt.cod_filialFk='$cod_local' or pt2.cod_filialFk='$cod_local' or ap.cod_local='$cod_local' or ar.codFilialFk='$cod_local') ";
+	}
+	return "";
+}
+
+function buscarInformeGananciaArancel($fecha1,$fecha2,$cod_local,$codArancel)
+{
+	if(($fecha1=="" && $fecha2!="") || ($fecha1!="" && $fecha2=="")){
+		$informacion =array("1" => "CAMPOSVACIOS");
+		echo json_encode($informacion);
+		exit;
+	}
+	$mysqli=conectar_al_servidor();
+	$codArancel = cod_arancel_informe_ganancia_arancel($codArancel);
+	$condicionArancel = "";
+	if($codArancel!=""){
+		$condicionArancel = " and lta.cod_listadearanceles='$codArancel' ";
+	}
+	$condicionCodLocal = condicion_local_informe_ganancia_arancel($mysqli,$cod_local);
+	$condicionFechas = condicion_fechas_informe_ganancias($fecha1,$fecha2,"fac.fecha");
+	$expresionCosto = expresion_costo_informe_ganancia_arancel();
+	$sql = "select
+		lta.cod_listadearanceles,
+		lta.nombre as arancel,
+		count(*) as registros,
+		min(ifnull(fac.monto,0)) as monto_venta_min,
+		max(ifnull(fac.monto,0)) as monto_venta_max,
+		ifnull(sum(ifnull(fac.monto,0)),0) as total_venta,
+		ifnull(sum(".$expresionCosto."),0) as total_costo
+	from facturaspagadas fac
+	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+	left join puntoexpedicion pt2 on pt2.idpuntoexpedicion=fac.cod_puntoexpedicionFK
+	left join arqueocaja ap on ap.idarqueocaja=fac.codApertura
+	where fac.estado='Activo' and fac.estadofactura='Activo' and ifnull(fac.monto,0)>0 ".$condicionCodLocal.$condicionFechas.$condicionArancel."
+	group by lta.cod_listadearanceles, lta.nombre
+	order by lta.nombre asc";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || !$stmt->execute()){
+		mysqli_close($mysqli);
+		$informacion =array("1" => "error");
+		echo json_encode($informacion);
+		exit;
+	}
+	$result = $stmt->get_result();
+	$pagina = "";
+	$totalVenta = 0;
+	$totalCosto = 0;
+	$totalRegistros = 0;
+	$styleName = "tableRegistroSearch";
+	while($valor = mysqli_fetch_assoc($result)){
+		$cod = $valor['cod_listadearanceles'];
+		$arancel = texto_informe_ganancias($valor['arancel']);
+		$registros = (int)$valor['registros'];
+		$montoVenta = monto_venta_informe_ganancia_arancel($valor['monto_venta_min'],$valor['monto_venta_max']);
+		$venta = (float)$valor['total_venta'];
+		$costo = (float)$valor['total_costo'];
+		$totalVenta += $venta;
+		$totalCosto += $costo;
+		$totalRegistros += $registros;
+		$styleName = CargarStyleTable($styleName);
+		$pagina .= fila_informe_ganancia_arancel($styleName,$cod,$arancel,$registros,$montoVenta,$venta,$costo);
+	}
+	mysqli_close($mysqli);
+	if($pagina==""){
+		$pagina = "
+<table class='tableRegistroSearch tablaReporteFinanciero' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+<td class='reporteCol reporteColVacio'>NO SE ENCONTRARON VENTAS PARA LOS FILTROS INDICADOS</td>
+</tr>
+</table>";
+	}
+	$totalGanancia = $totalVenta - $totalCosto;
+	$informacion =array(
+		"1" => "exito",
+		"2" => $pagina,
+		"3" => number_format($totalVenta,'0',',','.'),
+		"4" => number_format($totalCosto,'0',',','.'),
+		"5" => number_format($totalGanancia,'0',',','.'),
+		"6" => margen_informe_ganancia_arancel($totalVenta,$totalGanancia),
+		"7" => number_format($totalRegistros,'0',',','.')
+	);
+	echo json_encode($informacion);
+	exit;
+}
+
+function buscarDetalleGananciaArancel($fecha1,$fecha2,$cod_local,$codArancel)
+{
+	if(($fecha1=="" && $fecha2!="") || ($fecha1!="" && $fecha2=="")){
+		$informacion =array("1" => "CAMPOSVACIOS");
+		echo json_encode($informacion);
+		exit;
+	}
+	$codArancel = cod_arancel_informe_ganancia_arancel($codArancel);
+	if($codArancel==""){
+		$informacion =array("1" => "CAMPOSVACIOS");
+		echo json_encode($informacion);
+		exit;
+	}
+	$mysqli=conectar_al_servidor();
+	$condicionCodLocal = condicion_local_informe_ganancia_arancel($mysqli,$cod_local);
+	$condicionFechas = condicion_fechas_informe_ganancias($fecha1,$fecha2,"fac.fecha");
+	$expresionCosto = expresion_costo_informe_ganancia_arancel();
+	$sql = "select
+		ifnull(nullif(fac.anho,''), ifnull(nullif(ar.anho,''),'NF')) as anho,
+		ifnull(nullif(fac.curso,''), ifnull(nullif(ar.curso,''),'NF')) as curso,
+		ifnull(fac.monto,0) as monto_venta,
+		count(*) as registros,
+		ifnull(sum(ifnull(fac.monto,0)),0) as total_venta,
+		ifnull(sum(".$expresionCosto."),0) as total_costo
+	from facturaspagadas fac
+	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+	left join puntoexpedicion pt2 on pt2.idpuntoexpedicion=fac.cod_puntoexpedicionFK
+	left join arqueocaja ap on ap.idarqueocaja=fac.codApertura
+	where fac.estado='Activo' and fac.estadofactura='Activo' and ifnull(fac.monto,0)>0 and lta.cod_listadearanceles='$codArancel' ".$condicionCodLocal.$condicionFechas."
+	group by anho, curso, monto_venta
+	order by anho desc, curso asc, monto_venta asc";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || !$stmt->execute()){
+		mysqli_close($mysqli);
+		$informacion =array("1" => "error");
+		echo json_encode($informacion);
+		exit;
+	}
+	$result = $stmt->get_result();
+	$pagina = "";
+	$totalVenta = 0;
+	$totalCosto = 0;
+	$totalRegistros = 0;
+	$styleName = "tableRegistroSearch";
+	while($valor = mysqli_fetch_assoc($result)){
+		$anho = texto_informe_ganancias($valor['anho']);
+		$curso = texto_informe_ganancias($valor['curso']);
+		$registros = (int)$valor['registros'];
+		$montoVenta = monto_venta_informe_ganancia_arancel($valor['monto_venta'],$valor['monto_venta']);
+		$venta = (float)$valor['total_venta'];
+		$costo = (float)$valor['total_costo'];
+		$totalVenta += $venta;
+		$totalCosto += $costo;
+		$totalRegistros += $registros;
+		$styleName = CargarStyleTable($styleName);
+		$pagina .= fila_detalle_ganancia_arancel($styleName,$anho,$curso,$registros,$montoVenta,$venta,$costo);
+	}
+	mysqli_close($mysqli);
+	if($pagina==""){
+		$pagina = "
+<table class='tableRegistroSearch tablaReporteFinanciero' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+<td class='reporteCol reporteColVacio'>NO SE ENCONTRARON VENTAS PARA ESTE ARANCEL</td>
+</tr>
+</table>";
+	}
+	$totalGanancia = $totalVenta - $totalCosto;
+	$informacion =array(
+		"1" => "exito",
+		"2" => $pagina,
+		"3" => number_format($totalVenta,'0',',','.'),
+		"4" => number_format($totalCosto,'0',',','.'),
+		"5" => number_format($totalGanancia,'0',',','.'),
+		"6" => number_format($totalRegistros,'0',',','.')
+	);
+	echo json_encode($informacion);
+	exit;
 }
 
 

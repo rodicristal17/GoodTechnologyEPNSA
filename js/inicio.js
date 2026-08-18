@@ -1744,6 +1744,12 @@ function BuscarFilialSelect() {
 	document.getElementById("inptlocalVistaApCie").innerHTML = "" 
 	document.getElementById("inptlocalMisGastosBusca").innerHTML = "" 
 	document.getElementById("inptlocalMisGastos").innerHTML = "" 
+	if(document.getElementById("inptLocalGanancias")){
+		document.getElementById("inptLocalGanancias").innerHTML = ""
+	}
+	if(document.getElementById("inptLocalGananciaArancel")){
+		document.getElementById("inptLocalGananciaArancel").innerHTML = ""
+	}
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
@@ -1801,6 +1807,12 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 					document.getElementById("inptlocalVistaApCie").innerHTML=datos[3]
 					document.getElementById("inptlocalMisGastosBusca").innerHTML=datos[3]
 					document.getElementById("inptlocalMisGastos").innerHTML=datos[3]
+					if(document.getElementById("inptLocalGanancias")){
+						document.getElementById("inptLocalGanancias").innerHTML="<option value=''>TODOS</option>"+datos[3]
+					}
+					if(document.getElementById("inptLocalGananciaArancel")){
+						document.getElementById("inptLocalGananciaArancel").innerHTML="<option value=''>TODOS</option>"+datos[3]
+					}
 				 
 				}
 			} catch (error) {
@@ -17627,7 +17639,9 @@ function BuscarArancelesCobrarAranceles() {
 		curso=document.getElementById("inptCursoCobrarAranceles").value;
 		semestre=document.getElementById("inptSemestreCobrarAranceles").value;
 		var nombrearancel=document.getElementById("inptNomArancelCobrarAranceles").value;
-		var tipo=document.getElementById("inptTipoArancelCobrarAranceles").value;
+		var inputTipoArancelCobrarAranceles=document.getElementById("inptTipoArancelCobrarAranceles");
+		inputTipoArancelCobrarAranceles.disabled=false;
+		var tipo=inputTipoArancelCobrarAranceles.value;
 		document.getElementById("table_vista_aranceles_cobrar_aranceles").innerHTML=imgCargandoA;
 		
 		document.getElementById("inptCodArancelCobrarAranceles").value="";
@@ -21245,7 +21259,7 @@ function EliminarRegitroAsingarArancel(){
 	if(confirm("Estas seguro que quieres eliminar el registro seleccionado")){
 		
 	 document.getElementById("inptEstadoAsignarArancel").value="Inactivo";
-		AbmAsignarArancel("x","x","x","x","x","x","x","x","x","x","x","x",idAbmAsignarArancel, "eliminar")
+		AbmAsignarArancel("x","x","x","Inactivo","x","x","x","x","x","x","x","x","x",idAbmAsignarArancel, "eliminar")
 		
 	}
 
@@ -26761,6 +26775,516 @@ ver_vetana_informativa("LO SENTIMOS HA OCURRIDO UN ERROR ")
 			}
 		}
 	});
+}
+
+/*
+INFORME DE GANANCIAS
+*/
+function verCerrarInformeGanancias(){
+	var divInforme = document.getElementById("divInformeGanancias");
+	var divMinimizado = document.getElementById("divMinimizadoGanancias");
+	if(divInforme == null){
+		alertmensaje("FALTA CREAR LA VENTANA DE INFORME DE GANANCIAS");
+		return;
+	}
+	if(divMinimizado != null){
+		divMinimizado.style.display="none";
+	}
+	document.getElementById("divSegundoPlano").style.display="none";
+	if(divInforme.style.display==""){
+		$("div[id=divInformeGanancias]").fadeOut(500);
+		limpiarcamposbuscadorGanancias();
+	}else{
+		if(controlacceso("VERINFORMEGANANCIAS","accion")==false){return;}
+		minimizartodaventanaabierto();
+		divInforme.style.display="";
+		if(document.getElementById("inptFechaInicioGanancias").value=="" && document.getElementById("inptFechaFinGanancias").value==""){
+			cargarFechasPorDefectoGanancias();
+		}
+	}
+}
+
+function minimizarInformeGanancias(){
+	document.getElementById("divInformeGanancias").style.display="none";
+	document.getElementById("divMinimizadoGanancias").style.display="";
+}
+
+function cargarFechasPorDefectoGanancias(){
+	var f = new Date();
+	var dia = f.getDate();
+	if(dia < 10){
+		dia = "0" + dia;
+	}
+	var mes = f.getMonth() + 1;
+	if(mes < 10){
+		mes = "0" + mes;
+	}
+	var fechaFin = f.getFullYear() + "-" + mes + "-" + dia;
+	var fechaInicio = f.getFullYear() + "-" + mes + "-01";
+	document.getElementById("inptFechaInicioGanancias").value = fechaInicio;
+	document.getElementById("inptFechaFinGanancias").value = fechaFin;
+	if(document.getElementById("inptLocalGanancias") && filiaruser!=""){
+		document.getElementById("inptLocalGanancias").value = filiaruser;
+	}
+}
+
+function limpiarcamposbuscadorGanancias(){
+	cargarFechasPorDefectoGanancias();
+	document.getElementById("inptTotalCobranzaGanancias").value = "";
+	document.getElementById("inptTotalIngresoGanancias").value = "";
+	document.getElementById("inptTotalEgresoGanancias").value = "";
+	document.getElementById("inptTotalDepositoGanancias").value = "";
+	document.getElementById("inptResultadoGanancias").value = "";
+	document.getElementById("inptRegistroGanancias").value = "";
+	document.getElementById("table_informe_ganancias").innerHTML = "";
+}
+
+function cargarTotalesInformeGanancias(valor){
+	document.getElementById("inptTotalCobranzaGanancias").value = valor;
+	document.getElementById("inptTotalIngresoGanancias").value = valor;
+	document.getElementById("inptTotalEgresoGanancias").value = valor;
+	document.getElementById("inptTotalDepositoGanancias").value = valor;
+	document.getElementById("inptResultadoGanancias").value = valor;
+	document.getElementById("inptRegistroGanancias").value = valor;
+}
+
+function buscarInformeGanancias(){
+	if(controlacceso("VERINFORMEGANANCIAS","accion")==false){return;}
+	var fecha1 = document.getElementById("inptFechaInicioGanancias").value;
+	var fecha2 = document.getElementById("inptFechaFinGanancias").value;
+	var local = document.getElementById("inptLocalGanancias").value;
+	if((fecha1=="" && fecha2!="") || (fecha1!="" && fecha2=="")){
+		alertmensaje("FALTO COMPLETAR EL RANGO DE FECHAS");
+		return;
+	}
+	if(fecha1!="" && fecha2!="" && fecha1>fecha2){
+		alertmensaje("LA FECHA INICIO NO PUEDE SER MAYOR A LA FECHA FIN");
+		return;
+	}
+	cargarTotalesInformeGanancias("...");
+	document.getElementById("table_informe_ganancias").innerHTML = imgCargandoA;
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"fecha1": fecha1,
+		"fecha2": fecha2,
+		"local": local,
+		"funt": "informeGanancias"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
+		type: "post",
+		xhr: function () {
+			var xhr = new window.XMLHttpRequest();
+			xhr.upload.addEventListener("progress" ,function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("enviado",kb,"0");
+			}, false);
+			xhr.addEventListener("progress", function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("recibido","0",kb);
+			}, false);
+			return xhr;
+		},
+		beforeSend: function () {
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			document.getElementById("table_informe_ganancias").innerHTML = "";
+			cargarTotalesInformeGanancias("");
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			document.getElementById("table_informe_ganancias").innerHTML = "";
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					document.getElementById("table_informe_ganancias").innerHTML = datos[2];
+					document.getElementById("inptTotalCobranzaGanancias").value = datos[3];
+					document.getElementById("inptTotalIngresoGanancias").value = datos[4];
+					document.getElementById("inptTotalEgresoGanancias").value = datos[5];
+					document.getElementById("inptTotalDepositoGanancias").value = datos[6];
+					document.getElementById("inptResultadoGanancias").value = datos[7];
+					document.getElementById("inptRegistroGanancias").value = datos[8];
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+				cargarTotalesInformeGanancias("");
+			}
+		}
+	});
+}
+
+function imprimirInformeGanancias(){
+	if(document.getElementById("table_informe_ganancias").innerHTML==""){
+		alertmensaje("FALTO BUSCAR EL INFORME");
+		return;
+	}
+	var f = new Date();
+	var dia = f.getDate();
+	if(dia < 10){ dia = "0" + dia; }
+	var mes = f.getMonth() + 1;
+	if(mes < 10){ mes = "0" + mes; }
+	var fechaimpresion = f.getFullYear() + "-" + mes + "-" + dia;
+	var localTexto = "";
+	if(document.getElementById("inptLocalGanancias").value!=""){
+		localTexto = $("select[id=inptLocalGanancias]").children(":selected").text();
+	}else{
+		localTexto = "TODOS";
+	}
+	var pagina =
+"<table style='width:100%;font-family:Arial;font-size:12px'>"
++"<tr>"
++"<td style='width:20%'><b>Fecha Inicio</b><br>"+document.getElementById("inptFechaInicioGanancias").value+"</td>"
++"<td style='width:20%'><b>Fecha Fin</b><br>"+document.getElementById("inptFechaFinGanancias").value+"</td>"
++"<td style='width:25%'><b>Local</b><br>"+localTexto+"</td>"
++"<td style='width:20%'><b>Fecha Impresion</b><br>"+fechaimpresion+"</td>"
++"</tr>"
++"</table>"
++"<br><center><h2>INFORME DE GANANCIAS</h2></center>"
++"<table style='width:100%;font-family:Arial;font-size:12px' border='1' cellspacing='0' cellpadding='5'>"
++"<tr>"
++"<td><b>Cobranzas</b><br>"+document.getElementById("inptTotalCobranzaGanancias").value+"</td>"
++"<td><b>Otros Ingresos</b><br>"+document.getElementById("inptTotalIngresoGanancias").value+"</td>"
++"<td><b>Egresos</b><br>"+document.getElementById("inptTotalEgresoGanancias").value+"</td>"
++"<td><b>Depositos</b><br>"+document.getElementById("inptTotalDepositoGanancias").value+"</td>"
++"<td><b>Ganancia</b><br>"+document.getElementById("inptResultadoGanancias").value+"</td>"
++"<td><b>Registros</b><br>"+document.getElementById("inptRegistroGanancias").value+"</td>"
++"</tr>"
++"</table><br>"
++"<table style='width:100%;font-family:Arial;font-size:12px' border='1' cellspacing='0' cellpadding='5'>"
++document.getElementById("tdTituloImpreGanancias").innerHTML
++"</table>"
++document.getElementById("table_informe_ganancias").innerHTML;
+	localStorage.setItem("reporte", pagina);
+	localStorage.setItem("tipo", "reporte");
+	window.open("/GoodTechnologyEPNSA/system/reportBlankHoriz.html");
+}
+
+/*
+INFORME DE GANANCIA POR ARANCEL
+*/
+function verCerrarInformeGananciaArancel(){
+	var divInforme = document.getElementById("divInformeGananciaArancel");
+	var divMinimizado = document.getElementById("divMinimizadoGananciaArancel");
+	if(divInforme == null){
+		alertmensaje("FALTA CREAR LA VENTANA DE GANANCIA POR ARANCEL");
+		return;
+	}
+	if(divMinimizado != null){
+		divMinimizado.style.display="none";
+	}
+	document.getElementById("divSegundoPlano").style.display="none";
+	if(divInforme.style.display==""){
+		$("div[id=divInformeGananciaArancel]").fadeOut(500);
+		limpiarcamposbuscadorGananciaArancel();
+	}else{
+		if(controlacceso("VERINFORMEGANANCIAS","accion")==false){return;}
+		minimizartodaventanaabierto();
+		divInforme.style.display="";
+		if(document.getElementById("inptFechaInicioGananciaArancel").value=="" && document.getElementById("inptFechaFinGananciaArancel").value==""){
+			cargarFechasPorDefectoGananciaArancel();
+		}
+		if(document.getElementById("ListArancel") && document.getElementById("ListArancel").innerHTML==""){
+			BuscarSeleccListaAranceles();
+		}
+	}
+}
+
+function minimizarInformeGananciaArancel(){
+	cerrarDialogDetalleGananciaArancel();
+	document.getElementById("divInformeGananciaArancel").style.display="none";
+	document.getElementById("divMinimizadoGananciaArancel").style.display="";
+}
+
+function abrirDialogDetalleGananciaArancel(){
+	var dialog = document.getElementById("divDialogDetalleGananciaArancel");
+	if(dialog != null){
+		dialog.style.display = "";
+	}
+}
+
+function cerrarDialogDetalleGananciaArancel(){
+	var dialog = document.getElementById("divDialogDetalleGananciaArancel");
+	if(dialog != null){
+		dialog.style.display = "none";
+	}
+}
+
+function cargarFechasPorDefectoGananciaArancel(){
+	var f = new Date();
+	var dia = f.getDate();
+	if(dia < 10){
+		dia = "0" + dia;
+	}
+	var mes = f.getMonth() + 1;
+	if(mes < 10){
+		mes = "0" + mes;
+	}
+	var fechaFin = f.getFullYear() + "-" + mes + "-" + dia;
+	var fechaInicio = f.getFullYear() + "-" + mes + "-01";
+	document.getElementById("inptFechaInicioGananciaArancel").value = fechaInicio;
+	document.getElementById("inptFechaFinGananciaArancel").value = fechaFin;
+	if(document.getElementById("inptLocalGananciaArancel") && filiaruser!=""){
+		document.getElementById("inptLocalGananciaArancel").value = filiaruser;
+	}
+}
+
+function limpiarcamposbuscadorGananciaArancel(){
+	cerrarDialogDetalleGananciaArancel();
+	cargarFechasPorDefectoGananciaArancel();
+	document.getElementById("inptArancelGananciaArancel").value = "";
+	cargarTotalesInformeGananciaArancel("");
+	cargarTotalesDetalleGananciaArancel("");
+	document.getElementById("inptSeleccionadoGananciaArancel").value = "";
+	document.getElementById("table_informe_ganancia_arancel").innerHTML = "";
+	document.getElementById("table_detalle_ganancia_arancel").innerHTML = "";
+}
+
+function cargarTotalesInformeGananciaArancel(valor){
+	document.getElementById("inptTotalVentaGananciaArancel").value = valor;
+	document.getElementById("inptTotalCostoGananciaArancel").value = valor;
+	document.getElementById("inptResultadoGananciaArancel").value = valor;
+	document.getElementById("inptMargenGananciaArancel").value = valor;
+	document.getElementById("inptRegistroGananciaArancel").value = valor;
+}
+
+function cargarTotalesDetalleGananciaArancel(valor){
+	document.getElementById("inptDetalleVentaGananciaArancel").value = valor;
+	document.getElementById("inptDetalleCostoGananciaArancel").value = valor;
+	document.getElementById("inptDetalleResultadoGananciaArancel").value = valor;
+	document.getElementById("inptDetalleRegistroGananciaArancel").value = valor;
+}
+
+function obtenerCodArancelInformeGananciaArancel(){
+	var codArancel = "";
+	$("input[id=inptArancelGananciaArancel]").each(function (i, Elemento) {
+		var $input = $(this),
+		val = $input.val(),
+		list = $input.attr('list'),
+		match = $('#'+list + ' option').filter(function() {
+			return ($(this).val() === val);
+		});
+		if(match.length > 0) {
+			codArancel=$(match).attr("id");
+		}
+	});
+	if(codArancel=="" && document.getElementById("inptArancelGananciaArancel").value!=""){
+		alertmensaje("FALTO SELECCIONAR UN ARANCEL VALIDO");
+		return false;
+	}
+	return codArancel;
+}
+
+function buscarInformeGananciaArancel(){
+	if(controlacceso("VERINFORMEGANANCIAS","accion")==false){return;}
+	cerrarDialogDetalleGananciaArancel();
+	cargarTotalesDetalleGananciaArancel("");
+	document.getElementById("inptSeleccionadoGananciaArancel").value = "";
+	document.getElementById("table_detalle_ganancia_arancel").innerHTML = "";
+	var fecha1 = document.getElementById("inptFechaInicioGananciaArancel").value;
+	var fecha2 = document.getElementById("inptFechaFinGananciaArancel").value;
+	var local = document.getElementById("inptLocalGananciaArancel").value;
+	var codArancel = obtenerCodArancelInformeGananciaArancel();
+	if(codArancel===false){
+		return;
+	}
+	if((fecha1=="" && fecha2!="") || (fecha1!="" && fecha2=="")){
+		alertmensaje("FALTO COMPLETAR EL RANGO DE FECHAS");
+		return;
+	}
+	if(fecha1!="" && fecha2!="" && fecha1>fecha2){
+		alertmensaje("LA FECHA INICIO NO PUEDE SER MAYOR A LA FECHA FIN");
+		return;
+	}
+	cargarTotalesInformeGananciaArancel("...");
+	document.getElementById("table_informe_ganancia_arancel").innerHTML = imgCargandoA;
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"fecha1": fecha1,
+		"fecha2": fecha2,
+		"local": local,
+		"codArancel": codArancel,
+		"funt": "informeGananciaArancel"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
+		type: "post",
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			document.getElementById("table_informe_ganancia_arancel").innerHTML = "";
+			cargarTotalesInformeGananciaArancel("");
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			document.getElementById("table_informe_ganancia_arancel").innerHTML = "";
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					document.getElementById("table_informe_ganancia_arancel").innerHTML = datos[2];
+					document.getElementById("inptTotalVentaGananciaArancel").value = datos[3];
+					document.getElementById("inptTotalCostoGananciaArancel").value = datos[4];
+					document.getElementById("inptResultadoGananciaArancel").value = datos[5];
+					document.getElementById("inptMargenGananciaArancel").value = datos[6];
+					document.getElementById("inptRegistroGananciaArancel").value = datos[7];
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+				cargarTotalesInformeGananciaArancel("");
+			}
+		}
+	});
+}
+
+function seleccionarInformeGananciaArancel(datostr){
+	$("tr[id=tbSelecRegistro]").each(function (i, td) {
+		td.className = '';
+	});
+	datostr.className = 'tableRegistroSelec';
+	var codArancel = $(datostr).children('td[id="td_id"]').html();
+	var arancel = $(datostr).children('td[id="td_datos_1"]').html();
+	document.getElementById("inptSeleccionadoGananciaArancel").value = arancel;
+	abrirDialogDetalleGananciaArancel();
+	buscarDetalleGananciaArancel(codArancel);
+}
+
+function buscarDetalleGananciaArancel(codArancel){
+	if(codArancel==""){
+		alertmensaje("FALTO SELECCIONAR UN ARANCEL");
+		return;
+	}
+	var fecha1 = document.getElementById("inptFechaInicioGananciaArancel").value;
+	var fecha2 = document.getElementById("inptFechaFinGananciaArancel").value;
+	var local = document.getElementById("inptLocalGananciaArancel").value;
+	abrirDialogDetalleGananciaArancel();
+	cargarTotalesDetalleGananciaArancel("...");
+	document.getElementById("table_detalle_ganancia_arancel").innerHTML = imgCargandoA;
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"fecha1": fecha1,
+		"fecha2": fecha2,
+		"local": local,
+		"codArancel": codArancel,
+		"funt": "detalleGananciaArancel"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
+		type: "post",
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			document.getElementById("table_detalle_ganancia_arancel").innerHTML = "";
+			cargarTotalesDetalleGananciaArancel("");
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			document.getElementById("table_detalle_ganancia_arancel").innerHTML = "";
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					document.getElementById("table_detalle_ganancia_arancel").innerHTML = datos[2];
+					document.getElementById("inptDetalleVentaGananciaArancel").value = datos[3];
+					document.getElementById("inptDetalleCostoGananciaArancel").value = datos[4];
+					document.getElementById("inptDetalleResultadoGananciaArancel").value = datos[5];
+					document.getElementById("inptDetalleRegistroGananciaArancel").value = datos[6];
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+				cargarTotalesDetalleGananciaArancel("");
+			}
+		}
+	});
+}
+
+function imprimirInformeGananciaArancel(){
+	if(document.getElementById("table_informe_ganancia_arancel").innerHTML==""){
+		alertmensaje("FALTO BUSCAR EL INFORME");
+		return;
+	}
+	var f = new Date();
+	var dia = f.getDate();
+	if(dia < 10){ dia = "0" + dia; }
+	var mes = f.getMonth() + 1;
+	if(mes < 10){ mes = "0" + mes; }
+	var fechaimpresion = f.getFullYear() + "-" + mes + "-" + dia;
+	var localTexto = "TODOS";
+	if(document.getElementById("inptLocalGananciaArancel").value!=""){
+		localTexto = $("select[id=inptLocalGananciaArancel]").children(":selected").text();
+	}
+	var arancelTexto = document.getElementById("inptArancelGananciaArancel").value;
+	if(arancelTexto==""){
+		arancelTexto = "TODOS";
+	}
+	var detalle = "";
+	if(document.getElementById("table_detalle_ganancia_arancel").innerHTML!=""){
+		detalle =
+		"<br><center><h3>DETALLE POR GRADO / CURSO</h3></center>"
+		+"<p><b>Arancel seleccionado:</b> "+document.getElementById("inptSeleccionadoGananciaArancel").value+"</p>"
+		+"<table style='width:100%;font-family:Arial;font-size:12px' border='1' cellspacing='0' cellpadding='5'>"
+		+document.getElementById("tdTituloImpreDetalleGananciaArancel").innerHTML
+		+"</table>"
+		+document.getElementById("table_detalle_ganancia_arancel").innerHTML;
+	}
+	var pagina =
+	"<table style='width:100%;font-family:Arial;font-size:12px'>"
+	+"<tr>"
+	+"<td style='width:18%'><b>Fecha Inicio</b><br>"+document.getElementById("inptFechaInicioGananciaArancel").value+"</td>"
+	+"<td style='width:18%'><b>Fecha Fin</b><br>"+document.getElementById("inptFechaFinGananciaArancel").value+"</td>"
+	+"<td style='width:24%'><b>Local</b><br>"+localTexto+"</td>"
+	+"<td style='width:24%'><b>Arancel</b><br>"+arancelTexto+"</td>"
+	+"<td style='width:16%'><b>Fecha Impresion</b><br>"+fechaimpresion+"</td>"
+	+"</tr>"
+	+"</table>"
+	+"<br><center><h2>GANANCIA POR ARANCEL</h2></center>"
+	+"<table style='width:100%;font-family:Arial;font-size:12px' border='1' cellspacing='0' cellpadding='5'>"
+	+"<tr>"
+	+"<td><b>Total Vendido</b><br>"+document.getElementById("inptTotalVentaGananciaArancel").value+"</td>"
+	+"<td><b>Costo</b><br>"+document.getElementById("inptTotalCostoGananciaArancel").value+"</td>"
+	+"<td><b>Ganancia</b><br>"+document.getElementById("inptResultadoGananciaArancel").value+"</td>"
+	+"<td><b>Margen</b><br>"+document.getElementById("inptMargenGananciaArancel").value+"</td>"
+	+"<td><b>Registros</b><br>"+document.getElementById("inptRegistroGananciaArancel").value+"</td>"
+	+"</tr>"
+	+"</table><br>"
+	+"<table style='width:100%;font-family:Arial;font-size:12px' border='1' cellspacing='0' cellpadding='5'>"
+	+document.getElementById("tdTituloImpreGananciaArancel").innerHTML
+	+"</table>"
+	+document.getElementById("table_informe_ganancia_arancel").innerHTML
+	+detalle;
+	localStorage.setItem("reporte", pagina);
+	localStorage.setItem("tipo", "reporte");
+	window.open("/GoodTechnologyEPNSA/system/reportBlankHoriz.html");
 }
 
 

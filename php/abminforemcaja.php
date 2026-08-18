@@ -62,10 +62,15 @@ function generarinforme($idArqeoFk){
 	$totalpagos=$datosventas[1];
 	$totaltarjeta=$datosventas[2];
 	$totalefectivo=$datosventas[3];
+	$totalpagosmatriculacion=isset($datosventas[4]) ? $datosventas[4] : 0;
+	$totalpagoscuota=isset($datosventas[5]) ? $datosventas[5] : 0;
+	$resumenpagosingreso=armar_resumen_pagos_ingreso($totalpagosmatriculacion,$totalpagoscuota);
+	$totalpagosingreso=$totalpagosmatriculacion+$totalpagoscuota;
 	
 	
 $datosIngreso=datosdeIngreso($idArqeoFk);
-if($datosIngreso[0]==""){
+$paginaIngreso=$datosIngreso[0].$resumenpagosingreso;
+if($paginaIngreso==""){
 	
 	$styleName=CargarStyleTable($styleName);
 	$pagina.="<p class='ptituloZ'>INGRESOS A CAJA</p>
@@ -75,10 +80,10 @@ if($datosIngreso[0]==""){
 </tr>
 </table>";
 	}else{
-		$pagina.="<p class='ptituloZ'>INGRESOS A CAJA</p>".$datosIngreso[0];
+		$pagina.="<p class='ptituloZ'>INGRESOS A CAJA</p>".$paginaIngreso;
 	}
 
-$totalingreso=$datosIngreso[1];
+$totalingreso=$datosIngreso[1]+$totalpagosingreso;
 	
 
 $datosEgreso=datosdeEgresos($idArqeoFk);
@@ -154,7 +159,11 @@ $montoinicio=ObtenerTotalCaja($idArqeoFk);
 $ingresos=$totalingreso;
 $egresos=$totalegreso;
 $Desembolso=0; 
-$total=($ingresos+$totalpagos)-($egresos + $totalDeposito);
+$totalpagosrestantes=$totalpagos-$totalpagosingreso;
+if($totalpagosrestantes<0){
+	$totalpagosrestantes=0;
+}
+$total=($ingresos+$totalpagosrestantes)-($egresos + $totalDeposito);
 
 $total=$montoinicio+$total;
 $informacion =array("1" => "exito","2" => $pagina,"3" => number_format($ingresos,'0',',','.'),"4" => number_format($egresos,'0',',','.')
@@ -176,12 +185,16 @@ $mysqli=conectar_al_servidor();
  // from  facturaspagadas pg 
  // where pg.monto>0 and pg.codApertura='$idArqeoFk'   ";	
 $sql= " select  (fac.monto - fac.descuento) as Monto , fac.Detalles,fac.fecha
-, CONCAT(alu.nombre,' ',alu.apellido) as nombrealumno , alu.ci
+, CONCAT(alu.nombre,' ',alu.apellido) as nombrealumno , alu.ci,
+lta.nombre as nombrearancel, lta.tipo as tipoarancellista, ar.tipo as tipoarancel, ar.cod_secundario
 
 from facturaspagadas fac 
 inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk 
 inner join alumno alu on alu.idalumno=cur.idalumnoFk
-where  fac.codApertura='$idArqeoFk'   ";	
+inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+where  fac.codApertura='$idArqeoFk'
+order by nombrealumno asc, fac.idfacturaspagadas asc   ";	
 
 
 // echo($sql);
@@ -196,6 +209,8 @@ exit;
 $totalPagado=0;
 $totaltarjeta=0;
 $totalefectivo=0;
+$totalMatriculacion=0;
+$totalCuota=0;
 $result = $stmt->get_result();
 $valor= mysqli_num_rows($result);
 $nroRegistro=$valor;
@@ -210,12 +225,23 @@ $Detalles = mb_convert_encoding((string)($valor['Detalles']), 'UTF-8', 'ISO-8859
 $Monto = mb_convert_encoding((string)($valor['Monto']), 'UTF-8', 'ISO-8859-1'); 
 $Alumno = mb_convert_encoding((string)($valor['nombrealumno']), 'UTF-8', 'ISO-8859-1'); 
 $ci = mb_convert_encoding((string)($valor['ci']), 'UTF-8', 'ISO-8859-1'); 
+$nombrearancel = mb_convert_encoding((string)($valor['nombrearancel']), 'UTF-8', 'ISO-8859-1'); 
+$tipoarancellista = mb_convert_encoding((string)($valor['tipoarancellista']), 'UTF-8', 'ISO-8859-1'); 
+$tipoarancel = mb_convert_encoding((string)($valor['tipoarancel']), 'UTF-8', 'ISO-8859-1'); 
+$cod_secundario = mb_convert_encoding((string)($valor['cod_secundario']), 'UTF-8', 'ISO-8859-1'); 
+
+$montoNum=(float)$Monto;
+
+$totalefectivo=$totalefectivo+$montoNum;
 
 
-$totalefectivo=$totalefectivo+$Monto;
+$totalPagado=$totalPagado+$montoNum;
 
-
-$totalPagado=$totalPagado+$Monto;
+if(es_pago_matriculacion($Detalles,$nombrearancel)){
+	$totalMatriculacion=$totalMatriculacion+$montoNum;
+}else if(es_pago_cuota($Detalles,$tipoarancellista,$tipoarancel,$nombrearancel,$cod_secundario)){
+	$totalCuota=$totalCuota+$montoNum;
+}
 
 	$styleName=CargarStyleTable($styleName);
 	$pagina.="
@@ -223,7 +249,7 @@ $totalPagado=$totalPagado+$Monto;
 <tr id='tbSelecRegistro'>
 <td id='' style='width:40%;text-align:left;padding:5px;line-height: 18px;' >".$Alumno."<b>".$ci."</b></td>
 <td id='' style='width:30%;text-align:left;padding:5px;line-height: 18px;' >".$Detalles."</td>
-<td id='' style='width:30%;text-align:left;padding:5px;line-height: 18px;' >". number_format($Monto,'0',',','.')."</td>
+<td id='' style='width:30%;text-align:left;padding:5px;line-height: 18px;' >". number_format($montoNum,'0',',','.')."</td>
 </tr>
 </table>
 "; 
@@ -238,7 +264,48 @@ $datos[0]=$pagina;
 $datos[1]=$totalPagado;
 $datos[2]=$totaltarjeta;
 $datos[3]=$totalefectivo;
+$datos[4]=$totalMatriculacion;
+$datos[5]=$totalCuota;
 return $datos;
+}
+
+function es_pago_matriculacion($detalles,$nombrearancel="")
+{
+	$textoMayus=mb_strtoupper((string)$detalles." ".(string)$nombrearancel,'UTF-8');
+	return strpos($textoMayus,'MATRICUL')!==false;
+}
+
+function es_pago_cuota($detalles,$tipoarancellista="",$tipoarancel="",$nombrearancel="",$cod_secundario="")
+{
+	$textoMayus=mb_strtoupper((string)$detalles." ".(string)$tipoarancellista." ".(string)$tipoarancel." ".(string)$nombrearancel." ".(string)$cod_secundario,'UTF-8');
+	return strpos($textoMayus,'CUOTA')!==false;
+}
+
+function armar_resumen_pagos_ingreso($totalMatriculacion,$totalCuota)
+{
+	if($totalMatriculacion<=0 && $totalCuota<=0){
+		return "";
+	}
+	$styleName="tableRegistroSearch";
+	$pagina="";
+	$styleName=CargarStyleTable($styleName);
+	$pagina.=armar_fila_resumen_pago_ingreso($styleName,"SUMATORIA MATRICULACION",$totalMatriculacion);
+	$styleName=CargarStyleTable($styleName);
+	$pagina.=armar_fila_resumen_pago_ingreso($styleName,"SUMATORIA CUOTA",$totalCuota);
+	return $pagina;
+}
+
+function armar_fila_resumen_pago_ingreso($styleName,$titulo,$monto)
+{
+	return "
+<table class='$styleName' border='1' cellspacing='1' cellpadding='5' style='font-weight:bold;background-color:#eaf7f2;color:#145a43'>
+<tr id='tbSelecRegistro'>
+<td id='' style='width:30%;text-align:left;padding:5px' >".$titulo."</td>
+<td id='' style='width:20%'>". number_format($monto,'0',',','.')."</td>
+<td id='' style='width:20%'>PAGOS</td>
+</tr>
+</table>
+";
 }
 
 

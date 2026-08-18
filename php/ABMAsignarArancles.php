@@ -75,6 +75,15 @@ if($funt=="nuevo" || $funt=="editar" )
 
 }
 
+if($funt=="eliminar")
+{
+
+	$cod_arancel=$_POST['idAbm'];
+    $cod_arancel = utf8_decode($cod_arancel);
+	eliminar($cod_arancel);
+
+}
+
 if($funt=="crearmasivo" )
 {
 	
@@ -893,6 +902,34 @@ exit;
 
 }
 
+
+function eliminar($cod_arancel)
+{
+	if($cod_arancel==""){
+$informacion =array("1" => "DI");
+echo json_encode($informacion);
+exit;
+	}
+
+	$mysqli=conectar_al_servidor();
+	$consulta="Update aranceles set estado='Inactivo' where cod_arancel=?";
+	$stmt = $mysqli->prepare($consulta);
+	$ss='s';
+	$stmt->bind_param($ss,$cod_arancel);
+
+	if ( ! $stmt->execute() ) {
+
+		$informacion =array("1" => "error2");
+		echo json_encode($informacion);
+		exit;
+	}
+
+	mysqli_close($mysqli);
+    $informacion =array("1" => "exito");
+    echo json_encode($informacion);
+    exit;
+
+}
 
 function abm($costo,$arancelname,$codFilialFk,$tipo,$cod_arancel,$monto,$cantidad,$total,$cod_carreraFK,$cod_listadearancelesFk,$estado,$anho,$semestre,$curso,$funt)
 {
