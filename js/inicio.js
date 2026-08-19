@@ -21455,6 +21455,10 @@ $("input[id=inptNombreAsignarArancel]").each(function (i, Elemento) {
        }
 });
 
+if(codConcepto=="" && idAbmAsignarArancel!="" && CodListadoArancelAsignarArancel!="" && $.trim(inptNombreAsignarArancel)==$.trim(document.getElementById("inptRegistroSeleccionadoAsignarArancel").value)){
+	codConcepto=CodListadoArancelAsignarArancel
+}
+
 if(codConcepto==""){
 		alertmensaje("Falto Seleccionar el concepto")
 		return
