@@ -1,58 +1,4 @@
-/* latin-ext */
-@font-face {
-  font-family: 'Kaushan Script';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
- src: url(/GoodTechnologyEPNSA/css/KaushanScript-Regular.ttf) format('woff2');
- unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Kaushan Script';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
- src: url(/GoodTechnologyEPNSA/css/KaushanScript-Regular.ttf) format('woff2');
- unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* cyrillic-ext */
-@font-face {
-  font-family: 'Merriweather Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-   src: url(/GoodTechnologyEPNSA/css/MerriweatherSans-VariableFont_wght.ttf) format('woff2');
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-/* vietnamese */
-@font-face {
-  font-family: 'Merriweather Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-   src: url(/GoodTechnologyEPNSA/css/MerriweatherSans-VariableFont_wght.ttf) format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Merriweather Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-   src: url(/GoodTechnologyEPNSA/css/MerriweatherSans-VariableFont_wght.ttf) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Merriweather Sans';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-   src: url(/GoodTechnologyEPNSA/css/MerriweatherSans-VariableFont_wght.ttf) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
+@import url('fonts.css');
 .principal {
 			
  background-color:rgba(255,255,255,0.75);
@@ -131,19 +77,19 @@
    background-color:transparent;
    overflow:auto;
 		 }
-		 .imgAccederSistema {
+		 .imgAccederSistema{
 	      width: 80px;
     padding: 12px;
     background-color: #fff;
     border-radius: 70px;
 	   border: solid 7px #d2d2d2;
     border-top-color: #ff9f00;
-    background-color: #fff;
+    
     border-left-color: #FF5722;
     border-right-color: #2682ff;
     border-bottom-color: #673AB7;
 }
- .imgAccederSistema2 {
+ .imgAccederSistema2{
 	         margin-top: -37px;
     width: 39px;
     padding: 10px;
@@ -151,7 +97,7 @@
     border-radius: 70px;
     border: solid 7px #ff9f00;
     border-top-color: #ff9f00;
-    background-color: #fff;
+    
     border-left-color: #ff9f00;
     border-right-color: #ff9f00;
     border-bottom-color: #ff9f00;
@@ -439,24 +385,24 @@ text-align: center;
 }
 .inputReloj2 {text-align: center;border: none;/* padding: 10px; */background-color: transparent;color: #777;font-family: 'Merriweather Sans', Arial;width: 99%;font-size: 42px;font-weight: bold;margin-bottom: 14px;outline: none;}
 
-.divMenuc {
+.divMenuc{
 	    width: 528px;
 	    min-height: 620px;
 	    background-color: #eaeaea;
 	    border-radius: 20px;
 	    border: solid 7px #416c8f;
-	    border-radius: 20px;
+	    
 }
-.divMenuG {
+.divMenuG{
 	    width: 1250px;
     min-height: 700px;
     background-color: #fff;
     border-radius: 20px;
 	
 		    border: solid 7px #fff;
-    background-color: #fff;
+    
    
-    border-radius: 20px;
+    
 }
 .tableMenu {
          margin-top: 5px;
@@ -631,7 +577,7 @@ text-align: center;
     resize: none;
     background-color: #fff;
 }
-.btn1 {
+.btn1{
         width: 200px;
         height: 36px;
         font-size: 14px;
@@ -654,7 +600,7 @@ text-align: center;
 	color: #ffffff;
 	background-color: #067db3;
 }
-.btn2 {
+.btn2{
         width: 97%;
     height: 45px;
     font-size: 14px;
@@ -672,7 +618,7 @@ text-align: center;
 
 	  
 }
-.btn3 {
+.btn3{
        width: 200px;
     height: 45px;
     font-size: 14px;
@@ -685,13 +631,13 @@ text-align: center;
     cursor: pointer;
   border-radius: 35px;
   outline:none
-}
+  }
 .btn3:hover {
 	color: #ffffff;
 	background-color: #FF5722;  
 	  
 }
-.btnlogin {
+.btnlogin{
       width: 200px;
     height: 33px;
     font-size: 12px;
@@ -704,7 +650,7 @@ text-align: center;
     border-radius: 35px;
     outline: none;
 }
-.btn9 {
+.btn9{
          width: 117px;
     height: 32px;
     font-size: 12px;
@@ -720,7 +666,7 @@ text-align: center;
     margin-top: 13px;
 }
 
-.divMenue {
+.divMenue{
     width: 800px;
     min-height: 560px;
 	height: 95vh;
@@ -728,9 +674,9 @@ text-align: center;
     border-radius: 20px;
     border: solid 7px #416c8f;
     background-color: #eaeaea;
-    border-radius: 20px;
+    
 }
-.divMenuR {
+.divMenuR{
     width: 1000px;
     min-height: 620px;
     background-color: #fff;
@@ -739,11 +685,11 @@ text-align: center;
 	
 		    border: solid 7px #d2d2d2;
     border-top-color: #ff9f00;
-    background-color: #fff;
+    
     border-left-color: #FF5722;
     border-right-color: #2682ff;
     border-bottom-color: #673AB7;
-    border-radius: 20px;
+    
 }
 
 .divPrint {
@@ -861,7 +807,7 @@ font-family: 'Merriweather Sans', Arial;
         background-color: transparent;
         
 }
-.td_registro_orden1 {
+.td_registro_orden1{
         padding: 7px;
         height: 100%;
         font-size: 10px;
@@ -870,9 +816,9 @@ font-family: 'Merriweather Sans', Arial;
         text-align: center;
         font-weight: bold;
         background-color: #416c8f;
-        font-weight: bold;
+        
 }
-.td_registro_orden {
+.td_registro_orden{
         padding: 7px;
         height: 100%;
         font-size: 9px;
@@ -880,7 +826,7 @@ font-family: 'Merriweather Sans', Arial;
         text-align: center;
         font-weight: bold;
         background-color: transparent;
-        font-weight: bold;
+        
         background-color: #636363;
         color: #fff;
 }
@@ -1619,28 +1565,14 @@ backdrop-filter: blur(7px);
     text-align: center;
     border-radius: 46px;
 }
-.tableMenupanel {
-	    width: 100%;
-   
-    background-color: #efefef;
-	    height: 79px;
-}
-
-	 .imgIconoMenub {
-	  background-color: #fbfafa;
-    padding: 7px;
-    border-radius: 39px;
-    margin-top: -31px;
-	cursor:pointer;
-}
-.imgIconoMenud {
+.imgIconoMenud{
 	    border: solid 3px #d2d2d2;
 	    border-top-color: #ff9f00;
 	    background-color: #fff;
 	    border-left-color: #FF5722;
 	    border-right-color: #2682ff;
 	    border-bottom-color: #673AB7;
-	    background-color: #fff;
+	    
 	    padding: 7px;
 	    border-radius: 39px;
 	    
@@ -1648,9 +1580,9 @@ backdrop-filter: blur(7px);
 	    width: 27px;
 	    position:relative;
 }
-.trBotonmenu {
+.trBotonmenu{
     height: 100%;
-    height: 100%;
+    
     position: relative;
     width: 100%;
      background-color: #ffffff00; 

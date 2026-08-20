@@ -43,7 +43,7 @@ body, html {
   width: 100%;
 }
 
-body {
+body{
   /* overflow: hidden; */
   font-family: "Poppins", sans-serif;
   background-color: var(--app-bg);
@@ -61,7 +61,7 @@ body {
 	
 	
 	 background: var(--grey);
-    overflow-x: hidden;
+    
 	
 	  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f6f8;
@@ -251,7 +251,7 @@ center{
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232869ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-search'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
-.action-button {
+.action-button{
   border-radius: 4px;
   height: 32px;
   background-color: var(--app-content-secondary-color);
@@ -2218,7 +2218,6 @@ body.dark{
 .pTitulo4 { color: var(--dark); font-size: 12px;  padding: 3px; margin: 0px; }
 .pTitulo1 { font-size: 14px;  color: rgb(0, 0, 0); font-weight: bold; padding: 8px; }
 .input3 { font-size: 11px;  height: 30px; text-align: left; width: 100%; border: 1px solid rgb(211, 211, 211); outline: none; background-color: rgb(255, 255, 255); }
-.divMenu { width: 16%; cursor: pointer; float: left; margin: 2%; }
 .principal2 {background-color: rgb(255 255 255 / 0%);width: 100%;height: 100vh;top: 0px;left: 0px;position: absolute;overflow: auto;backdrop-filter: blur(15px);z-index:8000;}
 .divMenuA { width: 30%; height: 100%; position: fixed; top: 0px; left: 0px; backdrop-filter: blur(6px); background-color: rgba(255, 255, 255, 0.52); }
 .divCodigobarra { width: 45%; 
@@ -3417,17 +3416,6 @@ small {
 }
 
 
-.card_image img {
-  height: 100%;
-  max-width: 100%;
-  vertical-align: middle;
-}
-
-.card_image:hover img {
-  transform: scale(1.2); 
-	transition: .3s ease-in-out;
-}
-
 .card {
   background-color: white;
   border-radius: 0.25rem;
@@ -3451,10 +3439,6 @@ small {
 .card_image_oferta img{
 	object-fit:cover;
 	height:100%
-}
-
-.card_image{
-	flex-grow:1;
 }
 
 .card_content {
@@ -3498,25 +3482,6 @@ small {
 
 
 /* BUTTON CARD */
-
-.card_content .btn {
-  color: #ffffff;
-  padding: 0.8rem;
-  font-size: 14px;
-  text-transform: uppercase;
-  border-radius: 4px;
-  font-weight: 400;
-  display: block;
-  width: 100%;
-  cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: transparent;
-  margin: 0.8rem
-}
-
-.card_content .btn:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-}
 
 /* //////////////////////////////////////////////////////////
  */
@@ -3733,13 +3698,6 @@ small {
   min-width: 1rem;
 }
 
-.card-options a {
-  margin-left: .5rem;
-  color: #9aa0ac;
-  display: inline-block;
-  min-width: 1rem;
-}
-
 .card-options a:hover {
   text-decoration: none;
   color: #6e7687;
@@ -3759,18 +3717,9 @@ Card options
 }
 
 
-.card-options a:hover {
-  text-decoration: none;
-  color: #6e7687;
-}
-
 .card-options a i {
   font-size: 1.5rem;
   vertical-align: middle;
-}
-
-.card-options .dropdown-toggle:after {
-  display: none;
 }
 
 .card-collapsed .card-options-collapse i:before {
@@ -3804,17 +3753,6 @@ Card options
 
 .card-body > :last-child {
   margin-bottom: 0;
-}
-
-.card-footer {
-  border-top: 1px solid rgba(0, 40, 100, 0.12);
-  color: #6e7687;
-}
-
-.card-footer,
-.card-bottom {
-  padding: 0.5rem;
-  background: none;
 }
 
 .card-footer {
@@ -5344,12 +5282,6 @@ Card options
 
 
 
-.input-row {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
 .input-row input {
   flex: 1 1 60%;
   min-width: 120px;
@@ -5531,11 +5463,6 @@ Card options
   position: relative;
 }
 
-.informe-header h1 {
-  margin: 0;
-  color: #3b7ddd;
-}
-
 .informe-actions {
   display: flex;
   gap: 10px;
@@ -5565,27 +5492,6 @@ Card options
 }
 
 
-.imgIconoMenuMinimizado {
-    width: 58px;
-    padding: 5px;
-}
-.imgIconoFinalizarTodo {
-	
-    cursor: pointer;
-    padding: 5px;
-    width: 40px;
-    filter: invert(1);
-    height: 40px;
-  
-}
-
-.inptLimpiarBP {
- height: 12px;
-    width: 10px;
-    margin-left: -10px;
-    filter: invert(1);
-    cursor: pointer;
-}
 .inptLimpiarBP:hover {
     filter: invert(1.5);	
 }
@@ -5634,10 +5540,6 @@ Card options
     padding: 3px;
     margin: 0px;
 	cursor:pointer;
-}
-.iconocascada {
-	    width: 13px;
-    margin-right: 5px;
 }
 .tableRegistroCascada{
 width: 100%;
@@ -5834,14 +5736,14 @@ margin-bottom:5px;
 	
 }
 
-.imgIconoMenud {
+.imgIconoMenud{
 	    border: solid 3px #d2d2d2;
 	    border-top-color: #ff9f00;
 	    background-color: #fff;
 	    border-left-color: #FF5722;
 	    border-right-color: #2682ff;
 	    border-bottom-color: #673AB7;
-	    background-color: #fff;
+	    
 	    padding: 5px;
 	    border-radius: 39px;
 	    
@@ -5900,7 +5802,7 @@ margin-bottom:5px;
     }
 	
 	
-	.td_registro_orden1 {
+	.td_registro_orden1{
         padding: 7px;
         height: 100%;
         font-size: 10px;
@@ -5909,9 +5811,9 @@ margin-bottom:5px;
         text-align: center;
         font-weight: bold;
         background-color: #416c8f;
-        font-weight: bold;
+        
 }
-.td_registro_orden {
+.td_registro_orden{
         padding: 7px;
         height: 100%;
         font-size: 9px;
@@ -5919,7 +5821,7 @@ margin-bottom:5px;
         text-align: center;
         font-weight: bold;
         background-color: transparent;
-        font-weight: bold;
+        
         background-color: #636363;
         color: #fff;
 }

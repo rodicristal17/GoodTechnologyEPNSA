@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Kaushan Script';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/GoodTechnologyEPNSA/css/KaushanScript-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Merriweather Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/GoodTechnologyEPNSA/css/MerriweatherSans-VariableFont_wght.ttf') format('truetype');
+}
