@@ -185,8 +185,16 @@ $codArancel=$_POST['codArancel'];
 $codArancel = utf8_decode($codArancel);
 $codCarrera=$_POST['codCarrera'];
 $codCarrera = utf8_decode($codCarrera);
-$estadofactura=$_POST['estadofactura'];
+$estadofactura=isset($_POST['estadofactura']) ? $_POST['estadofactura'] : "Activo";
 $estadofactura = utf8_decode($estadofactura);
+if($estadofactura!="Activo" && $estadofactura!="Anulado" && $estadofactura!=""){
+	$estadofactura="Activo";
+}
+$estado=isset($_POST['estado']) ? $_POST['estado'] : "Activo";
+$estado = utf8_decode($estado);
+if($estado!="Activo" && $estado!="Eliminado" && $estado!=""){
+	$estado="Activo";
+}
 $anho=$_POST['anho'];
 $anho = utf8_decode($anho);
 $curso=$_POST['curso'];
@@ -202,7 +210,7 @@ if($codFilial==""){
 		
 	}
 }
-buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$documento,$alumno,$fecha1,$fecha2,$codFilial,$codArancel,$codCarrera,$estadofactura,$ordenby);
+buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$documento,$alumno,$fecha1,$fecha2,$codFilial,$codArancel,$codCarrera,$estadofactura,$estado,$ordenby);
 
 }
 if($funt=="historialvistacobranza")
@@ -1534,7 +1542,7 @@ return $datos;
 
 
 
-function buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$documento,$alumno,$fecha1,$fecha2,$codFilial,$codArancel,$codCarrera,$estadofactura,$ordenby)
+function buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$documento,$alumno,$fecha1,$fecha2,$codFilial,$codArancel,$codCarrera,$estadofactura,$estado,$ordenby)
 {
 	$mysqli=conectar_al_servidor();
 	 $pagina='';
@@ -1561,11 +1569,18 @@ function buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$docume
 	}
 	$condicionfiltro3="";
 	if($alumno!=""){
-		$condicionfiltro3=" and (concat(alu.nombre,' ',alu.apellido,) like '%".$alumno."%' ) ";
+		$condicionfiltro3=" and (concat(alu.nombre,' ',alu.apellido) like '%".$alumno."%' ) ";
 	}
 	$condicionestado="";
 	if($estadofactura!=""){
-		$condicionestado=" and estadofactura= '".$estadofactura."' ";
+		$condicionestado=" and fac.estadofactura= '".$estadofactura."' ";
+	}
+	$condicionEstadoRegistro="";
+	if($estado!="Activo" && $estado!="Eliminado" && $estado!=""){
+		$estado="Activo";
+	}
+	if($estado!=""){
+		$condicionEstadoRegistro=" and fac.estado= '".$estado."' ";
 	}
 	$condicionanho="";
 	if($anho!=""){
@@ -1613,19 +1628,19 @@ function buscarreportfacturascargadas($anho,$curso,$semestre,$nrofactura,$docume
 		$oderby="order by fac.semestre desc";
 	}
 	
-		$sql= "Select fac.controlnrofactura,fac.Detalles,fac.idfacturaspagadas, fac.nrofactura, fac.cf, IFNULL(sum(fac.monto),0) as  monto, fac.idcursosalumnoFk, fac.fecha,estadofactura,fac.fecha_insercion,
+		$sql= "Select fac.controlnrofactura,fac.Detalles,fac.idfacturaspagadas, fac.nrofactura, fac.cf, IFNULL(sum(fac.monto),0) as  monto, fac.idcursosalumnoFk, fac.fecha,fac.estadofactura,fac.fecha_insercion,
 		fac.estado, fac.cod_arancelFk, fac.puntoexpedicionfk,fac.anho,fac.semestre,fac.curso,fac.descuento
 ,alu.nombre as nombrealumno,alu.apellido,alu.ci
-,lta.nombre as arancel
+,IFNULL(lta.nombre, fac.Detalles) as arancel
 ,fl1.nombre as nombrefilialOrigen
 from facturaspagadas fac 
-inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+left join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
 inner join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
-inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+left join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
 inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk 
 inner join filial fl1 on fl1.cod_filial=pt.cod_filialFk 
 inner join alumno alu on alu.idalumno=cur.idalumnoFk
-where fac.estado='Activo' ".$condicionsemestre.$condicioncurso.$condicionanho.$condicionestado.$condicionCarrera.$condicionFilial.$condicionConcepto.$condicionfiltro1.$condicionfiltro2.$condicionfiltro3.$condicionfecha." group by fac.idfacturaspagadas ".$oderby;
+where 1=1 ".$condicionEstadoRegistro.$condicionsemestre.$condicioncurso.$condicionanho.$condicionestado.$condicionCarrera.$condicionFilial.$condicionConcepto.$condicionfiltro1.$condicionfiltro2.$condicionfiltro3.$condicionfecha." group by fac.idfacturaspagadas ".$oderby;
 
 
 // echo($sql);
@@ -1670,6 +1685,10 @@ $nrodefacturasiguiente="";
 		  	  $semestre=utf8_encode($valor['semestre']);
 		  	  $curso=utf8_encode($valor['curso']);
 		  	  $controlnrofactura=utf8_encode($valor['controlnrofactura']);
+		  	  $estadoListado=$estadofactura;
+		  	  if($estado=="Eliminado"){
+		  	  	$estadoListado=$estado;
+		  	  }
 		  	
 		  	 $totales=$totales+$monto;
 			  $styleorden1="";
@@ -1742,7 +1761,7 @@ $nrodefacturasiguiente="";
 			   <td  id='' style='width:5%;".$styleorden1."' >".$fecha."</td>			   
 			   <td  id='' style='width:5%' >". number_format($monto,'0',',','.') ."</td>		   
 			   <td  id='' style='width:5%' >". number_format($descuento,'0',',','.') ."</td>		   
-			    <td  id='' style='width:5%' >".$estadofactura."</td>
+			    <td  id='' style='width:5%' >".$estadoListado."</td>
 				<td  id='' style='width:5%' >".$fecha_insercion."</td>
 			   </tr>
 			   </table>";

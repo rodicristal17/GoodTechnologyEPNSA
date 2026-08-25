@@ -23048,13 +23048,20 @@ function verCerrarFrmReportFacturasCargadas(d){
 
 	if(d=="1"){
 	minimizartodaventanaabierto()	
+	$("div[id=divReportFacturasCargadas]").stop(true, true);
 	document.getElementById("divReportFacturasCargadas").style.display="";
-document.getElementById("tdEfectoFacturaCargada").className="magictime slideDownReturn"
+	document.getElementById("tdEfectoFacturaCargada").className="";
+	document.getElementById("tdEfectoFacturaCargada").style.transform="";
+	document.getElementById("tdEfectoFacturaCargada").style.webkitTransform="";
+	document.getElementById("tdEfectoFacturaCargada").style.filter="";
+	document.getElementById("tdEfectoFacturaCargada").style.webkitFilter="";
+	document.getElementById("tdEfectoFacturaCargada").style.opacity="";
+	BuscarReportFacturasCargadas()
 	
 	}else{
-	//document.getElementById("divReportFacturasCargadas").style.display="none";
-document.getElementById("tdEfectoFacturaCargada").className="magictime vanishOut"
-	$("div[id=divReportFacturasCargadas]").fadeOut(500);	
+	document.getElementById("tdEfectoFacturaCargada").className="";
+	$("div[id=divReportFacturasCargadas]").stop(true, true);
+	document.getElementById("divReportFacturasCargadas").style.display="none";
 	limipiarCamposBusquedaReportFacturasCargadas()
 	}
 }
@@ -23067,6 +23074,7 @@ function limipiarCamposBusquedaReportFacturasCargadas(){
 	document.getElementById("inptBuscarFacturasCargadas3").value=""
 	document.getElementById("inptBuscarFacturasCargadas4").value=""
 	document.getElementById("inptBuscarFacturasCargadas5").value=""
+	document.getElementById("inptBuscarFacturasCargadas9").value="Activo"
 	document.getElementById("inptTotalReportFacturasDeposito").value=""
 	document.getElementById("inptRegistroReportFacturasEfectivo").value=""
 	document.getElementById("inptRegistroReportFacturasCargadas").value=""
@@ -23074,9 +23082,9 @@ function limipiarCamposBusquedaReportFacturasCargadas(){
 	document.getElementById("divBuscadorReportFacturasCargadas").innerHTML=""
 }
 function MinimizarVentanaFacturasCargadas(){
-	//document.getElementById("divReportFacturasCargadas").style.display="none";
-document.getElementById("tdEfectoFacturaCargada").className="magictime slideDown"
-	$("div[id=divReportFacturasCargadas]").fadeOut(500);	
+	document.getElementById("tdEfectoFacturaCargada").className="";
+	$("div[id=divReportFacturasCargadas]").stop(true, true);
+	document.getElementById("divReportFacturasCargadas").style.display="none";
 	document.getElementById("divMinimizadoFacturasCargadas").style.display="";
 }
 function checkBuscarFacturasCargadas(d){
@@ -23253,7 +23261,13 @@ $("input[id=inptBuscarFacturasCargadas6]").each(function (i, Elemento) {
 var nrofactura=document.getElementById("inptBuscarFacturasCargadas3").value;
 var documento=document.getElementById("inptBuscarFacturasCargadas4").value;
 var alumno=document.getElementById("inptBuscarFacturasCargadas5").value;
-var estadofactura=document.getElementById("inptBuscarFacturasCargadas9").value;
+var estadoFiltro=document.getElementById("inptBuscarFacturasCargadas9").value;
+var estado=estadoFiltro;
+var estadofactura="";
+if(estadoFiltro=="Activo" || estadoFiltro=="Anulado"){
+	estadofactura=estadoFiltro;
+	estado="Activo";
+}
 var anho=document.getElementById("inptBuscarFacturasCargadas10").value;
 var curso=document.getElementById("inptBuscarFacturasCargadas11").value;
 var semestre=document.getElementById("inptBuscarFacturasCargadas12").value;
@@ -23278,6 +23292,7 @@ var TipoCobranza =document.getElementById('inptBuscarFacturasCargadas13').value
 		"codCarrera": codCarrera,
 		"codArancel": codArancel,
 		"estadofactura": estadofactura,
+		"estado": estado,
 		"anho": anho,
 		"curso": curso,
 		"semestre": semestre,

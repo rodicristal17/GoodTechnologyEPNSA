@@ -58,7 +58,7 @@
 <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
 
 <!-- TU APP AL FINAL -->
-<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.12"></script>
+<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.17"></script>
 
  
 	
@@ -635,12 +635,12 @@ class='divMinimizado'></div>
 </tr>
 </table>
 </div>
-<div class='divMenub'   title='Buscar facturas Cargadas'  onclick='verCerrarFrmReportFacturasCargadas("1")' id='divMenuConsultaFacturasCargadas' >
+<div class='divMenub'   title='Buscar facturas Ventas'  onclick='verCerrarFrmReportFacturasCargadas("1")' id='divMenuConsultaFacturasCargadas' >
 <table style='width:100%;height:100%;text-align:center'>
 <tr>
 <td>
 <img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/FacturasCargadas.png' />
-<p class='pTitulo3'  >Facturas Cargadas</p>
+<p class='pTitulo3'  >Facturas Ventas</p>
 <center><div id='divMinimizadoFacturasCargadas' style='display:none' class='divMinimizado'></div></center>
 </td>
 </tr>
@@ -10907,7 +10907,7 @@ TOTAL
 <table class='tableMenuZ'>
 <tr>
 <td style='width:100%'>
-<p class='pTituloB'  > <b style='font-size: 30px;' >Facturas</b>  Cargadas</p>
+<p class='pTituloB'  > <b style='font-size: 30px;' >Facturas</b>  Venta</p>
 </td>
 <td style="width:5%">
 <img src="/GoodTechnologyEPNSA/iconos/print.png" class="iconoBtn" title="Imprimir" onclick="ordenimpresion('facturascargadas')">
@@ -10944,7 +10944,7 @@ TOTAL
 <p class='pTitulo8'  onclick='checkBuscarFacturasCargadas(2)' style='width: 100px;'  > <input type='checkbox' id="checkBuscarFacturasCargadas2" > Fecha Inicio</p>
 </td>
 <td style='width:10%;text-align:left'>
-<p class='pTitulo8'  onclick='checkBuscarFacturasCargadas(3)' style='width: 8'px;'  > <input type='checkbox' id="checkBuscarFacturasCargadas3" checked > Todos</p>
+<p class='pTitulo8'  onclick='checkBuscarFacturasCargadas(3)' style='width: 80px;'  > <input type='checkbox' id="checkBuscarFacturasCargadas3" checked > Todos</p>
 </td>
 </tr>
 </table>
@@ -11068,10 +11068,11 @@ TOTAL
 </td>
 
 <td class="td_registro" style="width:4%;">
-<select class="inputfiltro" id='inptBuscarFacturasCargadas9'style='height: 22px;'>
-<option value="">Todos</option>
-<option value="Activo">Activo</option>
+<select class="inputfiltro" id='inptBuscarFacturasCargadas9' style='height: 22px;' onchange="BuscarReportFacturasCargadas()">
+<option value="Activo" selected>Activo</option>
 <option value="Anulado">Anulado</option>
+<option value="Eliminado">Eliminado</option>
+<option value="">Todos</option>
 </select>
 </td>
 <td class="td_registro" style="width:1%;">
