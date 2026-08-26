@@ -1060,7 +1060,7 @@ function buscar_cobranzas_informe_ganancias($fecha1,$fecha2,$cod_local)
 	left join puntoexpedicion pt2 on pt2.idpuntoexpedicion=fac.cod_puntoexpedicionFK
 	left join arqueocaja ap on ap.idarqueocaja=fac.codApertura
 	left join filial fl on fl.cod_filial=ifnull(ap.cod_local, ifnull(pt.cod_filialFk, ifnull(pt2.cod_filialFk, fac.codfiliafk)))
-	where fac.estado='Activo' and fac.estadofactura='Activo' and ifnull(fac.monto,0)>0 ".$condicionCodLocal.$condicionFechas."
+	where fac.estado='Activo' and fac.estadofactura='Activo' and ifnull(fac.monto,0)<>0 ".$condicionCodLocal.$condicionFechas."
 	group by detalle, fac.fecha, nombrelocal
 	order by fac.fecha asc, nombrelocal asc, detalle asc";
 	$stmt = $mysqli->prepare($sql);

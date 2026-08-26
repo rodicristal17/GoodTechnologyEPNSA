@@ -1881,10 +1881,42 @@ function historialvistacobranza($buscar,$filtro,$codFilial,$fecha1,$fecha2)
 	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
 	left join filial fl1 on fl1.cod_filial=pt.cod_filialFk
 	left join listadocaja lts on lts.idcaja=pt.codcajaFk
-	where fac.estado='Activo' ".$condicionFilial.$condicion.$condicionFecha."
+	where fac.estado='Activo' and fac.estadofactura='Activo' ".$condicionFilial.$condicion.$condicionFecha."
 	group by fac.nrofactura, fac.cf
 	order by fecha desc, idfacturaspagadas desc
 	limit 100";
+
+	$sqlTotales= "Select IFNULL(count(*),0) as totalregistros, IFNULL(sum(monto),0) as totalmonto from (
+	Select IFNULL(SUM(fac.monto),0) as monto
+	from facturaspagadas fac
+	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk
+	inner join alumno alu on alu.idalumno=cur.idalumnoFk
+	left join carrera car on car.cod_carrera=cur.cod_carreraFK
+	left join listadecarreras lt on lt.Cod_listadecarreras=car.Cod_listadecarrerasFK
+	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+	left join filial fl1 on fl1.cod_filial=pt.cod_filialFk
+	left join listadocaja lts on lts.idcaja=pt.codcajaFk
+	where fac.estado='Activo' and fac.estadofactura='Activo' ".$condicionFilial.$condicion.$condicionFecha."
+	group by fac.nrofactura, fac.cf
+	) as historial";
+
+	$totalresouesta=0;
+	$totales=0;
+	$stmtTotales = $mysqli->prepare($sqlTotales);
+	if(!$stmtTotales){
+		error_log("historialvistacobranza total prepare error: ".$mysqli->error);
+	}else if(!$stmtTotales->execute()){
+		error_log("historialvistacobranza total execute error: ".$stmtTotales->error);
+	}else{
+		$resultTotales = $stmtTotales->get_result();
+		if($valorTotales = mysqli_fetch_assoc($resultTotales)){
+			$totalresouesta=$valorTotales['totalregistros'];
+			$totales=$valorTotales['totalmonto'];
+		}
+		$stmtTotales->close();
+	}
 
 	$stmt = $mysqli->prepare($sql);
 	if(!$stmt){
@@ -1904,8 +1936,6 @@ function historialvistacobranza($buscar,$filtro,$codFilial,$fecha1,$fecha2)
 
 	$result = $stmt->get_result();
 	$valor= mysqli_num_rows($result);
-	$totalresouesta= $valor;
-	$totales=0;
 	$styleName="tableRegistroSearch";
 	if ($valor>0)
 	{
@@ -1938,7 +1968,6 @@ function historialvistacobranza($buscar,$filtro,$codFilial,$fecha1,$fecha2)
 			$concepto=utf8_encode($valor['concepto']);
 			$alumno=$nombrealumno." ".$apellido;
 			$subtotal=$monto+$descuento;
-			$totales=$totales+$monto;
 			if($tipo_comprobante==""){
 				if($cf=="0" || $cf==""){
 					$tipo_comprobante="BOLETA";
@@ -2018,7 +2047,7 @@ function buscarDetalleHistorialCobranza($nrofactura,$cf)
 	from facturaspagadas fac
 	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
 	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
-	where fac.estado='Activo' and fac.nrofactura=? and fac.cf=?
+	where fac.estado='Activo' and fac.estadofactura='Activo' and fac.nrofactura=? and fac.cf=?
 	order by fac.idfacturaspagadas asc";
 	$stmt = $mysqli->prepare($sql);
 	if(!$stmt){
