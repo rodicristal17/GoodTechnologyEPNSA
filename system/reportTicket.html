@@ -9,7 +9,7 @@
   <meta name="msapplicaction-navbutton-color" content="#000" />
    <meta  name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimun-scalable=1,maximun-scalable=1" />
     <title>IMPRIMIR</title>
-	<link  rel="stylesheet" href="../css/reportTicket.css" />
+	<link  rel="stylesheet" href="../css/reportTicket.css?x=X-IOSV.18" />
 
 
 	<script>
@@ -18,14 +18,42 @@
 		{
 			var pagina=localStorage.getItem("reporte");
 			var tipo=localStorage.getItem("tipo");
-			document.getElementById("divimpr").innerHTML=pagina
+			var contenedor=document.getElementById("divimpr");
+			contenedor.innerHTML=pagina || "";
 			if(tipo=='ticket'){
 			
-			  window.print();
+			  imprimirCuandoCarguenImagenes(contenedor);
           
 			}
 
     }
+
+	function imprimirCuandoCarguenImagenes(contenedor)
+	{
+		var imagenes=contenedor.getElementsByTagName("img");
+		var pendientes=0;
+		var imprimir=function(){
+			setTimeout(function(){
+				window.print();
+			},250);
+		};
+		var imagenLista=function(){
+			pendientes=pendientes-1;
+			if(pendientes<=0){
+				imprimir();
+			}
+		};
+		for(var i=0;i<imagenes.length;i++){
+			if(!imagenes[i].complete){
+				pendientes=pendientes+1;
+				imagenes[i].onload=imagenLista;
+				imagenes[i].onerror=imagenLista;
+			}
+		}
+		if(pendientes==0){
+			imprimir();
+		}
+	}
 
 	
 	

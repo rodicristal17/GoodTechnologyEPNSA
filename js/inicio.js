@@ -17544,7 +17544,7 @@ function obtenerdatosvistacobranza(datostr) {
 	facturanros = comprobante
 	paginaRecibo = detalleRecibo
 	facturaDetalles = detalleFactura
-	descuentofactura = descuento
+	descuentofactura = Number(QuitarSeparadorMilValor(descuento)) || 0
 	if (typeof numeroALetras === "function") {
 		facturaTotalLetras = numeroALetras(totalNumero, {
 			plural: 'GUARANIES',
@@ -17621,6 +17621,7 @@ function ControlTipoArancelCobranzas(){
 	document.getElementById("inptCodArancelCobrarAranceles").value="";
 		document.getElementById("inptNomArancelCobrarAranceles").value="";
 		controlNombreArancelCobranza="";
+		esCobroCuotaArancel=false;
 		document.getElementById("inptPrecioArancelCobrarAranceles").value="";
 		document.getElementById("table_vista_aranceles_cobrar_aranceles").innerHTML="";
 		document.getElementById("btnMasDetalleVenta").style.display="none";
@@ -18041,6 +18042,7 @@ var anhoCobrarArancel="";
 var CursoCobrarArancel="";
 var semestreCobrarArancel="";
 var TipoCobrarArancel="";
+var esCobroCuotaArancel=false;
 function controlarEstadoTipoArancelCobrarAranceles(arancelSeleccionado) {
 	var inputTipoArancel = document.getElementById("inptTipoArancelCobrarAranceles");
 	if (!inputTipoArancel) {
@@ -18069,6 +18071,7 @@ function ObtenerdatosVistaCargarArancelCobrar(datostr) {
 	montopagadoArancel = $(datostr).children('td[id="td_datos_12"]').html();
 	tituloDescuentoFactura = $(datostr).children('td[id="td_datos_13"]').html();
 	TipoCobrarArancel = $(datostr).children('td[id="td_datos_14"]').html();
+	esCobroCuotaArancel=false;
 	document.getElementById('inptCantArancelCobrarAranceles').value = "1";
 	document.getElementById('inptPrecioArancelCobrarAranceles').value = "0";
 		document.getElementById('inptPrecioArancelCobrarAranceles').disabled=false
@@ -18152,6 +18155,7 @@ function ObtenerdatosVistaCargarArancelCobrarCuota(datostr) {
 	tituloDescuentoFactura= $(datostr).children('td[id="td_datos_13"]').html();
 	cantidaddelarancel= $(datostr).children('td[id="td_datos_7"]').html();
 	TipoCobrarArancel= $(datostr).children('td[id="td_datos_14"]').html();
+	esCobroCuotaArancel=true;
 	document.getElementById('inptCantArancelCobrarAranceles').value = "1";
 	document.getElementById('inptPrecioArancelCobrarAranceles').value = "0";
     document.getElementById('inptPrecioArancelCobrarAranceles').disabled=false
@@ -18185,6 +18189,7 @@ function ObtenerdatosVistaCargarArancelCobrarDerecho(datostr) {
 	document.getElementById('inptNomArancelCobrarAranceles').value = $(datostr).children('td[id="td_datos_1"]').html();
 	controlNombreArancelCobranza = $(datostr).children('td[id="td_datos_1"]').html();
 	tituloDescuentoFactura = $(datostr).children('td[id="td_datos_13"]').html();
+	esCobroCuotaArancel=false;
 	document.getElementById('inptCantArancelCobrarAranceles').value = "1";
 	document.getElementById('inptPrecioArancelCobrarAranceles').value = $(datostr).children('td[id="td_datos_12"]').html(); 
 	document.getElementById('inptTotalArancelCobrarAranceles').value = $(datostr).children('td[id="td_datos_12"]').html(); 
@@ -18487,7 +18492,9 @@ function anhadirAranacelEnDetalleVenta(){
 	}
 	var titulodetalle="";
 	var controlcuota=0;
-	if(controlNombreArancelCobranza=="CUOTA"){
+	var nombreArancelCobranzaUpper=String(controlNombreArancelCobranza || "").trim().toUpperCase();
+	var tipoCobrarArancelUpper=String(TipoCobrarArancel || "").trim().toUpperCase();
+	if(esCobroCuotaArancel==true || nombreArancelCobranzaUpper=="CUOTA" || tipoCobrarArancelUpper=="CUOTAS"){
 		controlcuota=1;
 		var totalCuota=0;
 		var montopagar=document.getElementById("inptPrecioArancelCobrarAranceles").value;
@@ -18603,6 +18610,7 @@ document.getElementById("btnCancelarCobranzas").style.display=""
 document.getElementById('inptCodArancelCobrarAranceles').value=""
 document.getElementById('inptNomArancelCobrarAranceles').value=""
 controlNombreArancelCobranza="";
+esCobroCuotaArancel=false;
 document.getElementById('inptCantArancelCobrarAranceles').value=""
 document.getElementById('inptPrecioArancelCobrarAranceles').value=""
 document.getElementById('inptDescuentoArancelCobrarAranceles').value=""
@@ -19073,7 +19081,9 @@ document.getElementById('btnMasDetalleVenta').style.display='none';
 document.getElementById('inptCodArancelCobrarAranceles').value=""
 document.getElementById('inptNomArancelCobrarAranceles').value=""
 controlNombreArancelCobranza="";
+esCobroCuotaArancel=false;
 paginaRecibo="";
+descuentofactura=0;
 document.getElementById('inptCantArancelCobrarAranceles').value=""
 document.getElementById('inptPrecioArancelCobrarAranceles').value=""
 document.getElementById('inptDescuentoArancelCobrarAranceles').value=""
@@ -19356,6 +19366,9 @@ var t=QuitarSeparadorMilValor(totalcobranzas);
 var paginaDetalle=""
 paginaDetalleTicket= "";
 var textoDetalleOffline= "";
+paginaRecibo = "";
+descuentofactura = 0;
+var totalDescuentoRecibo = 0;
 $("tr[name=tdDetalleCobranzasOffline]").each(function(i, elementohtml){
  	paginaDetalle+="<table class='tableRegistroFactura'><tbody><tr>"
 		+"<td style='text-align: center; width: 10%;'>"+$(elementohtml).children('td[id="td_id_1"]').html()+"</td>"
@@ -19373,8 +19386,10 @@ $("tr[name=tdDetalleCobranzasOffline]").each(function(i, elementohtml){
 	+"</tr>"
 	 +"</tbody></table>";
 
-	 descuentofactura = Number(descuentofactura)+Number(QuitarSeparadorMilValor($(elementohtml).children('td[id="td_datos_9"]').html())) 
+	 var descuentoDetalle = Number(QuitarSeparadorMilValor($(elementohtml).children('td[id="td_datos_9"]').html())) || 0;
+	 totalDescuentoRecibo = totalDescuentoRecibo + descuentoDetalle 
 });
+descuentofactura = totalDescuentoRecibo;
 
  paginaDetalle+="<table class='tableRegistroFactura'><tbody><tr>"
 +"<td style='text-align: center; width: 10%;'></td>"
@@ -19402,7 +19417,7 @@ if(document.getElementById('inptSeleccionImprimirCobranza').value === 'FACTURA')
   var grado = document.getElementById("inptCursoCobrarAranceles").value
   var turno = document.getElementById("inptTurnoCobrarAranceles").value
   var TotalLetras = facturaTotalLetras
-  var descuento = separadordemilesnumero(descuentofactura)
+  var descuento = separadordemilesnumero(totalDescuentoRecibo)
   var tutor = document.getElementById("inptNombreApellidoRazonSocial").value 
 	imprimirBoleta(descuento, tutor, NroRecibo, NombreAlumno , CiAlumno, Fecha, Cajero,  paginaticket, facTotal,grado,turno,TotalLetras)
 }
@@ -19439,7 +19454,7 @@ var facturaTotalLetras="";
 var facturaDetalles="";
 var facturanros="";
 var paginaRecibo="";
-var descuentofactura="";
+var descuentofactura=0;
 var TutorFactura="";
 function imprimirFactura(){
 	
@@ -19581,7 +19596,7 @@ function imprimirBoleta( descuento, tutor,  NroRecibo, facturaNombreAlumno, CiAl
     var pagina =   `
     <div class="ticket-container">
  
-     <div class="imgmenbrete"></div>
+     <div class="imgmenbrete"><img class="imgmenbrete-img" src="/GoodTechnologyEPNSA/iconos/logoEPNSA.JPG" alt=""></div>
 
 		
 <div class="ticket-titulo-documento">
@@ -19663,7 +19678,7 @@ document.getElementById("divreportfactura").innerHTML =
 	localStorage.setItem("reporte", documento);
 	localStorage.setItem("tipo", "ticket");
  
-		var URL= "/GoodTechnologyEPNSA/system/reportTicket.html"
+		var URL= "/GoodTechnologyEPNSA/system/reportTicket.html?x=X-IOSV.18"
  
 	window.open(URL, 'Imprimir', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=1,left = 0');
 

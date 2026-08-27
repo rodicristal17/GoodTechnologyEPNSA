@@ -1749,7 +1749,10 @@ $totales=0;
 			  }
 			  
 			  $eventos="ObtenerdatosVistaCargarArancelCobrar(this)";
-			  if($tipo=="Especificos"){
+			  $tipoArancelUpper=strtoupper(trim($tipo));
+			  $codSecundarioUpper=strtoupper(trim($cod_secundario));
+			  $nombreArancelUpper=strtoupper(trim($nombreArancel));
+			  if($tipoArancelUpper=="CUOTAS" || $codSecundarioUpper=="CUOTA" || $nombreArancelUpper=="CUOTA"){
 				 $eventos="ObtenerdatosVistaCargarArancelCobrarCuota(this)";  
 			  }
   
