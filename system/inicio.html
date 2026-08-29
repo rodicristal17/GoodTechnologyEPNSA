@@ -34,7 +34,7 @@
     
     <script src="/GoodTechnologyEPNSA/js/datosUsuario.js"></script>
 	<!-- <link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/inicio.css?x=X-IOSV.06" /> -->
-	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.09" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.16" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.06" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.06" />
 	
@@ -54,11 +54,11 @@
 
 <!-- Otros utilitarios -->
 <script src="/GoodTechnologyEPNSA/js/excel.js"></script>
-<script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.02"></script>
+<script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.03"></script>
 <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
 
 <!-- TU APP AL FINAL -->
-<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.18"></script>
+<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.25"></script>
 
  
 	
@@ -812,7 +812,7 @@ class='divMinimizado'></div>
 <tr>
 <td>
 <img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/report.png' />
-<p class='pTitulo3'  >Pagos Faltantes </p>
+<p class='pTitulo3'  >Cobros mensuales alumnos </p>
 <center>
     <div id='divMinimizadoPagosFaltantes' style='display:none' class='divMinimizado'></div>
 </center>
@@ -4787,6 +4787,170 @@ title='Cerrar Detalle' onclick='cerrarDialogDetalleGananciaArancel()' />
 </tbody>
 </table>
 <div class='div_cuerpo_table' id='table_detalle_ganancia_arancel' style='height:330px;'></div>
+</div>
+</div>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+<div class='principal2' style='display:none' id='divInformePagosFaltantes'>
+<table style='width:100%;height:100%' id='tdEfectoInformePagosFaltantes'>
+<tr>
+<td>
+<center>
+<div class='divPrincipalrepor' style='width:calc(100vw - 80px);max-width:1900px;margin-left:40px;overflow:auto;'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Informe de <b style='font-size: 30px;' >Cobros mensuales alumnos</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/print.png' class='iconoBtn'
+title='Imprimir' onclick='imprimirInformePagosFaltantes()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/computacion-en-la-nube.png' class='iconoBtn'
+title='Exportar a Excel' onclick='exportarInformePagosFaltantes()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarInformePagosFaltantes()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='verCerrarInformePagosFaltantes("2")' />
+</td>
+</tr>
+</table>
+<br>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:24%;text-align:left'>
+<p class='pTituloC'>Nivel Educativo</p>
+<input class='inputText' type='text' list='ListCarreras' id='inptCarreraPagosFaltantes' style='width:95%' autocomplete='off' onkeyup='if(event.keyCode == 13){buscarInformePagosFaltantes()}' />
+</td>
+<td style='width:12%;text-align:left'>
+<p class='pTituloC'>Sección</p>
+<input class='inputText' type='text' list='ListSeccion' id='inptSeccionPagosFaltantes' style='width:95%' autocomplete='off' onkeyup='if(event.keyCode == 13){buscarInformePagosFaltantes()}' />
+</td>
+<td style='width:40%;text-align:left'>
+<p class='pTituloC'>Registro Seleccionado</p>
+<input class='inputTextDisable' type='text' disabled id='inptRegistroSeleccionadoPagosFaltantes' style='width:66%' />
+<input id='btnDetallePagosFaltantes' type='button' value='Detalles' class='btn4' onclick='verDetalleInformePagosFaltantes()' style='width:90px;background-color:#b5f5b7;color:#fff;' />
+</td>
+<td style='width:24%;text-align:left'>
+<p class='pTituloC'>&nbsp;</p>
+<input type='button' value='Buscar' class='btn4' onclick='buscarInformePagosFaltantes()' style='width:90px;background-color: rgb(58 58 58);' />
+<input type='button' value='Limpiar' class='btn4' onclick='limpiarcamposbuscadorPagosFaltantes()' style='width:90px;background-color: rgb(58 58 58);' />
+</td>
+</tr>
+</table>
+</div>
+<div id='contenedorTablaInformePagosFaltantes' style='width:100%;overflow:auto;'>
+<table class='tableCabeceraRegistro tablaReporteFinanciero tablaReporteFinancieroHeader tablaPagosPorMes' id='tdTituloImprePagosFaltantes'>
+<tbody>
+<tr>
+<td class='td_registro reporteColCantidad' style='width:72px'>C.I.</td>
+<td class='td_registro reporteColTexto' style='width:165px'>ALUMNO</td>
+<td class='td_registro reporteColCantidad' style='width:55px'>AÑO</td>
+<td class='td_registro reporteColCantidad' style='width:65px'>CURSO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>MATRICULA</td>
+<td class='td_registro reporteColMonto' style='width:64px'>ENERO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>FEBRERO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>MARZO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>ABRIL</td>
+<td class='td_registro reporteColMonto' style='width:64px'>MAYO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>JUNIO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>JULIO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>AGOSTO</td>
+<td class='td_registro reporteColMonto' style='width:64px'>SEPT.</td>
+<td class='td_registro reporteColMonto' style='width:64px'>OCT.</td>
+<td class='td_registro reporteColMonto' style='width:64px'>NOV.</td>
+<td class='td_registro reporteColMonto' style='width:64px'>DIC.</td>
+</tr>
+</tbody>
+</table>
+<table class='tableRegistroSearch tablaReporteFinanciero tablaPagosPorMes noExl' id='tdFiltrosPagosFaltantes'>
+<tbody>
+<tr>
+<td class='reporteColCantidad' style='width:72px;padding:3px 5px'><input class='inputText' type='text' id='inptCiPagosFaltantes' autocomplete='off' onkeyup='if(event.keyCode == 13){buscarInformePagosFaltantes()}' style='width:100%;height:24px;box-sizing:border-box' /></td>
+<td class='reporteColTexto' style='width:165px;padding:3px 5px'><input class='inputText' type='text' id='inptAlumnoPagosFaltantes' autocomplete='off' onkeyup='if(event.keyCode == 13){buscarInformePagosFaltantes()}' style='width:100%;height:24px;box-sizing:border-box' /></td>
+<td class='reporteColCantidad' style='width:55px;padding:3px 5px'><input class='inputText' type='text' list='ListAnho' id='inptAnhoPagosFaltantes' autocomplete='off' onkeyup='if(event.keyCode == 13){buscarInformePagosFaltantes()}' style='width:100%;height:24px;box-sizing:border-box' /></td>
+<td class='reporteColCantidad' style='width:65px;padding:3px 5px'><input class='inputText' type='text' list='ListCurso' id='inptCursoPagosFaltantes' autocomplete='off' onkeyup='if(event.keyCode == 13){buscarInformePagosFaltantes()}' style='width:100%;height:24px;box-sizing:border-box' /></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+<td class='reporteColMonto' style='width:64px'></td>
+</tr>
+</tbody>
+</table>
+<div class='div_cuerpo_table' id='table_informe_pagos_faltantes' style='height:390px;width:1190px;overflow-x:hidden;'></div>
+</div>
+<div class='divMenuf' style='margin-top:8px'>
+<table style='width:98%'>
+<tr>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Total Matricula</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalMatriculaPagosFaltantes' style='width:95%' />
+</td>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Total Cuotas</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalCuotasPagosFaltantes' style='width:95%' />
+</td>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Total General</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalGeneralPagosFaltantes' style='width:95%;font-weight:bold' />
+</td>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Registros</p>
+<input class='inputTextDisable' type='text' disabled id='inptRegistroPagosFaltantes' style='width:95%' />
+</td>
+</tr>
+</table>
+</div>
+<div id='divDialogDetallePagosFaltantes' class='dialogPagosFaltantes' style='display:none'>
+<div class='dialogPagosFaltantesPanel'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Detalles del <b style='font-size: 30px;' >Alumno</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Detalle' onclick='cerrarDialogDetallePagosFaltantes()' />
+</td>
+</tr>
+</table>
+<div class='dialogPagosFaltantesBody'>
+<div id='divDetallePagosFaltantesResumen'></div>
+<p class='pTituloC' style='font-weight:bold;margin:4px 0 6px'>Cuotas</p>
+<table class='tableCabeceraRegistro tablaReporteFinanciero tablaReporteFinancieroHeader' id='tdTituloDetallePagosFaltantes'>
+<tbody>
+<tr>
+<td class='td_registro reporteColCantidad reporteW10'>NRO</td>
+<td class='td_registro reporteColTexto reporteW28'>MES</td>
+<td class='td_registro reporteColMonto reporteW16'>MONTO</td>
+<td class='td_registro reporteColMonto reporteW16'>PAGADO</td>
+<td class='td_registro reporteColMonto reporteW16'>SALDO</td>
+<td class='td_registro reporteColCantidad reporteW14'>ESTADO</td>
+</tr>
+</tbody>
+</table>
+<div class='div_cuerpo_table' id='table_detalle_pagos_faltantes' style='height:230px;'></div>
+</div>
 </div>
 </div>
 </div>
@@ -12522,6 +12686,14 @@ ENCARGADO
   <option value="Culminado">Culminado</option>
 </datalist>
 
+
+<datalist id="ListSeccion">
+<option value="A">A</option>
+<option value="B">B</option>
+<option value="C">C</option>
+<option value="D">D</option>
+<option value="UNICA">UNICA</option>
+</datalist>
 
 
 <datalist id="ListTurno">

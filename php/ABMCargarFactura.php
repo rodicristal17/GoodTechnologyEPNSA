@@ -308,6 +308,40 @@ if($codFilial==""){
 buscarbalancegeneralporcriterio($anho,$curso,$semestre,$criteriocuota,$criteriomateria,$tipo,$criteriomatricula,$documento,$alumno,$codFilial,$codCarrera,$ordenby);
 
 }
+if($funt=="buscarInformePagosFaltantes")
+{
+$codCarrera=isset($_POST['codCarrera']) ? $_POST['codCarrera'] : "";
+$codCarrera = preparar_variables(utf8_decode($codCarrera));
+$anho=isset($_POST['anho']) ? $_POST['anho'] : "";
+$anho = preparar_variables(utf8_decode($anho));
+$seccion=isset($_POST['seccion']) ? $_POST['seccion'] : "";
+$seccion = preparar_variables(utf8_decode($seccion));
+$ci=isset($_POST['ci']) ? $_POST['ci'] : "";
+$ci = preparar_variables(utf8_decode($ci));
+$alumno=isset($_POST['alumno']) ? $_POST['alumno'] : "";
+$alumno = preparar_variables(utf8_decode($alumno));
+$curso=isset($_POST['curso']) ? $_POST['curso'] : "";
+$curso = preparar_variables(utf8_decode($curso));
+$codFilial="";
+$control=controldefilial($user,"ACCESOFILIAL"," acus.accion='SI' ");
+	if($control==0){
+		$codFilial=buscarmifilialFK($user);
+	}
+buscarInformePagosFaltantes($codFilial,$codCarrera,$anho,$seccion,$ci,$alumno,$curso);
+
+}
+if($funt=="buscarDetalleInformePagosFaltantes")
+{
+$idcursosalumno=isset($_POST['idcursosalumno']) ? $_POST['idcursosalumno'] : "";
+$idcursosalumno = preparar_variables(utf8_decode($idcursosalumno));
+$codFilial="";
+$control=controldefilial($user,"ACCESOFILIAL"," acus.accion='SI' ");
+	if($control==0){
+		$codFilial=buscarmifilialFK($user);
+	}
+buscarDetalleInformePagosFaltantes($codFilial,$idcursosalumno);
+
+}
 if($funt=="buscarpuntoexpedicion")
 {
 $idFilialFactura=$_POST['idFilialFactura'];
@@ -2348,6 +2382,536 @@ echo json_encode($informacion);
 exit;
 
 
+}
+
+function texto_informe_pagos_faltantes($valor)
+{
+	if($valor==null){
+		$valor="";
+	}
+	return htmlspecialchars(utf8_encode($valor), ENT_QUOTES, "UTF-8");
+}
+
+function formato_numero_informe_pagos_faltantes($valor)
+{
+	if($valor==null || $valor==""){
+		$valor=0;
+	}
+	return number_format($valor,'0',',','.');
+}
+
+function inicializar_meses_informe_pagos_faltantes()
+{
+	return array(
+		1 => 0,
+		2 => 0,
+		3 => 0,
+		4 => 0,
+		5 => 0,
+		6 => 0,
+		7 => 0,
+		8 => 0,
+		9 => 0,
+		10 => 0,
+		11 => 0,
+		12 => 0
+	);
+}
+
+function obtener_pago_arancel_informe_pagos_faltantes($mysqli,$idcursosalumno,$nombreArancel)
+{
+	$idcursosalumno=$mysqli->real_escape_string($idcursosalumno);
+	$nombreArancel=$mysqli->real_escape_string($nombreArancel);
+	$sql="Select IFNULL(sum(fac.monto),0) as pagado
+	from facturaspagadas fac
+	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	where fac.estado='Activo' and fac.estadofactura='Activo'
+	and fac.idcursosalumnoFk='$idcursosalumno'
+	and upper(lta.nombre) like '$nombreArancel%' ";
+	$stmt=$mysqli->prepare($sql);
+	if(!$stmt->execute()){
+		echo "Error";
+		exit;
+	}
+	$pagado=0;
+	$result=$stmt->get_result();
+	if(mysqli_num_rows($result)>0){
+		while($valor=mysqli_fetch_assoc($result)){
+			$pagado=$valor['pagado'];
+		}
+	}
+	return $pagado;
+}
+
+function obtener_configuracion_cuota_informe_pagos_faltantes($mysqli,$codCarrera,$anho,$semestre,$curso)
+{
+	$codCarrera=$mysqli->real_escape_string($codCarrera);
+	$anho=$mysqli->real_escape_string($anho);
+	$semestre=$mysqli->real_escape_string($semestre);
+	$curso=$mysqli->real_escape_string($curso);
+	if($semestre==""){
+		$semestre="1";
+	}
+	$configuracion=array("monto" => 0, "cantidad" => 0, "total" => 0);
+	$sql="Select ar.monto, ar.cantidad, ar.total
+	from aranceles ar
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	where ar.estado='Activo'
+	and ar.cod_carreraFK='$codCarrera'
+	and upper(lta.nombre) like 'CUOTA%'
+	and (
+		(ar.anho='$anho' and ar.semestre='$semestre' and ar.curso='$curso')
+		or (ar.anho='NF' and ar.semestre='NF' and ar.curso='NF')
+	)
+	order by case when ar.anho='$anho' and ar.semestre='$semestre' and ar.curso='$curso' then 0 else 1 end, ar.cod_arancel desc
+	limit 1";
+	$stmt=$mysqli->prepare($sql);
+	if(!$stmt->execute()){
+		echo "Error";
+		exit;
+	}
+	$result=$stmt->get_result();
+	if(mysqli_num_rows($result)>0){
+		while($valor=mysqli_fetch_assoc($result)){
+			$configuracion["monto"]=$valor['monto'];
+			$configuracion["cantidad"]=$valor['cantidad'];
+			$configuracion["total"]=$valor['total'];
+		}
+	}
+	return $configuracion;
+}
+
+function obtener_pagos_cuota_por_fecha_informe_pagos_faltantes($mysqli,$idcursosalumno)
+{
+	$meses=inicializar_meses_informe_pagos_faltantes();
+	$idcursosalumno=$mysqli->real_escape_string($idcursosalumno);
+	$sql="Select MONTH(fac.fecha) as mes, IFNULL(sum(fac.monto),0) as pagado
+	from facturaspagadas fac
+	inner join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	inner join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	where fac.estado='Activo' and fac.estadofactura='Activo'
+	and fac.idcursosalumnoFk='$idcursosalumno'
+	and upper(lta.nombre) like 'CUOTA%'
+	group by MONTH(fac.fecha)";
+	$stmt=$mysqli->prepare($sql);
+	if(!$stmt->execute()){
+		echo "Error";
+		exit;
+	}
+	$result=$stmt->get_result();
+	if(mysqli_num_rows($result)>0){
+		while($valor=mysqli_fetch_assoc($result)){
+			$mes=(int)$valor['mes'];
+			if($mes>=1 && $mes<=12){
+				$meses[$mes]=$valor['pagado'];
+			}
+		}
+	}
+	return $meses;
+}
+
+function distribuir_cuotas_informe_pagos_faltantes($totalPagado,$montoCuota,$cantidadCuotas,$mesInicio)
+{
+	$meses=inicializar_meses_informe_pagos_faltantes();
+	$totalPagado=(float)$totalPagado;
+	$montoCuota=(float)$montoCuota;
+	$cantidadCuotas=(int)$cantidadCuotas;
+	$mesInicio=(int)$mesInicio;
+	if($cantidadCuotas<=0 || $montoCuota<=0){
+		return $meses;
+	}
+	if($mesInicio<1 || $mesInicio>12){
+		$mesInicio=2;
+	}
+	$restante=$totalPagado;
+	$ultimoMes=$mesInicio;
+	for($a=1;$a<=$cantidadCuotas;$a++){
+		$mes=(($mesInicio+$a-2)%12)+1;
+		$ultimoMes=$mes;
+		$montoMes=0;
+		if($restante>0){
+			if($restante>=$montoCuota){
+				$montoMes=$montoCuota;
+			}else{
+				$montoMes=$restante;
+			}
+			$restante=$restante-$montoMes;
+		}
+		$meses[$mes]=$meses[$mes]+$montoMes;
+	}
+	if($restante>0){
+		$meses[$ultimoMes]=$meses[$ultimoMes]+$restante;
+	}
+	return $meses;
+}
+
+function fila_informe_pagos_faltantes($styleName,$idcursosalumno,$ci,$alumno,$anho,$curso,$matricula,$meses)
+{
+	$pagina="<table class='$styleName tablaReporteFinanciero tablaPagosPorMes' border='0' cellspacing='0' cellpadding='0'>
+	<tr id='tbSelecRegistro' name='trInformePagosFaltantes' onclick='seleccionarInformePagosFaltantes(this)'>
+	<td id='td_id_curso_alumno' style='display:none'>".$idcursosalumno."</td>
+	<td id='td_datos_ci' class='reporteColCantidad' style='width:72px'>".$ci."</td>
+	<td id='td_datos_alumno' class='reporteColTexto' style='width:165px' title='".$alumno."'>".$alumno."</td>
+	<td class='reporteColCantidad' style='width:55px'>".$anho."</td>
+	<td class='reporteColCantidad' style='width:65px'>".$curso."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($matricula)."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[1])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[2])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[3])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[4])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[5])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[6])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[7])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[8])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[9])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[10])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[11])."</td>
+	<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($meses[12])."</td>
+	</tr>
+	</table>";
+	return $pagina;
+}
+
+function buscarInformePagosFaltantes($codFilial,$codCarrera,$anho,$seccion,$ci,$alumno,$curso)
+{
+	$mysqli=conectar_al_servidor();
+	$codFilial=$mysqli->real_escape_string($codFilial);
+	$codCarrera=$mysqli->real_escape_string($codCarrera);
+	$anho=$mysqli->real_escape_string($anho);
+	$seccion=$mysqli->real_escape_string($seccion);
+	$ci=$mysqli->real_escape_string($ci);
+	$alumno=$mysqli->real_escape_string($alumno);
+	$curso=$mysqli->real_escape_string($curso);
+	$condicionFilial="";
+	if($codFilial!=""){
+		$condicionFilial=" and car.cod_filialOringFK='$codFilial' ";
+	}
+	$condicionCarrera="";
+	if($codCarrera!=""){
+		$condicionCarrera=" and ltc.Cod_listadecarreras='$codCarrera' ";
+	}
+	$condicionAnho="";
+	if($anho!=""){
+		$condicionAnho=" and cur.anho='$anho' ";
+	}
+	$condicionSeccion="";
+	if($seccion!=""){
+		$condicionSeccion=" and cur.seccion='$seccion' ";
+	}
+	$condicionCi="";
+	if($ci!=""){
+		$condicionCi=" and alu.ci like '%$ci%' ";
+	}
+	$condicionAlumno="";
+	if($alumno!=""){
+		$condicionAlumno=" and (concat(alu.apellido,' ',alu.nombre) like '%$alumno%' or concat(alu.nombre,' ',alu.apellido) like '%$alumno%') ";
+	}
+	$condicionCurso="";
+	if($curso!=""){
+		$condicionCurso=" and cur.curso='$curso' ";
+	}
+	$sql="Select cur.idcursosalumno, cur.idalumnoFk, cur.cod_carreraFK, cur.anho, cur.semestre, cur.curso, cur.seccion,
+	MONTH(cur.fechaInicio) as mesInicio,
+	alu.nombre as nombrealumno, alu.apellido, alu.ci,
+	ltc.nombre as nombrecarrera,
+	fil.nombre as nombrefilial
+	from cursosalumno cur
+	inner join alumno alu on alu.idalumno=cur.idalumnoFk
+	inner join carrera car on car.cod_carrera=cur.cod_carreraFK
+	inner join listadecarreras ltc on ltc.Cod_listadecarreras=car.Cod_listadecarrerasFK
+	inner join filial fil on fil.cod_filial=car.cod_filialOringFK
+	where cur.idalumnoFk!='-1' and cur.estado='Activo' ".$condicionFilial.$condicionCarrera.$condicionAnho.$condicionSeccion.$condicionCi.$condicionAlumno.$condicionCurso."
+	order by cur.anho desc, cur.curso asc, cur.seccion asc, alu.apellido asc, alu.nombre asc";
+	$stmt=$mysqli->prepare($sql);
+	if(!$stmt->execute()){
+		echo "Error";
+		exit;
+	}
+	$pagina="";
+	$contador=0;
+	$totalMatricula=0;
+	$totalCuotas=0;
+	$totalGeneral=0;
+	$totalesMeses=inicializar_meses_informe_pagos_faltantes();
+	$result=$stmt->get_result();
+	$totalresouesta=mysqli_num_rows($result);
+	if($totalresouesta>0){
+		while($valor=mysqli_fetch_assoc($result)){
+			$contador++;
+			$idcursosalumno=$valor['idcursosalumno'];
+			$cod_carreraFK=$valor['cod_carreraFK'];
+			$anhoAlumno=$valor['anho'];
+			$semestreAlumno=$valor['semestre'];
+			$cursoAlumno=$valor['curso'];
+			$mesInicio=$valor['mesInicio'];
+			$ci=texto_informe_pagos_faltantes($valor['ci']);
+			$alumno=texto_informe_pagos_faltantes($valor['apellido']." ".$valor['nombrealumno']);
+			$anhoAlumnoTexto=texto_informe_pagos_faltantes($anhoAlumno);
+			$cursoAlumnoTexto=texto_informe_pagos_faltantes($cursoAlumno);
+			$matricula=obtener_pago_arancel_informe_pagos_faltantes($mysqli,$idcursosalumno,"MATRIC");
+			$totalPagadoCuota=obtener_pago_arancel_informe_pagos_faltantes($mysqli,$idcursosalumno,"CUOTA");
+			$configCuota=obtener_configuracion_cuota_informe_pagos_faltantes($mysqli,$cod_carreraFK,$anhoAlumno,$semestreAlumno,$cursoAlumno);
+			if($configCuota["monto"]>0 && $configCuota["cantidad"]>0){
+				$meses=distribuir_cuotas_informe_pagos_faltantes($totalPagadoCuota,$configCuota["monto"],$configCuota["cantidad"],$mesInicio);
+			}else{
+				$meses=obtener_pagos_cuota_por_fecha_informe_pagos_faltantes($mysqli,$idcursosalumno);
+			}
+			$totalFila=$matricula;
+			for($m=1;$m<=12;$m++){
+				$totalFila=$totalFila+$meses[$m];
+				$totalesMeses[$m]=$totalesMeses[$m]+$meses[$m];
+			}
+			$totalMatricula=$totalMatricula+$matricula;
+			$totalCuotas=$totalCuotas+$totalPagadoCuota;
+			$totalGeneral=$totalGeneral+$totalFila;
+			$styleName="tableRegistroSearch";
+			if(($contador%2)==0){
+				$styleName="tableRegistroSearch2";
+			}
+			$pagina.=fila_informe_pagos_faltantes($styleName,$idcursosalumno,$ci,$alumno,$anhoAlumnoTexto,$cursoAlumnoTexto,$matricula,$meses);
+		}
+		$pagina.="<table class='tableRegistroSearch2 tablaReporteFinanciero tablaPagosPorMes' border='0' cellspacing='0' cellpadding='0'>
+		<tr id='tbSelecRegistro' style='font-weight:bold'>
+		<td class='reporteColCantidad' style='width:72px'>TOTALES</td>
+		<td class='reporteColTexto' style='width:165px'></td>
+		<td class='reporteColCantidad' style='width:55px'></td>
+		<td class='reporteColCantidad' style='width:65px'></td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalMatricula)."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[1])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[2])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[3])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[4])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[5])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[6])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[7])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[8])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[9])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[10])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[11])."</td>
+		<td class='reporteColMonto' style='width:64px'>".formato_numero_informe_pagos_faltantes($totalesMeses[12])."</td>
+		</tr>
+		</table>";
+	}else{
+		$pagina="<table class='tableRegistroSearch tablaReporteFinanciero tablaPagosPorMes' border='0' cellspacing='0' cellpadding='0'>
+		<tr id='tbSelecRegistro'>
+		<td class='reporteColVacio' colspan='17'>NO SE ENCONTRARON ALUMNOS PARA LOS FILTROS INDICADOS</td>
+		</tr>
+		</table>";
+	}
+	mysqli_close($mysqli);
+	$informacion=array(
+		"1" => "exito",
+		"2" => $pagina,
+		"3" => $totalresouesta,
+		"4" => formato_numero_informe_pagos_faltantes($totalMatricula),
+		"5" => formato_numero_informe_pagos_faltantes($totalCuotas),
+		"6" => formato_numero_informe_pagos_faltantes($totalGeneral)
+	);
+	echo json_encode($informacion);
+	exit;
+}
+
+function campo_detalle_informe_pagos_faltantes($titulo,$valor,$resaltar=false)
+{
+	$titulo=htmlspecialchars($titulo, ENT_QUOTES, "UTF-8");
+	$valor=texto_informe_pagos_faltantes($valor);
+	if($valor===""){
+		$valor="-";
+	}
+	if($resaltar==true){
+		$valor="<b>".$valor."</b>";
+	}
+	return "<div style='margin-bottom:10px'>
+	<p class='pTituloC' style='font-weight:bold;margin-bottom:4px'>".$titulo."</p>
+	<div class='detallePagosValor'>".$valor."</div>
+	</div>";
+}
+
+function panel_detalle_informe_pagos_faltantes($titulo,$contenido)
+{
+	$titulo=htmlspecialchars($titulo, ENT_QUOTES, "UTF-8");
+	return "<div class='divMenuf' style='box-sizing:border-box;min-height:205px;margin:0'>
+	<p class='pTituloC' style='font-weight:bold;margin-bottom:12px'>".$titulo."</p>
+	".$contenido."
+	</div>";
+}
+
+function fila_cuota_detalle_informe_pagos_faltantes($styleName,$nro,$mes,$monto,$pagado,$saldo,$estado)
+{
+	$claseEstado="detallePagosEstadoPagado";
+	if($saldo>0){
+		$claseEstado="detallePagosEstadoPendiente";
+	}
+	$pagina="<table class='".$styleName." tablaReporteFinanciero' border='0' cellspacing='0' cellpadding='0'>
+	<tr id='tbSelecRegistro'>
+	<td class='reporteColCantidad reporteW10'>".$nro."</td>
+	<td class='reporteColTexto reporteW28'>".$mes."</td>
+	<td class='reporteColMonto reporteW16'>".formato_numero_informe_pagos_faltantes($monto)."</td>
+	<td class='reporteColMonto reporteW16'>".formato_numero_informe_pagos_faltantes($pagado)."</td>
+	<td class='reporteColMonto reporteW16'>".formato_numero_informe_pagos_faltantes($saldo)."</td>
+	<td class='reporteColCantidad reporteW14 ".$claseEstado."'>".$estado."</td>
+	</tr>
+	</table>";
+	return $pagina;
+}
+
+function generar_cuotas_detalle_informe_pagos_faltantes($totalPagadoCuota,$configCuota,$mesInicio)
+{
+	$cantidadCuotas=(int)$configCuota["cantidad"];
+	$montoCuota=(float)$configCuota["monto"];
+	$mesInicio=(int)$mesInicio;
+	if($mesInicio<1 || $mesInicio>12){
+		$mesInicio=2;
+	}
+	if($cantidadCuotas<=0 || $montoCuota<=0){
+		$pagina="<table class='tableRegistroSearch tablaReporteFinanciero' border='0' cellspacing='0' cellpadding='0'>
+		<tr id='tbSelecRegistro'>
+		<td class='reporteColVacio' colspan='6'>NO SE ENCONTRO CONFIGURACION DE CUOTAS PARA ESTE REGISTRO</td>
+		</tr>
+		</table>";
+		return array("pagina" => $pagina, "cantidadPendiente" => 0, "saldoPendiente" => 0);
+	}
+	$pagina="";
+	$pagadoDisponible=(float)$totalPagadoCuota;
+	$cantidadPendiente=0;
+	$saldoPendiente=0;
+	for($a=1;$a<=$cantidadCuotas;$a++){
+		$mesNro=(($mesInicio+$a-2)%12)+1;
+		$mes=caseFecha($mesNro);
+		if($mes==""){
+			$mes="CUOTA ".$a;
+		}
+		$pagado=0;
+		if($pagadoDisponible>0){
+			if($pagadoDisponible>=$montoCuota){
+				$pagado=$montoCuota;
+			}else{
+				$pagado=$pagadoDisponible;
+			}
+			$pagadoDisponible=$pagadoDisponible-$pagado;
+		}
+		$saldo=$montoCuota-$pagado;
+		if($saldo<0){
+			$saldo=0;
+		}
+		$estado="PAGADO";
+		if($saldo>0){
+			$estado="PENDIENTE";
+			if($pagado>0){
+				$estado="PARCIAL";
+			}
+			$cantidadPendiente++;
+			$saldoPendiente=$saldoPendiente+$saldo;
+		}
+		$styleName="tableRegistroSearch";
+		if(($a%2)==0){
+			$styleName="tableRegistroSearch2";
+		}
+		$pagina.=fila_cuota_detalle_informe_pagos_faltantes($styleName,$a,$mes,$montoCuota,$pagado,$saldo,$estado);
+	}
+	return array("pagina" => $pagina, "cantidadPendiente" => $cantidadPendiente, "saldoPendiente" => $saldoPendiente);
+}
+
+function buscarDetalleInformePagosFaltantes($codFilial,$idcursosalumno)
+{
+	if($idcursosalumno==""){
+		$informacion=array("1" => "DI");
+		echo json_encode($informacion);
+		exit;
+	}
+	$mysqli=conectar_al_servidor();
+	$codFilial=$mysqli->real_escape_string($codFilial);
+	$idcursosalumno=$mysqli->real_escape_string($idcursosalumno);
+	$condicionFilial="";
+	if($codFilial!=""){
+		$condicionFilial=" and car.cod_filialOringFK='$codFilial' ";
+	}
+	$sql="Select cur.idcursosalumno, cur.idalumnoFk, cur.cod_carreraFK, cur.anho, cur.semestre, cur.curso, cur.turno,
+	cur.seccion, cur.fechaInicio, cur.encargado as encargadoCurso,
+	alu.nombre as nombrealumno, alu.apellido, alu.ci, alu.telef, alu.whatsapp, alu.dir_domicilio,
+	alu.encargado as encargadoAlumno, alu.celpadre,
+	ltc.nombre as nombrecarrera, fil.nombre as nombrefilial
+	from cursosalumno cur
+	inner join alumno alu on alu.idalumno=cur.idalumnoFk
+	inner join carrera car on car.cod_carrera=cur.cod_carreraFK
+	inner join listadecarreras ltc on ltc.Cod_listadecarreras=car.Cod_listadecarrerasFK
+	inner join filial fil on fil.cod_filial=car.cod_filialOringFK
+	where cur.idcursosalumno='$idcursosalumno' and cur.estado='Activo' ".$condicionFilial."
+	limit 1";
+	$stmt=$mysqli->prepare($sql);
+	if(!$stmt->execute()){
+		echo "Error";
+		exit;
+	}
+	$result=$stmt->get_result();
+	if(mysqli_num_rows($result)==0){
+		mysqli_close($mysqli);
+		$pagina="<table class='tableRegistroSearch tablaReporteFinanciero' border='0' cellspacing='0' cellpadding='0'>
+		<tr id='tbSelecRegistro'>
+		<td class='reporteColVacio' colspan='6'>NO SE ENCONTRO EL REGISTRO SELECCIONADO</td>
+		</tr>
+		</table>";
+		$informacion=array("1" => "exito","2" => "","3" => $pagina,"4" => "","5" => "0","6" => "0");
+		echo json_encode($informacion);
+		exit;
+	}
+	$valor=mysqli_fetch_assoc($result);
+	$idcursosalumno=$valor['idcursosalumno'];
+	$cod_carreraFK=$valor['cod_carreraFK'];
+	$anhoAlumno=$valor['anho'];
+	$semestreAlumno=$valor['semestre'];
+	$cursoAlumno=$valor['curso'];
+	$mesInicio=2;
+	if($valor['fechaInicio']!="" && $valor['fechaInicio']!="0000-00-00"){
+		$fechaInicioTime=strtotime($valor['fechaInicio']);
+		if($fechaInicioTime!==false){
+			$mesInicio=date("n", $fechaInicioTime);
+		}
+	}
+	$alumnoNombre=$valor['apellido']." ".$valor['nombrealumno'];
+	$encargado=$valor['encargadoCurso'];
+	if($encargado==""){
+		$encargado=$valor['encargadoAlumno'];
+	}
+	$matricula=obtener_pago_arancel_informe_pagos_faltantes($mysqli,$idcursosalumno,"MATRIC");
+	$totalPagadoCuota=obtener_pago_arancel_informe_pagos_faltantes($mysqli,$idcursosalumno,"CUOTA");
+	$configCuota=obtener_configuracion_cuota_informe_pagos_faltantes($mysqli,$cod_carreraFK,$anhoAlumno,$semestreAlumno,$cursoAlumno);
+	$detalleCuotas=generar_cuotas_detalle_informe_pagos_faltantes($totalPagadoCuota,$configCuota,$mesInicio);
+	$cantidadTotalCuotas=(int)$configCuota["cantidad"];
+	$cuotasPendientesTexto=$detalleCuotas["cantidadPendiente"]." / ".$cantidadTotalCuotas;
+	$resumen="<div class='detallePagosResumen'>";
+	$panelAlumno=campo_detalle_informe_pagos_faltantes("C.I.",$valor['ci'])
+	.campo_detalle_informe_pagos_faltantes("Alumno",$alumnoNombre)
+	.campo_detalle_informe_pagos_faltantes("Telefono Alumno",$valor['telef'])
+	.campo_detalle_informe_pagos_faltantes("WhatsApp",$valor['whatsapp'])
+	.campo_detalle_informe_pagos_faltantes("Direccion",$valor['dir_domicilio']);
+	$panelTutorPagos=campo_detalle_informe_pagos_faltantes("Tutor / Encargado",$encargado)
+	.campo_detalle_informe_pagos_faltantes("Telefono Tutor",$valor['celpadre'])
+	.campo_detalle_informe_pagos_faltantes("Matricula Pagada",formato_numero_informe_pagos_faltantes($matricula),true)
+	.campo_detalle_informe_pagos_faltantes("Cuotas Pagadas",formato_numero_informe_pagos_faltantes($totalPagadoCuota),true)
+	.campo_detalle_informe_pagos_faltantes("Cuotas Pendientes",$cuotasPendientesTexto,true)
+	.campo_detalle_informe_pagos_faltantes("Saldo Pendiente",formato_numero_informe_pagos_faltantes($detalleCuotas["saldoPendiente"]),true);
+	$panelCurso=campo_detalle_informe_pagos_faltantes("Nivel Educativo",$valor['nombrecarrera'])
+	.campo_detalle_informe_pagos_faltantes("Filial",$valor['nombrefilial'])
+	.campo_detalle_informe_pagos_faltantes("Año / Curso",$valor['anho']." - ".$valor['curso'])
+	.campo_detalle_informe_pagos_faltantes("Semestre / Seccion",$valor['semestre']." - ".$valor['seccion'])
+	.campo_detalle_informe_pagos_faltantes("Turno",$valor['turno']);
+	$resumen.=panel_detalle_informe_pagos_faltantes("Datos del Alumno",$panelAlumno);
+	$resumen.=panel_detalle_informe_pagos_faltantes("Tutor y Pagos",$panelTutorPagos);
+	$resumen.=panel_detalle_informe_pagos_faltantes("Datos del Curso",$panelCurso);
+	$resumen.="</div>";
+	mysqli_close($mysqli);
+	$informacion=array(
+		"1" => "exito",
+		"2" => $resumen,
+		"3" => $detalleCuotas["pagina"],
+		"4" => texto_informe_pagos_faltantes($alumnoNombre),
+		"5" => $detalleCuotas["cantidadPendiente"],
+		"6" => formato_numero_informe_pagos_faltantes($detalleCuotas["saldoPendiente"])
+	);
+	echo json_encode($informacion);
+	exit;
 }
 
 function buscarbalancegeneralporcriterio($anhofiltro,$cursofiltro,$semestrefiltro,$criteriocuota,$criteriomateria,$tipo,$criteriomatricula,$documento,$alumno,$codFilial,$codCarrera,$ordenby)

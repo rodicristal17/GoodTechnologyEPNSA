@@ -27326,6 +27326,354 @@ function imprimirInformeGananciaArancel(){
 
 
 
+/*
+INFORME DE Cobros mensuales alumnos
+*/
+function verCerrarInformePagosFaltantes(d){
+	var divInforme = document.getElementById("divInformePagosFaltantes");
+	var divMinimizado = document.getElementById("divMinimizadoPagosFaltantes");
+	if(divInforme == null){
+		alertmensaje("FALTA CREAR LA VENTANA DE Cobros mensuales alumnos");
+		return;
+	}
+	if(divMinimizado != null){
+		divMinimizado.style.display="none";
+	}
+	document.getElementById("divSegundoPlano").style.display="none";
+	if(d=="1"){
+		minimizartodaventanaabierto();
+		divInforme.style.display="";
+		if(document.getElementById("inptAnhoPagosFaltantes").value==""){
+			cargarValoresDefectoInformePagosFaltantes();
+		}
+	}else{
+		$("div[id=divInformePagosFaltantes]").fadeOut(500);
+		limpiarcamposbuscadorPagosFaltantes();
+	}
+}
+
+function minimizarInformePagosFaltantes(){
+	cerrarDialogDetallePagosFaltantes();
+	document.getElementById("divInformePagosFaltantes").style.display="none";
+	document.getElementById("divMinimizadoPagosFaltantes").style.display="";
+}
+
+function cargarValoresDefectoInformePagosFaltantes(){
+	var f = new Date();
+	document.getElementById("inptAnhoPagosFaltantes").value = f.getFullYear();
+}
+
+function cargarTotalesInformePagosFaltantes(valor){
+	document.getElementById("inptTotalMatriculaPagosFaltantes").value = valor;
+	document.getElementById("inptTotalCuotasPagosFaltantes").value = valor;
+	document.getElementById("inptTotalGeneralPagosFaltantes").value = valor;
+	document.getElementById("inptRegistroPagosFaltantes").value = valor;
+}
+
+var idCursoAlumnoInformePagosFaltantesSeleccionado = "";
+
+function actualizarBotonDetallePagosFaltantes(){
+	var boton = document.getElementById("btnDetallePagosFaltantes");
+	if(boton == null){
+		return;
+	}
+	if(idCursoAlumnoInformePagosFaltantesSeleccionado==""){
+		boton.style.backgroundColor = "#b5f5b7";
+		boton.style.color = "#fff";
+	}else{
+		boton.style.backgroundColor = "#4CAF50";
+		boton.style.color = "#fff";
+	}
+}
+
+function abrirDialogDetallePagosFaltantes(){
+	var dialog = document.getElementById("divDialogDetallePagosFaltantes");
+	if(dialog != null){
+		dialog.style.display = "";
+	}
+}
+
+function cerrarDialogDetallePagosFaltantes(){
+	var dialog = document.getElementById("divDialogDetallePagosFaltantes");
+	if(dialog != null){
+		dialog.style.display = "none";
+	}
+}
+
+function cargarTotalesDetallePagosFaltantes(valor){
+	var alumno = document.getElementById("inptDetalleAlumnoPagosFaltantes");
+	var cuotas = document.getElementById("inptDetalleCuotasPendientesPagosFaltantes");
+	var saldo = document.getElementById("inptDetalleSaldoPendientePagosFaltantes");
+	if(alumno){ alumno.value = valor; }
+	if(cuotas){ cuotas.value = valor; }
+	if(saldo){ saldo.value = valor; }
+}
+
+function limpiarSeleccionInformePagosFaltantes(){
+	idCursoAlumnoInformePagosFaltantesSeleccionado = "";
+	actualizarBotonDetallePagosFaltantes();
+	$("#table_informe_pagos_faltantes tr[name=trInformePagosFaltantes]").each(function (i, tr) {
+		tr.className = "";
+	});
+	if(document.getElementById("inptRegistroSeleccionadoPagosFaltantes")){
+		document.getElementById("inptRegistroSeleccionadoPagosFaltantes").value = "";
+	}
+	if(document.getElementById("divDetallePagosFaltantesResumen")){
+		document.getElementById("divDetallePagosFaltantesResumen").innerHTML = "";
+	}
+	if(document.getElementById("table_detalle_pagos_faltantes")){
+		document.getElementById("table_detalle_pagos_faltantes").innerHTML = "";
+	}
+	if(document.getElementById("inptDetalleAlumnoPagosFaltantes")){
+		cargarTotalesDetallePagosFaltantes("");
+	}
+}
+
+function seleccionarInformePagosFaltantes(datostr){
+	$("#table_informe_pagos_faltantes tr[name=trInformePagosFaltantes]").each(function (i, tr) {
+		tr.className = "";
+	});
+	datostr.className = "tableRegistroSelec";
+	idCursoAlumnoInformePagosFaltantesSeleccionado = $(datostr).children('td[id="td_id_curso_alumno"]').html();
+	var alumno = $(datostr).children('td[id="td_datos_alumno"]').html();
+	var ci = $(datostr).children('td[id="td_datos_ci"]').html();
+	document.getElementById("inptRegistroSeleccionadoPagosFaltantes").value = ci + " - " + alumno;
+	actualizarBotonDetallePagosFaltantes();
+}
+
+function limpiarcamposbuscadorPagosFaltantes(){
+	cerrarDialogDetallePagosFaltantes();
+	limpiarSeleccionInformePagosFaltantes();
+	document.getElementById("inptCarreraPagosFaltantes").value = "";
+	document.getElementById("inptSeccionPagosFaltantes").value = "";
+	document.getElementById("inptCiPagosFaltantes").value = "";
+	document.getElementById("inptAlumnoPagosFaltantes").value = "";
+	document.getElementById("inptCursoPagosFaltantes").value = "";
+	cargarValoresDefectoInformePagosFaltantes();
+	cargarTotalesInformePagosFaltantes("");
+	document.getElementById("table_informe_pagos_faltantes").innerHTML = "";
+}
+
+function obtenerCodCarreraInformePagosFaltantes(){
+	var codCarrera = obtenerIdSeleccionDatalist("inptCarreraPagosFaltantes");
+	if(codCarrera=="" && document.getElementById("inptCarreraPagosFaltantes").value!=""){
+		alertmensaje("FALTO SELECCIONAR UN NIVEL EDUCATIVO VALIDO");
+		return false;
+	}
+	return codCarrera;
+}
+
+function buscarInformePagosFaltantes(){
+	cerrarDialogDetallePagosFaltantes();
+	limpiarSeleccionInformePagosFaltantes();
+	var codCarrera = obtenerCodCarreraInformePagosFaltantes();
+	if(codCarrera===false){
+		return;
+	}
+	var anho = document.getElementById("inptAnhoPagosFaltantes").value;
+	var seccion = document.getElementById("inptSeccionPagosFaltantes").value;
+	var ci = document.getElementById("inptCiPagosFaltantes").value;
+	var alumno = document.getElementById("inptAlumnoPagosFaltantes").value;
+	var curso = document.getElementById("inptCursoPagosFaltantes").value;
+	cargarTotalesInformePagosFaltantes("...");
+	document.getElementById("table_informe_pagos_faltantes").innerHTML = imgCargandoA;
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"codCarrera": codCarrera,
+		"anho": anho,
+		"seccion": seccion,
+		"ci": ci,
+		"alumno": alumno,
+		"curso": curso,
+		"funt": "buscarInformePagosFaltantes"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/ABMCargarFactura.php",
+		type: "post",
+		xhr: function () {
+			var xhr = new window.XMLHttpRequest();
+			xhr.upload.addEventListener("progress" ,function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("enviado",kb,"0");
+			}, false);
+			xhr.addEventListener("progress", function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("recibido","0",kb);
+			}, false);
+			return xhr;
+		},
+		beforeSend: function () {
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			document.getElementById("table_informe_pagos_faltantes").innerHTML = "";
+			cargarTotalesInformePagosFaltantes("");
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			document.getElementById("table_informe_pagos_faltantes").innerHTML = "";
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					document.getElementById("table_informe_pagos_faltantes").innerHTML = datos[2];
+					document.getElementById("inptRegistroPagosFaltantes").value = datos[3];
+					document.getElementById("inptTotalMatriculaPagosFaltantes").value = datos[4];
+					document.getElementById("inptTotalCuotasPagosFaltantes").value = datos[5];
+					document.getElementById("inptTotalGeneralPagosFaltantes").value = datos[6];
+					cargarAdminTareas();
+					if(datos[3]==0){
+						alertmensaje("NO SE ENCONTRARON REGISTROS");
+					}
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+				cargarTotalesInformePagosFaltantes("");
+			}
+		}
+	});
+}
+
+function verDetalleInformePagosFaltantes(){
+	if(idCursoAlumnoInformePagosFaltantesSeleccionado==""){
+		alertmensaje("FALTO SELECCIONAR UN REGISTRO");
+		return;
+	}
+	abrirDialogDetallePagosFaltantes();
+	cargarTotalesDetallePagosFaltantes("...");
+	document.getElementById("divDetallePagosFaltantesResumen").innerHTML = imgCargandoA;
+	document.getElementById("table_detalle_pagos_faltantes").innerHTML = "";
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"idcursosalumno": idCursoAlumnoInformePagosFaltantesSeleccionado,
+		"funt": "buscarDetalleInformePagosFaltantes"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/ABMCargarFactura.php",
+		type: "post",
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			document.getElementById("divDetallePagosFaltantesResumen").innerHTML = "";
+			document.getElementById("table_detalle_pagos_faltantes").innerHTML = "";
+			cargarTotalesDetallePagosFaltantes("");
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					document.getElementById("divDetallePagosFaltantesResumen").innerHTML = datos[2];
+					document.getElementById("table_detalle_pagos_faltantes").innerHTML = datos[3];
+					var alumno = document.getElementById("inptDetalleAlumnoPagosFaltantes");
+					var cuotas = document.getElementById("inptDetalleCuotasPendientesPagosFaltantes");
+					var saldo = document.getElementById("inptDetalleSaldoPendientePagosFaltantes");
+					if(alumno){ alumno.value = datos[4]; }
+					if(cuotas){ cuotas.value = datos[5]; }
+					if(saldo){ saldo.value = datos[6]; }
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+				document.getElementById("divDetallePagosFaltantesResumen").innerHTML = "";
+				document.getElementById("table_detalle_pagos_faltantes").innerHTML = "";
+				cargarTotalesDetallePagosFaltantes("");
+			}
+		}
+	});
+}
+
+function exportarInformePagosFaltantes() {
+	if(document.getElementById("table_informe_pagos_faltantes").innerHTML==""){
+		alertmensaje("FALTO BUSCAR EL INFORME");
+		return;
+	}
+	if (!$.fn.table2excel) {
+		console.error("Plugin table2excel no cargado");
+		return;
+	}
+	$("#contenedorTablaInformePagosFaltantes").table2excel({
+		exclude: ".noExl",
+		name: "Cobros mensuales alumnos",
+		filename: "Pagos_por_Mes"
+	});
+}
+
+function imprimirInformePagosFaltantes(){
+	if(document.getElementById("table_informe_pagos_faltantes").innerHTML==""){
+		alertmensaje("FALTO BUSCAR EL INFORME");
+		return;
+	}
+	var f = new Date();
+	var dia = f.getDate();
+	if(dia < 10){ dia = "0" + dia; }
+	var mes = f.getMonth() + 1;
+	if(mes < 10){ mes = "0" + mes; }
+	var fechaimpresion = f.getFullYear() + "-" + mes + "-" + dia;
+	var carreraTexto = document.getElementById("inptCarreraPagosFaltantes").value;
+	var anhoTexto = document.getElementById("inptAnhoPagosFaltantes").value;
+	var seccionTexto = document.getElementById("inptSeccionPagosFaltantes").value;
+	var ciTexto = document.getElementById("inptCiPagosFaltantes").value;
+	var alumnoTexto = document.getElementById("inptAlumnoPagosFaltantes").value;
+	var cursoTexto = document.getElementById("inptCursoPagosFaltantes").value;
+	if(carreraTexto==""){ carreraTexto = "TODOS"; }
+	if(anhoTexto==""){ anhoTexto = "TODOS"; }
+	if(seccionTexto==""){ seccionTexto = "TODOS"; }
+	if(ciTexto==""){ ciTexto = "TODOS"; }
+	if(alumnoTexto==""){ alumnoTexto = "TODOS"; }
+	if(cursoTexto==""){ cursoTexto = "TODOS"; }
+	var pagina =
+	"<table style='width:100%;font-family:Arial;font-size:12px'>"
+	+"<tr>"
+	+"<td style='width:14%'><b>Nivel Educativo</b><br>"+carreraTexto+"</td>"
+	+"<td style='width:12%'><b>Año Acad.</b><br>"+anhoTexto+"</td>"
+	+"<td style='width:12%'><b>Sección</b><br>"+seccionTexto+"</td>"
+	+"<td style='width:12%'><b>C.I.</b><br>"+ciTexto+"</td>"
+	+"<td style='width:24%'><b>Alumno</b><br>"+alumnoTexto+"</td>"
+	+"<td style='width:12%'><b>Curso</b><br>"+cursoTexto+"</td>"
+	+"<td style='width:14%'><b>Fecha Impresion</b><br>"+fechaimpresion+"</td>"
+	+"</tr>"
+	+"</table>"
+	+"<br><center><h2>INFORME DE Cobros mensuales alumnos</h2></center>"
+	+"<table style='width:100%;font-family:Arial;font-size:12px' border='1' cellspacing='0' cellpadding='5'>"
+	+"<tr>"
+	+"<td><b>Total Matricula</b><br>"+document.getElementById("inptTotalMatriculaPagosFaltantes").value+"</td>"
+	+"<td><b>Total Cuotas</b><br>"+document.getElementById("inptTotalCuotasPagosFaltantes").value+"</td>"
+	+"<td><b>Total General</b><br>"+document.getElementById("inptTotalGeneralPagosFaltantes").value+"</td>"
+	+"<td><b>Registros</b><br>"+document.getElementById("inptRegistroPagosFaltantes").value+"</td>"
+	+"</tr>"
+	+"</table><br>"
+	+"<table style='width:100%;font-family:Arial;font-size:11px' border='1' cellspacing='0' cellpadding='4'>"
+	+document.getElementById("tdTituloImprePagosFaltantes").innerHTML
+	+"</table>"
+	+document.getElementById("table_informe_pagos_faltantes").innerHTML;
+	localStorage.setItem("reporte", pagina);
+	localStorage.setItem("tipo", "reporte");
+	window.open("/GoodTechnologyEPNSA/system/reportBlankHoriz.html");
+}
+
 /* ABM GASTO */
 function actualizarDivMinimizadoEgresoIngreso(display){
 	var ids=["divMinimizadoEgresoIngreso","divMinimizadoEgresoIngresoAdministrativo"];

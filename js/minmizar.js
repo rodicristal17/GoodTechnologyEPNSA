@@ -104,6 +104,10 @@ function verventanasminizados(){
 	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarInformeGanancias(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/report.png' /><br/><label class='pTitulo17'  >Ganancias</label></button>"
 	control=control+1;
 	}
+	if($("div[id=divMinimizadoPagosFaltantes]").is(':visible')){
+	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarInformePagosFaltantes(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/report.png' /><br/><label class='pTitulo17'  >Cobros mensuales alumnos</label></button>"
+	control=control+1;
+	}
 	
 	if(pagina!=""){
 		 document.getElementById("divSegundoPlano").style.display=""
@@ -174,6 +178,10 @@ function finalizarventanasminizados(){
 	if($("div[id=divMinimizadoGanancias]").is(':visible')){
 	document.getElementById("divMinimizadoGanancias").style.display="none"
 	document.getElementById("divInformeGanancias").style.display="none"
+	}
+	if($("div[id=divMinimizadoPagosFaltantes]").is(':visible')){
+	document.getElementById("divMinimizadoPagosFaltantes").style.display="none"
+	document.getElementById("divInformePagosFaltantes").style.display="none"
 	}
 		 document.getElementById("divSegundoPlano").style.display="none"
 	document.getElementById("divVentanaminizado").innerHTML=""
@@ -247,6 +255,11 @@ if(document.getElementById("divInformeGanancias").style.display==""){
 minimizarInformeGanancias()
 return
 }
+var divInformePagosFaltantes=document.getElementById("divInformePagosFaltantes")
+if(divInformePagosFaltantes && divInformePagosFaltantes.style.display==""){
+minimizarInformePagosFaltantes()
+return
+}
 
 }
 
@@ -314,6 +327,11 @@ return
 }
 if(document.getElementById("divInformeGanancias").style.display==""){
 minimizarInformeGanancias()
+return
+}
+var divInformePagosFaltantes2=document.getElementById("divInformePagosFaltantes")
+if(divInformePagosFaltantes2 && divInformePagosFaltantes2.style.display==""){
+minimizarInformePagosFaltantes()
 return
 }
 

@@ -2485,26 +2485,84 @@ border-radius: 50%;
 .reporteW24 { width: 24%; }
 .reporteW28 { width: 28%; }
 
+.tablaReporteFinanciero.tablaPagosPorMes {
+  width: 1190px;
+  min-width: 1190px;
+  table-layout: fixed;
+}
+
+.tablaPagosPorMes td {
+  padding: 6px 4px;
+  font-size: 10px;
+}
+
+.detallePagosResumen {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.detallePagosValor {
+  box-sizing: border-box;
+  min-height: 34px;
+  padding: 8px 10px;
+  color: #202020;
+  background-color: #e8e8e8;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.detallePagosEstadoPagado {
+  background-color: #2e7d32;
+  color: #fff;
+  font-weight: bold;
+}
+
+.detallePagosEstadoPendiente {
+  background-color: #c62828;
+  color: #fff;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  #divInformePagosFaltantes .detallePagosResumen {
+    grid-template-columns: 1fr;
+  }
+}
+
 #table_informe_ganancia_arancel,
-#table_detalle_ganancia_arancel {
+#table_detalle_ganancia_arancel,
+#table_informe_pagos_faltantes,
+#table_detalle_pagos_faltantes {
   background-color: #fff;
   border-top: 0;
 }
 
 #table_informe_ganancia_arancel .tablaReporteFinanciero.tableRegistroSearch2,
-#table_detalle_ganancia_arancel .tablaReporteFinanciero.tableRegistroSearch2 {
+#table_detalle_ganancia_arancel .tablaReporteFinanciero.tableRegistroSearch2,
+#table_informe_pagos_faltantes .tablaReporteFinanciero.tableRegistroSearch2,
+#table_detalle_pagos_faltantes .tablaReporteFinanciero.tableRegistroSearch2 {
   background-color: #f2f4f6;
 }
 
 #table_informe_ganancia_arancel .tablaReporteFinanciero:hover,
-#table_detalle_ganancia_arancel .tablaReporteFinanciero:hover {
+#table_detalle_ganancia_arancel .tablaReporteFinanciero:hover,
+#table_informe_pagos_faltantes .tablaReporteFinanciero:hover,
+#table_detalle_pagos_faltantes .tablaReporteFinanciero:hover {
   border: 0;
   background-color: #eaf5ff;
   color: #111;
 }
 
 #table_informe_ganancia_arancel tr.tableRegistroSelec td,
-#table_detalle_ganancia_arancel tr.tableRegistroSelec td {
+#table_detalle_ganancia_arancel tr.tableRegistroSelec td,
+#table_informe_pagos_faltantes tr.tableRegistroSelec td,
+#table_detalle_pagos_faltantes tr.tableRegistroSelec td {
   background-color: rgb(121, 121, 121);
   color: #fff;
 }
@@ -6259,7 +6317,8 @@ text-align: justify;
   }
 }
 
-#divInformeGananciaArancel .dialogGananciaArancel {
+#divInformeGananciaArancel .dialogGananciaArancel,
+#divInformePagosFaltantes .dialogPagosFaltantes {
   display: flex;
   position: fixed;
   top: 0;
@@ -6272,7 +6331,8 @@ text-align: justify;
   z-index: 10050;
 }
 
-#divInformeGananciaArancel .dialogGananciaArancelPanel {
+#divInformeGananciaArancel .dialogGananciaArancelPanel,
+#divInformePagosFaltantes .dialogPagosFaltantesPanel {
   width: 1080px;
   max-width: calc(100vw - 60px);
   max-height: calc(100vh - 70px);
@@ -6286,18 +6346,21 @@ text-align: justify;
   text-align: left;
 }
 
-#divInformeGananciaArancel .dialogGananciaArancelBody {
+#divInformeGananciaArancel .dialogGananciaArancelBody,
+#divInformePagosFaltantes .dialogPagosFaltantesBody {
   padding: 8px;
   overflow: auto;
 }
 
-#divInformeGananciaArancel .dialogGananciaArancelBody .divMenuf {
+#divInformeGananciaArancel .dialogGananciaArancelBody .divMenuf,
+#divInformePagosFaltantes .dialogPagosFaltantesBody .divMenuf {
   box-sizing: border-box;
   width: 100%;
 }
 
 @media screen and (max-width: 768px) {
-  #divInformeGananciaArancel .dialogGananciaArancelPanel {
+  #divInformeGananciaArancel .dialogGananciaArancelPanel,
+  #divInformePagosFaltantes .dialogPagosFaltantesPanel {
     width: calc(100vw - 20px);
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 20px);
@@ -6306,7 +6369,11 @@ text-align: justify;
   #divInformeGananciaArancel .dialogGananciaArancelBody table,
   #divInformeGananciaArancel .dialogGananciaArancelBody tbody,
   #divInformeGananciaArancel .dialogGananciaArancelBody tr,
-  #divInformeGananciaArancel .dialogGananciaArancelBody td {
+  #divInformeGananciaArancel .dialogGananciaArancelBody td,
+  #divInformePagosFaltantes .dialogPagosFaltantesBody table,
+  #divInformePagosFaltantes .dialogPagosFaltantesBody tbody,
+  #divInformePagosFaltantes .dialogPagosFaltantesBody tr,
+  #divInformePagosFaltantes .dialogPagosFaltantesBody td {
     display: block;
     width: 100% !important;
   }
