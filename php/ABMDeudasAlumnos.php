@@ -214,14 +214,14 @@ $oderby="";
 $sql= "Select al.ci, concat(al.nombre,' ',al.apellido) as nombreapellido,
 dp.iddeudaspendientes,dp.monto,dp.idalumnoFK,
 (Select lt.nombre from listadecarreras lt where lt.Cod_listadecarreras=dp.Cod_listadecarrerasFk) as nombreCarrera,
-IFNULL((select sum(monto) from facturaspagadas fac inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk where cur.idalumnoFk=al.idalumno and fac.cod_arancelFk='0'  limit 1),0) as totalpagado
+IFNULL((select sum(monto) from facturaspagadas fac inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk where cur.idalumnoFk=al.idalumno and fac.cod_arancelFk='0' and fac.estado='Activo' and fac.estadofactura='Activo' limit 1),0) as totalpagado
         from alumno al inner join deudaspendientes dp on dp.idalumnoFK=al.idalumno
 		where al.ci!='0'  ".$condiciondocumento.$condicionnombre.$condicionnombre." ".$oderby." limit 250";
 
 	if($codFilialFk!=""){
 	$sql= "Select al.ci, concat(al.nombre,' ',al.apellido) as nombreapellido,
 	(Select lt.nombre from listadecarreras lt where lt.Cod_listadecarreras=dp.Cod_listadecarrerasFk) as nombreCarrera,
-IFNULL((select sum(monto) from facturaspagadas fac inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk where cur.idalumnoFk=al.idalumno and fac.cod_arancelFk='0'  limit 1),0) as totalpagado,
+IFNULL((select sum(monto) from facturaspagadas fac inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk where cur.idalumnoFk=al.idalumno and fac.cod_arancelFk='0' and fac.estado='Activo' and fac.estadofactura='Activo' limit 1),0) as totalpagado,
 	dp.iddeudaspendientes,dp.monto,dp.idalumnoFK
         from alumno al inner join deudaspendientes dp on dp.idalumnoFK=al.idalumno
          inner join cursosalumno cr on cr.idalumnoFk=al.idalumno
@@ -301,7 +301,7 @@ function buscarcuentas($idAsignarAlumnosFk)
 	 $pagina='';
 $sql= "Select al.ci, concat(al.nombre,' ',al.apellido) as nombreapellido,
 dp.iddeudaspendientes,dp.monto,dp.idalumnoFK,
-IFNULL((select sum(monto) from facturaspagadas fac inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk where cur.idalumnoFk=al.idalumno and fac.cod_arancelFk='0'  limit 1),0) as totalpagado
+IFNULL((select sum(monto) from facturaspagadas fac inner join cursosalumno cur on cur.idcursosalumno=fac.idcursosalumnoFk where cur.idalumnoFk=al.idalumno and fac.cod_arancelFk='0' and fac.estado='Activo' and fac.estadofactura='Activo' limit 1),0) as totalpagado
         from alumno al inner join deudaspendientes dp on dp.idalumnoFK=al.idalumno
 		where al.idalumno='".$idAsignarAlumnosFk."' limit 1";		 
  $stmt = $mysqli->prepare($sql);
