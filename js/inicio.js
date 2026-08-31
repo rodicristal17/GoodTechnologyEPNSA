@@ -1750,6 +1750,9 @@ function BuscarFilialSelect() {
 	if(document.getElementById("inptLocalGananciaArancel")){
 		document.getElementById("inptLocalGananciaArancel").innerHTML = ""
 	}
+	if(document.getElementById("inptLocalBalanceMensual")){
+		document.getElementById("inptLocalBalanceMensual").innerHTML = ""
+	}
 	obtener_datos_user();
 	var datos = {
 		"useru": userid,
@@ -1812,6 +1815,9 @@ manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana")
 					}
 					if(document.getElementById("inptLocalGananciaArancel")){
 						document.getElementById("inptLocalGananciaArancel").innerHTML="<option value=''>TODOS</option>"+datos[3]
+					}
+					if(document.getElementById("inptLocalBalanceMensual")){
+						document.getElementById("inptLocalBalanceMensual").innerHTML="<option value=''>TODOS</option>"+datos[3]
 					}
 				 
 				}
@@ -27005,6 +27011,209 @@ function imprimirInformeGanancias(){
 +document.getElementById("tdTituloImpreGanancias").innerHTML
 +"</table>"
 +document.getElementById("table_informe_ganancias").innerHTML;
+	localStorage.setItem("reporte", pagina);
+	localStorage.setItem("tipo", "reporte");
+	window.open("/GoodTechnologyEPNSA/system/reportBlankHoriz.html");
+}
+
+/*
+INFORME DE BALANCE MENSUAL
+*/
+function verCerrarInformeBalanceMensual(d){
+	var divInforme = document.getElementById("divInformeBalanceMensual");
+	var divMinimizado = document.getElementById("divMinimizadoBalanceMensual");
+	if(divInforme == null){
+		alertmensaje("FALTA CREAR LA VENTANA DE Balance general");
+		return;
+	}
+	if(divMinimizado != null){
+		divMinimizado.style.display="none";
+	}
+	document.getElementById("divSegundoPlano").style.display="none";
+	if(d=="1"){
+		if(controlacceso("VERINFORMEGANANCIAS","accion")==false){return;}
+		minimizartodaventanaabierto();
+		divInforme.style.display="";
+		if(document.getElementById("inptAnhoBalanceMensual").value==""){
+			cargarValoresDefectoInformeBalanceMensual();
+		}
+	}else{
+		$("div[id=divInformeBalanceMensual]").fadeOut(500);
+		limpiarcamposbuscadorBalanceMensual();
+	}
+}
+
+function minimizarInformeBalanceMensual(){
+	document.getElementById("divInformeBalanceMensual").style.display="none";
+	document.getElementById("divMinimizadoBalanceMensual").style.display="";
+}
+
+function cargarValoresDefectoInformeBalanceMensual(){
+	var f = new Date();
+	document.getElementById("inptAnhoBalanceMensual").value = f.getFullYear();
+	if(document.getElementById("inptLocalBalanceMensual") && filiaruser!=""){
+		document.getElementById("inptLocalBalanceMensual").value = filiaruser;
+	}
+}
+
+function cargarTotalesInformeBalanceMensual(valor){
+	document.getElementById("inptTotalIngresoBalanceMensual").value = valor;
+	document.getElementById("inptTotalEgresoBalanceMensual").value = valor;
+	document.getElementById("inptSaldoFinalBalanceMensual").value = valor;
+	document.getElementById("inptRegistroBalanceMensual").value = valor;
+}
+
+function limpiarcamposbuscadorBalanceMensual(){
+	cargarValoresDefectoInformeBalanceMensual();
+	cargarTotalesInformeBalanceMensual("");
+	document.getElementById("table_informe_balance_mensual").innerHTML = "";
+}
+
+function validarAnhoInformeBalanceMensual(anho){
+	return /^[0-9]{4}$/.test(anho);
+}
+
+function buscarInformeBalanceMensual(){
+	if(controlacceso("VERINFORMEGANANCIAS","accion")==false){return;}
+	var anho = document.getElementById("inptAnhoBalanceMensual").value;
+	var local = document.getElementById("inptLocalBalanceMensual").value;
+	if(anho==""){
+		alertmensaje("FALTO INGRESAR EL AÑO");
+		return;
+	}
+	if(validarAnhoInformeBalanceMensual(anho)==false){
+		alertmensaje("EL AÑO INGRESADO ES INVALIDO");
+		return;
+	}
+	cargarTotalesInformeBalanceMensual("...");
+	document.getElementById("table_informe_balance_mensual").innerHTML = imgCargandoA;
+	obtener_datos_user();
+	var datos = {
+		"useru": userid,
+		"passu": passuser,
+		"navegador": navegador,
+		"anho": anho,
+		"local": local,
+		"funt": "informeBalanceMensual"
+	};
+	$.ajax({
+		data: datos,
+		url: "/GoodTechnologyEPNSA/php/abmgasto.php",
+		type: "post",
+		xhr: function () {
+			var xhr = new window.XMLHttpRequest();
+			xhr.upload.addEventListener("progress" ,function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("enviado",kb,"0");
+			}, false);
+			xhr.addEventListener("progress", function (evt) {
+				var kb=((evt.loaded*1)/1000).toFixed(1);
+				if(kb=="0.0"){
+					kb=0.1;
+				}
+				cargarConectividad("recibido","0",kb);
+			}, false);
+			return xhr;
+		},
+		beforeSend: function () {
+
+		},
+		error: function (jqXHR, textstatus, errorThrowm) {
+			manejadordeerroresjquery(jqXHR.status,textstatus,"abmventana");
+			document.getElementById("table_informe_balance_mensual").innerHTML = "";
+			cargarTotalesInformeBalanceMensual("");
+		},
+		success: function (responseText) {
+			var Respuesta = responseText;
+			console.log(Respuesta);
+			document.getElementById("table_informe_balance_mensual").innerHTML = "";
+			try {
+				var datos = $.parseJSON(Respuesta);
+				Respuesta = datos["1"];
+				Respuesta=respuestaJqueryAjax(Respuesta);
+				if (Respuesta == true) {
+					document.getElementById("table_informe_balance_mensual").innerHTML = datos[2];
+					document.getElementById("inptTotalIngresoBalanceMensual").value = datos[3];
+					document.getElementById("inptTotalEgresoBalanceMensual").value = datos[4];
+					document.getElementById("inptSaldoFinalBalanceMensual").value = datos[5];
+					document.getElementById("inptRegistroBalanceMensual").value = datos[6];
+					if(datos[6]=="0"){
+						alertmensaje("NO SE ENCONTRARON REGISTROS");
+					}
+				}
+			} catch (error) {
+				alertmensaje("LO SENTIMOS HA OCURRIDO UN ERROR");
+				var titulo="Error: "+error+" \r\n Consola: "+responseText;
+				GuardarArchivosLog(titulo);
+				cargarTotalesInformeBalanceMensual("");
+			}
+		}
+	});
+}
+
+function obtenerTextoLocalInformeBalanceMensual(){
+	var localTexto = "TODOS";
+	var local = document.getElementById("inptLocalBalanceMensual").value;
+	if(local!=""){
+		localTexto = $("select[id=inptLocalBalanceMensual]").children(":selected").text();
+	}
+	return localTexto;
+}
+
+function exportarInformeBalanceMensual() {
+	if(document.getElementById("table_informe_balance_mensual").innerHTML==""){
+		alertmensaje("FALTO BUSCAR EL INFORME");
+		return;
+	}
+	if (!$.fn.table2excel) {
+		console.error("Plugin table2excel no cargado");
+		return;
+	}
+	var anho = document.getElementById("inptAnhoBalanceMensual").value;
+	$("#contenedorTablaInformeBalanceMensual").table2excel({
+		exclude: ".noExl",
+		name: "Balance general",
+		filename: "Balance_por_Mes_"+anho
+	});
+}
+
+function imprimirInformeBalanceMensual(){
+	if(document.getElementById("table_informe_balance_mensual").innerHTML==""){
+		alertmensaje("FALTO BUSCAR EL INFORME");
+		return;
+	}
+	var f = new Date();
+	var dia = f.getDate();
+	if(dia < 10){ dia = "0" + dia; }
+	var mes = f.getMonth() + 1;
+	if(mes < 10){ mes = "0" + mes; }
+	var fechaimpresion = f.getFullYear() + "-" + mes + "-" + dia;
+	var anhoTexto = document.getElementById("inptAnhoBalanceMensual").value;
+	var localTexto = obtenerTextoLocalInformeBalanceMensual();
+	var pagina =
+	"<table style='width:100%;font-family:Arial;font-size:12px'>"
+	+"<tr>"
+	+"<td style='width:25%'><b>Año</b><br>"+anhoTexto+"</td>"
+	+"<td style='width:45%'><b>Local</b><br>"+localTexto+"</td>"
+	+"<td style='width:30%'><b>Fecha Impresion</b><br>"+fechaimpresion+"</td>"
+	+"</tr>"
+	+"</table>"
+	+"<br><center><h2>Balance general</h2></center>"
+	+"<table style='width:100%;font-family:Arial;font-size:12px' border='1' cellspacing='0' cellpadding='5'>"
+	+"<tr>"
+	+"<td><b>Total Ingresos</b><br>"+document.getElementById("inptTotalIngresoBalanceMensual").value+"</td>"
+	+"<td><b>Total Egresos</b><br>"+document.getElementById("inptTotalEgresoBalanceMensual").value+"</td>"
+	+"<td><b>Saldo Final</b><br>"+document.getElementById("inptSaldoFinalBalanceMensual").value+"</td>"
+	+"<td><b>Registros</b><br>"+document.getElementById("inptRegistroBalanceMensual").value+"</td>"
+	+"</tr>"
+	+"</table><br>"
+	+"<table style='width:100%;font-family:Arial;font-size:9px' border='1' cellspacing='0' cellpadding='4'>"
+	+document.getElementById("tdTituloImpreBalanceMensual").innerHTML
+	+"</table>"
+	+document.getElementById("table_informe_balance_mensual").innerHTML;
 	localStorage.setItem("reporte", pagina);
 	localStorage.setItem("tipo", "reporte");
 	window.open("/GoodTechnologyEPNSA/system/reportBlankHoriz.html");

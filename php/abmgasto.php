@@ -247,6 +247,24 @@ $controllocal=controlaccesos($user,"CAMBIARLOCAL"," acus.accion='SI' ");
 
 }
 
+if($operacion=="informeBalanceMensual")
+{
+	$anho=isset($_POST['anho']) ? $_POST['anho'] : "";
+$anho = utf8_decode($anho);
+$local=isset($_POST['local']) ? $_POST['local'] : "";
+$local = utf8_decode($local);
+
+if($local==""){
+$controllocal=controlaccesos($user,"CAMBIARLOCAL"," acus.accion='SI' ");
+	if($controllocal==0){
+		$local=buscarmifilialFK($user);
+	}
+}
+
+	buscarInformeBalanceMensual($anho,$local);
+
+}
+
 if($operacion=="informeGananciaArancel")
 {
 	$fecha1=isset($_POST['fecha1']) ? $_POST['fecha1'] : "";
@@ -1180,6 +1198,273 @@ function buscarInformeGanancias($fecha1,$fecha2,$cod_local)
 		"6" => number_format($totalDeposito,'0',',','.'),
 		"7" => number_format($ganancia,'0',',','.'),
 		"8" => number_format($registros,'0',',','.')
+	);
+	echo json_encode($informacion);
+	exit;
+}
+
+function validar_anho_informe_balance_mensual($anho)
+{
+	if(preg_match('/^[0-9]{4}$/', $anho)){
+		return $anho;
+	}
+	return "";
+}
+
+function inicializar_meses_informe_balance_mensual()
+{
+	$meses = array();
+	foreach(meses_informe_balance_mensual() as $mes){
+		$meses[$mes] = 0;
+	}
+	return $meses;
+}
+
+function meses_informe_balance_mensual()
+{
+	return array(2,3,4,5,6,7,8,9,10,11,12);
+}
+
+function condicion_local_facturas_balance_mensual($mysqli,$cod_local)
+{
+	$cod_local = $mysqli->real_escape_string($cod_local);
+	if($cod_local!=""){
+		return " and (fac.codfiliafk='$cod_local' or pt.cod_filialFk='$cod_local' or pt2.cod_filialFk='$cod_local' or ap.cod_local='$cod_local') ";
+	}
+	return "";
+}
+
+function condicion_local_gastos_balance_mensual($mysqli,$cod_local)
+{
+	$cod_local = $mysqli->real_escape_string($cod_local);
+	if($cod_local!=""){
+		return " and g.cod_local='$cod_local' ";
+	}
+	return "";
+}
+
+function clave_motivo_balance_mensual($motivo)
+{
+	$motivo = trim((string)$motivo);
+	if($motivo==""){
+		$motivo = "SIN MOTIVO";
+	}
+	return strtoupper($motivo);
+}
+
+function agregar_monto_balance_mensual(&$grupos,$motivo,$mes,$monto,$registros)
+{
+	$mes = (int)$mes;
+	if(!in_array($mes, meses_informe_balance_mensual())){
+		return;
+	}
+	$motivo = trim((string)$motivo);
+	if($motivo==""){
+		$motivo = "SIN MOTIVO";
+	}
+	$clave = clave_motivo_balance_mensual($motivo);
+	if(!isset($grupos[$clave])){
+		$grupos[$clave] = array(
+			"motivo" => $motivo,
+			"meses" => inicializar_meses_informe_balance_mensual(),
+			"registros" => 0
+		);
+	}
+	$grupos[$clave]["meses"][$mes] += (float)$monto;
+	$grupos[$clave]["registros"] += (int)$registros;
+}
+
+function total_meses_balance_mensual($meses)
+{
+	$total = 0;
+	foreach(meses_informe_balance_mensual() as $mes){
+		$total += isset($meses[$mes]) ? (float)$meses[$mes] : 0;
+	}
+	return $total;
+}
+
+function celdas_meses_balance_mensual($meses)
+{
+	$pagina = "";
+	foreach(meses_informe_balance_mensual() as $mes){
+		$monto = isset($meses[$mes]) ? $meses[$mes] : 0;
+		$pagina .= "<td class='reporteColMonto balanceColMes'>".number_format($monto,'0',',','.')."</td>";
+	}
+	return $pagina;
+}
+
+function fila_informe_balance_mensual($styleName,$nro,$concepto,$meses,$claseFila="")
+{
+	$conceptoSeguro = texto_informe_ganancias($concepto);
+	return "
+<table class='$styleName tablaReporteFinanciero tablaBalanceMensual ".$claseFila."' border='0' cellspacing='0' cellpadding='0'>
+<tr id='tbSelecRegistro'>
+<td class='reporteColCantidad balanceColNro'>".$nro."</td>
+<td class='reporteColTexto balanceColConcepto balanceConceptoGrupo' title='".$conceptoSeguro."'>".$conceptoSeguro."</td>
+".celdas_meses_balance_mensual($meses)."
+</tr>
+</table>";
+}
+
+function obtener_saldo_anterior_balance_mensual($mysqli,$fechaInicio,$cod_local)
+{
+	$condicionFacturas = condicion_local_facturas_balance_mensual($mysqli,$cod_local);
+	$condicionGastos = condicion_local_gastos_balance_mensual($mysqli,$cod_local);
+	$totalFacturas = 0;
+	$totalGastos = 0;
+	$sqlFacturas = "select ifnull(sum(ifnull(fac.monto,0)),0) as total
+	from facturaspagadas fac
+	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+	left join puntoexpedicion pt2 on pt2.idpuntoexpedicion=fac.cod_puntoexpedicionFK
+	left join arqueocaja ap on ap.idarqueocaja=fac.codApertura
+	where fac.estado='Activo' and fac.estadofactura='Activo' and ifnull(fac.monto,0)>0 and fac.fecha<'$fechaInicio' ".$condicionFacturas;
+	$stmt = $mysqli->prepare($sqlFacturas);
+	if($stmt && $stmt->execute()){
+		$result = $stmt->get_result();
+		if($valor = mysqli_fetch_assoc($result)){
+			$totalFacturas = (float)$valor['total'];
+		}
+	}
+	$sqlGastos = "select ifnull(sum(case when g.tipo='Ingreso' then ifnull(g.monto,0) when g.tipo='Egreso' then (ifnull(g.monto,0)*-1) else 0 end),0) as total
+	from gastos g
+	where g.estado='Activo' and g.tipo in ('Ingreso','Egreso') and ifnull(g.monto,0)>0 and g.fecha<'$fechaInicio' ".$condicionGastos;
+	$stmt = $mysqli->prepare($sqlGastos);
+	if($stmt && $stmt->execute()){
+		$result = $stmt->get_result();
+		if($valor = mysqli_fetch_assoc($result)){
+			$totalGastos = (float)$valor['total'];
+		}
+	}
+	return $totalFacturas + $totalGastos;
+}
+
+function cargar_cobranzas_balance_mensual($mysqli,&$ingresos,&$totalesIngresos,&$totalRegistros,$fechaInicio,$fechaFin,$cod_local)
+{
+	$condicionFacturas = condicion_local_facturas_balance_mensual($mysqli,$cod_local);
+	$sql = "select
+		ifnull(nullif(lta.nombre,''), ifnull(nullif(fac.Detalles,''),'COBRANZA')) as motivo,
+		month(fac.fecha) as mes,
+		count(*) as registros,
+		ifnull(sum(ifnull(fac.monto,0)),0) as total
+	from facturaspagadas fac
+	left join aranceles ar on ar.cod_arancel=fac.cod_arancelFk
+	left join listadearanceles lta on lta.cod_listadearanceles=ar.cod_listadearancelesFk
+	left join puntoexpedicion pt on pt.idpuntoexpedicion=fac.puntoexpedicionfk
+	left join puntoexpedicion pt2 on pt2.idpuntoexpedicion=fac.cod_puntoexpedicionFK
+	left join arqueocaja ap on ap.idarqueocaja=fac.codApertura
+	where fac.estado='Activo' and fac.estadofactura='Activo' and ifnull(fac.monto,0)>0 and fac.fecha>='$fechaInicio' and fac.fecha<='$fechaFin' ".$condicionFacturas."
+	group by motivo, mes
+	order by motivo asc, mes asc";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || !$stmt->execute()){
+		return;
+	}
+	$result = $stmt->get_result();
+	while($valor = mysqli_fetch_assoc($result)){
+		$mes = (int)$valor['mes'];
+		$total = (float)$valor['total'];
+		$registros = (int)$valor['registros'];
+		agregar_monto_balance_mensual($ingresos,$valor['motivo'],$mes,$total,$registros);
+		$totalesIngresos[$mes] += $total;
+		$totalRegistros += $registros;
+	}
+}
+
+function cargar_movimientos_balance_mensual($mysqli,&$ingresos,&$egresos,&$totalesIngresos,&$totalesEgresos,&$totalRegistros,$fechaInicio,$fechaFin,$cod_local)
+{
+	$condicionGastos = condicion_local_gastos_balance_mensual($mysqli,$cod_local);
+	$sql = "select
+		ifnull(nullif(mi.descripcion,''), ifnull(nullif(g.motivo,''),'SIN MOTIVO')) as motivo,
+		g.tipo,
+		month(g.fecha) as mes,
+		count(*) as registros,
+		ifnull(sum(ifnull(g.monto,0)),0) as total
+	from gastos g
+	left join motivo_e_i mi on mi.idmotivo_e_i=g.cod_motivo
+	where g.estado='Activo' and g.tipo in ('Ingreso','Egreso') and ifnull(g.monto,0)>0 and g.fecha>='$fechaInicio' and g.fecha<='$fechaFin' ".$condicionGastos."
+	group by motivo, g.tipo, mes
+	order by field(g.tipo,'Ingreso','Egreso'), motivo asc, mes asc";
+	$stmt = $mysqli->prepare($sql);
+	if(!$stmt || !$stmt->execute()){
+		return;
+	}
+	$result = $stmt->get_result();
+	while($valor = mysqli_fetch_assoc($result)){
+		$tipo = utf8_encode($valor['tipo']);
+		$mes = (int)$valor['mes'];
+		$total = (float)$valor['total'];
+		$registros = (int)$valor['registros'];
+		if($tipo=="Ingreso"){
+			agregar_monto_balance_mensual($ingresos,$valor['motivo'],$mes,$total,$registros);
+			$totalesIngresos[$mes] += $total;
+		}
+		if($tipo=="Egreso"){
+			agregar_monto_balance_mensual($egresos,$valor['motivo'],$mes,$total,$registros);
+			$totalesEgresos[$mes] += $total;
+		}
+		$totalRegistros += $registros;
+	}
+}
+
+function armar_filas_detalle_balance_mensual($grupos,&$nro,$claseFila)
+{
+	ksort($grupos);
+	$pagina = "";
+	$styleName = "tableRegistroSearch";
+	foreach($grupos as $grupo){
+		if(total_meses_balance_mensual($grupo["meses"])<=0){
+			continue;
+		}
+		$styleName = CargarStyleTable($styleName);
+		$pagina .= fila_informe_balance_mensual($styleName,$nro,$grupo["motivo"],$grupo["meses"],$claseFila);
+		$nro++;
+	}
+	return $pagina;
+}
+
+function buscarInformeBalanceMensual($anho,$cod_local)
+{
+	$anho = validar_anho_informe_balance_mensual($anho);
+	if($anho==""){
+		$informacion =array("1" => "CAMPOSVACIOS");
+		echo json_encode($informacion);
+		exit;
+	}
+	$mysqli=conectar_al_servidor();
+	$fechaInicio = $anho."-02-01";
+	$fechaFin = $anho."-12-31";
+	$ingresos = array();
+	$egresos = array();
+	$totalesIngresos = inicializar_meses_informe_balance_mensual();
+	$totalesEgresos = inicializar_meses_informe_balance_mensual();
+	$saldosAnteriores = inicializar_meses_informe_balance_mensual();
+	$saldosFinales = inicializar_meses_informe_balance_mensual();
+	$totalRegistros = 0;
+	$saldoAnteriorBase = obtener_saldo_anterior_balance_mensual($mysqli,$fechaInicio,$cod_local);
+	cargar_cobranzas_balance_mensual($mysqli,$ingresos,$totalesIngresos,$totalRegistros,$fechaInicio,$fechaFin,$cod_local);
+	cargar_movimientos_balance_mensual($mysqli,$ingresos,$egresos,$totalesIngresos,$totalesEgresos,$totalRegistros,$fechaInicio,$fechaFin,$cod_local);
+	$saldo = $saldoAnteriorBase;
+	foreach(meses_informe_balance_mensual() as $mes){
+		$saldosAnteriores[$mes] = $saldo;
+		$saldo = $saldo + $totalesIngresos[$mes] - $totalesEgresos[$mes];
+		$saldosFinales[$mes] = $saldo;
+	}
+	$pagina = "";
+	$pagina .= fila_informe_balance_mensual("tableRegistroSearch"," ","SALDO ANTERIOR",$saldosAnteriores,"balanceFilaResumen");
+	$pagina .= fila_informe_balance_mensual("tableRegistroSearch"," ","INGRESOS",$totalesIngresos,"balanceFilaResumen balanceFilaIngresos");
+	$nro = 1;
+	$pagina .= armar_filas_detalle_balance_mensual($ingresos,$nro,"balanceFilaIngresos");
+	$pagina .= fila_informe_balance_mensual("tableRegistroSearch"," ","EGRESOS",$totalesEgresos,"balanceFilaResumen balanceFilaEgresos");
+	$pagina .= armar_filas_detalle_balance_mensual($egresos,$nro,"balanceFilaEgresos");
+	$pagina .= fila_informe_balance_mensual("tableRegistroSearch"," ","SALDO FINAL",$saldosFinales,"balanceFilaSaldoFinal");
+	mysqli_close($mysqli);
+	$informacion =array(
+		"1" => "exito",
+		"2" => $pagina,
+		"3" => number_format(total_meses_balance_mensual($totalesIngresos),'0',',','.'),
+		"4" => number_format(total_meses_balance_mensual($totalesEgresos),'0',',','.'),
+		"5" => number_format($saldosFinales[12],'0',',','.'),
+		"6" => number_format($totalRegistros,'0',',','.')
 	);
 	echo json_encode($informacion);
 	exit;

@@ -34,7 +34,7 @@
     
     <script src="/GoodTechnologyEPNSA/js/datosUsuario.js"></script>
 	<!-- <link   rel="stylesheet" href="/GoodTechnologyEPNSA/css/inicio.css?x=X-IOSV.06" /> -->
-	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.16" />
+	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/style.css?x=X-IOSV.17" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/app.css?x=X-IOSV.06" />
 	<link  rel="stylesheet" href="/GoodTechnologyEPNSA/css/pantallas1280x1024.css?x=X-IOSV.06" />
 	
@@ -54,11 +54,11 @@
 
 <!-- Otros utilitarios -->
 <script src="/GoodTechnologyEPNSA/js/excel.js"></script>
-<script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.03"></script>
+<script src="/GoodTechnologyEPNSA/js/minmizar.js?x=X-IOSV.04"></script>
 <script src="/GoodTechnologyEPNSA/js/convertirnroaletras.js"></script>
 
 <!-- TU APP AL FINAL -->
-<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.25"></script>
+<script src="/GoodTechnologyEPNSA/js/inicio.js?x=X-IOSV.26"></script>
 
  
 	
@@ -800,6 +800,21 @@ class='divMinimizado'></div>
 <p class='pTitulo3'  >Ganancia por Arancel </p>
 <center>
     <div id='divMinimizadoGananciaArancel' style='display:none' class='divMinimizado'></div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+
+<div class='divMenub'    onclick='verCerrarInformeBalanceMensual("1")' id='divMenuBalanceMensual' >
+<table style='width:100%;height:100%;text-align:center'>
+<tr>
+<td>
+<img class='imgIconoMenu' src='/GoodTechnologyEPNSA/iconos/balanceporcriterios.png' />
+<p class='pTitulo3'  >Balance general </p>
+<center>
+    <div id='divMinimizadoBalanceMensual' style='display:none' class='divMinimizado'></div>
 </center>
 </td>
 </tr>
@@ -4635,6 +4650,106 @@ title='Cerrar Ventana' onclick='verCerrarInformeGanancias()' />
 </tbody>
 </table>
 <div class='div_cuerpo_table' id='table_informe_ganancias' style='height:360px;'></div>
+</div>
+</center>
+</td>
+</tr>
+</table>
+</div>
+
+<div class='principal2' style='display:none' id='divInformeBalanceMensual'>
+<table style='width:100%;height:100%' id='tdEfectoInformeBalanceMensual'>
+<tr>
+<td>
+<center>
+<div class='divPrincipalrepor' style='width:calc(100vw - 80px);max-width:1900px;margin-left:40px;overflow:auto;'>
+<table class='tableMenuZ'>
+<tr>
+<td style='width:100%;text-align:left'>
+<p class='pTituloB'>Informe de <b style='font-size: 30px;' >Balance general</b></p>
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/print.png' class='iconoBtn'
+title='Imprimir' onclick='imprimirInformeBalanceMensual()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/computacion-en-la-nube.png' class='iconoBtn'
+title='Exportar a Excel' onclick='exportarInformeBalanceMensual()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/minimizar2.png' class='iconoBtn'
+title='Minimizar Ventana' onclick='minimizarInformeBalanceMensual()' />
+</td>
+<td style='width:5%;text-align:center'>
+<img src='/GoodTechnologyEPNSA/iconos/botonCerrar.png' class='iconoBtn'
+title='Cerrar Ventana' onclick='verCerrarInformeBalanceMensual("2")' />
+</td>
+</tr>
+</table>
+<br>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:16%;text-align:left'>
+<p class='pTituloC'>Año</p>
+<input class='inputText' type='number' id='inptAnhoBalanceMensual' style='width:95%' autocomplete='off' onkeyup='if(event.keyCode == 13){buscarInformeBalanceMensual()}' />
+</td>
+<td style='width:26%;text-align:left'>
+<p class='pTituloC'>Local</p>
+<select class='inputSelect' id='inptLocalBalanceMensual' style='width:95%'></select>
+</td>
+<td style='width:58%;text-align:left'>
+<p class='pTituloC'>&nbsp;</p>
+<input type='button' value='Buscar' class='btn4' onclick='buscarInformeBalanceMensual()' style='width:90px;background-color: rgb(58 58 58);' />
+<input type='button' value='Limpiar' class='btn4' onclick='limpiarcamposbuscadorBalanceMensual()' style='width:90px;background-color: rgb(58 58 58);' />
+</td>
+</tr>
+</table>
+</div>
+<div class='divMenuf'>
+<table style='width:98%'>
+<tr>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Total Ingresos</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalIngresoBalanceMensual' style='width:95%' />
+</td>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Total Egresos</p>
+<input class='inputTextDisable' type='text' disabled id='inptTotalEgresoBalanceMensual' style='width:95%' />
+</td>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Saldo Final</p>
+<input class='inputTextDisable' type='text' disabled id='inptSaldoFinalBalanceMensual' style='width:95%;font-weight:bold' />
+</td>
+<td style='width:25%;text-align:left'>
+<p class='pTituloC'>Registros</p>
+<input class='inputTextDisable' type='text' disabled id='inptRegistroBalanceMensual' style='width:95%' />
+</td>
+</tr>
+</table>
+</div>
+<div id='contenedorTablaInformeBalanceMensual' style='width:100%;overflow:auto;'>
+<table class='tableCabeceraRegistro tablaReporteFinanciero tablaReporteFinancieroHeader tablaBalanceMensual' id='tdTituloImpreBalanceMensual'>
+<tbody>
+<tr>
+<td class='td_registro reporteColCantidad balanceColNro'>N°</td>
+<td class='td_registro reporteColTexto balanceColConcepto'>CONCEPTO</td>
+<td class='td_registro reporteColMonto balanceColMes'>FEBRERO</td>
+<td class='td_registro reporteColMonto balanceColMes'>MARZO</td>
+<td class='td_registro reporteColMonto balanceColMes'>ABRIL</td>
+<td class='td_registro reporteColMonto balanceColMes'>MAYO</td>
+<td class='td_registro reporteColMonto balanceColMes'>JUNIO</td>
+<td class='td_registro reporteColMonto balanceColMes'>JULIO</td>
+<td class='td_registro reporteColMonto balanceColMes'>AGOSTO</td>
+<td class='td_registro reporteColMonto balanceColMes'>SEPT.</td>
+<td class='td_registro reporteColMonto balanceColMes'>OCT.</td>
+<td class='td_registro reporteColMonto balanceColMes'>NOV.</td>
+<td class='td_registro reporteColMonto balanceColMes'>DIC.</td>
+</tr>
+</tbody>
+</table>
+<div class='div_cuerpo_table' id='table_informe_balance_mensual' style='height:390px;width:1270px;overflow-x:hidden;'></div>
+</div>
 </div>
 </center>
 </td>

@@ -2496,6 +2496,44 @@ border-radius: 50%;
   font-size: 10px;
 }
 
+.tablaReporteFinanciero.tablaBalanceMensual {
+  width: 1270px;
+  min-width: 1270px;
+}
+
+.tablaBalanceMensual td {
+  padding: 6px 4px;
+  font-size: 10px;
+}
+
+.tablaBalanceMensual .balanceColNro { width: 48px; }
+.tablaBalanceMensual .balanceColConcepto { width: 220px; }
+.tablaBalanceMensual .balanceColMes { width: 91px; }
+
+.tablaBalanceMensual.balanceFilaResumen td {
+  background-color: #d9d9d9;
+  color: #000;
+  font-weight: bold;
+}
+
+.tablaBalanceMensual.balanceFilaIngresos td {
+  color: #0b6b50;
+}
+
+.tablaBalanceMensual.balanceFilaEgresos td {
+  color: #9f1d20;
+}
+
+.tablaBalanceMensual.balanceFilaSaldoFinal td {
+  background-color: #edf6ef;
+  color: #0b3d2e;
+  font-weight: bold;
+}
+
+.tablaBalanceMensual .balanceConceptoGrupo {
+  text-transform: uppercase;
+}
+
 .detallePagosResumen {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2537,6 +2575,7 @@ border-radius: 50%;
 
 #table_informe_ganancia_arancel,
 #table_detalle_ganancia_arancel,
+#table_informe_balance_mensual,
 #table_informe_pagos_faltantes,
 #table_detalle_pagos_faltantes {
   background-color: #fff;
@@ -2545,6 +2584,7 @@ border-radius: 50%;
 
 #table_informe_ganancia_arancel .tablaReporteFinanciero.tableRegistroSearch2,
 #table_detalle_ganancia_arancel .tablaReporteFinanciero.tableRegistroSearch2,
+#table_informe_balance_mensual .tablaReporteFinanciero.tableRegistroSearch2,
 #table_informe_pagos_faltantes .tablaReporteFinanciero.tableRegistroSearch2,
 #table_detalle_pagos_faltantes .tablaReporteFinanciero.tableRegistroSearch2 {
   background-color: #f2f4f6;
@@ -2552,6 +2592,7 @@ border-radius: 50%;
 
 #table_informe_ganancia_arancel .tablaReporteFinanciero:hover,
 #table_detalle_ganancia_arancel .tablaReporteFinanciero:hover,
+#table_informe_balance_mensual .tablaReporteFinanciero:hover,
 #table_informe_pagos_faltantes .tablaReporteFinanciero:hover,
 #table_detalle_pagos_faltantes .tablaReporteFinanciero:hover {
   border: 0;

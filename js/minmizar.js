@@ -104,6 +104,10 @@ function verventanasminizados(){
 	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarInformeGanancias(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/report.png' /><br/><label class='pTitulo17'  >Ganancias</label></button>"
 	control=control+1;
 	}
+	if($("div[id=divMinimizadoBalanceMensual]").is(':visible')){
+	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarInformeBalanceMensual(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/balanceporcriterios.png' /><br/><label class='pTitulo17'  >Balance general</label></button>"
+	control=control+1;
+	}
 	if($("div[id=divMinimizadoPagosFaltantes]").is(':visible')){
 	pagina+="<button id='btnMini_"+control+"' onclick='verCerrarInformePagosFaltantes(1)' class='buttonMinimizado'><img class='imgIconoMenuMinimizado' src='/GoodTechnologyEPNSA/iconos/report.png' /><br/><label class='pTitulo17'  >Cobros mensuales alumnos</label></button>"
 	control=control+1;
@@ -178,6 +182,10 @@ function finalizarventanasminizados(){
 	if($("div[id=divMinimizadoGanancias]").is(':visible')){
 	document.getElementById("divMinimizadoGanancias").style.display="none"
 	document.getElementById("divInformeGanancias").style.display="none"
+	}
+	if($("div[id=divMinimizadoBalanceMensual]").is(':visible')){
+	document.getElementById("divMinimizadoBalanceMensual").style.display="none"
+	document.getElementById("divInformeBalanceMensual").style.display="none"
 	}
 	if($("div[id=divMinimizadoPagosFaltantes]").is(':visible')){
 	document.getElementById("divMinimizadoPagosFaltantes").style.display="none"
@@ -255,6 +263,11 @@ if(document.getElementById("divInformeGanancias").style.display==""){
 minimizarInformeGanancias()
 return
 }
+var divInformeBalanceMensual=document.getElementById("divInformeBalanceMensual")
+if(divInformeBalanceMensual && divInformeBalanceMensual.style.display==""){
+minimizarInformeBalanceMensual()
+return
+}
 var divInformePagosFaltantes=document.getElementById("divInformePagosFaltantes")
 if(divInformePagosFaltantes && divInformePagosFaltantes.style.display==""){
 minimizarInformePagosFaltantes()
@@ -327,6 +340,11 @@ return
 }
 if(document.getElementById("divInformeGanancias").style.display==""){
 minimizarInformeGanancias()
+return
+}
+var divInformeBalanceMensual2=document.getElementById("divInformeBalanceMensual")
+if(divInformeBalanceMensual2 && divInformeBalanceMensual2.style.display==""){
+minimizarInformeBalanceMensual()
 return
 }
 var divInformePagosFaltantes2=document.getElementById("divInformePagosFaltantes")
